@@ -1,6 +1,10 @@
+package main.domain.classes.src.main.domini.classes;
+
 import java.time.LocalDateTime;
 import java.time.Duration;
 import java.time.format.DateTimeFormatter;
+import main.domain.classes.src.main.domini.excepcions.*;
+
 
 public class Partida {
     private final LocalDateTime iniciPartida_;
@@ -61,12 +65,22 @@ public class Partida {
         return acabadaPartida_;
     }
     public void setValorPartida(int valor, int fila, int columna) {
-        valorsPartida_[fila][columna] = valor;
+        try {
+            if (1 <= valor && valor <= midaPartida_) ;
+            else throw new ExcepcioValorInvalid();
+            valorsPartida_[fila][columna] = valor;
+        }
+        catch (ExcepcioValorInvalid e) {
+            System.out.println(e.getMessage());
+        }
     }
-    public String generaTextPartidaAcabada() {
+
+    public String acabaPartidaGeneraText() {
+        this.acabadaPartida_ = true;
         String textPartidaAcabada = this.identificadorPartida_ + '\n' + this.usuariPartida_ + '\n' + this.identificadorTaulerPartida_ + '\n' + String.valueOf(this.calculaTemps()) + '\n' + this.midaPartida_ + '\n' + String.valueOf(this.guardadaPartida_);
         return textPartidaAcabada;
     }
+
     public String generaTextPartidaGuardada() {
         this.guardadaPartida_ = true;
         StringBuilder textPartidaGuardada = new StringBuilder();

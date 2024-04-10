@@ -1,5 +1,5 @@
-package main.domini.classes;
-import main.domini.excepcions.*;
+package main.domain.classes.src.main.domini.classes;
+import main.domain.classes.src.main.domini.excepcions.*;
 public class Casella {
 
     private int valor;

@@ -1,4 +1,4 @@
-package main.domini.excepcions;
+package main.domain.classes.src.main.domini.excepcions;
 
 public class ExcepcioCasellaJaTePosicioAssignada extends Exception {
     private String missatge;
