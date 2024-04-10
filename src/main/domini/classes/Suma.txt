@@ -1,0 +1,2 @@
+10/4/2024
+Els possibles resultats poden retornar valors repetits, que es podrien utilitzar en cas que no estiguessin a la mateixa columna o fila

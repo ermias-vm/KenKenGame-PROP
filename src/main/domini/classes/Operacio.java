@@ -1,0 +1,5 @@
+public interface Operacio {
+    public int opera2(int a, int b);
+    public int operaN(int[] valors);
+    public int[][] calculaPossiblesValors(int Resultat, int mida, int[] valors);
+}
