@@ -10,28 +10,28 @@ public class Partida {
     private final LocalDateTime iniciPartida_;
     private final String identificadorPartida_;
     private final int midaPartida_;
-    private final String usuariPartida_;
-    private final String identificadorTaulerPartida_;
+    private final String identificadorUsuariPartida_;
+    private final Tauler taulerPartida_;
     private int[][] valorsPartida_;
     private final int tempsPartida_;
     //una partida es acabada si es correcta
     private boolean guardadaPartida_ = false;
     private boolean acabadaPartida_ = false;
 
-    public Partida(int midaPartida, String usuariPartida, String identificadorTaulerPartida) {
+    public Partida(int midaPartida, String identificadorUsuariPartida, Tauler TaulerPartida) {
         this.iniciPartida_ = LocalDateTime.now();
-        this.usuariPartida_ = usuariPartida;
-        this.identificadorTaulerPartida_ = identificadorTaulerPartida;
+        this.identificadorUsuariPartida_ = identificadorUsuariPartida;
+        this.taulerPartida_ = TaulerPartida;
         this.midaPartida_ = midaPartida;
-        this.identificadorPartida_ = creaIdentificadorPartida(iniciPartida_, usuariPartida_) ;
+        this.identificadorPartida_ = creaIdentificadorPartida(iniciPartida_, identificadorUsuariPartida_) ;
         this.valorsPartida_ = new int[midaPartida][midaPartida]; //per defecte a 0
         this.tempsPartida_ = 0;
     }
     //Per a carregar una partida guardada, parametres donats pel controlador guardar i carregar i s'ocupa de comprovar que no estigui ja carregada
-    public Partida(String identificadorPartida, String usuariPartida, String identificadorTaulerPartida, int tempsPartida, int midaPartida, int[][] valorsPartida) {
+    public Partida(String identificadorPartida, String identificadorUsuariPartida, Tauler TaulerPartida, int tempsPartida, int midaPartida, int[][] valorsPartida) {
         this.iniciPartida_ = LocalDateTime.now();
-        this.usuariPartida_ = usuariPartida;
-        this.identificadorTaulerPartida_ = identificadorTaulerPartida;
+        this.identificadorUsuariPartida_ = identificadorUsuariPartida;
+        this.taulerPartida_ = TaulerPartida;
         this.midaPartida_ = midaPartida;
         this.identificadorPartida_ = identificadorPartida ;
         this.valorsPartida_ = valorsPartida; //per defecte a 0
@@ -50,10 +50,13 @@ public class Partida {
         return midaPartida_;
     }
     public String getUsuariPartida() {
-        return usuariPartida_;
+        return identificadorUsuariPartida_;
+    }
+    public Tauler getTaulerPartida(){
+        return taulerPartida_;
     }
     public String getIdentificadorTaulerPartida() {
-        return identificadorTaulerPartida_;
+        return taulerPartida_.getIdentificador();
     }
     public int[][] getValorsPartida() {
         return valorsPartida_;
@@ -61,32 +64,44 @@ public class Partida {
     public int getTempsPartida() {
         return tempsPartida_;
     }
+    public boolean getGuardadaPartida() {
+        return guardadaPartida_;
+    }
     public boolean getAcabadaPartida() {
         return acabadaPartida_;
     }
     public void setValorPartida(int valor, int fila, int columna) {
         try {
             if (1 <= valor && valor <= midaPartida_) ;
-            else throw new ExcepcioValorInvalid();
+            else throw new ExcepcioPartidaIncorrecta();
             valorsPartida_[fila][columna] = valor;
         }
-        catch (ExcepcioValorInvalid e) {
+        catch (ExcepcioPartidaIncorrecta e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public String acabaPartidaGeneraText() {
-        this.acabadaPartida_ = true;
-        String textPartidaAcabada = this.identificadorPartida_ + '\n' + this.usuariPartida_ + '\n' + this.identificadorTaulerPartida_ + '\n' + String.valueOf(this.calculaTemps()) + '\n' + this.midaPartida_ + '\n' + String.valueOf(this.guardadaPartida_);
-        return textPartidaAcabada;
+    public String acabaPartida() {
+        try {
+            if (taulerPartida_.corretgeix(valorsPartida_)) {
+                this.acabadaPartida_ = true;
+                String textPartidaAcabada = this.identificadorPartida_ + '\n' + this.identificadorUsuariPartida_ + '\n' + this.getIdentificadorTaulerPartida() + '\n' + String.valueOf(this.calculaTemps()) + '\n' + this.midaPartida_ + '\n' + String.valueOf(this.guardadaPartida_);
+                return textPartidaAcabada;
+            }
+            else throw new ExcepcioPartidaIncorrecta;
+        }
+        catch (ExcepcioPartidaIncorrecta e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
-    public String generaTextPartidaGuardada() {
+    public String guardaPartida() {
         this.guardadaPartida_ = true;
         StringBuilder textPartidaGuardada = new StringBuilder();
         textPartidaGuardada.append(this.identificadorPartida_).append('\n')
-                .append(this.usuariPartida_).append('\n')
-                .append(this.identificadorTaulerPartida_).append('\n')
+                .append(this.identificadorUsuariPartida_).append('\n')
+                .append(this.getIdentificadorTaulerPartida()).append('\n')
                 .append(String.valueOf(this.calculaTemps())).append('\n')
                 .append(this.midaPartida_).append('\n');
         for (int i = 0; i < this.midaPartida_; i++) {

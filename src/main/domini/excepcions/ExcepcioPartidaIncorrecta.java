@@ -1,13 +1,13 @@
 package main.domini.excepcions;
 
-public class ExcepcioValorInvalid extends Exception {
+public class ExcepcioPartidaIncorrecta extends Exception {
     private String missatge;
 
-    public ExcepcioValorInvalid() {
-        this("El valor introduit es invalid");
+    public ExcepcioPartidaIncorrecta() {
+        this("Els valors introduits no satisfan el tauler");
     }
 
-    public ExcepcioValorInvalid(String s) {
+    public ExcepcioPartidaIncorrecta(String s) {
         super(s);
         this.missatge = s;
     }
