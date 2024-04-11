@@ -1,4 +1,4 @@
-package main.domain.classes.src.main.domini.interficies;
+package main.domini.interficies;
 
 public interface Operacio {
     public int opera2(int a, int b);

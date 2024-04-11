@@ -1,4 +1,4 @@
-package main.domain.classes.src.main.domini.excepcions;
+package main.domini.excepcions;
 
 public class ExcepcioValorInvalid extends Exception {
     private String missatge;

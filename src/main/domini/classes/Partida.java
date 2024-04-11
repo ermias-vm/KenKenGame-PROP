@@ -1,9 +1,9 @@
-package main.domain.classes.src.main.domini.classes;
+package main.domini.classes;
 
 import java.time.LocalDateTime;
 import java.time.Duration;
 import java.time.format.DateTimeFormatter;
-import main.domain.classes.src.main.domini.excepcions.*;
+import main.domini.excepcions.*;
 
 
 public class Partida {
