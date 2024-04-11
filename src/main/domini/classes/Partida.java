@@ -70,13 +70,14 @@ public class Partida {
     public boolean getAcabadaPartida() {
         return acabadaPartida_;
     }
+
     public void setValorPartida(int valor, int fila, int columna) {
         try {
             if (1 <= valor && valor <= midaPartida_) ;
-            else throw new ExcepcioPartidaIncorrecta();
+            else throw new ExcepcioValorInvalid();
             valorsPartida_[fila][columna] = valor;
         }
-        catch (ExcepcioPartidaIncorrecta e) {
+        catch (ExcepcioValorInvalid e) {
             System.out.println(e.getMessage());
         }
     }
