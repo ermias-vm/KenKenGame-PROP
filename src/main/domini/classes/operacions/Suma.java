@@ -1,4 +1,4 @@
-package main.domini.classes;
+package main.domini.classes.operacions;
 import main.ErrorConstants;
 import main.domini.excepcions.ExcepcioMoltsValors;
 import main.domini.interficies.Operacio;
