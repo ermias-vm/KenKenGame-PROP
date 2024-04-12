@@ -26,6 +26,11 @@ public class Resta implements Operacio {
                 throw new ExcepcioMoltsValors(2, "EQ");
             }
             else {
+                if (valors.length == 1) {
+                    int[][] unicResultat = new int[1][1];
+                    unicResultat[0][0] = Math.abs(valors[0]-Resultat);
+                    return unicResultat;
+                }
                 ArrayList<int[]> solucions = new ArrayList<>();
                 for (int i = 1; i <= midaTauler; i++) {
                     int[] solucioParcial = new int[2];
