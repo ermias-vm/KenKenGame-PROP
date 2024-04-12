@@ -25,7 +25,7 @@ public class Suma implements Operacio{
                 midaUtil--;
             }
             ArrayList<ArrayList<Integer>> solucions = new ArrayList<>();
-            calculaPossiblesValorsBacktrack(midaTauler, midaRegio, midaUtil, sumatori, solucions, new ArrayList<>());
+            calculaPossiblesValorsBacktrack(midaTauler, midaUtil, sumatori, solucions, new ArrayList<>());
             int nombreSolucions = solucions.size();
             int[][] solucionsToInt = new int[nombreSolucions][midaUtil];
             for (int i = 0; i < nombreSolucions; i++) {
@@ -37,7 +37,7 @@ public class Suma implements Operacio{
             return ErrorConstants.ERROR_MATRIX;
         }
     }
-    private void calculaPossiblesValorsBacktrack(int midaTauler,int midaRegio, int midaUtil, int sumatori, ArrayList<ArrayList<Integer>> solucions, ArrayList<Integer> solucioParcial) {
+    private void calculaPossiblesValorsBacktrack(int midaTauler, int midaUtil, int sumatori, ArrayList<ArrayList<Integer>> solucions, ArrayList<Integer> solucioParcial) {
     //Cas base
         if (solucioParcial.size() == midaUtil-1) {
            if (sumatori > 0 && sumatori <= midaTauler){
@@ -50,7 +50,7 @@ public class Suma implements Operacio{
             //Crec que seria correcte igualment amb i<sumatori
             if (i <= sumatori) {
                 solucioParcial.add(i);
-                calculaPossiblesValorsBacktrack(midaTauler,midaRegio, midaUtil, sumatori - i, solucions, solucioParcial);
+                calculaPossiblesValorsBacktrack(midaTauler, midaUtil, sumatori - i, solucions, solucioParcial);
                 solucioParcial.remove(solucioParcial.size() - 1);
             }
         }
