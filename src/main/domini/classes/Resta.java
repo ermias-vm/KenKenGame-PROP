@@ -20,24 +20,24 @@ public class Resta implements Operacio {
         }
     }
 
-    public int[][] calculaPossiblesValors(int Resultat, int mida, int[] valors) {
+    public int[][] calculaPossiblesValors(int Resultat,int midaTauler, int midaRegio, int[] valors) {
         try {
-            if (mida != 2) {
+            if (midaRegio != 2) {
                 throw new ExcepcioMoltsValors(2, "EQ");
             }
             else {
                 ArrayList<int[]> solucions = new ArrayList<>();
-                for (int i = 1; i <= mida; i++) {
+                for (int i = 1; i <= midaTauler; i++) {
                     int[] solucioParcial = new int[2];
                     int resta = Resultat + i;
-                    if (resta > 0 && resta <= mida) {
+                    if (resta > 0 && resta <= midaTauler) {
                         solucioParcial[0] = i;
                         solucioParcial[1] = resta;
                         solucions.add(solucioParcial);
                     }
                 }
                 int nombreSolucions = solucions.size();
-                int[][] solucionsToInt = new int[nombreSolucions][mida];
+                int[][] solucionsToInt = new int[nombreSolucions][midaRegio];
                 for (int i = 0; i < nombreSolucions; i++) {
                     solucionsToInt[i] = solucions.get(i);
                 }

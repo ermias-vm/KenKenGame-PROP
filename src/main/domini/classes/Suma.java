@@ -15,17 +15,17 @@ public class Suma implements Operacio{
         }
         return suma;
     }
-    public int[][] calculaPossiblesValors(int Resultat, int mida, int[] valors) {
+    public int[][] calculaPossiblesValors(int Resultat, int midaTauler, int midaRegio, int[] valors) {
         try {
-            if (valors.length > mida ){throw new ExcepcioMoltsValors(mida, "MAX");}
+            if (valors.length > midaRegio ){throw new ExcepcioMoltsValors(midaRegio, "MAX");}
             int sumatori = Resultat;
-            int midaUtil = mida;
+            int midaUtil = midaRegio;
             for (int i = 0; i < valors.length; i++) {
                 sumatori -= valors[i];
                 midaUtil--;
             }
             ArrayList<ArrayList<Integer>> solucions = new ArrayList<>();
-            calculaPossiblesValorsBacktrack(mida, midaUtil, sumatori, solucions, new ArrayList<>());
+            calculaPossiblesValorsBacktrack(midaTauler, midaRegio, midaUtil, sumatori, solucions, new ArrayList<>());
             int nombreSolucions = solucions.size();
             int[][] solucionsToInt = new int[nombreSolucions][midaUtil];
             for (int i = 0; i < nombreSolucions; i++) {
@@ -37,20 +37,20 @@ public class Suma implements Operacio{
             return ErrorConstants.ERROR_MATRIX;
         }
     }
-    private void calculaPossiblesValorsBacktrack(int midaMax, int midaUtil, int sumatori, ArrayList<ArrayList<Integer>> solucions, ArrayList<Integer> solucioParcial) {
+    private void calculaPossiblesValorsBacktrack(int midaTauler,int midaRegio, int midaUtil, int sumatori, ArrayList<ArrayList<Integer>> solucions, ArrayList<Integer> solucioParcial) {
     //Cas base
         if (solucioParcial.size() == midaUtil-1) {
-           if (sumatori > 0 && sumatori <= midaMax){
+           if (sumatori > 0 && sumatori <= midaTauler){
                ArrayList<Integer> solucioCopia = new ArrayList<>(solucioParcial);
                solucioCopia.add(sumatori);
                solucions.add(solucioCopia);
         }
     }
-        else for (int i = 1; i <= midaMax; i++) {
+        else for (int i = 1; i <= midaTauler; i++) {
             //Crec que seria correcte igualment amb i<sumatori
             if (i <= sumatori) {
                 solucioParcial.add(i);
-                calculaPossiblesValorsBacktrack(midaMax, midaUtil, sumatori - i, solucions, solucioParcial);
+                calculaPossiblesValorsBacktrack(midaTauler,midaRegio, midaUtil, sumatori - i, solucions, solucioParcial);
                 solucioParcial.remove(solucioParcial.size() - 1);
             }
         }
