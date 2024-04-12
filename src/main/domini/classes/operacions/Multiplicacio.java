@@ -1,4 +1,4 @@
-package main.domini.classes;
+package main.domini.classes.operacions;
 import main.ErrorConstants;
 import main.domini.excepcions.ExcepcioMoltsValors;
 import main.domini.excepcions.ExcepcioNoDivisor;
@@ -13,8 +13,8 @@ public class Multiplicacio implements Operacio {
 
     public int operaN(int[] valors) {
         int multiplicacio = 1;
-        for (int i = 0; i < valors.length; i++){
-            multiplicacio = multiplicacio*valors[i];
+        for (int valor : valors) {
+            multiplicacio = multiplicacio * valor;
         }
         return multiplicacio;
     }
@@ -24,10 +24,12 @@ public class Multiplicacio implements Operacio {
             if (valors.length > midaRegio) {throw new ExcepcioMoltsValors(midaRegio, "MAX");}
             int multiplicacio = Resultat;
             int midaUtil = midaRegio;
-            for (int i = 0; i < valors.length; i++) {
-                try{
-                    if (multiplicacio % valors[i] != 0) {throw new ExcepcioNoDivisor(valors[i], multiplicacio);}
-                    multiplicacio = multiplicacio/valors[i];
+            for (int valor : valors) {
+                try {
+                    if (multiplicacio % valor != 0) {
+                        throw new ExcepcioNoDivisor(valor, multiplicacio);
+                    }
+                    multiplicacio = multiplicacio / valor;
                     midaUtil--;
                 } catch (ExcepcioNoDivisor e) {
                     System.out.println(e.getMessage());
