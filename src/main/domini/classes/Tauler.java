@@ -1,37 +1,54 @@
 package main.domain.classes;
 
-import java.io.*;
+//import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.TreeMap;
+//import java.util.Objects;
+//import java.util.TreeMap;
 
-public class Tablero {
-    private int idTablero;
-    private int grado;
 
-    private List<Pieza> piezas;
-    private List<Casilla> casillas;
+public class Tauler {
+    private int idTauler;
+    private int grau;
+    private List<Peça> peces;
+    private List<Casella> caselles;
 
-    public Tablero(int idTablero, int grado) {
-        this.idTablero = idTablero;
-        this.grado = grado;
-        this.piezas = new ArrayList<>();
-        this.casillas = new ArrayList<>();
+    public Tauler(int idTauler, int grau) {
+        this.idTauler = idTauler;
+        this.grau = grau;
+        this.peces = new ArrayList<>();
+        this.caselles = new ArrayList<>();
     }
 
-    public void agregarPieza(Pieza pieza) {
-        piezas.add(pieza);
+    public int getIdTauler() {
+        return idTauler;
     }
 
-    public void borrarPieza(Pieza pieza) {
-        piezas.remove(pieza);
+    public int getGrau() {
+        return grau;
     }
 
-    public void agregarCasilla(Casilla casillas) {
-        casillas.add(casilla);
+    public List<Peça> getPeces() {
+        return peces;
     }
 
-    public void borrarCasilla(Casilla casillas) {
-        casillas.remove(casilla);
+    public List<Casella> getCaselles() {
+        return caselles;
     }
+
+    public void afegirPeça(Peça peça) {
+        peces.add(peça);
+    }
+
+    public void esborrarPeça(Peça peça) {
+        peces.remove(peça);
+    }
+
+    public void afegirCasella(Casella casella) {
+        caselles.add(casella);
+    }
+
+    public void esborrarCasella(Casella casella) {
+        caselles.remove(casella);
+    }
+}
