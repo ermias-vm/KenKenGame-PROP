@@ -3,6 +3,8 @@ import main.ErrorConstants;
 import main.domini.excepcions.ExcepcioMoltsValors;
 import main.domini.interficies.Operacio;
 import java.util.ArrayList;
+import java.util.Collections;
+
 public class Resta implements Operacio {
 
     public int opera2(int a, int b) {
@@ -20,38 +22,44 @@ public class Resta implements Operacio {
         }
     }
 
-    public int[][] calculaPossiblesValors(int Resultat,int midaTauler, int midaRegio, int[] valors) {
+    public int[] calculaPossiblesValors(int Resultat,int midaTauler, int midaRegio, int[] valors) {
         try {
             if (midaRegio != 2) {
                 throw new ExcepcioMoltsValors(2, "EQ");
             }
             else {
                 if (valors.length == 1) {
-                    int[][] unicResultat = new int[1][1];
-                    unicResultat[0][0] = Math.abs(valors[0]-Resultat);
-                    return unicResultat;
+                    int res = Math.abs(valors[0]-Resultat);
+                    if (res > 0  && res <= midaTauler) {
+                        int[] unicResultat = new int[1];
+                        unicResultat[0] = res;
+                        return unicResultat;
+                    }
+                    return new int[0];
                 }
-                ArrayList<int[]> solucions = new ArrayList<>();
+                ArrayList<Integer> solucions = new ArrayList<>();
+                boolean[] jaPosat = new boolean[midaTauler];
                 for (int i = 1; i <= midaTauler; i++) {
-                    int[] solucioParcial = new int[2];
                     int resta = Resultat + i;
                     if (resta > 0 && resta <= midaTauler) {
-                        solucioParcial[0] = i;
-                        solucioParcial[1] = resta;
-                        solucions.add(solucioParcial);
+                        if (!jaPosat[i-1]) {
+                            solucions.add(i);
+                            jaPosat[i-1] = true;
+                        }
+                        if (!jaPosat[resta-1]) {
+                            solucions.add(resta);
+                            jaPosat[resta-1] = true;
+                        }
                     }
                 }
-                int nombreSolucions = solucions.size();
-                int[][] solucionsToInt = new int[nombreSolucions][midaRegio];
-                for (int i = 0; i < nombreSolucions; i++) {
-                    solucionsToInt[i] = solucions.get(i);
-                }
+                Collections.sort(solucions);
+                int[] solucionsToInt = solucions.stream().mapToInt(i -> i).toArray();
                 return solucionsToInt;
             }
         }
         catch (ExcepcioMoltsValors e) {
             System.out.println(e.getMessage());
-            return ErrorConstants.ERROR_MATRIX;
+            return ErrorConstants.ERROR_ARRAY;
         }
     }
 }
