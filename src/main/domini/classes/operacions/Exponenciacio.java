@@ -21,7 +21,7 @@ public class Exponenciacio implements Operacio {
         }
     }
 
-    public int[][] calculaPossiblesValors(int Resultat, int mida, int[] valors) {
+    public int[][]calculaPossiblesValors(int Resultat,int midaTauler, int midaRegio, int[] valors){
         // Implementacio pendent
         return null;
     }
