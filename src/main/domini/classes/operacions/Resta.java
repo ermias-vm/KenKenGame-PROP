@@ -29,13 +29,17 @@ public class Resta implements Operacio {
             }
             else {
                 if (valors.length == 1) {
-                    int res = Math.abs(valors[0]-Resultat);
-                    if (res > 0  && res <= midaTauler) {
-                        int[] unicResultat = new int[1];
-                        unicResultat[0] = res;
-                        return unicResultat;
+                    ArrayList<Integer> finsDosResultats = new ArrayList<>();
+                    int resta = valors[0] - Resultat;
+                    if (resta > 0 && resta <= midaTauler) {
+                        finsDosResultats.add(resta);
                     }
-                    return new int[0];
+                    int suma = valors[0] + Resultat;
+                    if (suma > 0 && suma <= midaTauler) {
+                        finsDosResultats.add(suma);
+                    }
+                    int[] solucionsToInt = finsDosResultats.stream().mapToInt(i -> i).toArray();
+                    return solucionsToInt;
                 }
                 ArrayList<Integer> solucions = new ArrayList<>();
                 boolean[] jaPosat = new boolean[midaTauler];
