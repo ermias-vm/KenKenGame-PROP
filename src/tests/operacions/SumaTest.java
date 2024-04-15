@@ -1,4 +1,5 @@
-import main.ErrorConstants;
+package tests.operacions;
+
 import main.domini.classes.operacions.Suma;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;

@@ -1,3 +1,5 @@
+package tests.operacions;
+
 import main.ErrorConstants;
 import main.domini.classes.operacions.Multiplicacio;
 import org.junit.Test;
