@@ -3,33 +3,42 @@ package main.domini.classes;
 import java.time.LocalDateTime;
 import java.time.Duration;
 import java.time.format.DateTimeFormatter;
-import main.domini.excepcions.*;
 
+import main.stubs.TaulerStub;
 
 public class Partida {
-    private final LocalDateTime iniciPartida_;
+    //for testing inicialitzat a 2022-01-01 00:00
+    private final LocalDateTime iniciPartida_ = LocalDateTime.of(2022, 1, 1, 0, 0);
     private final String identificadorPartida_;
     private final int midaPartida_;
     private final String identificadorUsuariPartida_;
-    private final Tauler taulerPartida_;
+    private final TaulerStub taulerPartida_;
     private int[][] valorsPartida_;
-    private final int tempsPartida_;
+    private int tempsPartida_;
     //una partida es acabada si es correcta
     private boolean guardadaPartida_ = false;
     private boolean acabadaPartida_ = false;
+    private boolean tancadaPartida_ = false;
 
-    public Partida(int midaPartida, String identificadorUsuariPartida, Tauler TaulerPartida) {
-        this.iniciPartida_ = LocalDateTime.now();
+
+    public Partida(int midaPartida, String identificadorUsuariPartida, TaulerStub TaulerPartida) {
+
+        //this.iniciPartida_ = LocalDateTime.now();
+        //This is commented for testing
+
         this.identificadorUsuariPartida_ = identificadorUsuariPartida;
         this.taulerPartida_ = TaulerPartida;
         this.midaPartida_ = midaPartida;
-        this.identificadorPartida_ = creaIdentificadorPartida(iniciPartida_, identificadorUsuariPartida_) ;
+        this.identificadorPartida_ = creaIdentificadorPartida() ;
         this.valorsPartida_ = new int[midaPartida][midaPartida]; //per defecte a 0
         this.tempsPartida_ = 0;
     }
     //Per a carregar una partida guardada, parametres donats pel controlador guardar i carregar i s'ocupa de comprovar que no estigui ja carregada
-    public Partida(String identificadorPartida, String identificadorUsuariPartida, Tauler TaulerPartida, int tempsPartida, int midaPartida, int[][] valorsPartida) {
-        this.iniciPartida_ = LocalDateTime.now();
+    public Partida(String identificadorPartida, String identificadorUsuariPartida, TaulerStub TaulerPartida, int tempsPartida, int midaPartida, int[][] valorsPartida) {
+
+        //this.iniciPartida_ = LocalDateTime.now();
+        //This is commented for testing
+
         this.identificadorUsuariPartida_ = identificadorUsuariPartida;
         this.taulerPartida_ = TaulerPartida;
         this.midaPartida_ = midaPartida;
@@ -52,7 +61,7 @@ public class Partida {
     public String getUsuariPartida() {
         return identificadorUsuariPartida_;
     }
-    public Tauler getTaulerPartida(){
+    public TaulerStub getTaulerPartida(){
         return taulerPartida_;
     }
     public String getIdentificadorTaulerPartida() {
@@ -71,33 +80,69 @@ public class Partida {
         return acabadaPartida_;
     }
 
-    public void setValorPartida(int valor, int fila, int columna) {
-        try {
-            if (1 <= valor && valor <= midaPartida_) ;
-            else throw new ExcepcioValorInvalid();
+    public int setValorPartida(int valor, int fila, int columna) {
+        if (tancadaPartida_) {
+            return ErrorConstantsPartida.ERROR_INT_PARTIDA_TANCADA;
+        }
+        if (acabadaPartida_) {
+            return ErrorConstantsPartida.ERROR_INT_PARTIDA_ACABADA;
+        }
+        if (fila < 0 || fila >= midaPartida_ || columna < 0 || columna >= midaPartida_) {
+            return ErrorConstantsPartida.ERROR_INT_FILA_COLUMNA;
+        }
+        if (1 <= valor && valor <= midaPartida_) {
             valorsPartida_[fila][columna] = valor;
+            return 1;
         }
-        catch (ExcepcioValorInvalid e) {
-            System.out.println(e.getMessage());
-        }
+        else return ErrorConstantsPartida.ERROR_INT_VALOR_INVALID;
     }
 
     public String acabaPartida() {
-        try {
-            if (taulerPartida_.corretgeix(valorsPartida_)) {
-                this.acabadaPartida_ = true;
-                String textPartidaAcabada = this.identificadorPartida_ + '\n' + this.identificadorUsuariPartida_ + '\n' + this.getIdentificadorTaulerPartida() + '\n' + String.valueOf(this.calculaTemps()) + '\n' + this.midaPartida_ + '\n' + String.valueOf(this.guardadaPartida_);
-                return textPartidaAcabada;
+        if (acabadaPartida_) {
+            return ErrorConstantsPartida.ERROR_STRING_PARTIDA_ACABADA;
+        }
+        if (tancadaPartida_) {
+            return ErrorConstantsPartida.ERROR_STRING_PARTIDA_TANCADA;
+        }
+        if (taulerPartida_.corretgeix(valorsPartida_)) {
+            this.acabadaPartida_ = true;
+            String textPartidaAcabada = this.identificadorPartida_ + '\n' + this.identificadorUsuariPartida_ + '\n' + this.getIdentificadorTaulerPartida() + '\n' + String.valueOf(this.calculaTemps()) + '\n' + this.midaPartida_ + '\n' + String.valueOf(this.guardadaPartida_);
+            return textPartidaAcabada;
+        }
+        else return ErrorConstantsPartida.ERROR_STRING_PARTIDA_INCORRECTA;
+    }
+    public String tancaIGuardaPartida() {
+        if (acabadaPartida_) {
+            return ErrorConstantsPartida.ERROR_STRING_PARTIDA_ACABADA;
+        }
+        if (tancadaPartida_) {
+            return ErrorConstantsPartida.ERROR_STRING_PARTIDA_TANCADA;
+        }
+        this.tancadaPartida_ = true;
+        this.guardadaPartida_ = true;
+        this.tempsPartida_ = this.calculaTemps();
+        StringBuilder textPartidaGuardada = new StringBuilder();
+        textPartidaGuardada.append(this.identificadorPartida_).append('\n')
+                .append(this.identificadorUsuariPartida_).append('\n')
+                .append(this.getIdentificadorTaulerPartida()).append('\n')
+                .append(String.valueOf(tempsPartida_)).append('\n')
+                .append(this.midaPartida_).append('\n');
+        for (int i = 0; i < this.midaPartida_; i++) {
+            for (int j = 0; j < this.midaPartida_; j++) {
+                if (j != this.midaPartida_ - 1) textPartidaGuardada.append(String.valueOf(this.valorsPartida_[i][j])).append(" ");
+                else textPartidaGuardada.append(String.valueOf(this.valorsPartida_[i][j])).append("\n");
             }
-            else throw new ExcepcioPartidaIncorrecta;
         }
-        catch (ExcepcioPartidaIncorrecta e) {
-            System.out.println(e.getMessage());
-        }
-
+        return textPartidaGuardada.toString();
     }
 
     public String guardaPartida() {
+        if (acabadaPartida_) {
+            return ErrorConstantsPartida.ERROR_STRING_PARTIDA_ACABADA;
+        }
+        if (tancadaPartida_) {
+            return ErrorConstantsPartida.ERROR_STRING_PARTIDA_TANCADA;
+        }
         this.guardadaPartida_ = true;
         StringBuilder textPartidaGuardada = new StringBuilder();
         textPartidaGuardada.append(this.identificadorPartida_).append('\n')
@@ -114,13 +159,16 @@ public class Partida {
         return textPartidaGuardada.toString();
     }
     private int calculaTemps() {
-        LocalDateTime tempsActual = LocalDateTime.now();
+        //for testing purposes
+        //LocalDateTime tempsActual = LocalDateTime.now();
+        LocalDateTime tempsActual = LocalDateTime.of(2022, 1, 1, 0, 8);;
+
         Duration duracio = Duration.between(this.iniciPartida_, tempsActual);
         int tempsTotal = this.tempsPartida_ + (int) duracio.getSeconds();
         return tempsTotal;
     }
-    private String creaIdentificadorPartida(LocalDateTime iniciPartida, String usuariPartida) {
-        String inici = iniciPartida.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-        return usuariPartida + inici;
+    private String creaIdentificadorPartida() {
+        String inici = this.iniciPartida_.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        return this.identificadorUsuariPartida_ + inici;
     }
 }

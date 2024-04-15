@@ -1,4 +1,4 @@
-import main.ErrorConstants;
+import main.domini.classes.ErrorConstantsOperacions;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -34,13 +34,13 @@ public class RestaTest {
     @Test
     public void operaNReturnsErrorForSingleNumber() {
         Resta resta = new Resta();
-        assertEquals(ErrorConstants.ERROR_INT, resta.operaN(new int[]{3}));
+        assertEquals(ErrorConstantsOperacions.ERROR_INT_MIDA, resta.operaN(new int[]{3}));
     }
 
     @Test
     public void operaNReturnsErrorForMoreThanTwoNumbers() {
         Resta resta = new Resta();
-        assertEquals(ErrorConstants.ERROR_INT, resta.operaN(new int[]{3, 4, 5}));
+        assertEquals(ErrorConstantsOperacions.ERROR_INT_MIDA, resta.operaN(new int[]{3, 4, 5}));
     }
 
     @Test
@@ -54,7 +54,7 @@ public class RestaTest {
     public void calculaPossiblesValorsReturnsErrorForMoreThanTwoValuesInRegion() {
         Resta resta = new Resta();
         int[] result = resta.calculaPossiblesValors(6, 3, 3, new int[]{1, 2, 3});
-        assertTrue(Arrays.equals(ErrorConstants.ERROR_ARRAY, result));
+        assertTrue(Arrays.equals(ErrorConstantsOperacions.ERROR_ARRAY_MIDA, result));
     }
 
     @Test
@@ -72,6 +72,6 @@ public class RestaTest {
     @Test
     public void TooMuchRegion() {
         Resta resta = new Resta();
-        assertTrue(Arrays.equals(ErrorConstants.ERROR_ARRAY, resta.calculaPossiblesValors(3, 9, 5, new int[]{})));
+        assertTrue(Arrays.equals(ErrorConstantsOperacions.ERROR_ARRAY_MIDA, resta.calculaPossiblesValors(3, 9, 5, new int[]{})));
     }
 }

@@ -1,9 +1,8 @@
 package main.domini.classes.operacions;
 
-import main.ErrorConstants;
+import main.domini.classes.ErrorConstantsOperacions;
 import main.domini.excepcions.ExcepcioMoltsValors;
 import main.domini.interficies.Operacio;
-import java.util.ArrayList;
 
 public class Exponenciacio implements Operacio {
     public int opera2(int a, int b) {
@@ -17,7 +16,7 @@ public class Exponenciacio implements Operacio {
         }
         catch (ExcepcioMoltsValors e) {
             System.out.println(e.getMessage());
-            return ErrorConstants.ERROR_INT;
+            return ErrorConstantsOperacions.ERROR_INT;
         }
     }
 

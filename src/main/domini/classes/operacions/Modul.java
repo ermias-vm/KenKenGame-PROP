@@ -1,5 +1,5 @@
 package main.domini.classes.operacions;
-import main.ErrorConstants;
+import main.domini.classes.ErrorConstantsOperacions;
 import main.domini.excepcions.ExcepcioMoltsValors;
 import main.domini.interficies.Operacio;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class Modul implements Operacio {
         }
         catch (ExcepcioMoltsValors e) {
             System.out.println(e.getMessage());
-            return ErrorConstants.ERROR_INT;
+            return ErrorConstantsOperacions.ERROR_INT;
         }
     }
 //Millorar retorn de la funcio per evitar bucles per copiar  a int [][]
@@ -70,7 +70,7 @@ public class Modul implements Operacio {
         }
         catch (ExcepcioMoltsValors e) {
             System.out.println(e.getMessage());
-            return ErrorConstants.ERROR_MATRIX;
+            return ErrorConstantsOperacions.ERROR_MATRIX;
         }
     }
 
