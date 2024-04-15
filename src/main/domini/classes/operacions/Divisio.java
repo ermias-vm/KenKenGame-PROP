@@ -39,9 +39,9 @@ public class Divisio implements Operacio {
 
     public int[] calculaPossiblesValors(int Resultat,int midaTauler, int midaRegio, int[] valors) {
         try {
-            if (midaRegio != 2) {
-                throw new ExcepcioMoltsValors(2, "EQ");
-            } else {
+            if (midaRegio != 2) {throw new ExcepcioMoltsValors(2, "EQ");}
+            else if (valors.length > midaRegio) {throw new ExcepcioMoltsValors(midaRegio, "MAX");}
+             else {
                 if (valors.length == 1) {
                     if (!divisible(valors[0], Resultat)) {
                         int res = valors[0] * Resultat;
