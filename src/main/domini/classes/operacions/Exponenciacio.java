@@ -20,8 +20,7 @@ public class Exponenciacio implements Operacio {
         }
     }
 
-    public int[][]calculaPossiblesValors(int Resultat,int midaTauler, int midaRegio, int[] valors){
-        // Implementacio pendent
-        return null;
+    public int[]calculaPossiblesValors(int Resultat,int midaTauler, int midaRegio, int[] valors){
+        return new int[0];
     }
 }
