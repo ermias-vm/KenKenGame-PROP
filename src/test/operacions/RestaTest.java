@@ -1,4 +1,4 @@
-package tests.operacions;
+package test.operacions;
 
 import main.ErrorConstants;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package tests;
+package test;
 
 import main.domini.classes.Casella;
 import main.domini.excepcions.ExcepcioCasellaNoModificable;

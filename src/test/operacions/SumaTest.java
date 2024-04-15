@@ -1,4 +1,4 @@
-package tests.operacions;
+package test.operacions;
 
 import main.domini.classes.operacions.Suma;
 import org.junit.Test;
