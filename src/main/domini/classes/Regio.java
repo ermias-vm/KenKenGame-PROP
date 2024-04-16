@@ -1,7 +1,7 @@
 package main.domini.classes;
 import main.domini.excepcions.*;
  
-public class peca {
+public class Regio {
 
     private int tamany;
     private Vector<Casella> vectorCasellas;
