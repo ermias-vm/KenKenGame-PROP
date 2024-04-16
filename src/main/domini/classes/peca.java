@@ -12,6 +12,7 @@ public class peca {
 			tamany = tamano;
 			vCellas = new Vector<Cella>();
 			Cella cellaAux = null;
+			int b;
 			for (int i = 0; i < tam; ++i) {
 			    cellaAux = new Cella();
 			    vCellas.addElement(cellaAux);
