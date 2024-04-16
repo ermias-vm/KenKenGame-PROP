@@ -1,22 +1,18 @@
 package main.domini.classes;
 
-//import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-//import java.util.Objects;
-//import java.util.TreeMap;
-
 
 public class Tauler {
     private int idTauler;
     private int grau;
-    private List<Peça> peces;
+    private List<Regio> regions;
     private List<Casella> caselles;
 
     public Tauler(int idTauler, int grau) {
         this.idTauler = idTauler;
         this.grau = grau;
-        this.peces = new ArrayList<>();
+        this.regions = new ArrayList<>();
         this.caselles = new ArrayList<>();
     }
 
@@ -28,20 +24,20 @@ public class Tauler {
         return grau;
     }
 
-    public List<Peça> getPeces() {
-        return peces;
+    public List<Regio> getRegions() {
+        return regions;
     }
 
     public List<Casella> getCaselles() {
         return caselles;
     }
 
-    public void afegirPeça(Peça peça) {
-        peces.add(peça);
+    public void afegirRegio(Regio regio) {
+        regions.add(regio);
     }
 
-    public void esborrarPeça(Peça peça) {
-        peces.remove(peça);
+    public void esborrarRegio(Regio regio) {
+        regions.remove(regio);
     }
 
     public void afegirCasella(Casella casella) {
