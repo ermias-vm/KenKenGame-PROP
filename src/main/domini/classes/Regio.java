@@ -1,58 +1,56 @@
 package main.domini.classes;
+import main.domini.excepcions.*;
+ 
+
+import java.util.ArrayList;
+
 
 public class Regio {
 
     private int tamany;
     private Vector<Casella> vectorCasellas;
+	private boolean escorrecte;
+
      
-    Regio (int tamano) {
+    public Regio (int tam) {
     	try {
-			if (tamano < 1) throw (new );
-			tamany = tamano;
-			vCellas = new Vector<Cella>();
-			Cella cellaAux = null;
-			int b;
-			for (int i = 0; i < tam; ++i) {
-			    cellaAux = new Cella();
-			    vCellas.addElement(cellaAux);
-			}
-		} catch (Exception e) {
+			if (tam < 1) throw new ExcepcionTamanyIncorrecte();
+			tamany = tam;
+			vectorCellas = new Vector<Casella>(tam);			
+		} catch (ExceptionTamanyIncorrecte e) {
 			System.out.println(e.getMessage());
 			
 			
 		}
     }
      
-    Regio (int tamano, Vector<Cella> vc) {
+    public Regio (Vector<Casella> vc) {
     	try {
-			if (tamano < 1) throw (new );
-			tam = tamano;
-			if (vc.size() != tam) throw (new );
-			vCellas = (Vector<Cella>) vc;
-		} catch (ExcepcionTamanoIncorrecto e) {
-			System.out.println(e.getMessage());
-		} catch (ExcepcionNumCeldasDiferenteTamano e) {
+			if (vc.size() < 1) throw new ExcepcionTamanyIncorrecte();
+			tamany = v.size();
+			vectorCellas = vc;
+		} catch (ExcepcionTamanyIncorrecte e) {
 			System.out.println(e.getMessage());
 		}
     }
      
-    public int getNumCeldas() {
-        return tam;
+    public int getNumCasellas() {
+        return tamany;
     }
      
-    public int getTamany() { //lo calcula cada vez
-        int numCeldasRellenas = tam;
-        for (int i = 0; i < tam; ++i) {
-            if (vCellas.get(i).estaVacia()) numCeldasRellenas--;
+    public int getNumCasellasPlenas() { 
+        int NumCasellasPlenas = tamany;
+        for (int i = 0; i < tamany; ++i) {
+            if (vectorCasellas.get(i).esBuida()) NumCasellasPlenas--;
         }
-        return numCeldasRellenas;
+        return NumCasellasPlenas;
     }
      
-    public boolean estaVacia(int pos) {
+    public boolean esBuida(int pos) {
     	try {
-			if (pos < 0 || pos >= tam) throw (new ExcepcionPosicionFueraRango());
-			return (vCellas.get(pos).estaVacia());
-		} catch (ExcepcionPosicionFueraRango e) {
+			if (pos < 0 || pos >= tamany) throw new ExcepcionPosicioIncorrecta();
+			return (vectorCellas.get(pos).esBuida());
+		} catch (ExcepcionPosicioIncorrecta e) {
 			System.out.println(e.getMessage());
 			return false;
 		}
@@ -60,44 +58,51 @@ public class Regio {
      
     public Casella getCasella(int pos) {
     	try {
-			if (pos < 0 || pos >= tam) throw (new ExcepcionPosicionFueraRango());
-			return (vCellas.get(pos));
-		} catch (ExcepcionPosicionFueraRango e) {
+			if (pos < 0 || pos >= tam) throw new ExcepcionPosicioIncorrecta();
+			return (vectorCasellas.get(pos));
+		} catch (ExcepcionPosicioIncorrecta e) {
 			System.out.println(e.getMessage());
-			return new Cella();
+			return new Casella();
 		}
     }
      
-    public int getNumero(int pos) {
+    public int getValor(int pos) {
     	try {
-			if (pos < 0 || pos >= tam) throw (new ExcepcionPosicionFueraRango());
-			return (vCellas.get(pos).getNumero());
-		} catch (ExcepcionPosicionFueraRango e) {
+			if (pos < 0 || pos >= tam) throw new ExcepcionPosicioIncorrecta();
+			return (vectorCasellas.get(pos).getValor());
+		} catch (ExcepcionPosicioIncorrecta e) {
 			System.out.println(e.getMessage());
 			return -1;
 		}
     }
      
-    public void setNumero(int pos, int val) {
+    public void setValor(int pos, int val) {
     	try {
-			if (pos < 0 || pos >= tam) throw (new ExcepcionPosicionFueraRango());
-			if (val < 1 || val > tam) throw (new ExcepcionValorFueraRango());
-			vCellas.get(pos).setNumero(val);
-		} catch (ExcepcionPosicionFueraRango e) {
+			if (pos < 0 || pos >= tam) throw new ExcepcionPosicioIncorrecta();
+			if (val < 1 || val > tam) throw new ExcepcionPosicioIncorrecta();
+			vectorCasellas.get(pos).setValor(val);
+		} catch (ExcepcionPosicioIncorrecta e) {
 			System.out.println(e.getMessage());
-		} catch (ExcepcionValorFueraRango e) {
-			System.out.println(e.getMessage());
-		}
+		
     }
      
     public void borra(int pos) {
     	try {
-			if (pos < 0 || pos >= tam) throw (new ExcepcionPosicionFueraRango());
-			vCellas.get(pos).borra();
-		} catch (ExcepcionPosicionFueraRango e) {
+			if (pos < 0 || pos >= tam) throw (new ExcepcionPosicioIncorrecta());
+			vectorCasellas.get(pos).borra();
+		} catch (ExcepcionPosicioIncorrecta e) {
 			System.out.println(e.getMessage());
 		}
     }
+
+	public bool esCorrecte() {
+		escorrecte = true;
+
+		for (int i = 0; i < tamany; ++i) {
+			if (vectorCasellas.get(i).esModificable()) escorrecte = false;
+		}
+		return escorrecte;
+	}
      
     
 }
