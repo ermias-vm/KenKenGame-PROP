@@ -1,6 +1,5 @@
 package main.domini.classes;
-import main.domini.excepcions.*;
- 
+
 public class Regio {
 
     private int tamany;
@@ -41,7 +40,7 @@ public class Regio {
         return tam;
     }
      
-    public int getNumCeldasRellenas() { //lo calcula cada vez
+    public int getTamany() { //lo calcula cada vez
         int numCeldasRellenas = tam;
         for (int i = 0; i < tam; ++i) {
             if (vCellas.get(i).estaVacia()) numCeldasRellenas--;
@@ -59,7 +58,7 @@ public class Regio {
 		}
     }
      
-    public Cella getCella(int pos) {
+    public Casella getCasella(int pos) {
     	try {
 			if (pos < 0 || pos >= tam) throw (new ExcepcionPosicionFueraRango());
 			return (vCellas.get(pos));
