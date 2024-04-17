@@ -1,17 +1,19 @@
 package main.domini.classes;
 
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 public class TaulerJoc extends Tauler {
 
     private boolean trobat;
+    private List<RegioJoc> regionsJoc;
 
     public TaulerJoc(int idTauler, int grau) {
         super(idTauler, grau);
+        this.regionsJoc = new ArrayList<>();
     }
 
-    //x, y, num estan a rang  [1,grau]  (Implementar codis error)
-
+    //// x, y, num estan a rang  [1,grau]  (Implementar codis error)
     public int getValor(int x, int y) {
         return getCasella(x, y).getValor();
     }
@@ -31,8 +33,33 @@ public class TaulerJoc extends Tauler {
     public boolean esBuida(int x, int y) {
         return getCasella(x, y).esBuida();
     }
+    ////
+
+    public void afegirRegioJoc(RegioJoc regioJoc) {
+        this.regionsJoc.add(regioJoc);
+    }
+
+    public void borrarRegioJoc(RegioJoc regioJoc) {
+        this.regionsJoc.remove(regioJoc);
+    }
+
+    public List<RegioJoc> getRegionsJoc() {
+        return this.regionsJoc;
+    }
+
+    public RegioJoc getRegio(int x, int y) {
+        for (RegioJoc r : regionsJoc) {
+            for (int j = 0; j < r.getTamany(); ++j) {
+                if (r.getCasella(j).getPosX() == x && r.getCasella(j).getPosY() == y) {
+                    return r;
+                }
+            }
+        }
+        return null;
+    }
 
 
+    // Funcions principals bactracking
     public boolean esFilaValida(int fila, int num) {
         for (int colum = 0; colum < getGrau(); ++colum) {
             if (getCasella(fila, colum).getValor() == num) return false;
@@ -46,20 +73,6 @@ public class TaulerJoc extends Tauler {
         }
         return true;
     }
-
-    public Regio getRegio(int x, int y) {
-        for (int i = 0; i < regions.size(); ++i) {
-            Regio r = regions.get(i);
-            for (int j = 0; j < r.getTamany(); ++j) {
-                if (r.getCasella(j).getPosX() == x && r.getCasella(j).getPosY() == y) {
-                    return r;
-                }
-            }
-        }
-        return new Regio(0);
-    }
-
-
     private void backtracking(TaulerJoc TJ, int i, int j) {
         //Cas base , te solucio
         if (i == TJ.getGrau()) {
