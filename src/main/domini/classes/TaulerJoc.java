@@ -66,12 +66,19 @@ public class TaulerJoc extends Tauler {
             trobat = true;
         }
         // Crida Recursiva
-        else {
+        else if (!TJ.esModificable(i, j)) {
+            // Si la casella no es modificable, pasa a la seguent
+            if (j + 1 == TJ.getGrau()) {
+                backtracking(TJ, i + 1, 0);
+            } else {
+                backtracking(TJ, i, j + 1);
+            }
+        } else {
             for (int valor = 1; valor <= TJ.getGrau() && !trobat; ++valor) {
                 if (TJ.esFilaValida(i, valor) && TJ.esColumValida(j, valor)) {
                     TJ.setValor(i, j, valor);
                     Regio r = TJ.getRegio(i, j);
-                    if ((!r.esCompleta() || r.esCompleta() && r.regioEsValida()) ) {
+                    if ((!r.esCompleta() || r.esCompleta() && r.esValida())) {
                         if (j + 1 == TJ.getGrau()) {
                             backtracking(TJ, i + 1, 0);
                         } else {
