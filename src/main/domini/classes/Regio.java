@@ -2,7 +2,7 @@ package main.domini.classes;
 import main.domini.excepcions.*;
  
 
-import java.util.ArrayList;
+import java.util.Vector;
 
 
 public class Regio {
