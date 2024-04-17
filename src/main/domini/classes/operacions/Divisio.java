@@ -16,7 +16,7 @@ public class Divisio implements Operacio {
         if (valors.length != 2) {return ErrorConstantsOperacions.ERROR_INT_MIDA;}
         return opera2(valors[0],valors[1]);
     }
-    public int[] calculaPossiblesValors(int Resultat,int midaTauler, int midaRegio, int[] valors) {
+    public ArrayList<Integer> calculaPossiblesValors(int Resultat, int midaTauler, int midaRegio, int[] valors) {
         if (midaRegio != 2) {return ErrorConstantsOperacions.ERROR_ARRAY_MIDA;}
         if (valors.length > 2) {return ErrorConstantsOperacions.ERROR_ARRAY_MIDA;}
         else {
@@ -24,12 +24,11 @@ public class Divisio implements Operacio {
                 if (valors[0] == 0) {return ErrorConstantsOperacions.ERROR_ARRAY_DIV_0;}
                 if (!divisible(valors[0], Resultat)) {
                     int res = valors[0] * Resultat;
+                    ArrayList<Integer> unicResultat = new ArrayList<>();
                     if (res > 0 && res <= midaTauler) {
-                        int[] unicResultat = new int[1];
-                        unicResultat[0] = res;
-                        return unicResultat;
+                        unicResultat.add (res);
                     }
-                    return new int[0];
+                    return unicResultat;
                 } else {
                     ArrayList<Integer> finsDosResultats = new ArrayList<>();
                     int resMult = valors[0] * Resultat;
@@ -40,14 +39,13 @@ public class Divisio implements Operacio {
                     if (resDiv > 0 && resDiv <= midaTauler) {
                         finsDosResultats.add(resDiv);
                     }
-                    int[] solucionsToInt = finsDosResultats.stream().mapToInt(i -> i).toArray();
-                    return solucionsToInt;
+                    return finsDosResultats;
                 }
             }
             if (valors.length == 2) {
                 if (valors[0] == 0 || valors[1] == 0)
                     return ErrorConstantsOperacions.ERROR_ARRAY_DIV_0;
-                else return new int[0];
+                else return new ArrayList<>();
             }
             ArrayList<Integer> solucions = new ArrayList<>();
             boolean[] jaPosat = new boolean[midaTauler];
@@ -62,8 +60,7 @@ public class Divisio implements Operacio {
                 }
             }
             Collections.sort(solucions);
-            int[] solucionsToInt = solucions.stream().mapToInt(i -> i).toArray();
-            return solucionsToInt;
+            return solucions;
         }
     }
     private boolean divisible(int a, int b) {

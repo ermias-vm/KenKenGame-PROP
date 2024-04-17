@@ -15,7 +15,7 @@ public class Resta implements Operacio {
             else return Math.abs(valors[0]-valors[1]);
     }
 
-    public int[] calculaPossiblesValors(int Resultat,int midaTauler, int midaRegio, int[] valors) {
+    public ArrayList<Integer> calculaPossiblesValors(int Resultat, int midaTauler, int midaRegio, int[] valors) {
         if (midaRegio != 2) {
             return ErrorConstantsOperacions.ERROR_ARRAY_MIDA;
         }
@@ -30,8 +30,7 @@ public class Resta implements Operacio {
                 if (suma > 0 && suma <= midaTauler) {
                     finsDosResultats.add(suma);
                 }
-                int[] solucionsToInt = finsDosResultats.stream().mapToInt(i -> i).toArray();
-                return solucionsToInt;
+                return finsDosResultats;
             }
             ArrayList<Integer> solucions = new ArrayList<>();
             boolean[] jaPosat = new boolean[midaTauler];
@@ -49,8 +48,7 @@ public class Resta implements Operacio {
                 }
             }
             Collections.sort(solucions);
-            int[] solucionsToInt = solucions.stream().mapToInt(i -> i).toArray();
-            return solucionsToInt;
+            return solucions;
         }
     }
 }
