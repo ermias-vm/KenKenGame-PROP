@@ -90,7 +90,7 @@ public class TaulerJoc extends Tauler {
             for (int valor = 1; valor <= TJ.getGrau() && !trobat; ++valor) {
                 if (TJ.esFilaValida(i, valor) && TJ.esColumValida(j, valor)) {
                     TJ.setValor(i, j, valor);
-                    Regio r = TJ.getRegio(i, j);
+                    RegioJoc r = TJ.getRegio(i, j);
                     if ((!r.esCompleta() || r.esCompleta() && r.esValida())) {
                         if (j + 1 == TJ.getGrau()) {
                             backtracking(TJ, i + 1, 0);
