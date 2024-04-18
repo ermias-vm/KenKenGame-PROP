@@ -17,7 +17,7 @@ public class Regio {
 			if (tam < 1) throw new ExcepcionTamanyIncorrecte();
 			tamany = tam;
 			casellas = new ArrayList<Casella>();			
-		} catch (ExceptionTamanyIncorrecte e) {
+		} catch (ExcepcionTamanyIncorrecte e) {
 			System.out.println(e.getMessage());
 			
 			
@@ -51,7 +51,7 @@ public class Regio {
     public boolean esBuida(int pos) {
     	try {
 			if (pos < 0 || pos >= tamany) throw new ExcepcionPosicioIncorrecta();
-			return (vectorCellas.get(pos).esBuida());
+			return (casellas.get(pos).esBuida());
 		} catch (ExcepcionPosicioIncorrecta e) {
 			System.out.println(e.getMessage());
 			return false;
@@ -60,17 +60,17 @@ public class Regio {
      
     public Casella getCasella(int pos) {
     	try {
-			if (pos < 0 || pos >= tam) throw new ExcepcionPosicioIncorrecta();
+			if (pos < 0 || pos >= tamany) throw new ExcepcionPosicioIncorrecta();
 			return (casellas.get(pos));
 		} catch (ExcepcionPosicioIncorrecta e) {
 			System.out.println(e.getMessage());
-			return new Casella();
+			return null;
 		}
     }
      
     public int getValor(int pos) {
     	try {
-			if (pos < 0 || pos >= tam) throw new ExcepcionPosicioIncorrecta();
+			if (pos < 0 || pos >= tamany) throw new ExcepcionPosicioIncorrecta();
 			return (casellas.get(pos).getValor());
 		} catch (ExcepcionPosicioIncorrecta e) {
 			System.out.println(e.getMessage());
@@ -80,18 +80,19 @@ public class Regio {
      
     public void setValor(int pos, int val) {
     	try {
-			if (pos < 0 || pos >= tam) throw new ExcepcionPosicioIncorrecta();
-			if (val < 1 || val > tam) throw new ExcepcionPosicioIncorrecta();
+			if (pos < 0 || pos >= tamany) throw new ExcepcionPosicioIncorrecta();
+			if (val < 1 || val > tamany) throw new ExcepcionPosicioIncorrecta();
 			casellas.get(pos).setValor(val);
 		} catch (ExcepcionPosicioIncorrecta e) {
 			System.out.println(e.getMessage());
+		}
 		
     }
      
     public void borra(int pos) {
     	try {
-			if (pos < 0 || pos >= casellas.size) throw (new ExcepcionPosicioIncorrecta());
-			casellas.get(pos).borra();
+			if (pos < 0 || pos >= casellas.size()) throw (new ExcepcionPosicioIncorrecta());
+			casellas.get(pos).borrarValor();
 		} catch (ExcepcionPosicioIncorrecta e) {
 			System.out.println(e.getMessage());
 		}
