@@ -9,14 +9,14 @@ public class Regio {
 
     private int tamany;
     private Vector<Casella> vectorCasellas;
-	private boolean escorrecte;
+	
 
      
     public Regio (int tam) {
     	try {
 			if (tam < 1) throw new ExcepcionTamanyIncorrecte();
 			tamany = tam;
-			vectorCellas = new Vector<Casella>(tam);			
+			vectorCasellas = new Vector<Casella>(tam);			
 		} catch (ExceptionTamanyIncorrecte e) {
 			System.out.println(e.getMessage());
 			
@@ -28,7 +28,7 @@ public class Regio {
     	try {
 			if (vc.size() < 1) throw new ExcepcionTamanyIncorrecte();
 			tamany = v.size();
-			vectorCellas = vc;
+			vectorCasellas = vc;
 		} catch (ExcepcionTamanyIncorrecte e) {
 			System.out.println(e.getMessage());
 		}
@@ -49,7 +49,7 @@ public class Regio {
     public boolean esBuida(int pos) {
     	try {
 			if (pos < 0 || pos >= tamany) throw new ExcepcionPosicioIncorrecta();
-			return (vectorCellas.get(pos).esBuida());
+			return (vectorCasellas.get(pos).esBuida());
 		} catch (ExcepcionPosicioIncorrecta e) {
 			System.out.println(e.getMessage());
 			return false;
@@ -95,14 +95,7 @@ public class Regio {
 		}
     }
 
-	public bool esCorrecte() {
-		escorrecte = true;
-
-		for (int i = 0; i < tamany; ++i) {
-			if (vectorCasellas.get(i).esModificable()) escorrecte = false;
-		}
-		return escorrecte;
-	}
+	
      
     
 }
