@@ -1,138 +1,277 @@
 package main.persistencia;
-
+import main.domini.controladors.ControladorPartida;
 import java.io.*;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+/**
+ * Controlador de persistencia per a {@code Partida} que s'encarrega de gestionar la càrrega i el guardat de partides.
+ * Es relaciona amb el controlador de partides de domini {@link ControladorPartida}.
+ * Opera amb fitxers de text per a guardar les partides.
+ * El fitxer per guardar les partides guardades és "Data/PartidesGuardades.txt".
+ * El fitxer per guardar les partides acabades és "Data/PartidesAcabades.txt".
+ * @author Nil Beascoechea Vàzquez
+ */
 public class ControladorPersistenciaPartida {
-    public String carregarUltimaPartida(String nomUsuari) {
-        String partidesGuardades = "Data/PartidesGuardades.txt";
+    /**
+     * Fitxer on es guarden les partides guardades.
+     */
+    private final String fitxerPartidesGuardades_ = "Data/PartidesGuardades.txt";
+    /**
+     * Vector de Strings on cada una representa un fitxer on s'emmagatzemen les partides acabades.
+     * Les que han estat guardades es guarden a l'índex [0].
+     * Les que no han estat guardades es guarden a l'índex [n-2] on n és el grau de la partida.
+     */
+    private final String[] fitxersPartidesAcabades_ =
+            {
+                    "Data/PartidesAcabadesGuardades.txt",
+                    "Data/PartidesAcabadesGrau3.txt", //  Grau 3 = fitxersPartidesAcabades_[1]
+                    "Data/PartidesAcabadesGrau4.txt", // Grau 4 = fitxersPartidesAcabades_[2]...
+                    "Data/PartidesAcabadesGrau5.txt",
+                    "Data/PartidesAcabadesGrau6.txt",
+                    "Data/PartidesAcabadesGrau7.txt",
+                    "Data/PartidesAcabadesGrau8.txt",
+                    "Data/PartidesAcabadesGrau9.txt"
+            };      // Grau n = fitxersPartidesAcabades_[n-2]
+    /**
+     * Carrega l'última partida guardada per un usuari. L'usuari existeix.
+     * La informació de la partida guardada es troba al fitxer "Data/PartidesGuardades.txt" i està ordenada per última guardada.
+     * Utilitza el format descrit a {@link main.domini.classes.Partida#guardaPartida()}.
+     * @param nomUsuari Nom de l'usuari que ha guardat la partida i la vol carregar.
+     * @return Una cadena de text amb la informació de la partida guardada.
+     */
+    public String carregarUltimaPartidaGuardada(String nomUsuari) {
         try {
-            BufferedReader lector = new BufferedReader(new FileReader(partidesGuardades));
+            BufferedReader lector = new BufferedReader(new FileReader(this.fitxerPartidesGuardades_));
             String linia;
-            String partida = "";
-            int liniesLlegir = 0;
-            int i = 0;
+            StringBuilder partida = new StringBuilder();
             boolean trobat = false;
-            while ((linia = lector.readLine()) != null) {
-                if (linia.contains(nomUsuari+":")) {
-                    partida = linia;
-                    trobat = true;
-                    liniesLlegir = 4;  //sempre son 4 linies
-                } else if (trobat && i < liniesLlegir) {
-                    partida += "\n" + linia;
-                    i++;
-                    if (i == 3) {
-                        liniesLlegir += Integer.parseInt(linia);  //es la mida de la partida
-                    }
-                }
-                if (i == liniesLlegir) {
-                    break;
-                }
-            }
-            lector.close();
-            return partida;
-        } catch (IOException e) {
-            System.out.println("Error al carregar la partida: " + e.getMessage());
-            return null;
-        }
-    }
-
-    public ArrayList<String> carregarPartides(String nomUsuari) {
-        String partidesGuardades = "Data/PartidesGuardades.txt";
-        ArrayList<String> partides = new ArrayList<>();
-        HashSet<String> identificadors = new HashSet<>();
-        try {
-            BufferedReader lector = new BufferedReader(new FileReader(partidesGuardades));
-            String linia;
-            String partida = "";
-            int liniesLlegir = 0;
-            int i = 0;
-            boolean trobat = false;
-            while ((linia = lector.readLine()) != null) {
-                if (linia.contains(nomUsuari+":")) {
-                    if (identificadors.contains(linia)) {
-                        for (int j = 0; j < 4 + Integer.parseInt(lector.readLine()); j++) {
-                            lector.readLine();
+            while ((linia = lector.readLine()) != null && !trobat) {
+                if (linia.contains(nomUsuari + ":")) {
+                    partida.append(linia).append("\n");
+                    int mida = 0;
+                    for (int j = 0; j < 3 + mida ; j++) {
+                        if (j == 2) {
+                            mida = Integer.parseInt(lector.readLine());
+                            partida.append(mida).append("\n");
                         }
-                        continue;
+                        else {
+                            partida.append(lector.readLine()).append("\n");
+                        }
                     }
-                    identificadors.add(linia);
-                    partida = linia;
                     trobat = true;
-                    liniesLlegir = 4;  //sempre son 4 linies
-                } else if (trobat && i < liniesLlegir) {
-                    partida += "\n" + linia;
-                    i++;
-                    if (i == 3) {
-                        liniesLlegir += Integer.parseInt(linia);  //es la mida de la partida
-                    }
-                }
-                if (i == liniesLlegir) {
-                    partides.add(partida);
-                    partida = "";
-                    i = 0;
-                    trobat = false;
                 }
             }
             lector.close();
-            return partides;
-        } catch (IOException e) {
+            return partida.toString();
+        }
+        catch (IOException e) {
             System.out.println("Error al carregar les partides: " + e.getMessage());
             return null;
         }
     }
-
+    /**
+     * Carrega totes les partides guardades per un usuari. L'usuari existeix.
+     * La informació de les partides guardades es troba al fitxer "Data/PartidesGuardades.txt".
+     * A l'utilitzar un HashSet per identificar les partides, es garanteix que no es repeteixen.
+     * Utilitza el format descrit a {@link main.domini.classes.Partida#guardaPartida()}.
+     * @param nomUsuari Nom de l'usuari que ha guardat les partides i les vol carregar.
+     * @return Una llista de cadenes de text amb la informació de les partides guardades.
+     */
+    public ArrayList<String> carregarPartidesGuardades(String nomUsuari) {
+        ArrayList<String> partides = new ArrayList<>();
+        HashSet<String> identificadors = new HashSet<>();
+        try {
+            BufferedReader lector = new BufferedReader(new FileReader(this.fitxerPartidesGuardades_));
+            String linia;
+            while ((linia = lector.readLine()) != null) {
+                if (linia.contains(nomUsuari + ":")) {
+                    if (identificadors.contains(linia)) {
+                        int mida = 0;
+                        for (int j = 0; j < 3 + mida ; j++) {
+                            if (j == 2) {
+                                mida = Integer.parseInt(lector.readLine());
+                            }
+                            else {lector.readLine();}
+                        }
+                        continue;
+                    }
+                    identificadors.add(linia);
+                    StringBuilder partida = new StringBuilder();
+                    partida.append(linia).append("\n");
+                    int mida = 0;
+                    for (int j = 0; j < 3 + mida ; j++) {
+                        if (j == 2) {
+                            mida = Integer.parseInt(lector.readLine());
+                            partida.append(mida).append("\n");
+                        }
+                        else {
+                            partida.append(lector.readLine()).append("\n");
+                        }
+                    }
+                    partides.add(partida.toString());
+                }
+            }
+            lector.close();
+            return partides;
+        }
+        catch (IOException e) {
+            System.out.println("Error al carregar les partides: " + e.getMessage());
+            return null;
+        }
+    }
+    /**
+     * Carrega totes les partides acabades per un usuari. L'usuari existeix.
+     * Busca a tots els fitxers de partides acabades per trobar les partides de l'usuari.
+     * Utilitza el format descrit a {@link main.domini.classes.Partida#acabaPartida()} per retornar la informació.
+     * @param nomUsuari Nom de l'usuari del qual es volen carregar les partides.
+     * @return Una llista de cadenes de text amb la informació de les partides acabades.
+     */
+    public ArrayList<String> carregarPartidesAcabades(String nomUsuari) {
+        try {
+            ArrayList<String> partides = new ArrayList<>();
+            for (String partidesAcabades : this.fitxersPartidesAcabades_) {
+                BufferedReader lector = new BufferedReader(new FileReader(partidesAcabades));
+                String linia;
+                while ((linia = lector.readLine()) != null) {
+                    if (linia.contains(nomUsuari + ":")) {
+                        StringBuilder partida = new StringBuilder();
+                        partida.append(linia).append("\n");
+                        for (int j = 0; j < 4; j++) {
+                            partida.append(lector.readLine()).append("\n");
+                        }
+                        if (partidesAcabades == this.fitxersPartidesAcabades_[0]) {
+                            partida.append("true").append("\n");
+                        }
+                        else {
+                            partida.append("false").append("\n");
+                        }
+                        partides.add(partida.toString());
+                    }
+                }
+            }
+            return partides;
+        }
+        catch (IOException e) {
+            System.out.println("Error al carregar les partides acabades de l'usuari " + nomUsuari + ":" + e.getMessage());
+            return null;
+        }
+    }
+    /**
+     * Carrega totes les partides acabades d'un grau. El grau és vàlid.
+     * La informació de les partides acabades es troba al fitxer "Data/PartidesAcabadesGrau%d.txt" on %d és el grau.
+     * Utilitza el format descrit a {@link main.domini.classes.Partida#acabaPartida()} per retornar la informació.
+     * @param grau Grau de les partides que es volen carregar.
+     * @return Una llista de cadenes de text amb la informació de les partides acabades.
+     */
+    public ArrayList<String> carregaPartidesAcabadesGrau(int grau) {
+        try {
+            ArrayList<String> partides = new ArrayList<>();
+            BufferedReader lector = new BufferedReader(new FileReader(this.fitxersPartidesAcabades_[grau-2]));
+            String linia;
+            while ((linia = lector.readLine()) != null) {
+                StringBuilder partida = new StringBuilder();
+                partida.append(linia).append("\n");
+                for (int j = 0; j < 4; j++) {
+                    partida.append(lector.readLine()).append("\n");
+                }
+                partida.append("false").append("\n");
+                partides.add(partida.toString());
+            }
+            lector.close();
+            return partides;
+        }
+        catch (IOException e) {
+            System.out.println("Error al carregar les partides acabades de grau " + grau + ":" + e.getMessage());
+            return null;
+        }
+    }
+    /**
+     * Guarda una partida.
+     * La partida es guarda a l'inici del fitxer de partides guardades assegurant ordre cronologic.
+     * La informació de la partida es guarda al fitxer "Data/PartidesGuardades.txt".
+     * Utilitza el format descrit a {@link main.domini.classes.Partida#guardaPartida()}.
+     * @param partidaGuardada Una cadena de text amb la informació de la partida a guardar.
+     * @return True si s'ha guardat la partida, false altrament.
+     */
     public boolean guardarPartida(String partidaGuardada) {
-        String partidesGuardades = "Data/PartidesGuardades.txt";
         String tempPartidesGuardades = "Data/tempPartidesGuardades.txt";
         try {
-            BufferedWriter escriptor = new BufferedWriter(new FileWriter(tempPartidesGuardades));
+            BufferedWriter escriptor = new BufferedWriter(new FileWriter(tempPartidesGuardades, true));
             escriptor.write(partidaGuardada);
-            escriptor.newLine();
             escriptor.close();
-            Files.write(Paths.get(tempPartidesGuardades), Files.readAllBytes(Paths.get(partidesGuardades)), StandardOpenOption.APPEND);
-            Files.move(Paths.get(tempPartidesGuardades), Paths.get(partidesGuardades), StandardCopyOption.REPLACE_EXISTING);
+
+            FileInputStream llegir = new FileInputStream(this.fitxerPartidesGuardades_);
+            FileOutputStream copiar = new FileOutputStream(tempPartidesGuardades, true);
+            byte[] buffer = new byte[4096];
+            int mida;
+            while ((mida = llegir.read(buffer)) > 0) {
+                copiar.write(buffer, 0, mida);
+            }
+            llegir.close();
+            copiar.close();
+            Files.move(Paths.get(tempPartidesGuardades), Paths.get(this.fitxerPartidesGuardades_), StandardCopyOption.REPLACE_EXISTING);
             return true;
         } catch (IOException e) {
             System.out.println("Error al guardar la partida: " + e.getMessage());
             return false;
         }
     }
-
+    /**
+     * Arxiva una partida acabada.
+     * La partida arxivada es guarda al final del fitxer de partides acabades.
+     * La informació de la partida es guarda al fitxer "Data/PartidesAcabadesGuardades.txt" si havia estat guardada.
+     * O al fitxer "Data/PartidesAcabadesGrau%d.txt" on %d és el grau de la partida.
+     * S'elimina la partida arxivada del fitxer de partides guardades.
+     * Utilitza el format descrit a {@link main.domini.classes.Partida#acabaPartida()} per a llegir la partida.
+     * Però la guarda al fitxer com a:
+     * Identificador de la partida
+     * Identificador de l'usuari
+     * Identificador del tauler
+     * Temps total de la partida
+     * Grau del tauler
+     * Total: 5 línies.
+     * El si és guardada o no ve implicit en el nom del fitxer.
+     * @param partidaAcabada Una cadena de text amb la informació de la partida a arxivar.
+     * @return True si s'ha arxivat la partida, false altrament.
+     */
     public boolean arxivarPartida(String partidaAcabada) {
-        String partidesAcabades = "Data/PartidesAcabades.txt";
-        String tempPartidesAcabades = "Data/tempPartidesAcabades.txt";
-        String partidesGuardades = "Data/PartidesGuardades.txt";
         String tempPartidesGuardades = "Data/tempPartidesGuardades.txt";
         try {
-            String identificador = partidaAcabada.split("\n")[0];
-            BufferedReader reader = new BufferedReader(new FileReader(partidesGuardades));
-            BufferedWriter writer = new BufferedWriter(new FileWriter(tempPartidesGuardades));
-
-            String liniaActual;
-            while ((liniaActual = reader.readLine()) != null) {
-                String trimmedLine = liniaActual.trim();
-                if (trimmedLine.equals(identificador)) {
-                    for (int i = 0; i < 4 + Integer.parseInt(reader.readLine()); i++) {
-                        reader.readLine();
-                    }
-                    continue;
-                }
-                writer.write(liniaActual + System.getProperty("line.separator"));
+            String[] linies = partidaAcabada.split("\n");
+            StringBuilder formatGuardar = new StringBuilder();
+            for (int i = 0; i < 5; i++) {
+                formatGuardar.append(linies[i]).append("\n");
             }
-            writer.close();
-            reader.close();
-
-            Files.move(Paths.get(tempPartidesGuardades), Paths.get(partidesGuardades), StandardCopyOption.REPLACE_EXISTING);
-
-            BufferedWriter escriptor = new BufferedWriter(new FileWriter(tempPartidesAcabades));
-            escriptor.write(partidaAcabada);
-            escriptor.newLine();
+            String identificador = linies[0];
+            int mida = Integer.parseInt(linies[4]);
+            boolean guardada = Boolean.parseBoolean(linies[5]);
+            int midaTotal = 4 + mida;
+            String fitxerDestinacio;
+            if (guardada) {
+                fitxerDestinacio = "Data/PartidesAcabadesGuardades.txt";
+            } else {
+                fitxerDestinacio = "Data/PartidesAcabadesGrau" + mida + ".txt";
+            }
+            BufferedWriter escriptor = new BufferedWriter(new FileWriter(fitxerDestinacio, true));
+            escriptor.write(formatGuardar.toString());
             escriptor.close();
-            Files.write(Paths.get(tempPartidesAcabades), Files.readAllBytes(Paths.get(partidesAcabades)), StandardOpenOption.APPEND);
-            Files.move(Paths.get(tempPartidesAcabades), Paths.get(partidesAcabades), StandardCopyOption.REPLACE_EXISTING);
+            BufferedReader llegir = new BufferedReader(new FileReader(this.fitxerPartidesGuardades_));
+            BufferedWriter copiar = new BufferedWriter(new FileWriter(tempPartidesGuardades));
+            String linia;
+            while ((linia = llegir.readLine()) != null) {
+                if (linia.contains(identificador)) {
+                    for (int i = 0; i < midaTotal; i++) {
+                        llegir.readLine();
+                    }
+                } else {
+                    copiar.write(linia);
+                    copiar.newLine();
+                }
+            }
+            copiar.close();
+            llegir.close();
             return true;
         } catch (IOException e) {
             System.out.println("Error al arxivar la partida: " + e.getMessage());

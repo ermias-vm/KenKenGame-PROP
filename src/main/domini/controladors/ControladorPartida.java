@@ -1,5 +1,7 @@
-package main.domini.classes;
-
+package main.domini.controladors;
+import main.domini.classes.Partida;
+import main.domini.classes.Tauler;
+import main.domini.excepcions.*;
 import main.persistencia.ControladorPersistenciaPartida;
 
 import java.util.ArrayList;
@@ -20,15 +22,15 @@ public class ControladorPartida {
         controladorKenken_ = controladorKenken;
         return true;
     }
-    public String[] carregarUltimaPartidaGuardada(String nomUsuari){
+    public String[] carregarUltimaPartidaGuardada(String nomUsuari) throws ExcepcioCarregaPartida {
         String partida = controladorPersistenciaPartida_.carregarUltimaPartida(nomUsuari);
         partida_ = stringToPartida(partida, nomUsuari);
         if (partida_ == null) throw new ExcepcioCarregaPartida("No s'ha pogut carregar la partida");
         String partidaText = partida_.generaPartidaText();
-        String taulerText = partida_.getTauler().generaTaulerText();
+        String taulerText = partida_.getTaulerPartida().generaTaulerText();
         return new String[]{partidaText, taulerText};
     }
-    public ArrayList<String> carregarPartidesGuardadesUsuari(String nomUsuari){
+    public ArrayList<String> carregarPartidesGuardadesUsuari(String nomUsuari) throws ExcepcioCarregaPartida {
         ArrayList<String>partides = controladorPersistenciaPartida_.carregarPartides(nomUsuari);
         ArrayList<String> identificadorsPartidesUsuari = new ArrayList<>();
        for (String partida : partides) {
@@ -37,62 +39,60 @@ public class ControladorPartida {
            partidesUsuari_.put(clau, partida);
            identificadorsPartidesUsuari.add(clau);
         }
-        if (partidesUsuari_ == null) identificadorsPartidesUsuari.add("No hi ha partides guardades");
+        if (partidesUsuari_ == null) throw new ExcepcioCarregaPartida("No hi ha cap partida guardada per aquest usuari");
         return identificadorsPartidesUsuari;
     }
 
-    public String[] carregarPartidaGuardada(String identificadorPartida, String nomUsuari){
+    public String[] carregarPartidaGuardada(String identificadorPartida, String nomUsuari) throws ExcepcioCarregaPartida {
         String partida = partidesUsuari_.get(identificadorPartida);
         partida_ = stringToPartida(partida, nomUsuari);
         if (partida_ == null){
             throw new ExcepcioCarregaPartida("No s'ha pogut carregar la partida amb identificador " + identificadorPartida);
         }
         String partidaText = partida_.generaPartidaText();
-        String taulerText = partida_.getTauler().generaTaulerText();
+        String taulerText = partida_.getTaulerPartida().generaTaulerText();
         return new String[]{partidaText, taulerText};
     }
-    public String[] començaPartidaIdentificadorTauler(String identificadorTauler,String nomUsuari){
+    public String[] començaPartidaIdentificadorTauler(String identificadorTauler, String nomUsuari) throws ExcepcioCarregaTauler {
         Tauler tauler = controladorKenken_.carregarKenken(identificadorTauler);
         if (tauler == null) throw new ExcepcioCarregaTauler("No s'ha pogut carregar el tauler amb identificador " + identificadorTauler);
-        partida_ = new Partida(tauler.getMida(), nomUsuari, tauler);
+        partida_ = new Partida(tauler.getGrau(), nomUsuari, tauler);
         String partidaText = partida_.generaPartidaText();
-        String taulerText = partida_.getTauler().generaTaulerText();
+        String taulerText = partida_.getTaulerPartida().generaTaulerText();
         return new String[]{partidaText, taulerText};
     }
-    public String[] començaPartidaDadesTauler(String dadesTauler, String nomUsuari){
+    public String[] començaPartidaDadesTauler(String dadesTauler, String nomUsuari) throws ExcepcioCarregaTauler {
         Tauler tauler = controladorKenken_.creaKenken(dadesTauler);
         if (tauler == null) throw new ExcepcioCarregaTauler("No s'ha pogut crear el tauler amb les dades donades");
-        partida_ = new Partida(tauler.getMida(), nomUsuari, tauler);
+        partida_ = new Partida(tauler.getGrau(), nomUsuari, tauler);
         String partidaText = partida_.generaPartidaText();
-        String taulerText = partida_.getTauler().generaTaulerText();
+        String taulerText = partida_.getTaulerPartida().generaTaulerText();
         return new String[]{partidaText, taulerText};
     }
-    public String introduirValor(int fila, int columna, int valor){
+    public String introduirValor(int fila, int columna, int valor) throws ExcepcioCarregaPartida, ExcepcionPosicioIncorrecta, ExcepcioValorInvalid, ExcepcioPartidaTancada, ExcepcioPartidaAcabada {
         if (partida_ == null) throw new ExcepcioCarregaPartida("No hi ha cap partida carregada");
-        if (partida_.getTauler().getMida() <= fila || partida_.getTauler().getMida() <= columna) throw new ExcepcioValorForaTauler("La posició no és vàlida");
-        if (valor < 1 || valor > partida_.getTauler().getMida()) throw new ExcepcioValorIncorrecte("El valor no és vàlid");
-        partida_.introduirValor(fila, columna, valor);
+        partida_.setValorPartida(fila, columna, valor);
         return partida_.generaPartidaText();
     }
-    public boolean guardarPartida(String nomUsuari){
+    public boolean guardarPartida(String nomUsuari) throws ExcepcioCarregaPartida, ExcepcioPartidaTancada, ExcepcioPartidaAcabada {
         if (partida_ == null) throw new ExcepcioCarregaPartida("No hi ha cap partida carregada");
         if (!partida_.getUsuariPartida().equals(nomUsuari)) throw new ExcepcioCarregaPartida("El nom d'usuari no coincideix");
         controladorPersistenciaPartida_.guardarPartida(partida_.guardaPartida());
         return true;
     }
-    public boolean tancarIguardarPartida(){
+    public boolean tancarIguardarPartida() throws ExcepcioCarregaPartida, ExcepcioPartidaTancada, ExcepcioPartidaAcabada {
         if (partida_ == null) throw new ExcepcioCarregaPartida("No hi ha cap partida carregada");
         controladorPersistenciaPartida_.guardarPartida(partida_.tancaIGuardaPartida());
         partida_= null;
         return true;
     }
-    public boolean acabarPartida(){
+    public boolean acabarPartida() throws ExcepcioCarregaPartida, ExcepcioPartidaTancada, ExcepcioPartidaMalament, ExcepcioPartidaAcabada {
         if (partida_ == null) throw new ExcepcioCarregaPartida("No hi ha cap partida carregada");
         controladorPersistenciaPartida_.arxivarPartida(partida_.acabaPartida());
         partida_= null;
         return true;
     }
-    private Partida stringToPartida(String partida, String nomUsuari){
+    private Partida stringToPartida(String partida, String nomUsuari) throws ExcepcioCarregaPartida {
         String[] divisio = partida.split("\n");
         String identificadorPartida = divisio[0];
         String[] parts = identificadorPartida.split(":");
