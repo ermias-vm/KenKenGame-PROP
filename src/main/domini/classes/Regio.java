@@ -2,13 +2,13 @@ package main.domini.classes;
 import main.domini.excepcions.*;
  
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 
 public class Regio {
 
     private int tamany;
-    private Vector<Casella> vectorCasellas;
+    protected ArrayList<Casella> casellas;
 	
 
      
@@ -16,7 +16,7 @@ public class Regio {
     	try {
 			if (tam < 1) throw new ExcepcionTamanyIncorrecte();
 			tamany = tam;
-			vectorCasellas = new Vector<Casella>(tam);			
+			casellas = new ArrayList<Casella>();			
 		} catch (ExceptionTamanyIncorrecte e) {
 			System.out.println(e.getMessage());
 			
@@ -24,11 +24,13 @@ public class Regio {
 		}
     }
      
-    public Regio (Vector<Casella> vc) {
+    public Regio (int tam, ArrayList<Casella> vc) {
     	try {
 			if (vc.size() < 1) throw new ExcepcionTamanyIncorrecte();
-			tamany = v.size();
-			vectorCasellas = vc;
+			if (tam != vc.size()) throw new ExcepcionTamanyIncorrecte();
+
+			tamany = vc.size();
+			casellas = vc;
 		} catch (ExcepcionTamanyIncorrecte e) {
 			System.out.println(e.getMessage());
 		}
@@ -41,7 +43,7 @@ public class Regio {
     public int getNumCasellasPlenas() { 
         int NumCasellasPlenas = tamany;
         for (int i = 0; i < tamany; ++i) {
-            if (vectorCasellas.get(i).esBuida()) NumCasellasPlenas--;
+            if (casellas.get(i).esBuida()) NumCasellasPlenas--;
         }
         return NumCasellasPlenas;
     }
@@ -49,7 +51,7 @@ public class Regio {
     public boolean esBuida(int pos) {
     	try {
 			if (pos < 0 || pos >= tamany) throw new ExcepcionPosicioIncorrecta();
-			return (vectorCasellas.get(pos).esBuida());
+			return (vectorCellas.get(pos).esBuida());
 		} catch (ExcepcionPosicioIncorrecta e) {
 			System.out.println(e.getMessage());
 			return false;
@@ -59,7 +61,7 @@ public class Regio {
     public Casella getCasella(int pos) {
     	try {
 			if (pos < 0 || pos >= tam) throw new ExcepcionPosicioIncorrecta();
-			return (vectorCasellas.get(pos));
+			return (casellas.get(pos));
 		} catch (ExcepcionPosicioIncorrecta e) {
 			System.out.println(e.getMessage());
 			return new Casella();
@@ -69,7 +71,7 @@ public class Regio {
     public int getValor(int pos) {
     	try {
 			if (pos < 0 || pos >= tam) throw new ExcepcionPosicioIncorrecta();
-			return (vectorCasellas.get(pos).getValor());
+			return (casellas.get(pos).getValor());
 		} catch (ExcepcionPosicioIncorrecta e) {
 			System.out.println(e.getMessage());
 			return -1;
@@ -80,7 +82,7 @@ public class Regio {
     	try {
 			if (pos < 0 || pos >= tam) throw new ExcepcionPosicioIncorrecta();
 			if (val < 1 || val > tam) throw new ExcepcionPosicioIncorrecta();
-			vectorCasellas.get(pos).setValor(val);
+			casellas.get(pos).setValor(val);
 		} catch (ExcepcionPosicioIncorrecta e) {
 			System.out.println(e.getMessage());
 		
@@ -88,14 +90,15 @@ public class Regio {
      
     public void borra(int pos) {
     	try {
-			if (pos < 0 || pos >= tam) throw (new ExcepcionPosicioIncorrecta());
-			vectorCasellas.get(pos).borra();
+			if (pos < 0 || pos >= casellas.size) throw (new ExcepcionPosicioIncorrecta());
+			casellas.get(pos).borra();
 		} catch (ExcepcionPosicioIncorrecta e) {
 			System.out.println(e.getMessage());
 		}
     }
 
 	
-     
+
+	
     
 }
