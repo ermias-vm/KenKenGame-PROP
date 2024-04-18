@@ -1,53 +1,80 @@
 package main.domini.classes.operacions;
-import main.domini.classes.ErrorConstantsOperacions;
+import main.domini.excepcions.ExcepcioDivisio_0;
+import main.domini.excepcions.ExcepcioMoltsValors;
 import main.domini.interficies.Operacio;
-import java.util.ArrayList;
-import java.util.Collections;
-
+import java.util.HashSet;
+import java.util.Set;
+/**
+ * La classe {@code Resta} és una implementació de la interfície {@code Operacio}
+ * que realitza els càlculs mitjançant l'operacio de resta d'enters.
+ * @autor Nil Beascoechea Vàzquez
+ */
 public class Resta implements Operacio {
-
+    /**
+     * Realitza la resta de dos enters independentment de l'ordre.
+     *
+     * @param a Primer enter
+     * @param b Segon enter
+     * @return El valor absolut de la resta d'ambdós enters
+     */
+    @Override
     public int opera2(int a, int b) {
         return Math.abs(a-b);
     }
 
-    public int operaN(int[] valors) {
-            if (valors.length != 2) { return ErrorConstantsOperacions.ERROR_INT_MIDA;}
+    /**
+     * Realitza la resta de dos enters independentment de l'ordre donats com a vector.
+     *
+     * @param valors Un vector d'enters a restar
+     * @throws ExcepcioMoltsValors Si el vector té més de dos valors
+     * @return El valor absolut de la resta de tots els enters del vector
+     */
+    @Override
+    public int operaN(int[] valors) throws ExcepcioMoltsValors {
+            if (valors.length != 2) { throw new ExcepcioMoltsValors(2, "EQ");}
             else return Math.abs(valors[0]-valors[1]);
     }
-
-    public ArrayList<Integer> calculaPossiblesValors(int Resultat, int midaTauler, int midaRegio, int[] valors) {
+    /**
+     * Calcula totes les possibles solucions de dos enters d'1 a la mida del tauler que restats donin el resultat introduït.
+     *  Es poden passar valors inicials per a que el mètode els tingui en compte.
+     *  Retorna els valors d'1 a midaTauler que apareixen en alguna de les solucions calculades.
+     *
+     * @param resultat El resultat de la resta que volem trobar.
+     * @param midaTauler La mida del tauler on es calcula.
+     * @param midaRegio La mida de la regió on es calcula.
+     * @param valors Un vector d'enters que conté els valors inicials de la regió a partir dels quals es calcula si hi ha possible solució i quina.
+     *               No pot ser igual a la mida de la regió. És a dir la regió no pot estar plena.
+     * @throws ExcepcioMoltsValors Si el vector té igual o més de dos valors o la regió té més de dues caselles.
+     * @throws ExcepcioDivisio_0 Si algun dels valors és 0.
+     * @return Tots els possibles valors únics que poden ser solució.
+     */
+    @Override
+    public Set<Integer> calculaPossiblesValors(int resultat, int midaTauler, int midaRegio, int[] valors) throws ExcepcioMoltsValors {
         if (midaRegio != 2) {
-            return ErrorConstantsOperacions.ERROR_ARRAY_MIDA;
+            throw new ExcepcioMoltsValors(2, "EQ");
+        }
+        if (valors.length >= 2) {
+            throw new ExcepcioMoltsValors(1, "MAX");
         }
         else {
+            Set<Integer> solucions = new HashSet<>();
             if (valors.length == 1) {
-                ArrayList<Integer> finsDosResultats = new ArrayList<>();
-                int resta = valors[0] - Resultat;
+                int resta = valors[0] - resultat;
                 if (resta > 0 && resta <= midaTauler) {
-                    finsDosResultats.add(resta);
+                    solucions.add(resta);
                 }
-                int suma = valors[0] + Resultat;
+                int suma = valors[0] + resultat;
                 if (suma > 0 && suma <= midaTauler) {
-                    finsDosResultats.add(suma);
+                    solucions.add(suma);
                 }
-                return finsDosResultats;
             }
-            ArrayList<Integer> solucions = new ArrayList<>();
-            boolean[] jaPosat = new boolean[midaTauler];
             for (int i = 1; i <= midaTauler; i++) {
-                int resta = Resultat + i;
+                int resta = resultat + i;
                 if (resta > 0 && resta <= midaTauler) {
-                    if (!jaPosat[i-1]) {
                         solucions.add(i);
-                        jaPosat[i-1] = true;
-                    }
-                    if (!jaPosat[resta-1]) {
                         solucions.add(resta);
-                        jaPosat[resta-1] = true;
-                    }
                 }
             }
-            Collections.sort(solucions);
             return solucions;
         }
     }

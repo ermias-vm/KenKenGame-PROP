@@ -11,9 +11,4 @@ public class ExcepcioValorInvalid extends Exception {
         super(s);
         this.missatge = s;
     }
-
-    @Override
-    public String toString() {
-        return "Excepcio Partida: " + missatge;
-    }
 }
