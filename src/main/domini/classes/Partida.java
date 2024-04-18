@@ -123,7 +123,6 @@ public class Partida {
         this.tempsPartida_ = this.calculaTemps();
         StringBuilder textPartidaGuardada = new StringBuilder();
         textPartidaGuardada.append(this.identificadorPartida_).append('\n')
-                .append(this.identificadorUsuariPartida_).append('\n')
                 .append(this.getIdentificadorTaulerPartida()).append('\n')
                 .append(String.valueOf(tempsPartida_)).append('\n')
                 .append(this.midaPartida_).append('\n');
@@ -146,7 +145,6 @@ public class Partida {
         this.guardadaPartida_ = true;
         StringBuilder textPartidaGuardada = new StringBuilder();
         textPartidaGuardada.append(this.identificadorPartida_).append('\n')
-                .append(this.identificadorUsuariPartida_).append('\n')
                 .append(this.getIdentificadorTaulerPartida()).append('\n')
                 .append(String.valueOf(this.calculaTemps())).append('\n')
                 .append(this.midaPartida_).append('\n');
@@ -157,6 +155,16 @@ public class Partida {
             }
         }
         return textPartidaGuardada.toString();
+    }
+    public String generaPartidaText() {
+        StringBuilder textPartida = new StringBuilder();
+        for (int i = 0; i < this.midaPartida_; i++) {
+            for (int j = 0; j < this.midaPartida_; j++) {
+                if (j != this.midaPartida_ - 1) textPartida.append(String.valueOf(this.valorsPartida_[i][j])).append(" ");
+                else textPartida.append(String.valueOf(this.valorsPartida_[i][j])).append("\n");
+            }
+        }
+        return textPartida.toString();
     }
     private int calculaTemps() {
         //for testing purposes
@@ -169,6 +177,6 @@ public class Partida {
     }
     private String creaIdentificadorPartida() {
         String inici = this.iniciPartida_.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-        return this.identificadorUsuariPartida_ + inici;
+        return this.identificadorUsuariPartida_ +":"+ inici;
     }
 }

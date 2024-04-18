@@ -19,7 +19,7 @@ public class Multiplicacio implements Operacio {
         return multiplicacio;
     }
 
-    public int[] calculaPossiblesValors(int Resultat,int midaTauler, int midaRegio, int[] valors) {
+    public ArrayList<Integer> calculaPossiblesValors(int Resultat, int midaTauler, int midaRegio, int[] valors) {
         if (valors.length > midaRegio) {return ErrorConstantsOperacions.ERROR_ARRAY_MIDA;}
         int nombreRepeticions = (midaRegio + 1)/2;
         int[] vegadesRepetibles = new int[midaTauler];
@@ -50,8 +50,7 @@ public class Multiplicacio implements Operacio {
             }
         }
         Collections.sort(possiblesValorsUnics);
-        int[] solucionsToInt = possiblesValorsUnics.stream().mapToInt(i -> i).toArray();
-        return solucionsToInt;
+        return possiblesValorsUnics;
     }
     private void calculaPossiblesValorsBacktrack(int[] vegadesRepetibles,int min, int midaTauler, int midaUtil, int multiplicacio, ArrayList<ArrayList<Integer>> solucions, ArrayList<Integer> solucioParcial) {
         //Cas base
