@@ -6,19 +6,11 @@ import java.util.List;
 public class Tauler {
     private int idTauler;
     private int grau;
-<<<<<<< HEAD
-    private List<Regio> regions;
-=======
->>>>>>> 1eb2b4491d4aecd606290fd75ce30526687ce95f
     private List<Casella> caselles;
 
     public Tauler(int idTauler, int grau) {
         this.idTauler = idTauler;
         this.grau = grau;
-<<<<<<< HEAD
-        this.regions = new ArrayList<>();
-        this.caselles = new ArrayList<>();
-=======
         this.caselles = new ArrayList<>();
     }
 
@@ -26,7 +18,6 @@ public class Tauler {
         this.idTauler = idTauler;
         this.grau = grau;
         this.caselles = caselles;
->>>>>>> 1eb2b4491d4aecd606290fd75ce30526687ce95f
     }
 
     public int getIdTauler() {
