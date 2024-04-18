@@ -5,12 +5,6 @@ import java.util.ArrayList;
 
 public class TaulerJoc extends Tauler {
 
-
-    /**
-     * @param x 
-     * 
-     */
-
     private boolean trobat;
     private List<RegioJoc> regionsJoc;
 
