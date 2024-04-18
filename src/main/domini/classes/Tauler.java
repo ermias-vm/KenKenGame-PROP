@@ -6,14 +6,27 @@ import java.util.List;
 public class Tauler {
     private int idTauler;
     private int grau;
+<<<<<<< HEAD
     private List<Regio> regions;
+=======
+>>>>>>> 1eb2b4491d4aecd606290fd75ce30526687ce95f
     private List<Casella> caselles;
 
     public Tauler(int idTauler, int grau) {
         this.idTauler = idTauler;
         this.grau = grau;
+<<<<<<< HEAD
         this.regions = new ArrayList<>();
         this.caselles = new ArrayList<>();
+=======
+        this.caselles = new ArrayList<>();
+    }
+
+    public Tauler(int idTauler, int grau, ArrayList<Casella> caselles) {
+        this.idTauler = idTauler;
+        this.grau = grau;
+        this.caselles = caselles;
+>>>>>>> 1eb2b4491d4aecd606290fd75ce30526687ce95f
     }
 
     public int getIdTauler() {
@@ -24,27 +37,24 @@ public class Tauler {
         return grau;
     }
 
-    public List<Regio> getRegions() {
-        return regions;
+    public Casella getCasella(int x, int y) {
+        for (Casella casella : this.caselles) {
+            if (casella.getPosX() == x && casella.getPosY() == y) {
+                return casella;
+            }
+        }
+        return null;
     }
 
     public List<Casella> getCaselles() {
         return caselles;
     }
 
-    public void afegirRegio(Regio regio) {
-        regions.add(regio);
-    }
-
-    public void esborrarRegio(Regio regio) {
-        regions.remove(regio);
-    }
-
     public void afegirCasella(Casella casella) {
         caselles.add(casella);
     }
 
-    public void esborrarCasella(Casella casella) {
+    public void borrarCasella(Casella casella) {
         caselles.remove(casella);
     }
 

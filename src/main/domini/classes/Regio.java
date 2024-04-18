@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Regio {
 
     private int tamany;
-    protected ArrayList<Casella> casellas;
+	private ArrayList<Casella> caselles;
 	
 
      
@@ -16,7 +16,7 @@ public class Regio {
     	try {
 			if (tam < 1) throw new ExcepcionTamanyIncorrecte();
 			tamany = tam;
-			casellas = new ArrayList<Casella>();			
+			caselles = new ArrayList<Casella>();			
 		} catch (ExcepcionTamanyIncorrecte e) {
 			System.out.println(e.getMessage());
 			
@@ -29,28 +29,32 @@ public class Regio {
 			if (vc.size() < 1) throw new ExcepcionTamanyIncorrecte();
 
 			tamany = vc.size();
-			casellas = vc;
+			caselles = vc;
 		} catch (ExcepcionTamanyIncorrecte e) {
 			System.out.println(e.getMessage());
 		}
     }
-     
-    public int getNumCasellas() {
+
+	public ArrayList<Casella> getCaselles() {
+		return this.caselles;
+	}
+
+    public int getTamany() {
         return tamany;
     }
      
-    public int getNumCasellasPlenas() { 
-        int NumCasellasPlenas = tamany;
+    public int getNumcasellesPlenas() { 
+        int NumcasellesPlenas = tamany;
         for (int i = 0; i < tamany; ++i) {
-            if (casellas.get(i).esBuida()) NumCasellasPlenas--;
+            if (caselles.get(i).esBuida()) NumcasellesPlenas--;
         }
-        return NumCasellasPlenas;
+        return NumcasellesPlenas;
     }
      
     public boolean esBuida(int pos) {
     	try {
 			if (pos < 0 || pos >= tamany) throw new ExcepcionPosicioIncorrecta();
-			return (casellas.get(pos).esBuida());
+			return (caselles.get(pos).esBuida());
 		} catch (ExcepcionPosicioIncorrecta e) {
 			System.out.println(e.getMessage());
 			return false;
@@ -60,7 +64,7 @@ public class Regio {
     public Casella getCasella(int pos) {
     	try {
 			if (pos < 0 || pos >= tamany) throw new ExcepcionPosicioIncorrecta();
-			return (casellas.get(pos));
+			return (caselles.get(pos));
 		} catch (ExcepcionPosicioIncorrecta e) {
 			System.out.println(e.getMessage());
 			return null;
@@ -70,7 +74,7 @@ public class Regio {
     public int getValor(int pos) {
     	try {
 			if (pos < 0 || pos >= tamany) throw new ExcepcionPosicioIncorrecta();
-			return (casellas.get(pos).getValor());
+			return (caselles.get(pos).getValor());
 		} catch (ExcepcionPosicioIncorrecta e) {
 			System.out.println(e.getMessage());
 			return -1;
@@ -81,7 +85,7 @@ public class Regio {
     	try {
 			if (pos < 0 || pos >= tamany) throw new ExcepcionPosicioIncorrecta();
 			if (val < 1 || val > tamany) throw new ExcepcionPosicioIncorrecta();
-			casellas.get(pos).setValor(val);
+			caselles.get(pos).setValor(val);
 		} catch (ExcepcionPosicioIncorrecta e) {
 			System.out.println(e.getMessage());
 		}
@@ -90,8 +94,8 @@ public class Regio {
      
     public void borra(int pos) {
     	try {
-			if (pos < 0 || pos >= casellas.size()) throw (new ExcepcionPosicioIncorrecta());
-			casellas.get(pos).borrarValor();
+			if (pos < 0 || pos >= caselles.size()) throw (new ExcepcionPosicioIncorrecta());
+			caselles.get(pos).borrarValor();
 		} catch (ExcepcionPosicioIncorrecta e) {
 			System.out.println(e.getMessage());
 		}

@@ -5,12 +5,6 @@ import java.util.ArrayList;
 
 public class TaulerJoc extends Tauler {
 
-
-    /**
-     * @param x 
-     * 
-     */
-
     private boolean trobat;
     private List<RegioJoc> regionsJoc;
 
@@ -18,10 +12,6 @@ public class TaulerJoc extends Tauler {
         super(idTauler, grau);
         this.regionsJoc = new ArrayList<>();
     }
-
-    //// x, y, num estan a rang  [1,grau]  (Implementar codis error)
-    
-    ////
 
     public void afegirRegioJoc(RegioJoc regioJoc) {
         this.regionsJoc.add(regioJoc);

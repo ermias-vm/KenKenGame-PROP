@@ -14,12 +14,11 @@ public class RegioJoc extends Regio {
         this.resultat = resultat;
     }
 
-    public RegioJoc(List<Casella> caselles, int operacio, int resultat) {
+    public RegioJoc(ArrayList<Casella> caselles, int operacio, int resultat) {
         super(caselles);
         this.operacio = operacio;
         this.resultat = resultat;
     }
-
 
     public int getOperacio() {
         return this.operacio;
@@ -33,11 +32,12 @@ public class RegioJoc extends Regio {
         return this.resultat;
     }
 
-    public void setResultat(int resultat) {
+    public void seResultat(int resultat) {
         this.resultat = resultat;
     }
 
     public boolean esCompleta() {
+        ArrayList<Casella> caselles = getCaselles();
         for (Casella casella : caselles) {
             if (casella.esBuida()) {
                 return false;
