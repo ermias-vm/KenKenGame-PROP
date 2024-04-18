@@ -6,14 +6,14 @@ import java.util.List;
 public class Tauler {
     private int idTauler;
     private int grau;
-    //private List<Regio> regions;
-    //private List<Casella> caselles;
+    private List<Regio> regions;
+    private List<Casella> caselles;
 
     public Tauler(int idTauler, int grau) {
         this.idTauler = idTauler;
         this.grau = grau;
-        //this.regions = new ArrayList<>();
-        //this.caselles = new ArrayList<>();
+        this.regions = new ArrayList<>();
+        this.caselles = new ArrayList<>();
     }
 
     public int getIdTauler() {

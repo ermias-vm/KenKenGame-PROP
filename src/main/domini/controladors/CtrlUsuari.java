@@ -1,11 +1,12 @@
-package main.domain.controllers;
+package main.domini.controladors;
 
-import main.domain.classes.Usuari;
+import main.domini.classes.Usuari;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.*;
+import java.util.Scanner;
 
 /**
  * Controlador para gestionar las operaciones relacionadas con los usuarios.
@@ -123,7 +124,7 @@ public class CtrlUsuari {
     }
 
     /**
-     * Deixo aixo comentat perque no crec que ho necessitem, pero esta per si de cas.
+     * Deixo aixo comentat perque tot i que no crec que ho necessitem, ja esta per si de cas.
      */
     /*
     public void tancarSessio() {
