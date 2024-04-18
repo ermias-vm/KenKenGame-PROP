@@ -5,6 +5,12 @@ import java.util.ArrayList;
 
 public class TaulerJoc extends Tauler {
 
+
+    /**
+     * @param x 
+     * 
+     */
+
     private boolean trobat;
     private List<RegioJoc> regionsJoc;
 
@@ -14,25 +20,7 @@ public class TaulerJoc extends Tauler {
     }
 
     //// x, y, num estan a rang  [1,grau]  (Implementar codis error)
-    public int getValor(int x, int y) {
-        return getCasella(x, y).getValor();
-    }
-
-    public void setValor(int x, int y, int num) {
-        getCasella(x, y).setValor(num);
-    }
-
-    public void borrarValor(int x, int y) {
-        getCasella(x, y).borrarValor();
-    }
-
-    public boolean esModificable(int x, int y) {
-        return getCasella(x, y).esModificable();
-    }
-
-    public boolean esBuida(int x, int y) {
-        return getCasella(x, y).esBuida();
-    }
+    
     ////
 
     public void afegirRegioJoc(RegioJoc regioJoc) {
