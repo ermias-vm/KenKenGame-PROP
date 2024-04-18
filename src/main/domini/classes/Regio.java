@@ -24,10 +24,9 @@ public class Regio {
 		}
     }
      
-    public Regio (int tam, ArrayList<Casella> vc) {
+    public Regio (ArrayList<Casella> vc) {
     	try {
 			if (vc.size() < 1) throw new ExcepcionTamanyIncorrecte();
-			if (tam != vc.size()) throw new ExcepcionTamanyIncorrecte();
 
 			tamany = vc.size();
 			casellas = vc;
