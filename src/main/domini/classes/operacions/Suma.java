@@ -66,6 +66,12 @@ public class Suma implements Operacio{
         calculaPossiblesValorsBacktrack(vegadesRepetibles,1,midaTauler, midaUtil, sumatori, solucions, new ArrayList<>());
         return solucions;
     }
+
+    @Override
+    public int getNumOperacio() {
+        return 1;
+    }
+
     /**
      * Funció d'ajuda per a calcular les possibles solucions de la suma mitjançant backtracking.
      *

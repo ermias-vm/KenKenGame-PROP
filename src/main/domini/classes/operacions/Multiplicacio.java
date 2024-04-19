@@ -81,6 +81,12 @@ public class Multiplicacio implements Operacio {
         calculaPossiblesValorsBacktrack(vegadesRepetibles,1,midaTauler, midaUtil, multiplicacio, solucions, new ArrayList<>());
         return solucions;
     }
+
+    @Override
+    public int getNumOperacio() {
+        return 3;
+    }
+
     /**
      * Funcio ajuda per a calcular les possibles solucions de la multiplicació mitjançant backtracking.
      *

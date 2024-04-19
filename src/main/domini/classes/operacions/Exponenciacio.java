@@ -4,11 +4,16 @@ import main.domini.classes.ErrorConstantsOperacions;
 import main.domini.excepcions.ExcepcioMoltsValors;
 import main.domini.interficies.Operacio;
 
+import java.util.Set;
+
 public class Exponenciacio implements Operacio {
+
+    @Override
     public int opera2(int a, int b) {
         return (int) Math.pow(a, b);
     }
 
+    @Override
     public int operaN(int[] valors) {
         try {
             if (valors.length != 2) { throw new ExcepcioMoltsValors(2, "EQ");}
@@ -16,11 +21,18 @@ public class Exponenciacio implements Operacio {
         }
         catch (ExcepcioMoltsValors e) {
             System.out.println(e.getMessage());
-            return ErrorConstantsOperacions.ERROR_INT;
         }
+        return -1;
     }
 
-    public int[]calculaPossiblesValors(int Resultat,int midaTauler, int midaRegio, int[] valors){
-        return new int[0];
+    @Override
+    public Set<Integer> calculaPossiblesValors(int Resultat, int midaTauler, int midaRegio, int[] valors) {
+        return null;
     }
+
+    @Override
+    public int getNumOperacio() {
+        return 6;
+    }
+
 }

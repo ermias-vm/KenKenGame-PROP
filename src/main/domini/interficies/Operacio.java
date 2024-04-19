@@ -35,4 +35,5 @@ public interface Operacio {
      * @return tots els possibles valors únics que poden ser solució.
      */
     public Set<Integer> calculaPossiblesValors(int Resultat, int midaTauler, int midaRegio, int[] valors) throws Exception;
+    public int getNumOperacio();
 }

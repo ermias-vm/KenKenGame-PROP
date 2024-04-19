@@ -89,6 +89,12 @@ public class Divisio implements Operacio {
             return solucions;
         }
     }
+
+    @Override
+    public int getNumOperacio() {
+        return 4;
+    }
+
     /**
      * Diu si un enter és divisible per l'altre.
      *

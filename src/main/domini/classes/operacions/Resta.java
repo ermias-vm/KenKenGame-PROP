@@ -78,4 +78,9 @@ public class Resta implements Operacio {
             return solucions;
         }
     }
+
+    @Override
+    public int getNumOperacio() {
+        return 2;
+    }
 }
