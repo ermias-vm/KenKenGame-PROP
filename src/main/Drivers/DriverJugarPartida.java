@@ -26,27 +26,27 @@ public class DriverJugarPartida {
         System.out.println("Hola " + nomUsuari + "!");
         while (true) {
             System.out.println("Funcionalitats:");
-            System.out.println("1. Continuar jugant última partida guardada per aquest usuari\n" +
-                    "2. Continuar jugant una de les partides guardades per aquest usuari\n" +
-                    "3. Jugar una partida amb un tauler de mida específica\n" +
-                    "4. Jugar una partida amb un tauler introduït per l'usuari\n" +
-                    "5. Sortir");
+            System.out.println("1. Continuar jugant última partida guardada per aquest usuari.\n" +
+                    "2. Continuar jugant una de les partides guardades per aquest usuari.\n" +
+                    "3. Jugar una partida amb un tauler de mida específica.\n" +
+                    "4. Jugar una partida amb un tauler introduït per l'usuari.\n" +
+                    "5. Sortir.");
             int opcio = scanner.nextInt();
             switch (opcio) {
                 case 1:
                     try {
                         String[] estat = controladorPartida.carregarUltimaPartidaGuardada(nomUsuari);
-                        jugar(scanner, controladorPartida, estat);
+                        jugar(scanner, controladorPartida, estat, nomUsuari);
                     }
                     catch (ExcepcioCarregaPartida e) {
                         System.out.println(e.getMessage());
                     }
                     catch (ExcepcioInicialitzacioPersistenciaPartida e) {
                         controladorPartida.setControladorPersistenciaPartida(controladorPersistenciaPartida);
-                        System.out.println("Hi ha hagut un error en la inicialització de la persistència de la partida, torna a intentar-ho");
+                        System.out.println("Hi ha hagut un error en la inicialització de la persistència de la partida, torna a intentar-ho.");
                     }
                     catch ( ExcepcioPartidaEnCurs e) {
-                        System.out.println("No es pot carregar una partida mentre s'està jugant una altra");
+                        System.out.println("No es pot carregar una partida mentre s'està jugant una altra.");
                     }
                     catch (Exception e) {
                         System.out.println("Error en el print de l'estat de la partida:" + e.getMessage());
@@ -62,7 +62,7 @@ public class DriverJugarPartida {
                             break;
                         } catch (ExcepcioInicialitzacioPersistenciaPartida e) {
                             controladorPartida.setControladorPersistenciaPartida(controladorPersistenciaPartida);
-                            System.out.println("Hi ha hagut un error en la inicialització de la persistència de la partida, torna a intentar-ho");
+                            System.out.println("Hi ha hagut un error en la inicialització de la persistència de la partida, torna a intentar-ho.");
                             break;
                         }
                     }
@@ -70,8 +70,8 @@ public class DriverJugarPartida {
                     do{
                         System.out.println("Per a que no es facin trampes no s'ensenyarà el tauler de la partida fins que no es comenci a jugar.\n " +
                                 "Si es vol inicialitzar directament la partida escriviu l'identificador de la partida guardada.\n" +
-                                "Si es volgués veure una preview de l'estat de la partida guardada escriviu Preview: identificador\n" +
-                                "Si es volgués retornar al menú anterior escriviu Sortir");
+                                "Si es volgués veure una preview de l'estat de la partida guardada escriviu Preview: identificador.\n" +
+                                "Si es volgués retornar al menú anterior escriviu Sortir.");
                         System.out.println("Identificadors de les partides guardades per aquest usuari: ");
                         for (String identificadorsPartida : identificadors_partides) {
                             System.out.println(identificadorsPartida);
@@ -84,7 +84,7 @@ public class DriverJugarPartida {
                                 System.out.println("Vols jugar aquesta partida? (Y/N)");
                                 String resposta = scanner.nextLine();
                                 if (resposta.equals("Y")) {
-                                    jugar(scanner, controladorPartida, preview);
+                                    jugar(scanner, controladorPartida, preview, nomUsuari);
                                     break;
                                 }
                                 else {
@@ -99,7 +99,7 @@ public class DriverJugarPartida {
                         else if (identificadors_partides.contains(identificador)){
                             try {
                                 String[] estat = controladorPartida.iniciarPartidaGuardada(identificador, nomUsuari);
-                                jugar(scanner, controladorPartida, estat);
+                                jugar(scanner, controladorPartida, estat, nomUsuari);
                                 break;
                             } catch (ExcepcioCarregaPartida | ExcepcioPartidaEnCurs e) {
                                 System.out.println(e.getMessage());
@@ -127,11 +127,11 @@ public class DriverJugarPartida {
                         }
                         while (jugat);
                         if (identificadorTauler.isEmpty()) {
-                            System.out.println("No s'ha pogut trobar cap tauler de la mida especificada que no s'hagi jugat");
+                            System.out.println("No s'ha pogut trobar cap tauler de la mida especificada que no s'hagi jugat.");
                             break;
                         }
                         String[] estat = controladorPartida.iniciaPartidaIdentificadorTauler(identificadorTauler, nomUsuari);
-                        jugar(scanner, controladorPartida, estat);
+                        jugar(scanner, controladorPartida, estat, nomUsuari);
                         break;
                     }
                     catch (ExcepcioPartidaEnCurs e) {
@@ -156,7 +156,7 @@ public class DriverJugarPartida {
                                 llegir = new BufferedReader(new FileReader("Input/" + nomFitxer));
                                 trobat = true;
                             } catch (FileNotFoundException e) {
-                                System.out.println("No s'ha trobat el fitxer especificat, torna a introduir el nom del fitxer o, si vols sortir escriu Sortir");
+                                System.out.println("No s'ha trobat el fitxer especificat, torna a introduir el nom del fitxer o, si vols sortir escriu Sortir.");
                             }
                         }
                         while(!trobat);
@@ -175,16 +175,16 @@ public class DriverJugarPartida {
                         }
                         try{
                             String[] estat = controladorPartida.iniciaPartidaDadesTauler(dadesTauler.toString(),  nomUsuari);
-                            jugar(scanner, controladorPartida, estat);
+                            jugar(scanner, controladorPartida, estat, nomUsuari);
                         } catch (ExcepcioCarregaTauler|ExcepcioPartidaEnCurs e) {
                             System.out.println(e.getMessage());
                         } catch (ExcepcioInicialitzacioControladorTauler e) {
-                            System.out.println("Hi ha hagut un error en la inicialització del controlador de taulers, torna a intentar-ho");
+                            System.out.println("Hi ha hagut un error en la inicialització del controlador de taulers, torna a intentar-ho.");
                             controladorPartida.setControladorTauler(controladorTaulers);
                         }
                     }
                     else {
-                        System.out.println("Introdueix el tauler seguint el format descrit a l'enunciat, recorda que si en qualsevol moment vols sortir pots escriure Sortir");
+                        System.out.println("Introdueix el tauler seguint el format descrit a l'enunciat, recorda que si en qualsevol moment vols sortir pots escriure Sortir.");
                         StringBuilder dadesTauler = new StringBuilder();
                         String linia;
                         linia = scanner.nextLine();
@@ -201,11 +201,11 @@ public class DriverJugarPartida {
                         }
                         try{
                             String[] estat = controladorPartida.iniciaPartidaDadesTauler(dadesTauler.toString(),  nomUsuari);
-                            jugar(scanner, controladorPartida, estat);
+                            jugar(scanner, controladorPartida, estat, nomUsuari);
                         } catch (ExcepcioCarregaTauler|ExcepcioPartidaEnCurs e) {
                             System.out.println(e.getMessage());
                         } catch (ExcepcioInicialitzacioControladorTauler e) {
-                            System.out.println("Hi ha hagut un error en la inicialització del controlador de taulers, torna a intentar-ho");
+                            System.out.println("Hi ha hagut un error en la inicialització del controlador de taulers, torna a intentar-ho.");
                             controladorPartida.setControladorTauler(controladorTaulers);
                         }
                     }
@@ -216,23 +216,87 @@ public class DriverJugarPartida {
             }
         }
     }
-    private static void jugar(Scanner scanner, ControladorPartida controladorPartida, String[] estat) {
+    private static void jugar(Scanner scanner, ControladorPartida controladorPartida, String[] estatInicial, String nomUsuari){
+        System.out.println("Estat inicial de la partida:");
+        try {
+            escriuEstatPartida(estatInicial[0]);
+        } catch (Exception e) {
+            System.out.println("Error en el print de l'estat de la partida:" + e.getMessage());
+        }
+        System.out.print(estatInicial[1]);
         while (true) {
             System.out.println("Funcionalitats que ofereixo en la partida:");
-            System.out.println("1. Posar valor\n" +
-                    "2. Guardar partida\n" +
-                    "3. Acabar partida (si vols que s'avaluï), es tancarà la partida si està bé\n" +
-                    "4. Tancar i guardar partida");
+            System.out.println("1. Posar valor.\n" +
+                    "2. Guardar partida.\n" +
+                    "3. Acabar partida (si vols que s'avaluï), es tancarà la partida si està bé.\n" +
+                    "4. Tancar i guardar partida.");
             int opcio = scanner.nextInt();
             switch (opcio) {
                 case 1:
+                    System.out.println("Introdueix la fila, la columna i el valor que vols posar com a: [fila columna valor] sense els [].");
+                    String dades = scanner.nextLine();
+                    int fila = Integer.parseInt(dades.split(" ")[0]);
+                    int columna = Integer.parseInt(dades.split(" ")[1]);
+                    int valor = Integer.parseInt(dades.split(" ")[2]);
+                    try {
+                        String[] estat = controladorPartida.introduirValor(fila, columna, valor);
+                        System.out.println("Estat de la partida:");
+                        try {
+                            escriuEstatPartida(estat[0]);
+                        } catch (Exception e) {
+                            System.out.println("Error en el print de l'estat de la partida:" + e.getMessage());
+                        }
+                        System.out.print(estat[1]);
+                    }
+                    catch (ExcepcioCarregaPartida|ExcepcioPartidaTancada|ExcepcioPartidaAcabada e) {
+                        System.out.println(e.getMessage());
+                        return;
+                    }
+                    catch (ExcepcionPosicioIncorrecta|ExcepcioValorInvalid e) {
+                        System.out.println(e.getMessage());
+                        System.out.println("Tingues en compte que la fila i la columna comencen per 0 fins a grau-1 i el valor ha d'estar entre 1 i la grau del tauler.");
+                    }
                     break;
                 case 2:
+                    try {
+                        boolean guardada = controladorPartida.guardarPartida(nomUsuari);
+                        if (guardada) System.out.println("Partida guardada correctament.");
+                        else System.out.println("No s'ha pogut guardar la partida, torna-ho a intentar.");
+                    } catch (ExcepcioPartidaTancada | ExcepcioCarregaPartida | ExcepcioPartidaAcabada |
+                             ExcepcioNoPermisUsuari e) {
+                        System.out.println(e.getMessage());
+                        return;
+                    }
                     break;
                 case 3:
-                    return;
+                    try {
+                        boolean acabada = controladorPartida.acabarPartida();
+                        if (acabada){
+                            System.out.println("Felicitats!!! La solució és correcta.");
+                            return;
+                        }
+                        else System.out.println("No s'ha pogut acabar la partida, torna-ho a intentar.");
+                    } catch (ExcepcioPartidaTancada | ExcepcioCarregaPartida | ExcepcioPartidaAcabada e) {
+                        System.out.println(e.getMessage());
+                        return;
+                    } catch (ExcepcioPartidaMalament e) {
+                        System.out.println("La partida és incorrecta continua buscant una solució.");
+                        break;
+                    }
+                    break;
                 case 4:
-                    return;
+                    try{
+                        boolean guardada = controladorPartida.tancarIguardarPartida();
+                        if (guardada){
+                            System.out.println("Partida guardada correctament.");
+                            return;
+                        }
+                        else System.out.println("No s'ha pogut guardar la partida, torna-ho a intentar.");
+                    } catch (ExcepcioPartidaTancada|ExcepcioCarregaPartida|ExcepcioPartidaAcabada e) {
+                        System.out.println(e.getMessage());
+                        return;
+                    }
+                    break;
             }
         }
     }

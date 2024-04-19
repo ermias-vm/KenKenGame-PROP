@@ -193,10 +193,12 @@ public class ControladorPartida {
      * @throws ExcepcioPartidaTancada Si la partida està tancada.
      * @throws ExcepcioPartidaAcabada Si la partida està acabada.
      */
-    public String introduirValor(int fila, int columna, int valor) throws ExcepcioCarregaPartida, ExcepcionPosicioIncorrecta, ExcepcioValorInvalid, ExcepcioPartidaTancada, ExcepcioPartidaAcabada {
+    public String[] introduirValor(int fila, int columna, int valor) throws ExcepcioCarregaPartida, ExcepcionPosicioIncorrecta, ExcepcioValorInvalid, ExcepcioPartidaTancada, ExcepcioPartidaAcabada {
         if (partida_ == null) throw new ExcepcioCarregaPartida("No hi ha cap partida carregada");
         partida_.setValorPartida(fila, columna, valor);
-        return partida_.generaPartidaText();
+        String partidaText = partida_.generaPartidaText();
+        String taulerText = partida_.getTaulerPartida().generaTaulerText();
+        return new String[]{partidaText, taulerText};
     }
 
     /**
@@ -233,7 +235,7 @@ public class ControladorPartida {
     }
     /**
      * Acaba la partida en curs del controlador. Una partida acabada és aquella que està ben resolta.
-     * @return true si s'ha acabat i guardat la partida. false si no s'ha guardat acabat la partida.
+     * @return true si s'ha acabat i guardat la partida. false si no s'ha pogut guardar la partida.
      * @throws ExcepcioCarregaPartida Si no hi ha cap partida carregada.
      * @throws ExcepcioPartidaTancada Si la partida està tancada.
      * @throws ExcepcioPartidaMalament Si la partida no s'ha pogut acabar per que és incorrecta.

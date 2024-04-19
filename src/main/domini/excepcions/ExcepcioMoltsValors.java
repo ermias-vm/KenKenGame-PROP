@@ -1,8 +1,6 @@
 package main.domini.excepcions;
 
 public class ExcepcioMoltsValors extends Exception {
-    private String missatge_;
-
     public ExcepcioMoltsValors(int mida, String quantitat) {
         this(creaMissatge(mida, quantitat));
     }
@@ -14,7 +12,5 @@ public class ExcepcioMoltsValors extends Exception {
     }
     public ExcepcioMoltsValors(String s) {
         super(s);
-        this.missatge_ = s;
-
     }
 }

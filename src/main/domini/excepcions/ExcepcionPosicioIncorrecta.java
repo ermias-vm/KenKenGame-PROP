@@ -4,7 +4,7 @@ public class ExcepcionPosicioIncorrecta extends Exception {
     private String missatge;
 
     public ExcepcionPosicioIncorrecta() {
-        this("La posicio es incorrecta");
+        this("La posició es incorrecta");
     }
 
     public ExcepcionPosicioIncorrecta(String s) {
