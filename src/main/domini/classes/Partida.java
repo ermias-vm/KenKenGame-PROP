@@ -7,11 +7,11 @@ import main.domini.controladors.ControladorPartida;
 import main.domini.excepcions.*;
 /**
  * La classe {@code Partida} representa una partida de Kenken d'un usuari amb un cert tauler.
- * Ve determinada per un identificador únic creat a partir de l'usuari i el moment de creació de la partida.
+ * Ve determinada per un identificador únic creat a partir de l'usuari i el moment de creació de la partida.<br>
  * Conté la data d'inici de la instanciació actual, el tauler de la partida, la seva mida per a tenir accés rapid a ella,
  * l'identificador de l'usuari que l'ha creada, els valors de les caselles de la partida en un instant,
- * el temps que s'ha estat jugant, i si la partida està guardada, acabada o tancada.
- * Format de la informació d'una partida acabada {@link #acabaPartida()}.
+ * el temps que s'ha estat jugant, i si la partida està guardada, acabada o tancada.<br>
+ * Format de la informació d'una partida acabada {@link #acabaPartida()}.<br>
  * Format de la informació d'una partida guardada: {@link #guardaPartida()}.
  * @author Nil Beascoechea Vàzquez
  */
@@ -212,15 +212,15 @@ public class Partida {
     }
     /**
      * Acaba la partida si està correctament resolta.
-     * El format de la informació de la partida acabada és (sense les línies amb |||||):
-     * ||||||FORMAT DADES PARTIDA ACABADA||||||
-     * Identificador de la partida
-     * Identificador de l'usuari
-     * Identificador del tauler
-     * Temps total de la partida
-     * Grau del tauler
-     * Si ha estat guardada o no
-     * |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+     * El format de la informació de la partida acabada és (sense les línies amb |||||):<br>
+     * ||||||FORMAT DADES PARTIDA ACABADA||||||<br>
+     * Identificador de la partida<br>
+     * Identificador de l'usuari<br>
+     * Identificador del tauler<br>
+     * Temps total de la partida<br>
+     * Grau del tauler<br>
+     * Si ha estat guardada o no<br>
+     * |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||<br>
      * Per tant, cada partida acabada ocupa 6 línies.
      * No es guarda a memòria secundària amb aquest format es guarda
      * amb el format vist a {@link main.persistencia.ControladorPersistenciaPartida#arxivarPartida(String)}
@@ -263,14 +263,14 @@ public class Partida {
     }
     /**
      * Guarda la partida.
-     * Per a encapsular una partida guardada. El format és (sense les línies amb |||||):
-     * ||||||FORMAT DADES PARTIDA GUARDADA||||||
-     * Identificador de la partida
-     * Identificador del tauler
-     * Temps total de la partida
-     * Grau del tauler
-     * Valors de les caselles de la partida separats per espais en files i per salts de línia en columnes.
-     * ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+     * Per a encapsular una partida guardada. El format és (sense les línies amb |||||):<br>
+     * ||||||FORMAT DADES PARTIDA GUARDADA||||||<br>
+     * Identificador de la partida<br>
+     * Identificador del tauler<br>
+     * Temps total de la partida<br>
+     * Grau del tauler<br>
+     * Valors de les caselles de la partida separats per espais en files i per salts de línia en columnes.<br>
+     * ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||<br>
      * És a dir ocuparà 4 + Grau línies.
      * @return Text amb la informació de la partida per a emmagatzemar-la a partides guardades.
      * @throws ExcepcioPartidaAcabada si la partida ja està acabada.
@@ -287,7 +287,13 @@ public class Partida {
         return generaPartidaGuardadaText();
     }
     /**
-     * Genera un text amb la informació de l'estat dels valors de la partida.
+     * Genera un text amb la informació de l'estat dels valors de la partida. El format és (sense les línies amb |||||)<br>
+     * ||||||FORMAT ESTAT PARTIDA||||||<br>
+     * 'x'' 'x'' 'x'' ... 'x''\n'<br>
+     * ...<br>
+     * 'x'' 'x'' 'x'' ... 'x''\n'<br>
+     * |||||||||||||||||||||||||||||||||||||||||||||||||||<br>
+     * On hi haurà tantes x a cada fila com el grau de la partida i tantas files com el grau de la partida.
      * Per a comunicar-se amb la capa de presentació en el {@link ControladorPartida}
      * @return Text amb la informació de la matriu de valors de la partida.
      */

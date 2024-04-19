@@ -9,11 +9,11 @@ import java.util.HashMap;
 /**
  * Controlador de la capa de domini que representa una partida i,
  * per tant, efectua les operacions convenients per a mantenir un correcte flux del joc.
- * Quan hi ha un joc en curs el seu atribut partida no és null, i quan no n'hi ha cap és null.
- * El format d'encapsulament de dades de les partides està descrit a:
- * {@link Partida#guardaPartida()} per a dades d'una partida guardada
- * {@link Partida#acabaPartida()} per a dades d'una partida acabada
- * {@link Partida#generaPartidaText()} per a l'estat d'una partida iniciada.
+ * Quan hi ha un joc en curs el seu atribut partida no és null, i quan no n'hi ha cap és null.<br>
+ * El format d'encapsulament de dades de les partides està descrit a:<br>
+ * {@link Partida#guardaPartida()} per a dades d'una partida guardada<br>
+ * {@link Partida#acabaPartida()} per a dades d'una partida acabada<br>
+ * {@link Partida#generaPartidaText()} per a l'estat d'una partida iniciada.<br>
  * Tot i que a memòria les partides acabades no es guarden amb exactament aquest format.
  * @see ControladorPersistenciaPartida
  * @author Nil Beascoechea Vàzquez
@@ -63,6 +63,24 @@ public class ControladorPartida {
     public boolean setControladorPersistenciaPartida(ControladorPersistenciaPartida controladorPersistenciaPartida) {
         controladorPersistenciaPartida_ = controladorPersistenciaPartida;
         return true;
+    }
+
+    /**
+     * Getter dels identificadors de les partides d'un usuari si s'han carregat a memòria i en té.
+     * @return Retorna un vector de String amb els identificadors de les partides de l'usuari. Si no en té cap retorna un vector buit.
+     */
+    public String[] getPartidesGuardadesUsuari() {
+        return partidesGuardadesUsuari_.keySet().toArray(new String[0]);
+    }
+
+    /**
+     * Indica si hi ha cap existència en memòria d'una partida guardada amb l'identificador del tauler donat per aquell usuari.
+     * @param identificadorTauler Identificador del tauler.
+     * @param nomUsuari Nom de l'usuari.
+     * @return Retorna true si l'usuari ha jugat aquest tauler, false si no.
+     */
+    public boolean haJugat(String identificadorTauler, String nomUsuari) {
+        return controladorPersistenciaPartida_.haJugat(identificadorTauler, nomUsuari);
     }
     /**
      * Carrega l'última partida guardada de l'usuari. Comença la partida amb les dades guardades.
@@ -182,7 +200,7 @@ public class ControladorPartida {
     }
 
     /**
-     * Guarda la partida en curs del controlador.
+     * Guarda la partida en curs del controlador. L'afegeix també al mapa de partides guardades de l'usuari.
      * @param nomUsuari Nom de l'usuari que vol guardar la partida.
      * @return true si s'ha guardat la partida. false si no s'ha guardat la partida.
      * @throws ExcepcioCarregaPartida Si no hi ha cap partida carregada o el nom d'usuari no coincideix amb la partida a guardar.
@@ -192,10 +210,13 @@ public class ControladorPartida {
     public boolean guardarPartida(String nomUsuari) throws ExcepcioCarregaPartida, ExcepcioPartidaTancada, ExcepcioPartidaAcabada, ExcepcioNoPermisUsuari {
         if (partida_ == null) throw new ExcepcioCarregaPartida("No hi ha cap partida carregada");
         if (!partida_.getUsuariPartida().equals(nomUsuari)) throw new ExcepcioNoPermisUsuari("El nom d'usuari no coincideix amb el de la partida");
-        return controladorPersistenciaPartida_.guardarPartida(partida_.guardaPartida());
+        String identificadorPartida = partida_.getIdentificadorPartida();
+        String dadesPartida = partida_.guardaPartida();
+        partidesGuardadesUsuari_.put(identificadorPartida, dadesPartida);
+        return controladorPersistenciaPartida_.guardarPartida(dadesPartida);
     }
     /**
-     * Tanca i guarda la partida en curs del controlador.
+     * Tanca i guarda la partida en curs del controlador. L'afegeix també al mapa de partides guardades de l'usuari.
      * @return true si s'ha tancat i guardat la partida. false si no s'ha guardat la partida, i per tant no es tanca.
      * @throws ExcepcioCarregaPartida Si no hi ha cap partida carregada.
      * @throws ExcepcioPartidaTancada Si la partida està tancada.
@@ -203,7 +224,10 @@ public class ControladorPartida {
      */
     public boolean tancarIguardarPartida() throws ExcepcioCarregaPartida, ExcepcioPartidaTancada, ExcepcioPartidaAcabada {
         if (partida_ == null) throw new ExcepcioCarregaPartida("No hi ha cap partida carregada");
-        boolean guardada = controladorPersistenciaPartida_.guardarPartida(partida_.tancaIGuardaPartida());
+        String identificadorPartida = partida_.getIdentificadorPartida();
+        String dadesPartida = partida_.tancaIGuardaPartida();
+        partidesGuardadesUsuari_.put(identificadorPartida, dadesPartida);
+        boolean guardada = controladorPersistenciaPartida_.guardarPartida(dadesPartida);
         if (guardada) tancaPartida();
         return guardada;
     }
@@ -221,7 +245,14 @@ public class ControladorPartida {
         if (guardada) tancaPartida();
         return guardada;
     }
-
+    /**
+     * Tanca la partida en curs del controlador.
+     * @return true
+     */
+    public boolean tancaPartida(){
+        partida_ = null;
+        return true;
+    }
     /**
      * Funció privada que transforma una string de dades d'una partida en una instància de {@code Partida}.
      * @param partida Dades de la partida seguint el format {@link Partida#guardaPartida()}.
@@ -248,13 +279,5 @@ public class ControladorPartida {
         Tauler tauler = controladorTauler_.carregarKenken(identificadorTaulerPartida);
         if (tauler.getGrau() != midaPartida) throw new ExcepcioCarregaPartida("La mida de la partida guardada no coincideix amb la mda del seu tauler" );
         return new Partida(identificadorPartida, identificadorUsuariPartida, tauler, tempsPartida, valorsPartida);
-    }
-    /**
-     * Tanca la partida en curs del controlador.
-     * @return true
-     */
-    private boolean tancaPartida(){
-        partida_ = null;
-        return true;
     }
 }
