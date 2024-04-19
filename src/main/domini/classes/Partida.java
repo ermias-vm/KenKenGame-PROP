@@ -212,13 +212,15 @@ public class Partida {
     }
     /**
      * Acaba la partida si està correctament resolta.
-     * El format de la informació de la partida acabada és:
+     * El format de la informació de la partida acabada és (sense les línies amb |||||):
+     * ||||||FORMAT DADES PARTIDA ACABADA||||||
      * Identificador de la partida
      * Identificador de l'usuari
      * Identificador del tauler
      * Temps total de la partida
      * Grau del tauler
      * Si ha estat guardada o no
+     * |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
      * Per tant, cada partida acabada ocupa 6 línies.
      * No es guarda a memòria secundària amb aquest format es guarda
      * amb el format vist a {@link main.persistencia.ControladorPersistenciaPartida#arxivarPartida(String)}
@@ -261,12 +263,14 @@ public class Partida {
     }
     /**
      * Guarda la partida.
-     * Per a emmagatzemar-la a partides guardades. El format és:
+     * Per a encapsular una partida guardada. El format és (sense les línies amb |||||):
+     * ||||||FORMAT DADES PARTIDA GUARDADA||||||
      * Identificador de la partida
      * Identificador del tauler
      * Temps total de la partida
      * Grau del tauler
      * Valors de les caselles de la partida separats per espais en files i per salts de línia en columnes.
+     * ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
      * És a dir ocuparà 4 + Grau línies.
      * @return Text amb la informació de la partida per a emmagatzemar-la a partides guardades.
      * @throws ExcepcioPartidaAcabada si la partida ja està acabada.

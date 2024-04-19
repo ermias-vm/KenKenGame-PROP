@@ -10,7 +10,8 @@ import java.util.HashSet;
  * Es relaciona amb el controlador de partides de domini {@link ControladorPartida}.
  * Opera amb fitxers de text per a guardar les partides.
  * El fitxer per guardar les partides guardades és "Data/PartidesGuardades.txt".
- * El fitxer per guardar les partides acabades és "Data/PartidesAcabades.txt".
+ * Els fitxers per guardar les partides acabades són "Data/PartidesAcabadesGuardades.txt",
+ * "Data/PartidesAcabadesGrau%d.txt" on %d és el grau de la partida.
  * @author Nil Beascoechea Vàzquez
  */
 public class ControladorPersistenciaPartida {
@@ -37,7 +38,8 @@ public class ControladorPersistenciaPartida {
     /**
      * Carrega l'última partida guardada per un usuari. L'usuari existeix.
      * La informació de la partida guardada es troba al fitxer "Data/PartidesGuardades.txt" i està ordenada per última guardada.
-     * Utilitza el format descrit a {@link main.domini.classes.Partida#guardaPartida()}.
+     * Utilitza el format descrit a {@link main.domini.classes.Partida#guardaPartida()} per a llegir les dades de la partida de memòria.
+     * Utilitza el format descrit a {@link main.domini.classes.Partida#guardaPartida()} per a retornar les dades de la partida.
      * @param nomUsuari Nom de l'usuari que ha guardat la partida i la vol carregar.
      * @return Una cadena de text amb la informació de la partida guardada.
      */
@@ -74,12 +76,13 @@ public class ControladorPersistenciaPartida {
     /**
      * Carrega totes les partides guardades per un usuari. L'usuari existeix.
      * La informació de les partides guardades es troba al fitxer "Data/PartidesGuardades.txt".
-     * A l'utilitzar un HashSet per identificar les partides, es garanteix que no es repeteixen.
-     * Utilitza el format descrit a {@link main.domini.classes.Partida#guardaPartida()}.
+     * En utilitzar un HashSet per identificar les partides, es garanteix que no es repeteixen.
+     * Utilitza el format descrit a {@link main.domini.classes.Partida#guardaPartida()} per a llegir les dades de la partida de memòria.
+     * Utilitza el format descrit a {@link main.domini.classes.Partida#guardaPartida()} per a retornar les dades de la partida.
      * @param nomUsuari Nom de l'usuari que ha guardat les partides i les vol carregar.
      * @return Una llista de cadenes de text amb la informació de les partides guardades.
      */
-    public ArrayList<String> carregarPartidesGuardades(String nomUsuari) {
+    public ArrayList<String> carregarPartidesGuardadesUsuari(String nomUsuari) {
         ArrayList<String> partides = new ArrayList<>();
         HashSet<String> identificadors = new HashSet<>();
         try {
@@ -124,11 +127,12 @@ public class ControladorPersistenciaPartida {
     /**
      * Carrega totes les partides acabades per un usuari. L'usuari existeix.
      * Busca a tots els fitxers de partides acabades per trobar les partides de l'usuari.
+     * Utilitza el format descrit a {@link #arxivarPartida(String)} per llegir la informació de la partida de memòria.
      * Utilitza el format descrit a {@link main.domini.classes.Partida#acabaPartida()} per retornar la informació.
      * @param nomUsuari Nom de l'usuari del qual es volen carregar les partides.
      * @return Una llista de cadenes de text amb la informació de les partides acabades.
      */
-    public ArrayList<String> carregarPartidesAcabades(String nomUsuari) {
+    public ArrayList<String> carregarPartidesAcabadesUsuari(String nomUsuari) {
         try {
             ArrayList<String> partides = new ArrayList<>();
             for (String partidesAcabades : this.fitxersPartidesAcabades_) {
@@ -161,6 +165,7 @@ public class ControladorPersistenciaPartida {
     /**
      * Carrega totes les partides acabades d'un grau. El grau és vàlid.
      * La informació de les partides acabades es troba al fitxer "Data/PartidesAcabadesGrau%d.txt" on %d és el grau.
+     * Utilitza el format descrit a {@link #arxivarPartida(String)} per llegir la informació de la partida de memòria.
      * Utilitza el format descrit a {@link main.domini.classes.Partida#acabaPartida()} per retornar la informació.
      * @param grau Grau de les partides que es volen carregar.
      * @return Una llista de cadenes de text amb la informació de les partides acabades.
@@ -191,7 +196,7 @@ public class ControladorPersistenciaPartida {
      * Guarda una partida.
      * La partida es guarda a l'inici del fitxer de partides guardades assegurant ordre cronologic.
      * La informació de la partida es guarda al fitxer "Data/PartidesGuardades.txt".
-     * Utilitza el format descrit a {@link main.domini.classes.Partida#guardaPartida()}.
+     * Utilitza el format descrit a {@link main.domini.classes.Partida#guardaPartida()} per a guardar les dades a memòria.
      * @param partidaGuardada Una cadena de text amb la informació de la partida a guardar.
      * @return True si s'ha guardat la partida, false altrament.
      */
@@ -225,12 +230,14 @@ public class ControladorPersistenciaPartida {
      * O al fitxer "Data/PartidesAcabadesGrau%d.txt" on %d és el grau de la partida.
      * S'elimina la partida arxivada del fitxer de partides guardades.
      * Utilitza el format descrit a {@link main.domini.classes.Partida#acabaPartida()} per a llegir la partida.
-     * Però la guarda al fitxer com a:
+     * Però la guarda al fitxer com a (sense comptar les línies amb / ni |):
+     * //////FORMAT GUARDAT PARTIDA ACABADA\\\\\\
      * Identificador de la partida
      * Identificador de l'usuari
      * Identificador del tauler
      * Temps total de la partida
      * Grau del tauler
+     *  ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
      * Total: 5 línies.
      * El si és guardada o no ve implicit en el nom del fitxer.
      * @param partidaAcabada Una cadena de text amb la informació de la partida a arxivar.
