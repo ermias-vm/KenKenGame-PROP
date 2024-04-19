@@ -1,5 +1,7 @@
 package main.domini.controladors;
 
+import main.domini.excepcions.*;
+
 import main.domini.classes.Usuari;
 
 import java.io.BufferedReader;
@@ -60,9 +62,10 @@ public class CtrlUsuari {
      */
     public void registrarUsuari(String nomUsuari, String contrasenya) {
 
-        if (existeixUsuari(nomUsuari)) {
-            System.out.println("El nombre de usuario ya está en uso.");
-            return;
+        try {
+            if (existeixUsuari(nomUsuari)) throw new ExcepcioUsuariJaExisteix();
+        } catch (ExcepcioUsuariJaExisteix e) {
+            System.out.println(e.getMessage());
         }
 
         try {
@@ -91,9 +94,11 @@ public class CtrlUsuari {
      * @return .
      */
     public void iniciarSessio(String nomUsuari, String contrasenya) {
-        if (!existeixUsuari(nomUsuari)) {
-            System.out.println("El nombre de usuario no existe.");
-            return;
+        
+        try {
+            if (!existeixUsuari(nomUsuari)) throw new ExcepcioUsuariNoExisteix();
+        } catch (ExcepcioUsuariNoExisteix e) {
+            System.out.println(e.getMessage());
         }
 
         try {

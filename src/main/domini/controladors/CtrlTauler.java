@@ -1,5 +1,7 @@
 package main.domini.controladors;
 
+import main.domini.excepcions.*;
+
 import main.domini.classes.Casella;
 import main.domini.classes.Regio;
 import main.domini.classes.Tauler;
@@ -36,9 +38,10 @@ public class CtrlTauler {
     }
 
     public void registrarTauler(int idTauler) throws IOException {
-        if (existeixTauler(idTauler)) {
-            System.out.println("Error: Ja existeix un tauler amb aquest identificador.");
-            return;
+        try {
+            if (existeixTauler(idTauler)) throw new ExcepcioTaulerJaExisteix();
+        } catch (ExcepcioTaulerJaExisteix e) {
+            System.out.println(e.getMessage());
         }
 
         String nomFitxer = "BDTaulers/" + idTauler + ".txt";
