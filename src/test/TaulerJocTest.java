@@ -2,17 +2,13 @@ package test;
 
 import main.domini.classes.TaulerJoc;
 import main.domini.classes.RegioJoc;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class TaulerJocTest {
     private TaulerJoc taulerJoc;
 
-    @BeforeEach
-    public void setUp() {
-        taulerJoc = new TaulerJoc(1, 3);
-    }
 
     @Test
     public void testGetValor() {

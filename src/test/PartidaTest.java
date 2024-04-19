@@ -1,3 +1,5 @@
+package test;
+
 import main.domini.classes.ErrorConstantsPartida;
 import main.domini.classes.Partida;
 import main.stubs.TaulerStub;

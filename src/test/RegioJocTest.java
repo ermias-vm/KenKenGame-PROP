@@ -2,17 +2,11 @@ package test;
 
 import main.domini.classes.RegioJoc;
 import main.domini.classes.Casella;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class RegioJocTest {
     private RegioJoc regioJoc;
-
-    @BeforeEach
-    public void setUp() {
-        regioJoc = new RegioJoc(3, 1, 6);
-    }
 
     @Test
     public void testGetOperacio() {

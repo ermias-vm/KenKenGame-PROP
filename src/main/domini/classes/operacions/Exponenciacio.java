@@ -1,9 +1,7 @@
 package main.domini.classes.operacions;
 
-import main.domini.classes.ErrorConstantsOperacions;
 import main.domini.excepcions.ExcepcioMoltsValors;
 import main.domini.interficies.Operacio;
-
 import java.util.Set;
 
 public class Exponenciacio implements Operacio {

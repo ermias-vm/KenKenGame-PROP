@@ -3,8 +3,9 @@ package test;
 import main.domini.classes.Casella;
 import main.domini.excepcions.ExcepcioCasellaNoModificable;
 import main.domini.excepcions.ExcepcioCasellaJaTePosicioAssignada;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 class CasellaTest {
 

@@ -1,7 +1,7 @@
 package main.domini.classes.operacions;
+
 import main.domini.excepcions.ExcepcioMoltsValors;
 import main.domini.interficies.Operacio;
-import java.util.ArrayList;
 import java.util.Set;
 
 public class Modul implements Operacio {
