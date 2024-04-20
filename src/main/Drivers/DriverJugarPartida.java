@@ -25,7 +25,7 @@ public class DriverJugarPartida {
         String nomUsuari = scanner.nextLine();
         System.out.println("Hola " + nomUsuari + "!");
         while (true) {
-            System.out.println("Funcionalitats:");
+            System.out.println("Funcionalitats (escriu únicament el número):");
             System.out.println("1. Continuar jugant última partida guardada per aquest usuari.\n" +
                     "2. Continuar jugant una de les partides guardades per aquest usuari.\n" +
                     "3. Jugar una partida amb un tauler de mida específica.\n" +
@@ -38,7 +38,7 @@ public class DriverJugarPartida {
                         String[] estat = controladorPartida.carregarUltimaPartidaGuardada(nomUsuari);
                         jugar(scanner, controladorPartida, estat, nomUsuari);
                     }
-                    catch (ExcepcioCarregaPartida e) {
+                    catch (ExcepcioCarregaPartida| ExcepcioNoPermisUsuari e) {
                         System.out.println(e.getMessage());
                     }
                     catch (ExcepcioInicialitzacioPersistenciaPartida e) {
@@ -225,11 +225,13 @@ public class DriverJugarPartida {
         }
         System.out.print(estatInicial[1]);
         while (true) {
-            System.out.println("Funcionalitats que ofereixo en la partida:");
+            System.out.println("Funcionalitats que ofereixo en la partida (escriu únicament el número):");
+            System.out.println("Tingues en compte que si guardes la partida o utilitzes pistes no podràs participar als rankings, és l'has de solucionar (4. Acabar) d'una tirada sense ajudes.");
             System.out.println("1. Posar valor.\n" +
-                    "2. Guardar partida.\n" +
-                    "3. Acabar partida (si vols que s'avaluï), es tancarà la partida si està bé.\n" +
-                    "4. Tancar i guardar partida.");
+                    "2. Pista.\n" +
+                    "3. Guardar partida.\n" +
+                    "4. Acabar partida (si vols que s'avaluï), es tancarà la partida si està bé.\n" +
+                    "5. Tancar i guardar partida.");
             int opcio = scanner.nextInt();
             switch (opcio) {
                 case 1:
@@ -258,6 +260,21 @@ public class DriverJugarPartida {
                     }
                     break;
                 case 2:
+                    try{
+                        String[] estat = controladorPartida.donaPista();
+                        System.out.println("Estat de la partida:");
+                        try {
+                            escriuEstatPartida(estat[0]);
+                        } catch (Exception e) {
+                            System.out.println("Error en el print de l'estat de la partida:" + e.getMessage());
+                        }
+                        System.out.print(estat[1]);
+                    } catch (ExcepcioCarregaPartida e) {
+                        System.out.println(e.getMessage());
+                        return;
+                    }
+                    break;
+                case 3:
                     try {
                         boolean guardada = controladorPartida.guardarPartida(nomUsuari);
                         if (guardada) System.out.println("Partida guardada correctament.");
@@ -268,11 +285,22 @@ public class DriverJugarPartida {
                         return;
                     }
                     break;
-                case 3:
+                case 4:
                     try {
-                        boolean acabada = controladorPartida.acabarPartida();
-                        if (acabada){
+                        String[] acabada = controladorPartida.acabarPartida();
+                        if (Boolean.parseBoolean(acabada[0])){
                             System.out.println("Felicitats!!! La solució és correcta.");
+                            int segons = Integer.parseInt(acabada[2]);
+                            java.time.Duration duracio = java.time.Duration.ofSeconds(segons);
+                            int minuts = (int) duracio.toMinutes();
+                            int segonsfinals = segons - minuts*60;
+                            System.out.println("Has trigat " + minuts + " minuts i " + segonsfinals + " segons en resoldre el tauler.");
+                            if (Boolean.parseBoolean(acabada[1])) {
+                                System.out.println("Has acabat la partida sense ajuda ni guardant-la, això et permetrà participar als rankings. :)");
+                            }
+                            else {
+                                System.out.println("Has acabat la partida amb ajuda o guardant-la, no podràs participar als rankings. :(");
+                            }
                             return;
                         }
                         else System.out.println("No s'ha pogut acabar la partida, torna-ho a intentar.");
@@ -284,7 +312,7 @@ public class DriverJugarPartida {
                         break;
                     }
                     break;
-                case 4:
+                case 5:
                     try{
                         boolean guardada = controladorPartida.tancarIguardarPartida();
                         if (guardada){

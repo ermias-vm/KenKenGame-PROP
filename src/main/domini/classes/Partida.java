@@ -210,6 +210,10 @@ public class Partida {
         }
         else throw new ExcepcioValorInvalid();
     }
+    public boolean setGuardadaPartida() {
+        this.guardadaPartida_ = true;
+        return true;
+    }
     /**
      * Acaba la partida si està correctament resolta.
      * El format de la informació de la partida acabada és (sense les línies amb |||||):<br>

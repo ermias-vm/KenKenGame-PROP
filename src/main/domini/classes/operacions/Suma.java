@@ -1,5 +1,6 @@
 package main.domini.classes.operacions;
 import main.domini.excepcions.ExcepcioMoltsValors;
+import main.domini.excepcions.ExcepcioValorInvalid;
 import main.domini.interficies.Operacio;
 import java.util.*;
 /**
@@ -46,11 +47,11 @@ public class Suma implements Operacio{
      * @param midaRegio La mida de la regió on es calcula.
      * @param valors Un vector d'enters que conté els valors inicials de la regió a partir dels quals es calcula si hi ha possible solució i quina.
      *               No pot ser igual a la mida de la regió. És a dir la regió no pot estar plena.
-     * @throws ExcepcioMoltsValors Si el vector té igual o més valors que caselles la regió.
+     * @throws ExcepcioMoltsValors Si el vector té igual o més valors que caselles la regió. És a dir només s'hauria d'entrar si la regió no està plena.
      * @return Tots els possibles valors únics que poden ser solució.
      */
     @Override
-    public Set<Integer> calculaPossiblesValors(int resultat, int midaTauler, int midaRegio, int[] valors) throws ExcepcioMoltsValors {
+    public Set<Integer> calculaPossiblesValors(int resultat, int midaTauler, int midaRegio, int[] valors) throws ExcepcioMoltsValors, ExcepcioValorInvalid {
         if (valors.length >= midaRegio ){throw new ExcepcioMoltsValors(midaRegio-1, "MAX");}
         int nombreRepeticions = (midaRegio + 1)/2;
         int[] vegadesRepetibles = new int[midaTauler];
@@ -58,6 +59,9 @@ public class Suma implements Operacio{
         int sumatori = resultat;
         int midaUtil = midaRegio;
         for (int i = 0; i < valors.length; i++) {
+            if (valors[i] > midaTauler || valors[i] < 1) {
+                throw new ExcepcioValorInvalid();
+            }
             sumatori -= valors[i];
             --vegadesRepetibles[valors[i]-1];
             midaUtil--;

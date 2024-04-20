@@ -57,7 +57,7 @@ public class Multiplicacio implements Operacio {
      * @return Tots els possibles valors únics que poden ser solució.
      */
     @Override
-    public Set<Integer> calculaPossiblesValors(int resultat, int midaTauler, int midaRegio, int[] valors) throws ExcepcioNoDivisor, ExcepcioDivisio_0, ExcepcioMoltsValors, ExcepcioValorInvalid {
+    public Set<Integer> calculaPossiblesValors(int resultat, int midaTauler, int midaRegio, int[] valors) throws ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioValorInvalid {
         if (valors.length >= midaRegio) {throw new ExcepcioMoltsValors(midaRegio-1, "MAX");}
         int nombreRepeticions = (midaRegio + 1)/2;
         int[] vegadesRepetibles = new int[midaTauler];
@@ -65,10 +65,7 @@ public class Multiplicacio implements Operacio {
         int multiplicacio = resultat;
         int midaUtil = midaRegio;
         for (int valor : valors) {
-            if (valor == 0) {
-                throw new ExcepcioDivisio_0();
-            }
-            if (valor > midaTauler || valor < 0) {
+            if (valor > midaTauler || valor < 1) {
                 throw new ExcepcioValorInvalid();
             }
             if (multiplicacio % valor != 0) {

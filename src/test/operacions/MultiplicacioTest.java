@@ -1,73 +1,52 @@
-import main.domini.classes.ErrorConstantsOperacions;
+package test.operacions;
+
 import main.domini.classes.operacions.Multiplicacio;
+import main.domini.excepcions.*;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import java.util.Arrays;
+import java.util.*;
 
 public class MultiplicacioTest {
-
     @Test
     public void opera2ReturnsCorrectProduct() {
         Multiplicacio multiplicacio = new Multiplicacio();
-        assertEquals(20, multiplicacio.opera2(10, 2));
+        assertEquals(6, multiplicacio.opera2(2, 3));
     }
 
     @Test
-    public void operaNReturnsCorrectProductForMultipleNumbers() {
+    public void operaNReturnsCorrectProduct() throws ExcepcioMoltsValors {
         Multiplicacio multiplicacio = new Multiplicacio();
-        assertEquals(60, multiplicacio.operaN(new int[]{10, 2, 3}));
+        assertEquals(24, multiplicacio.operaN(new int[]{2, 3, 4}));
+    }
+
+    @Test(expected = ExcepcioMoltsValors.class)
+    public void operaNThrowsExceptionForEmptyArray() throws ExcepcioMoltsValors {
+        Multiplicacio multiplicacio = new Multiplicacio();
+        multiplicacio.operaN(new int[]{});
     }
 
     @Test
-    public void calculaPossiblesValorsReturnsCorrectValuesForSingleValue() {
+    public void calculaPossiblesValorsReturnsCorrectSet() throws ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioValorInvalid {
         Multiplicacio multiplicacio = new Multiplicacio();
-        int[] expected = new int[]{5};
-        assertTrue(Arrays.equals(expected, multiplicacio.calculaPossiblesValors(10, 10, 2, new int[]{2})));
-    }
-    @Test
-    public void calculaPossiblesValorsReturnsErrorForMoreThanTwoValuesInRegion() {
-        Multiplicacio multiplicacio = new Multiplicacio();
-        int[] result = multiplicacio.calculaPossiblesValors(10, 10, 2, new int[]{1, 2, 3});
-        assertTrue(Arrays.equals(ErrorConstantsOperacions.ERROR_ARRAY_MIDA, result));
-    }
-    @Test
-    public void opera2ReturnsZeroWhenMultiplyingByZero() {
-        Multiplicacio multiplicacio = new Multiplicacio();
-        assertEquals(0, multiplicacio.opera2(10, 0));
+        Set<Integer> expected = new HashSet<>(Arrays.asList(2, 3));
+        assertEquals(expected, multiplicacio.calculaPossiblesValors(6, 3, 2, new int[]{}));
     }
 
-    @Test
-    public void opera2ReturnsNegativeProductForNegativeNumbers() {
+    @Test(expected = ExcepcioMoltsValors.class)
+    public void calculaPossiblesValorsThrowsExceptionForTooManyInitialValues() throws ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioValorInvalid {
         Multiplicacio multiplicacio = new Multiplicacio();
-        assertEquals(20, multiplicacio.opera2(-10, -2));
+        multiplicacio.calculaPossiblesValors(6, 3, 2, new int[]{1, 2});
     }
 
-    @Test
-    public void operaNReturnsZeroWhenMultiplyingByZero() {
+    @Test(expected = ExcepcioValorInvalid.class)
+    public void calculaPossiblesValorsThrowsExceptionForInvalidInitialValue() throws ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioValorInvalid {
         Multiplicacio multiplicacio = new Multiplicacio();
-        assertEquals(0, multiplicacio.operaN(new int[]{10, 2, 0}));
+        multiplicacio.calculaPossiblesValors(6, 3, 2, new int[]{4});
     }
 
-    @Test
-    public void operaNReturnsNegativeProductForOddNumberOfNegativeNumbers() {
+    @Test(expected = ExcepcioNoDivisor.class)
+    public void calculaPossiblesValorsThrowsExceptionForNonDivisorInitialValue() throws ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioValorInvalid {
         Multiplicacio multiplicacio = new Multiplicacio();
-        assertEquals(-60, multiplicacio.operaN(new int[]{-10, 2, 3}));
-    }
-
-    @Test
-    public void calculaPossiblesValorsReturnsEmptyForAllValuesSet() {
-        Multiplicacio multiplicacio = new Multiplicacio();
-        int[] expected = new int[0];
-        int[] actual = multiplicacio.calculaPossiblesValors(10, 10, 2, new int[]{2, 5});
-        System.out.println(Arrays.toString(actual)); // This will print the actual result
-        assertTrue(Arrays.equals(expected, actual));
-    }
-
-    @Test
-    public void calculaPossiblesValorsReturnsErrorForZeroInValues() {
-        Multiplicacio multiplicacio = new Multiplicacio();
-        int[] result = multiplicacio.calculaPossiblesValors(10, 10, 2, new int[]{0, 2});
-        assertTrue(Arrays.equals(ErrorConstantsOperacions.ERROR_ARRAY_DIV_0, result));
+        multiplicacio.calculaPossiblesValors(6, 9, 2, new int[]{5});
     }
 }

@@ -1,6 +1,7 @@
 package main.domini.classes.operacions;
 import main.domini.excepcions.ExcepcioDivisio_0;
 import main.domini.excepcions.ExcepcioMoltsValors;
+import main.domini.excepcions.ExcepcioValorInvalid;
 import main.domini.interficies.Operacio;
 import java.util.HashSet;
 import java.util.Set;
@@ -44,12 +45,12 @@ public class Resta implements Operacio {
      * @param midaRegio La mida de la regió on es calcula.
      * @param valors Un vector d'enters que conté els valors inicials de la regió a partir dels quals es calcula si hi ha possible solució i quina.
      *               No pot ser igual a la mida de la regió. És a dir la regió no pot estar plena.
-     * @throws ExcepcioMoltsValors Si el vector té igual o més de dos valors o la regió té més de dues caselles.
+     * @throws ExcepcioMoltsValors Si el vector té igual o més de dos valors o la regió té més de dues caselles. És a dir només s'hauria d'entrar si la regió no està plena.
      * @throws ExcepcioDivisio_0 Si algun dels valors és 0.
      * @return Tots els possibles valors únics que poden ser solució.
      */
     @Override
-    public Set<Integer> calculaPossiblesValors(int resultat, int midaTauler, int midaRegio, int[] valors) throws ExcepcioMoltsValors {
+    public Set<Integer> calculaPossiblesValors(int resultat, int midaTauler, int midaRegio, int[] valors) throws ExcepcioMoltsValors, ExcepcioValorInvalid {
         if (midaRegio != 2) {
             throw new ExcepcioMoltsValors(2, "EQ");
         }
@@ -59,6 +60,9 @@ public class Resta implements Operacio {
         else {
             Set<Integer> solucions = new HashSet<>();
             if (valors.length == 1) {
+                if (valors[0] == 0 || resultat == 0) {
+                    throw new ExcepcioValorInvalid();
+                }
                 int resta = valors[0] - resultat;
                 if (resta > 0 && resta <= midaTauler) {
                     solucions.add(resta);
@@ -68,11 +72,13 @@ public class Resta implements Operacio {
                     solucions.add(suma);
                 }
             }
-            for (int i = 1; i <= midaTauler; i++) {
-                int resta = resultat + i;
-                if (resta > 0 && resta <= midaTauler) {
+            else {
+                for (int i = 1; i <= midaTauler; i++) {
+                    int resta = resultat + i;
+                    if (resta > 0 && resta <= midaTauler) {
                         solucions.add(i);
                         solucions.add(resta);
+                    }
                 }
             }
             return solucions;

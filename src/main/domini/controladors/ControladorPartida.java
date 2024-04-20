@@ -91,8 +91,9 @@ public class ControladorPartida {
      * @throws ExcepcioInicialitzacioPersistenciaPartida Si no s'ha inicialitzat el controlador de persistència de les partides.
      * @throws ExcepcioCarregaPartida Si no hi ha cap partida guardada de l'usuari.
      * @throws ExcepcioPartidaEnCurs Si ja s'està jugant una partida.
+     * @throws ExcepcioNoPermisUsuari Si el nom d'usuari no coincideix amb el de la partida.
      */
-    public String[] carregarUltimaPartidaGuardada(String nomUsuari) throws ExcepcioCarregaPartida, ExcepcioInicialitzacioPersistenciaPartida, ExcepcioPartidaEnCurs {
+    public String[] carregarUltimaPartidaGuardada(String nomUsuari) throws ExcepcioCarregaPartida, ExcepcioInicialitzacioPersistenciaPartida, ExcepcioPartidaEnCurs, ExcepcioNoPermisUsuari {
         if (controladorPersistenciaPartida_ == null) throw new ExcepcioInicialitzacioPersistenciaPartida("No s'ha inicialitzat el controlador de persistència de les partides");
         if (partida_ != null) throw new ExcepcioPartidaEnCurs("S'està jugant una partida en aquest moment");
         String partida = controladorPersistenciaPartida_.carregarUltimaPartidaGuardada(nomUsuari);
@@ -201,6 +202,28 @@ public class ControladorPartida {
         return new String[]{partidaText, taulerText};
     }
 
+    /** Funció que canvia l'estat de la partida afegint un valor que portaria a una solució,
+     * o indica si el que hi ha fins ara no pot portar a una solució.
+     * @return Retorna l'estat de la partida després de canviar la casella.
+     * @throws ExcepcioCarregaPartida Si no hi ha cap partida carregada.
+      */
+    public String[] donaPista() throws ExcepcioCarregaPartida {
+        if (partida_ == null) throw new ExcepcioCarregaPartida("No hi ha cap partida carregada");
+        Int solucioTotal = controladorTauler_.resolKenken(partida_.getTaulerPartida(), partida_.getValorsPartida());
+        boolean posat = false;
+        while (!posat){
+            int fila = (int) (Math.random() * partida_.getTaulerPartida().getGrau());
+            int columna = (int) (Math.random() * partida_.getTaulerPartida().getGrau());
+            if (partida_.getValorsPartida()[fila][columna] == 0){
+                partida_.setValorPartida(fila, columna, solucioTotal[fila][columna]);
+                posat = true;
+            }
+        }
+        partida_.setGuardadaPartida();
+        String partidaText = partida_.generaPartidaText();
+        String taulerText = partida_.getTaulerPartida().generaTaulerText();
+        return new String[]{partidaText, taulerText};
+    }
     /**
      * Guarda la partida en curs del controlador. L'afegeix també al mapa de partides guardades de l'usuari.
      * @param nomUsuari Nom de l'usuari que vol guardar la partida.
@@ -235,17 +258,20 @@ public class ControladorPartida {
     }
     /**
      * Acaba la partida en curs del controlador. Una partida acabada és aquella que està ben resolta.
-     * @return true si s'ha acabat i guardat la partida. false si no s'ha pogut guardar la partida.
+     * @return vector de 3 strings. La primera indica si s'ha guardat la partida a memòria. La segona si havia estat guardada prèviament. La tercera el temps que ha durat la partida.
      * @throws ExcepcioCarregaPartida Si no hi ha cap partida carregada.
      * @throws ExcepcioPartidaTancada Si la partida està tancada.
      * @throws ExcepcioPartidaMalament Si la partida no s'ha pogut acabar per que és incorrecta.
      * @throws ExcepcioPartidaAcabada Si la partida ja està acabada.
      */
-    public boolean acabarPartida() throws ExcepcioCarregaPartida, ExcepcioPartidaTancada, ExcepcioPartidaMalament, ExcepcioPartidaAcabada {
+    public String[] acabarPartida() throws ExcepcioCarregaPartida, ExcepcioPartidaTancada, ExcepcioPartidaMalament, ExcepcioPartidaAcabada {
         if (partida_ == null) throw new ExcepcioCarregaPartida("No hi ha cap partida carregada");
-        boolean guardada = controladorPersistenciaPartida_.arxivarPartida(partida_.acabaPartida());
-        if (guardada) tancaPartida();
-        return guardada;
+        boolean haviaEstatGuardada = partida_.getGuardadaPartida();
+        String dataPartida = partida_.acabaPartida();
+        String temps = dataPartida.split("\n")[3];
+        boolean guardadaCorrectament = controladorPersistenciaPartida_.arxivarPartida(dataPartida);
+        if (guardadaCorrectament) tancaPartida();
+        return new String[]{String.valueOf(guardadaCorrectament), String.valueOf(haviaEstatGuardada), temps};
     }
     /**
      * Tanca la partida en curs del controlador.
@@ -282,4 +308,5 @@ public class ControladorPartida {
         if (tauler.getGrau() != midaPartida) throw new ExcepcioCarregaPartida("La mida de la partida guardada no coincideix amb la mda del seu tauler" );
         return new Partida(identificadorPartida, identificadorUsuariPartida, tauler, tempsPartida, valorsPartida);
     }
+
 }

@@ -1,77 +1,56 @@
-import main.domini.classes.ErrorConstantsOperacions;
+package test.operacions;
+
+import main.domini.classes.operacions.Resta;
+import main.domini.excepcions.*;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import java.util.Arrays;
-import main.domini.classes.operacions.Resta;
+import java.util.*;
 
 public class RestaTest {
-
     @Test
-    public void opera2ReturnsCorrectDifference() {
+    public void opera2() {
         Resta resta = new Resta();
-        assertEquals(2, resta.opera2(7, 5));
+        assertEquals(1, resta.opera2(2, 3));
     }
 
     @Test
-    public void opera2ReturnsCorrectDifferenceWhenSubtractingZero() {
+    public void operaN() throws ExcepcioMoltsValors {
         Resta resta = new Resta();
-        assertEquals(7, resta.opera2(7, 0));
+        assertEquals(1, resta.operaN(new int[]{2, 3}));
+    }
+
+    @Test(expected = ExcepcioMoltsValors.class)
+    public void operaNMoltsValors() throws ExcepcioMoltsValors {
+        Resta resta = new Resta();
+        resta.operaN(new int[]{1, 2, 3});
     }
 
     @Test
-    public void opera2ReturnsCorrectDifferenceWhenSubtractingNegativeNumbers() {
+    public void calculaPossiblesValors() throws ExcepcioMoltsValors, ExcepcioValorInvalid {
         Resta resta = new Resta();
-        assertEquals(11, resta.opera2(7, -4));
+        Set<Integer> expected = new HashSet<>(Arrays.asList(1, 3));
+        assertEquals(expected, resta.calculaPossiblesValors(2, 3, 2, new int[]{}));
     }
 
-    @Test
-    public void operaNReturnsCorrectDifferenceForTwoNumbers() {
+    @Test(expected = ExcepcioMoltsValors.class)
+    public void calculaPossiblesValorsMoltsValors() throws ExcepcioMoltsValors, ExcepcioValorInvalid {
         Resta resta = new Resta();
-        assertEquals(4, resta.operaN(new int[]{8, 4}));
+        resta.calculaPossiblesValors(2, 3, 2, new int[]{1, 2});
     }
 
-    @Test
-    public void operaNReturnsErrorForSingleNumber() {
+    @Test(expected = ExcepcioValorInvalid.class)
+    public void calculaPossiblesValorsValorInvalid0() throws ExcepcioMoltsValors, ExcepcioValorInvalid {
         Resta resta = new Resta();
-        assertEquals(ErrorConstantsOperacions.ERROR_INT_MIDA, resta.operaN(new int[]{3}));
+        resta.calculaPossiblesValors(0, 3, 2, new int[]{0});
     }
-
-    @Test
-    public void operaNReturnsErrorForMoreThanTwoNumbers() {
+    @Test(expected = ExcepcioValorInvalid.class)
+    public void calculaPossiblesValorsValorInvalidNegatiu() throws ExcepcioMoltsValors, ExcepcioValorInvalid {
         Resta resta = new Resta();
-        assertEquals(ErrorConstantsOperacions.ERROR_INT_MIDA, resta.operaN(new int[]{3, 4, 5}));
+        resta.calculaPossiblesValors(0, 3, 2, new int[]{-3});
     }
-
-    @Test
-    public void calculaPossiblesValorsReturnsCorrectValues() {
+    @Test(expected = ExcepcioValorInvalid.class)
+    public void calculaPossiblesValorsValorForaMida() throws ExcepcioMoltsValors, ExcepcioValorInvalid {
         Resta resta = new Resta();
-        int[] expected = new int[]{};
-        assertTrue(Arrays.equals(expected, resta.calculaPossiblesValors(6, 3, 2, new int[]{})));
-    }
-
-    @Test
-    public void calculaPossiblesValorsReturnsErrorForMoreThanTwoValuesInRegion() {
-        Resta resta = new Resta();
-        int[] result = resta.calculaPossiblesValors(6, 3, 3, new int[]{1, 2, 3});
-        assertTrue(Arrays.equals(ErrorConstantsOperacions.ERROR_ARRAY_MIDA, result));
-    }
-
-    @Test
-    public void calculaPossiblesValorsReturnsCorrectValuesForSingleValueInRegion() {
-        Resta resta = new Resta();
-        int[] expected = new int[]{7};
-        assertTrue(Arrays.equals(expected, resta.calculaPossiblesValors(6, 7, 2, new int[]{1})));
-    }
-    @Test
-    public void calculaPossiblesValorsReturnsCorrectValuesForSingleValueInRegionDoubleResult() {
-        Resta resta = new Resta();
-        int[] expected = new int[]{3,9};
-        assertTrue(Arrays.equals(expected, resta.calculaPossiblesValors(3, 9, 2, new int[]{6})));
-    }
-    @Test
-    public void TooMuchRegion() {
-        Resta resta = new Resta();
-        assertTrue(Arrays.equals(ErrorConstantsOperacions.ERROR_ARRAY_MIDA, resta.calculaPossiblesValors(3, 9, 5, new int[]{})));
+        resta.calculaPossiblesValors(0, 3, 2, new int[]{5});
     }
 }
