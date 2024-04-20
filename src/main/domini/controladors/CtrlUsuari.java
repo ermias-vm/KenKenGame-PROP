@@ -23,9 +23,13 @@ public class CtrlUsuari {
         this.usuariActual = null;
     }
 
+    public Usuari getusuariActual() {
+        return usuariActual;
+    }
+
     /**
-     * Método para establecer el usuario actualmente logueado.
-     * @param usuari El usuario que se va a establecer como logueado.
+     * Establir Usuari Loggejat.
+     * @param usuari L'usuari en questio.
      */
     public void setUsuariActual(Usuari usuari) {
         this.usuariActual = usuari;
@@ -88,6 +92,30 @@ public class CtrlUsuari {
     }
 
     /**
+     * Obtenir Contrasenya.
+     * @param nomUsuari El nom d'usuari.
+     * @return La contrasenya de l'usuari.
+     */
+    public String obtenirContrasenya(String nomUsuari) {
+        String contrasenya = null;
+        try (BufferedReader br = new BufferedReader(new FileReader("BDUsuaris.txt"))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] partes = linea.split(" ");
+                String nom = partes[0];
+                if (nom.equals(nomUsuari)) {
+                    contrasenya = partes[1];
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error al leer el archivo: " + e.getMessage());
+        }
+        return contrasenya;
+    }
+    
+
+    /**
      * Iniciar sessio.
      * @param nomUsuari El nom d'usuari.
      * @param contrasenya La contrasenya de l'usuari.
@@ -111,7 +139,9 @@ public class CtrlUsuari {
                 if (parts[0].equals(nomUsuari)) {
                     if (parts[1].equals(contrasenya)) {
                         System.out.println("Inicio de sesión exitoso.");
-                        setUsuariActual(nomUsuari);
+                        String c = obtenirContrasenya(nomUsuari);
+                        Usuari usuari = new Usuari(nomUsuari,c);
+                        setUsuariActual(usuari);
                         scanner.close();
                         return;
                     } else {
@@ -121,6 +151,7 @@ public class CtrlUsuari {
                     }
                 }
             }
+            scanner.close();
 
         } catch (IOException e) {
             System.out.println("Error al intentar iniciar sesión.");
