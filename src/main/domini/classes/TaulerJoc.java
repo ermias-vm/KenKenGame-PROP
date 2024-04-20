@@ -51,7 +51,7 @@ public class TaulerJoc extends Tauler {
         }
         return true;
     }
-    private void backtracking(TaulerJoc TJ, int i, int j) {
+    private void backtracking(TaulerJoc TJ, int i, int j) throws Exception {
         //Cas base , te solucio
         if (i == TJ.getGrau()) {
             trobat = true;
@@ -84,7 +84,7 @@ public class TaulerJoc extends Tauler {
         }
     }
 
-    public void solucionarKenken(TaulerJoc T) {
+    public void solucionarKenken(TaulerJoc T) throws Exception {
         trobat = false;
         backtracking(T, 0, 0);
         //
