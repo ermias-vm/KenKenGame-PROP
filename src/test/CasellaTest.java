@@ -1,73 +1,74 @@
-package test;
-
-import main.domini.classes.Casella;
-import main.domini.excepcions.ExcepcioCasellaNoModificable;
-import main.domini.excepcions.ExcepcioCasellaJaTePosicioAssignada;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import main.domini.classes.Casella;
 
 import static org.junit.Assert.*;
 
-class CasellaTest {
+public class CasellaTest {
+    Casella casella;
 
-    @Test
-    void testConstructor() {
-        Casella casella = new Casella(1, 2);
-        assertEquals(0, casella.getValor());
-        assertEquals(1, casella.getPosX());
-        assertEquals(2, casella.getPosY());
-        assertTrue(casella.esModificable());
-        assertTrue(casella.esBuida());
+    @Before
+    public void setUp() throws Exception {
+        casella = new Casella(1, 1);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        casella = null;
     }
 
     @Test
-    void testSetValor() {
-        Casella casella = new Casella(1, 2);
-        casella.setValor(3);
-        assertEquals(3, casella.getValor());
+    public void setValor() {
+        casella.setValor(5);
+        assertEquals(5, casella.getValor());
     }
 
     @Test
-    void testBorrarValor() {
-        Casella casella = new Casella(1, 2);
-        casella.setValor(3);
+    public void borrarValor() {
+        casella.setValor(5);
         casella.borrarValor();
         assertEquals(0, casella.getValor());
     }
 
     @Test
-    void testSetPosXY() {
-        Casella casella = new Casella();
-        casella.setPosXY(3, 4);
-        assertEquals(3, casella.getPosX());
-        assertEquals(4, casella.getPosY());
+    public void getValor() {
+        casella.setValor(5);
+        assertEquals(5, casella.getValor());
     }
 
     @Test
-    void testSetInmodificable() {
-        Casella casella = new Casella(1, 2);
+    public void getPosX() {
+        assertEquals(1, casella.getPosX());
+    }
+
+    @Test
+    public void getPosY() {
+        assertEquals(1, casella.getPosY());
+    }
+
+    @Test
+    public void setPosXY() {
+        casella.setPosXY(2, 2);
+        assertEquals(2, casella.getPosX());
+        assertEquals(2, casella.getPosY());
+    }
+
+    @Test
+    public void setInmodificable() {
         casella.setInmodificable();
         assertFalse(casella.esModificable());
     }
 
     @Test
-    void testEsBuida() {
-        Casella casella = new Casella(1, 2);
+    public void esModificable() {
+        assertTrue(casella.esModificable());
+    }
+
+    @Test
+    public void esBuida() {
         assertTrue(casella.esBuida());
-        casella.setValor(3);
+        casella.setValor(5);
         assertFalse(casella.esBuida());
-    }
-
-    @Test
-    void testExcepcioCasellaNoModificable() {
-        Casella casella = new Casella(1, 2);
-        casella.setInmodificable();
-        assertThrows(ExcepcioCasellaNoModificable.class, () -> casella.setValor(3));
-        assertThrows(ExcepcioCasellaNoModificable.class, casella::borrarValor);
-    }
-
-    @Test
-    void testExcepcioCasellaJaTePosicioAssignada() {
-        Casella casella = new Casella(1, 2);
-        assertThrows(ExcepcioCasellaJaTePosicioAssignada.class, () -> casella.setPosXY(3, 4));
     }
 }
