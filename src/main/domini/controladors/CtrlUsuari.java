@@ -23,7 +23,7 @@ public class CtrlUsuari {
         this.usuariActual = null;
     }
 
-    public Usuari getusuariActual() {
+    public Usuari getUariActual() {
         return usuariActual;
     }
 
@@ -62,7 +62,7 @@ public class CtrlUsuari {
 
     /**
      * Registar usuari nou.
-     * @param usuari El nom a registrar.
+     * @param numUsuari El nom a registrar.
      */
     public void registrarUsuari(String nomUsuari, String contrasenya) {
 
@@ -122,7 +122,7 @@ public class CtrlUsuari {
      * @return .
      */
     public void iniciarSessio(String nomUsuari, String contrasenya) {
-        
+
         try {
             if (!existeixUsuari(nomUsuari)) throw new ExcepcioUsuariNoExisteix();
         } catch (ExcepcioUsuariNoExisteix e) {
@@ -154,8 +154,22 @@ public class CtrlUsuari {
             scanner.close();
 
         } catch (IOException e) {
-            System.out.println("Error al intentar iniciar sesión.");
+            System.out.println("Error al intentar iniciar sesion.");
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * Canviar Contrasenya.
+     * @param usuari El nom d'usuari.
+     * @param ctrActual La contrasenya actual.
+     * @param ctrNova La contrasenya nova.
+     */
+    public void canviarContrasenya(String usuari, String ctrActual, String ctrNova) {
+        if (existeixUsuari(usuari) && obtenirContrasenya(usuari).equals(ctrActual)) {
+
+        } else {
+            System.out.println("La contrasenya actual o l'usuari es incorrecte.");
         }
     }
 
