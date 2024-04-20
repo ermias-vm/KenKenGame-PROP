@@ -1,7 +1,7 @@
 package test;
 
-import main.domain.classes.Casella;
-import main.domain.classes.Regio;
+import main.domini.classes.Casella;
+import main.domini.classes.Regio;
 
 
 import org.junit.Test;

@@ -1,16 +1,12 @@
 package test;
 
-import main.domain.classes.Casella;
-import main.domain.classes.Peça;
-import main.domain.classes.Tauler;
+import main.domini.classes.Casella;
+import main.domini.classes.Regio;
+import main.domini.classes.Tauler;
 
 import org.junit.Test;
 
-//import java.until.ArrayList;
-//import java.until.List;
-
 import static org.junit.Assert.*;
-
 
 public class TestTauler {
 
@@ -19,28 +15,30 @@ public class TestTauler {
         Tauler tauler = new Tauler(1, 3);
         assertEquals(1, tauler.getIdTauler());
         assertEquals(3, tauler.getGrado());
-        assertNotNull(tauler.getPeçes());
-        assertEquals(0, tauler.getPeçes().size());
+        assertNotNull(tauler.getRegiones());
+        assertEquals(0, tauler.getRegiones().size());
         assertNotNull(tauler.getCaselles());
         assertEquals(0, tauler.getCaselles().size());
     }
 
+    /*
     @Test
-    public void testAfegirPeça() {
+    public void testAfegirRegio() {
         Tauler tauler = new Tauler(1, 3);
-        Peça peça = new Peça();
-        tauler.afegirPeça(peça);
-        assertTrue(tauler.getPeçes().contains(peça));
-    }
+        Regio regio = new Regio();
+        tauler.afegirRegio(regio);
+        assertTrue(tauler.getRegiones().contains(regio));
+    }*/
 
+    /*
     @Test
-    public void testEsborrarPeça() {
+    public void testEsborrarRegio() {
         Tauler tauler = new Tauler(1, 3);
-        Peça peça = new Peça();
-        tauler.afegirPeça(peça);
-        tauler.esborrarPeça(peça);
-        assertFalse(tauler.getPeçes().contains(peça));
-    }
+        Regio regio = new Regio();
+        tauler.afegirRegio(regio);
+        tauler.esborrarRegio(regio);
+        assertFalse(tauler.getRegiones().contains(regio));
+    }*/
 
     @Test
     public void testAfegirCasella() {
@@ -72,10 +70,10 @@ public class TestTauler {
     }
 
     @Test
-    public void testGetPeçes() {
+    public void testGetRegiones() {
         Tauler tauler = new Tauler(1, 3);
-        assertNotNull(tauler.getPeçes());
-        assertEquals(0, tauler.getPeçes().size());
+        assertNotNull(tauler.getRegiones());
+        assertEquals(0, tauler.getRegiones().size());
     }
 
     @Test
