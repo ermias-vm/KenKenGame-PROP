@@ -146,6 +146,15 @@ public class Partida {
         return String.valueOf(taulerPartida_.getIdTauler());
     }
     /**
+     * Retorna el valor d'una casella de la partida.
+     * @param fila Fila de la casella.
+     * @param columna Columna de la casella.
+     * @return Valor de la casella de la partida.
+     */
+    public int getValorPartida(int fila, int columna) {
+        return valorsPartida_[fila][columna];
+    }
+    /**
      * Retorna els valors de les caselles de la partida en un instant.
      * @return Valors de les caselles de la partida en un instant.
      */
@@ -194,7 +203,7 @@ public class Partida {
      * @throws ExcepcioPartidaAcabada si la partida ja està acabada.
      * @throws ExcepcioPartidaTancada si la partida està tancada.
      */
-    public boolean setValorPartida(int valor, int fila, int columna) throws ExcepcionPosicioIncorrecta, ExcepcioValorInvalid, ExcepcioPartidaAcabada, ExcepcioPartidaTancada {
+    public boolean setValorPartida(int fila, int columna, int valor) throws ExcepcionPosicioIncorrecta, ExcepcioValorInvalid, ExcepcioPartidaAcabada, ExcepcioPartidaTancada {
         if (tancadaPartida_) {
             throw new ExcepcioPartidaTancada();
         }

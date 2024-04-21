@@ -100,9 +100,5 @@ public class Regio {
 			System.out.println(e.getMessage());
 		}
     }
-
-	
-
-	
     
 }

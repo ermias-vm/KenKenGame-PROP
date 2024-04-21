@@ -10,6 +10,10 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Driver per a simular una partida de Kenken.
+ * @author Nil Beascoechea Vàzquez
+ */
 public class DriverJugarPartida {
     private final static inout io = new inout();
     public static void main(String[] args) {
@@ -227,11 +231,15 @@ public class DriverJugarPartida {
         while (true) {
             System.out.println("Funcionalitats que ofereixo en la partida (escriu únicament el número):");
             System.out.println("Tingues en compte que si guardes la partida o utilitzes pistes no podràs participar als rankings, és l'has de solucionar (4. Acabar) d'una tirada sense ajudes.");
+            System.out.println("Es permet desfer i refer moviments il·limitadament sense penalització.");
             System.out.println("1. Posar valor.\n" +
-                    "2. Pista.\n" +
-                    "3. Guardar partida.\n" +
-                    "4. Acabar partida (si vols que s'avaluï), es tancarà la partida si està bé.\n" +
-                    "5. Tancar i guardar partida.");
+                    "2. Desfer moviment.\n" +
+                    "3. Refer moviment.\n" +
+                    "4. Pista.\n" +
+                    "5. Guardar partida.\n" +
+                    "6. Acabar partida (si vols que s'avaluï), es tancarà la partida si està bé.\n" +
+                    "7. Tancar i guardar partida.\n" +
+                    "8. Sortir de la partida sense guardar.");
             int opcio = scanner.nextInt();
             switch (opcio) {
                 case 1:
@@ -260,6 +268,42 @@ public class DriverJugarPartida {
                     }
                     break;
                 case 2:
+                    try {
+                        String[] estat = controladorPartida.desferMoviment();
+                        System.out.println("Estat de la partida:");
+                        try {
+                            escriuEstatPartida(estat[0]);
+                        } catch (Exception e) {
+                            System.out.println("Error en el print de l'estat de la partida:" + e.getMessage());
+                        }
+                        System.out.print(estat[1]);
+                    } catch (ExcepcioPartidaTancada|ExcepcioPartidaAcabada e) {
+                        System.out.println(e.getMessage());
+                        return;
+                    } catch (ExcepcioValorInvalid|ExcepcioDoUndo|ExcepcionPosicioIncorrecta e) {
+                        System.out.println(e.getMessage());
+                        break;
+                    }
+                    break;
+                case 3:
+                    try {
+                        String[] estat = controladorPartida.referMoviment();
+                        System.out.println("Estat de la partida:");
+                        try {
+                            escriuEstatPartida(estat[0]);
+                        } catch (Exception e) {
+                            System.out.println("Error en el print de l'estat de la partida:" + e.getMessage());
+                        }
+                        System.out.print(estat[1]);
+                    } catch (ExcepcioPartidaTancada|ExcepcioPartidaAcabada e) {
+                        System.out.println(e.getMessage());
+                        return;
+                    } catch (ExcepcioValorInvalid|ExcepcioDoUndo|ExcepcionPosicioIncorrecta e) {
+                        System.out.println(e.getMessage());
+                        break;
+                    }
+                    break;
+                case 4:
                     try{
                         String[] estat = controladorPartida.donaPista();
                         System.out.println("Estat de la partida:");
@@ -269,12 +313,14 @@ public class DriverJugarPartida {
                             System.out.println("Error en el print de l'estat de la partida:" + e.getMessage());
                         }
                         System.out.print(estat[1]);
-                    } catch (ExcepcioCarregaPartida e) {
+                    } catch (ExcepcioCarregaPartida|ExcepcioPartidaTancada|ExcepcioPartidaAcabada e) {
                         System.out.println(e.getMessage());
                         return;
+                    } catch (ExcepcioValorInvalid|ExcepcionPosicioIncorrecta e) {
+                        System.out.println("Error a l'hora de generar una pista, disculpi les molèsties:" + e.getMessage());
                     }
                     break;
-                case 3:
+                case 5:
                     try {
                         boolean guardada = controladorPartida.guardarPartida(nomUsuari);
                         if (guardada) System.out.println("Partida guardada correctament.");
@@ -285,7 +331,7 @@ public class DriverJugarPartida {
                         return;
                     }
                     break;
-                case 4:
+                case 6:
                     try {
                         String[] acabada = controladorPartida.acabarPartida();
                         if (Boolean.parseBoolean(acabada[0])){
@@ -312,7 +358,7 @@ public class DriverJugarPartida {
                         break;
                     }
                     break;
-                case 5:
+                case 7:
                     try{
                         boolean guardada = controladorPartida.tancarIguardarPartida();
                         if (guardada){
@@ -325,6 +371,9 @@ public class DriverJugarPartida {
                         return;
                     }
                     break;
+                case 8:
+                        controladorPartida.tancaPartida();
+                        return;
             }
         }
     }

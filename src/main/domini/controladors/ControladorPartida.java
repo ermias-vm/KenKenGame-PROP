@@ -5,6 +5,7 @@ import main.domini.excepcions.*;
 import main.persistencia.ControladorPersistenciaPartida;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Stack;
 
 /**
  * Controlador de la capa de domini que representa una partida i,
@@ -29,6 +30,16 @@ public class ControladorPartida {
      * La seva funció és el ràpid accés a les partides guardades de l'usuari per si decideix carregar-ne una.
      */
     private HashMap<String, String> partidesGuardadesUsuari_;
+    /**
+     * Pila que guarda els moviments fets a la partida per a poder desfer-los.
+     * Un moviment es representa com un vector d'enters de 3 posicions: fila, columna i el valor anterior al moviment.
+     */
+    private final Stack<int[]> desferMoviments_ = new Stack<>();
+    /**
+     * Pila que guarda els moviments desfets a la partida per a poder refer-los.
+     * Un moviment es representa com un vector d'enters de 3 posicions: fila, columna i el valor anterior al moviment a refer.
+     */
+    private final Stack<int[]> referMoviments_ = new Stack<>();
     /**
      * Controlador de persistència de les partides. S'encarrega de guardar i carregar les partides.
      * @see ControladorPersistenciaPartida
@@ -196,20 +207,63 @@ public class ControladorPartida {
      */
     public String[] introduirValor(int fila, int columna, int valor) throws ExcepcioCarregaPartida, ExcepcionPosicioIncorrecta, ExcepcioValorInvalid, ExcepcioPartidaTancada, ExcepcioPartidaAcabada {
         if (partida_ == null) throw new ExcepcioCarregaPartida("No hi ha cap partida carregada");
+        int valor_anterior = partida_.getValorPartida(fila, columna);
         partida_.setValorPartida(fila, columna, valor);
+        desferMoviments_.push(new int[]{fila, columna, valor_anterior});
+        referMoviments_.clear();
+        String partidaText = partida_.generaPartidaText();
+        String taulerText = partida_.getTaulerPartida().generaTaulerText();
+        return new String[]{partidaText, taulerText};
+    }
+    /**
+     * Desfà l'últim moviment fet a la partida.
+     * @return Retorna l'estat de la partida després de desfer el moviment.
+     * @throws ExcepcioPartidaTancada Si la partida està tancada.
+     * @throws ExcepcioValorInvalid Si el valor de la casella no és vàlid.
+     * @throws ExcepcioPartidaAcabada Si la partida està acabada.
+     * @throws ExcepcionPosicioIncorrecta Si la posició de la casella no és correcta.
+     * @throws ExcepcioDoUndo Si no hi ha cap moviment a desfer.
+     */
+    public String[] desferMoviment() throws ExcepcioPartidaTancada, ExcepcioValorInvalid, ExcepcioPartidaAcabada, ExcepcionPosicioIncorrecta, ExcepcioDoUndo {
+        if (desferMoviments_.isEmpty()) throw new ExcepcioDoUndo("No hi ha cap moviment a desfer.");
+        int[] moviment = desferMoviments_.pop();
+        referMoviments_.push(new int[]{moviment[0], moviment[1], partida_.getValorPartida(moviment[0], moviment[1])});
+        partida_.setValorPartida(moviment[0], moviment[1], moviment[2]);
         String partidaText = partida_.generaPartidaText();
         String taulerText = partida_.getTaulerPartida().generaTaulerText();
         return new String[]{partidaText, taulerText};
     }
 
+    /**
+     * Refà un moviment desfet a la partida.
+     * @return Retorna l'estat de la partida després de refer el moviment.
+     * @throws ExcepcioPartidaTancada Si la partida està tancada.
+     * @throws ExcepcioValorInvalid Si el valor de la casella no és vàlid.
+     * @throws ExcepcioPartidaAcabada Si la partida està acabada.
+     * @throws ExcepcionPosicioIncorrecta Si la posició de la casella no és correcta.
+     * @throws ExcepcioDoUndo Si no hi ha cap moviment a refer.
+     */
+    public String[] referMoviment() throws ExcepcioPartidaTancada, ExcepcioValorInvalid, ExcepcioPartidaAcabada, ExcepcionPosicioIncorrecta, ExcepcioDoUndo {
+        if (referMoviments_.isEmpty()) throw new ExcepcioDoUndo("No hi ha cap moviment a refer.");
+        int[] moviment = referMoviments_.pop();
+        desferMoviments_.push(new int[]{moviment[0], moviment[1], partida_.getValorPartida(moviment[0], moviment[1])});
+        partida_.setValorPartida(moviment[0], moviment[1], moviment[2]);
+        String partidaText = partida_.generaPartidaText();
+        String taulerText = partida_.getTaulerPartida().generaTaulerText();
+        return new String[]{partidaText, taulerText};
+    }
     /** Funció que canvia l'estat de la partida afegint un valor que portaria a una solució,
      * o indica si el que hi ha fins ara no pot portar a una solució.
      * @return Retorna l'estat de la partida després de canviar la casella.
      * @throws ExcepcioCarregaPartida Si no hi ha cap partida carregada.
+     * @throws ExcepcioPartidaTancada Si la partida està tancada.
+     * @throws ExcepcioValorInvalid Si el valor de la casella no és vàlid.
+     * @throws ExcepcioPartidaAcabada Si la partida està acabada.
+     * @throws ExcepcionPosicioIncorrecta Si la posició de la casella no és correcta.
       */
-    public String[] donaPista() throws ExcepcioCarregaPartida {
+    public String[] donaPista() throws ExcepcioCarregaPartida, ExcepcioPartidaTancada, ExcepcioValorInvalid, ExcepcioPartidaAcabada, ExcepcionPosicioIncorrecta {
         if (partida_ == null) throw new ExcepcioCarregaPartida("No hi ha cap partida carregada");
-        Int solucioTotal = controladorTauler_.resolKenken(partida_.getTaulerPartida(), partida_.getValorsPartida());
+        int[][] solucioTotal = controladorTauler_.resolKenken(partida_.getTaulerPartida(), partida_.getValorsPartida());
         boolean posat = false;
         while (!posat){
             int fila = (int) (Math.random() * partida_.getTaulerPartida().getGrau());
@@ -249,6 +303,8 @@ public class ControladorPartida {
      */
     public boolean tancarIguardarPartida() throws ExcepcioCarregaPartida, ExcepcioPartidaTancada, ExcepcioPartidaAcabada {
         if (partida_ == null) throw new ExcepcioCarregaPartida("No hi ha cap partida carregada");
+        desferMoviments_.clear();
+        referMoviments_.clear();
         String identificadorPartida = partida_.getIdentificadorPartida();
         String dadesPartida = partida_.tancaIGuardaPartida();
         partidesGuardadesUsuari_.put(identificadorPartida, dadesPartida);
@@ -267,6 +323,8 @@ public class ControladorPartida {
     public String[] acabarPartida() throws ExcepcioCarregaPartida, ExcepcioPartidaTancada, ExcepcioPartidaMalament, ExcepcioPartidaAcabada {
         if (partida_ == null) throw new ExcepcioCarregaPartida("No hi ha cap partida carregada");
         boolean haviaEstatGuardada = partida_.getGuardadaPartida();
+        referMoviments_.clear();
+        desferMoviments_.clear();
         String dataPartida = partida_.acabaPartida();
         String temps = dataPartida.split("\n")[3];
         boolean guardadaCorrectament = controladorPersistenciaPartida_.arxivarPartida(dataPartida);
@@ -279,6 +337,8 @@ public class ControladorPartida {
      */
     public boolean tancaPartida(){
         partida_ = null;
+        referMoviments_.clear();
+        desferMoviments_.clear();
         return true;
     }
     /**
@@ -308,5 +368,4 @@ public class ControladorPartida {
         if (tauler.getGrau() != midaPartida) throw new ExcepcioCarregaPartida("La mida de la partida guardada no coincideix amb la mda del seu tauler" );
         return new Partida(identificadorPartida, identificadorUsuariPartida, tauler, tempsPartida, valorsPartida);
     }
-
 }
