@@ -5,39 +5,82 @@ import java.util.ArrayList;
 
 import main.domini.interficies.Operacio;
 
+/**
+ * Classe RegioJoc que estén la classe Regio.
+ * Representa una regió de joc amb una operació i un resultat associats.
+ */
 public class RegioJoc extends Regio {
     private Operacio operacio;
     private int resultat;
 
 
+    /**
+     * Constructor de RegioJoc amb tamany, operació i resultat.
+     *
+     * @param tam       Tamany de la regió.
+     * @param operacio  Operació de la regió.
+     * @param resultat  Resultat de la regió.
+     */
     public RegioJoc(int tam, Operacio operacio, int resultat) {
         super(tam);
         this.operacio = operacio;
         this.resultat = resultat;
     }
 
+    /**
+     * Constructor de RegioJoc amb una llista de caselles, operació i resultat.
+     *
+     * @param caselles  Llista de caselles de la regió.
+     * @param operacio  Operació de la regió.
+     * @param resultat  Resultat de la regió.
+     */
     public RegioJoc(ArrayList<Casella> caselles, Operacio operacio, int resultat) {
         super(caselles);
         this.operacio = operacio;
         this.resultat = resultat;
     }
 
+    /**
+     * Retorna l'operació de la regió.
+     *
+     * @return Operació de la regió.
+     */
     public Operacio getOperacio() {
         return this.operacio;
     }
 
+    /**
+     * Estableix l'operació de la regió.
+     *
+     * @param operacio  Operació a establir.
+     */
     public void setOperacio(Operacio operacio) {
         this.operacio = operacio;
     }
 
+    /**
+     * Retorna el resultat de la regió.
+     *
+     * @return Resultat de la regió.
+     */
     public int getResultat() {
         return this.resultat;
     }
 
+    /**
+     * Estableix el resultat de la regió.
+     *
+     * @param resultat  Resultat a establir.
+     */
     public void seResultat(int resultat) {
         this.resultat = resultat;
     }
 
+    /**
+     * Retorna els valors de les caselles de la regió.
+     *
+     * @return Array d'enters amb els valors de les caselles.
+     */
     public int[] getValorsCaselles() {
         ArrayList<Casella> caselles = getCaselles();
         int[] valors = new int[caselles.size()];
@@ -48,7 +91,11 @@ public class RegioJoc extends Regio {
         return valors;
     }
 
-
+    /**
+     * Comprova si la regió està completa.
+     *
+     * @return true si la regió està completa, false en cas contrari.
+     */
     public boolean esCompleta() {
         ArrayList<Casella> caselles = getCaselles();
         for (Casella casella : caselles) {
@@ -59,6 +106,12 @@ public class RegioJoc extends Regio {
         return true;
     }
 
+    /**
+     * Comprova si la regió és vàlida.
+     *
+     * @return true si la regió és vàlida, false en cas contrari.
+     * @throws Exception si hi ha un error en l'operació.
+     */
     public boolean esValida() throws Exception {
 
         if (!esCompleta()) {
