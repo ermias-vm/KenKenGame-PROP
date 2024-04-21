@@ -4,6 +4,8 @@ package main.domini.controladors;
 import main.domini.classes.*;
 import main.domini.excepcions.*;
 
+import java.io.IOException;
+
 public class CtrlDomini {
 
     private TaulerJoc  TJ;
@@ -32,8 +34,8 @@ public class CtrlDomini {
 
     //Kenkens
 
-    public void importarKenken() {
-       TJ = CT.importarKenken();
+    public void importarKenken(int idTauler) throws IOException {
+        TJ = CT.llegirTauler(idTauler);
     }
 
     public void resoldreKenken() throws Exception {

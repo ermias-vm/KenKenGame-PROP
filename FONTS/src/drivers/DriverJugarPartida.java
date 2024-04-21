@@ -1,4 +1,4 @@
-package main.Drivers;
+package drivers;
 
 import main.domini.controladors.ControladorPartida;
 import main.domini.controladors.CtrlTauler;
