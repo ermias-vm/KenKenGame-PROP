@@ -3,32 +3,63 @@ package main.domini.classes;
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * Classe TaulerJoc que estén la classe Tauler.
+ * Representa un tauler de joc amb regions i un estat de si s'ha trobat una solució.
+ */
 public class TaulerJoc extends Tauler {
 
     private boolean trobat;
     private List<RegioJoc> regionsJoc;
 
+    /**
+     * Constructor de TaulerJoc.
+     * @param idTauler Identificador del tauler
+     * @param grau Grau del tauler
+     */
     public TaulerJoc(int idTauler, int grau) {
         super(idTauler, grau);
         this.regionsJoc = new ArrayList<>();
         this.trobat = false;
     }
-
+    /**
+     * Comprova si el tauler té una solució.
+     * @return true si té solució, false en cas contrari
+     */
     public boolean teSolucion() {
         return trobat;
     }
+
+    /**
+     * Afegeix una regió de joc a la llista de regionsJoc.
+     * @param regioJoc La regió de joc a afegir
+     */
     public void afegirRegioJoc(RegioJoc regioJoc) {
         this.regionsJoc.add(regioJoc);
     }
 
+    /**
+     * Esborra una regió de joc de la llista de regionsJoc.
+     * @param regioJoc La regió de joc a esborrar
+     */
     public void borrarRegioJoc(RegioJoc regioJoc) {
         this.regionsJoc.remove(regioJoc);
     }
 
+    /**
+     * Retorna la llista de regions de joc.
+     * @return Llista de regions de joc
+     */
     public List<RegioJoc> getRegionsJoc() {
         return this.regionsJoc;
     }
 
+    /**
+     * Retorna la regió de joc que conté la casella amb les coordenades x, y.
+     * @param x Coordenada x de la casella
+     * @param y Coordenada y de la casella
+     * @return Regió de joc que conté la casella, null si no es troba
+     */
     public RegioJoc getRegio(int x, int y) {
         for (RegioJoc r : regionsJoc) {
             for (int j = 0; j < r.getTamany(); ++j) {
@@ -41,7 +72,12 @@ public class TaulerJoc extends Tauler {
     }
 
 
-    // Funcions principals bactracking
+    /**
+     * Comprova si un número és vàlid per a una fila donada.
+     * @param fila Fila a comprovar
+     * @param num Número a comprovar
+     * @return true si el número és vàlid, false en cas contrari
+     */
     public boolean esFilaValida(int fila, int num) {
         for (int colum = 0; colum < getGrau(); ++colum) {
             if (getCasella(fila, colum).getValor() == num) return false;
@@ -49,12 +85,26 @@ public class TaulerJoc extends Tauler {
         return true;
     }
 
+    /**
+     * Comprova si un número és vàlid per a una columna donada.
+     * @param colum Columna a comprovar
+     * @param num Número a comprovar
+     * @return true si el número és vàlid, false en cas contrari
+     */
     public boolean esColumValida(int colum, int num) {
         for (int fila = 0; fila < getGrau(); ++fila) {
             if (getCasella(fila, colum).getValor() == num) return false;
         }
         return true;
     }
+
+    /**
+     * Mètode recursiu per a la resolució del tauler de joc.
+     * @param TJ Tauler de joc a resoldre
+     * @param i Índex de la fila
+     * @param j Índex de la columna
+     * @throws Exception Si es produeix un error durant la resolució
+     */
     private void backtracking(TaulerJoc TJ, int i, int j) throws Exception {
         //Cas base , te solucio
         if (i == TJ.getGrau()) {
@@ -88,6 +138,11 @@ public class TaulerJoc extends Tauler {
         }
     }
 
+    /**
+     * Resol el tauler de joc Kenken.
+     * @param T Tauler de joc a resoldre
+     * @throws Exception Si es produeix un error durant la resolució
+     */
     public void solucionarKenken(TaulerJoc T) throws Exception {
         backtracking(T, 0, 0);
     }
