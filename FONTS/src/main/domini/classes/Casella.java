@@ -14,18 +14,11 @@ public class Casella {
     private int posY;
     private boolean modificable;
 
-    public Casella(){
-        this(-1,-1);
-    }
-
     /**
      * Constructor per defecte. Inicialitza la cel·la amb la posició (-1, -1).
      */
-    public Casella(int x, int y) {
-        this.valor = 0;
-        this.posX = x;
-        this.posY = y;
-        this.modificable = true;
+    public Casella(){
+        this(-1,-1);
     }
 
     /**
@@ -33,6 +26,12 @@ public class Casella {
      * @param x La posició x de la cel·la.
      * @param y La posició y de la cel·la.
      */
+    public Casella(int x, int y) {
+        this.valor = 0;
+        this.posX = x;
+        this.posY = y;
+        this.modificable = true;
+    }
 
     /**
      * Estableix el valor de la cel·la.
