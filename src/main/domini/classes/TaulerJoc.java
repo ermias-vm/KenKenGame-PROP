@@ -11,8 +11,12 @@ public class TaulerJoc extends Tauler {
     public TaulerJoc(int idTauler, int grau) {
         super(idTauler, grau);
         this.regionsJoc = new ArrayList<>();
+        this.trobat = false;
     }
 
+    public boolean teSolucion() {
+        return trobat;
+    }
     public void afegirRegioJoc(RegioJoc regioJoc) {
         this.regionsJoc.add(regioJoc);
     }
@@ -85,8 +89,6 @@ public class TaulerJoc extends Tauler {
     }
 
     public void solucionarKenken(TaulerJoc T) throws Exception {
-        trobat = false;
         backtracking(T, 0, 0);
-        //
     }
 }

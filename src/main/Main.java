@@ -9,10 +9,8 @@ public class Main {
         System.out.println("Inicia controlador de dominio...");
         CD = new CtrlDomini();
 
-        // Asumiendo que tienes los parámetros necesarios para estas funciones
         importarKenken();
-        resoldreKenken();
-        mostrarKenken();
+        pintarSolucioKenken();
     }
 
     public static void importarKenken() {
@@ -20,13 +18,8 @@ public class Main {
         CD.importarKenken();
     }
 
-    public static void resoldreKenken() {
-
+    public static void pintarSolucioKenken() throws Exception {
         CD.resoldreKenken();
     }
 
-    public static void mostrarKenken() {
-
-        CD.mostrarKenken();
-    }
 }
