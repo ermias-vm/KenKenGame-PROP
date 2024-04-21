@@ -11,10 +11,14 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.Scanner;
 
 //import java.util.ArrayList;
 //import java.util.List;
+
+
 
 public class CtrlTauler {
     private Tauler taulerActual;
@@ -89,6 +93,74 @@ public class CtrlTauler {
             System.out.println("Error al leer el archivo del tablero: " + e.getMessage());
         } catch (ExcepcioTaulerNoExisteix e) {
             System.out.println(e.getMessage());
+        }
+    }
+    
+    public static int[][] llegirTauler(int idTauler) throws IOException {
+        String nomFitxer = "BDTaulers/" + idTauler + ".txt";
+        BufferedReader reader = new BufferedReader(new FileReader(nomFitxer));
+        String linia = reader.readLine();
+        String[] dimensions = linia.split(" ");
+        int dimensio = Integer.parseInt(dimensions[0]);
+        int numRegions = Integer.parseInt(dimensions[1]);
+        int[][] tauler = new int[dimensio][dimensio];
+        
+        for (int i = 0; i < numRegions; i++) {
+            linia = reader.readLine();
+            String[] valors = linia.split(" ");
+            int numElements = Integer.parseInt(valors[2]);
+            int k = 3;
+            for (int j = 0; j < numElements; j++) {
+                int fila = Integer.parseInt(valors[k]) - 1; // Ajustar a l'indexació de Java (que comença per 0)
+                int columna = Integer.parseInt(valors[k + 1]) - 1; // Ajustar a l'indexació de Java
+                if (/*j + 1 < valors.length &&*/ valors[k + 2].startsWith("[")) {
+                    int valor = Integer.parseInt(valors[j + 1].substring(1, valors[k + 2].length() - 1));
+                    tauler[fila][columna] = valor;
+                    k = k + 3;
+                } else {
+                    tauler[fila][columna] = 0;
+                    k = k + 2;
+                }
+                
+            }
+        }
+        
+        reader.close();
+        return tauler;
+    }
+
+    public void mostrarTauler(int idTauler) {
+        try {
+            // Leer el tablero desde el archivo
+            int[][] tauler = llegirTauler(idTauler);
+    
+            // Mostrar el tablero
+            int n = tauler.length; // Obtener el tamaño del tablero (grado)
+    
+            // Imprimir filas
+            for (int i = 0; i < n; i++) {
+                // Imprimir borde superior de la fila
+                for (int j = 0; j < n; j++) {
+                    System.out.print("+---");
+                }
+                System.out.println("+");
+    
+                // Imprimir valores de la fila
+                for (int j = 0; j < n; j++) {
+                    int valor = tauler[i][j];
+                    String valorStr = (valor == 0) ? " " : Integer.toString(valor);
+                    System.out.print("| " + valorStr + " ");
+                }
+                System.out.println("|");
+            }
+    
+            // Imprimir borde inferior del tablero
+            for (int j = 0; j < n; j++) {
+                System.out.print("+---");
+            }
+            System.out.println("+");
+        } catch (IOException e) {
+            System.out.println("Error al leer el archivo del tablero: " + e.getMessage());
         }
     }
     
