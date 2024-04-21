@@ -1,69 +1,37 @@
 package main.domini.classes;
 
-import main.domini.controladors.CtrlRanking;
-
-import main.persistencia.ControladorPersistenciaPartida;
 import java.util.*;
 
-public class Ranking {
-	public ArrayList<ArrayList<String>> informacio;
-	protected  ArrayList<Pack> tempsgrau; //ArrayList de Pack<Jugador,Temps>
-    protected  ArrayList<ArrayList<Pack>> tempstotals;
-	
-	public class Pack { //Pack d'Usuari + Temps per a RankingPerTipus
-	private String idusuari;
-	private Double temps;
-	private String idtauler;
-	
-	public Pack(){
+import main.domini.controladors.CtrlRanking;
+import main.domini.classes.Ranking;
+
+public class RankingIndividual extends Ranking{
     
-    }   
+  
 	
-	public Pack(String idusuari, Double temps, String idtauler){ 
-		this.idusuari=idusuari;
-		this.temps=temps;
-		this.idtauler=idtauler;
-	}
-	
-	public String getIdusuari() {
-		return idusuari;
-	}
-	public void setIduser(String idusuari) {
-		this.idusuari = idusuari;
-	}
-	public Double getTemps() {
-		return temps;
-	}
-	public void setTemps(Double temps) {
-		this.temps = temps;
-	}
-	public String getidtauler(){
-		return idtauler;
-	}
-	public void setidtauler(String idtauler){
-		this.idtauler = idtauler;
-	}
-	
-}
-
-	protected Ranking() {
-		informacio = new ArrayList<ArrayList<String>>();
-	}
-	public void setInfo(ArrayList<ArrayList<String>> informacio) {
-        this.informacio = informacio;
-    }
-
-	public class CustomComparator implements Comparator<Pack>{ //Comparador per ordenar de major a menor (per invertir l'ordre invertir el compare)
-		public int compare(Pack t1,Pack t2){
-			return t1.getTemps().compareTo(t2.getTemps());
-		}
-	}
-	
-	
-
-	public ArrayList<ArrayList<Pack>> getTempsTotals() {
-		return tempstotals;
+	public RankingIndividual (String d) {
+        tempstotals = new ArrayList<ArrayList<Pack>>();
+        CtrlRanking ctrlRanking = new CtrlRanking();
+		ctrlRanking.carregarPartidesAcabadesUsuari(this, d);
+        for (int i = 3; i <= 9; ++i) { //Per cada grau
+		tempsgrau = new ArrayList<Pack>();
+            for (int j=0; j<informacio.size(); j++){ //Per cada linia d'informacio
+                if (informacio.get(4).equals(i)){
+                    ArrayList<String> s = informacio.get(j);
+                    String idusuari = new String(s.get(1)); //Agafa l'idusuari
+                    double time = Double.parseDouble(s.get(3));
+                    String idtauler = new String(s.get(0));
+                    Pack a = new Pack();
+                    a.setTemps(time);
+                    a.setIduser(idusuari); //Ho coloquem a la Pack	
+                    a.setidtauler(idtauler);
+                    tempsgrau.add(a); //Ho afegim a ArrayList
+                    Collections.sort(tempsgrau, new CustomComparator()); //Ordenem ArrayList
+                }
+            }    
+            tempstotals.add(tempsgrau);
+        }
 	}
 
-
+    	
 }
