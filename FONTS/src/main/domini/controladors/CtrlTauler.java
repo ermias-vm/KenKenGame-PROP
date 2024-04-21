@@ -163,6 +163,47 @@ public class CtrlTauler {
             System.out.println("Error al leer el archivo del tablero: " + e.getMessage());
         }
     }
+
+    public TaulerKenKen llegirTaulerJoc(int idTauler) {
+        String path = Paths.get("Data", idTauler + ".txt").toString();
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(new File(path)));
+            List<String> lines = new ArrayList<>();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                lines.add(line);
+            }
+            reader.close();
+            return construirTaulerKenKen(lines);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private TaulerKenKen construirTaulerKenKen(List<String> lines) {
+        int n = Integer.parseInt(lines.get(0));
+        TaulerKenKen K = new TaulerKenKen(n);
+        int nr = Integer.parseInt(lines.get(1));
+        for (int i = 2; i < nr + 2; ++i) {
+            Vector<Cella> VC = new Vector<>();
+            String[] parts = lines.get(i).split(" ");
+            int nc = Integer.parseInt(parts[0]);
+            int j = 1;
+            for (int k = 0; k < nc; ++k) {
+                int x = Integer.parseInt(parts[j]);
+                int y = Integer.parseInt(parts[j + 1]);
+                Cella c = K.getCella(x, y);
+                VC.add(c);
+                j += 2;
+            }
+            String op = parts[j];
+            int res = Integer.parseInt(parts[j + 1]);
+            RegioKenKen r = new RegioKenKen(nc, VC, op, res, i - 2);
+            K.afegeixRegio(r);
+        }
+        return K;
+    }
     
 
 }
