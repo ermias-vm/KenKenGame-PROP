@@ -1,5 +1,5 @@
 package main.persistencia;
-
+import main.domini.controladors.ControladorPartida;
 import java.io.*;
 import java.nio.file.*;
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.HashSet;
 
 /**
  * Controlador de persistencia per a {@code Partida} que s'encarrega de gestionar la càrrega i el guardat de partides.
- * Es relaciona amb el controlador de partides de domini {@link main.domini.controladors.ControladorPartida}.
+ * Es relaciona amb el controlador de partides de domini {@link ControladorPartida}.
  * Opera amb fitxers de text per a guardar les partides.<br>
  * El fitxer per guardar les partides guardades és "Data/PartidesGuardades.txt".<br>
  * Els fitxers per guardar les partides acabades són "Data/PartidesAcabadesGuardades.txt",<br>
@@ -132,28 +132,30 @@ public class ControladorPersistenciaPartida {
      * @param nomUsuari Nom de l'usuari del qual es volen carregar les partides.
      * @return Una llista de cadenes de text amb la informació de les partides acabades.
      */
-    public ArrayList<String> carregarPartidesAcabadesUsuari(String nomUsuari) {
+    public  ArrayList<ArrayList<String>> carregarPartidesAcabadesUsuari(String nomUsuari) {
         try {
-            ArrayList<String> partides = new ArrayList<>();
+            ArrayList<ArrayList<String>> partides = new ArrayList<ArrayList<String>>();
             for (String partidesAcabades : this.fitxersPartidesAcabades_) {
                 BufferedReader lector = new BufferedReader(new FileReader(partidesAcabades));
                 String linia;
                 while ((linia = lector.readLine()) != null) {
                     if (linia.contains(nomUsuari + ":")) {
-                        StringBuilder partida = new StringBuilder();
-                        partida.append(linia).append("\n");
+                        ArrayList<String> partida = new ArrayList<String>();
+                        partida.add(linia);
                         for (int j = 0; j < 4; j++) {
-                            partida.append(lector.readLine()).append("\n");
+                            partida.add(lector.readLine());
                         }
                         if (partidesAcabades == this.fitxersPartidesAcabades_[0]) {
-                            partida.append("true").append("\n");
+                            partida.add("true");;
                         }
                         else {
-                            partida.append("false").append("\n");
+                            partida.add("false");
                         }
-                        partides.add(partida.toString());
+                        partides.add(partida);
                     }
                 }
+                lector.close();
+
             }
             return partides;
         }
@@ -170,19 +172,18 @@ public class ControladorPersistenciaPartida {
      * @param grau Grau de les partides que es volen carregar.
      * @return Una llista de cadenes de text amb la informació de les partides acabades.
      */
-    public ArrayList<String> carregaPartidesAcabadesGrau(int grau) {
+    public  ArrayList<ArrayList<String>> carregaPartidesAcabadesGrau(int grau) {
         try {
-            ArrayList<String> partides = new ArrayList<>();
-            BufferedReader lector = new BufferedReader(new FileReader(this.fitxersPartidesAcabades_[grau-2]));
+            ArrayList<ArrayList<String>> partides = new ArrayList<ArrayList<String>>();            BufferedReader lector = new BufferedReader(new FileReader(this.fitxersPartidesAcabades_[grau-2]));
             String linia;
             while ((linia = lector.readLine()) != null) {
-                StringBuilder partida = new StringBuilder();
-                partida.append(linia).append("\n");
+                ArrayList<String> partida = new ArrayList<String>();
+                partida.add(linia);
                 for (int j = 0; j < 4; j++) {
-                    partida.append(lector.readLine()).append("\n");
+                    partida.add(lector.readLine());
                 }
-                partida.append("false").append("\n");
-                partides.add(partida.toString());
+                partida.add("false");
+                partides.add(partida);
             }
             lector.close();
             return partides;
