@@ -1,9 +1,9 @@
 package main.domini.classes;
 
-import java.util.List;
-import java.util.ArrayList;
 
+import java.util.ArrayList;
 import main.domini.interficies.Operacio;
+import main.domini.classes.operacions.*;
 
 /**
  * Classe RegioJoc que estén la classe Regio.
@@ -14,7 +14,6 @@ import main.domini.interficies.Operacio;
 public class RegioJoc extends Regio {
     private Operacio operacio;
     private int resultat;
-
 
     /**
      * Constructor de RegioJoc amb tamany, operació i resultat.
@@ -27,6 +26,7 @@ public class RegioJoc extends Regio {
         super(tam);
         this.operacio = operacio;
         this.resultat = resultat;
+        Operacio  a = new Suma();
     }
 
     /**

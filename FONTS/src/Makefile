@@ -27,29 +27,29 @@ CLASS_SOURCES = $(CLASS_OUTPUT)drivers/*.class \
 all: compileDrivers jarDrivers
 
 compileDrivers:
-    javac -d $(CLASS_OUTPUT) $(CLASS_INPUT) $(DRIVERS)
+	javac -d $(CLASS_OUTPUT) $(CLASS_INPUT) $(DRIVERS)
 
 jarDrivers:
-    javac -cp $(JUNIT_JARS) -d $(CLASS_OUTPUT) $(CLASS_INPUT) $(DRIVERS)
-    jar cmvf ../drivers/DriverJugarPartida.mf $(JAR_OUTPUT)DriverJugarPartida.jar -C $(CLASS_OUTPUT) .
-    jar cmvf ../drivers/DriverUsuari.mf $(JAR_OUTPUT)DriverUsuari.jar -C $(CLASS_OUTPUT) .
-    jar cmvf ../drivers/DriverKenken.mf $(JAR_OUTPUT)DriverKenken.jar -C $(CLASS_OUTPUT) .
-    jar cmvf ../drivers/DriverRanking.mf $(JAR_OUTPUT)DriverRanking.jar -C $(CLASS_OUTPUT) .
+	javac -cp $(JUNIT_JARS) -d $(CLASS_OUTPUT) $(CLASS_INPUT) $(DRIVERS)
+	jar cmvf ../drivers/DriverJugarPartida.mf $(JAR_OUTPUT)DriverJugarPartida.jar -C $(CLASS_OUTPUT) .
+	jar cmvf ../drivers/DriverUsuari.mf $(JAR_OUTPUT)DriverUsuari.jar -C $(CLASS_OUTPUT) .
+	jar cmvf ../drivers/DriverKenken.mf $(JAR_OUTPUT)DriverKenken.jar -C $(CLASS_OUTPUT) .
+	jar cmvf ../drivers/DriverRanking.mf $(JAR_OUTPUT)DriverRanking.jar -C $(CLASS_OUTPUT) .
 
 executaDriverJugarPartida:
-    java -jar $(JAR_OUTPUT)DriverJugarPartida.jar
+	java -jar $(JAR_OUTPUT)DriverJugarPartida.jar
 
 executaDriverUsuari:
-    java -jar $(JAR_OUTPUT)DriverUsuari.jar
+	java -jar $(JAR_OUTPUT)DriverUsuari.jar
 
 executaDriverKenken:
-    java -jar $(JAR_OUTPUT)DriverKenken.jar
+	java -jar $(JAR_OUTPUT)DriverKenken.jar
 
 executaDriverRanking:
-    java -jar $(JAR_OUTPUT)DriverRanking.jar
+	java -jar $(JAR_OUTPUT)DriverRanking.jar
 
 fulltest: all
-    java -cp $(JUNIT_JARS):$(CLASS_OUTPUT) org.junit.runner.JUnitCore test.MasterTestSuite
+	java -cp $(JUNIT_JARS):$(CLASS_OUTPUT) org.junit.runner.JUnitCore test.MasterTestSuite
 
 clean:
 	rm -r ../../EXE/out/*
