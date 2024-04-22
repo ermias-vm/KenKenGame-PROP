@@ -13,21 +13,24 @@ JUNIT_JARS = ../../lib/junit-4.12.jar:../../lib/hamcrest-core-1.3.jar
 JUNIT_TESTS = ./test/*.java \
               ./test/operacions/*.java
 
+DRIVERS = ../drivers/DriverJugarPartida.java \
+          ../drivers/DriverUsuari.java \
+          ../drivers/DriverKenken.java \
+          ../drivers/DriverRanking.java
+
 CLASS_SOURCES = $(CLASS_OUTPUT)drivers/*.class \
                 $(CLASS_OUTPUT)main/domini/classes/*.class \
                 $(CLASS_OUTPUT)main/domini/controladors/*.class \
                 $(CLASS_OUTPUT)main/domini/excepcions/*.class \
                 $(CLASS_OUTPUT)main/domini/interfaces/*.class
 
-all:
-	javac -d $(CLASS_OUTPUT) $(CLASS_INPUT)
-	javac -cp $(JUNIT_JARS) -d $(CLASS_OUTPUT) $(CLASS_INPUT) $(JUNIT_TESTS)
+all: compileDrivers jarDrivers
 
 compileDrivers:
 	javac -d $(CLASS_OUTPUT) $(CLASS_INPUT) $(DRIVERS)
 
 jarDrivers:
-	javac -d $(CLASS_OUTPUT) $(CLASS_INPUT) ./drivers/DriverJugarPartida.java ./drivers/DriverUsuari.java ./drivers/DriverKenken.java ./drivers/DriverRanking.java
+	javac -cp $(JUNIT_JARS) -d $(CLASS_OUTPUT) $(CLASS_INPUT) $(DRIVERS)
 	jar cmvf ../drivers/DriverJugarPartida.mf $(JAR_OUTPUT)DriverJugarPartida.jar -C $(CLASS_OUTPUT) .
 	jar cmvf ../drivers/DriverUsuari.mf $(JAR_OUTPUT)DriverUsuari.jar -C $(CLASS_OUTPUT) .
 	jar cmvf ../drivers/DriverKenken.mf $(JAR_OUTPUT)DriverKenken.jar -C $(CLASS_OUTPUT) .
