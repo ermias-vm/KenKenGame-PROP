@@ -6,6 +6,8 @@ import java.util.ArrayList;
 /**
  * Classe TaulerJoc que estén la classe Tauler.
  * Representa un tauler de joc amb regions i un estat de si s'ha trobat una solució.
+ *
+ * @author Ermias Valls Mayor
  */
 public class TaulerJoc extends Tauler {
 

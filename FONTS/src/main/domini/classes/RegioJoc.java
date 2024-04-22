@@ -8,6 +8,8 @@ import main.domini.interficies.Operacio;
 /**
  * Classe RegioJoc que estén la classe Regio.
  * Representa una regió de joc amb una operació i un resultat associats.
+ *
+ * @author Ermias Valls Mayor
  */
 public class RegioJoc extends Regio {
     private Operacio operacio;
