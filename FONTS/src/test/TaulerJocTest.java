@@ -23,7 +23,7 @@ public class TaulerJocTest {
 
     /**
      * Configura l'entorn de test abans de cada test.
-     * Crea un nou tauler de joc amb id 1 i grau 3.
+     * Crea un nou TaulerJoc amb id 1 i grau 3.
      */
     @Before
     public void setUp() throws Exception {
