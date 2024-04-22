@@ -12,6 +12,7 @@ import java.util.Scanner;
 
 /**
  * Controlador para gestionar las operaciones relacionadas con los usuarios.
+ * @author David Giribet
  */
 public class CtrlUsuari {
     private Usuari usuariActual;

@@ -5,11 +5,9 @@ import main.domini.interficies.Operacio;
 import main.domini.classes.operacions.*;
 import main.domini.classes.Casella;
 import main.domini.classes.RegioJoc;
-//import main.domini.classes.Regio;
 import main.domini.classes.Tauler;
 import main.domini.classes.TaulerJoc;
 
-//import java.io.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,35 +15,60 @@ import java.io.PrintWriter;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.Scanner;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import java.nio.file.Paths;
 
-
-
+/**
+ * Controlador per a les operacions relacionades amb els taulers.
+ * @author David Giribet
+ */
 public class CtrlTauler {
-    private Tauler taulerActual;
+    private Tauler taulerActual; // Tauler actual
 
+    /**
+     * Constructor de la classe CtrlTauler.
+     */
     public CtrlTauler() {
         taulerActual = null;
     }
 
+    /**
+     * Obté el tauler actual.
+     *
+     * @return Tauler actual.
+     */
     public Tauler getTaulerActual() {
         return taulerActual;
     }
 
+    /**
+     * Estableix el tauler actual.
+     *
+     * @param tauler Tauler a establir com a actual.
+     */
     public void setTaulerActual(Tauler tauler) {
         taulerActual = tauler;
     }
 
+    /**
+     * Comprova si existeix un tauler amb un determinat identificador.
+     *
+     * @param idTauler Identificador del tauler a comprovar.
+     * @return Cert si existeix el tauler, fals altrament.
+     */
     public boolean existeixTauler(int idTauler) {
         String nomFitxer = "BDTaulers/" + idTauler + ".txt";
         File fitxer = new File(nomFitxer);
         return fitxer.exists();
     }
 
+    /**
+     * Registra un nou tauler amb un identificador donat.
+     *
+     * @param idTauler Identificador del nou tauler a registrar.
+     * @throws IOException Si hi ha un error d'entrada/sortida.
+     */
     public void registrarTauler(int idTauler) throws IOException {
         try {
             if (existeixTauler(idTauler)) throw new ExcepcioTaulerJaExisteix();
@@ -68,6 +91,14 @@ public class CtrlTauler {
         System.out.println("Tauler registrat amb èxit.");
     }
 
+    /**
+     * Obté el grau d'un tauler a partir del seu identificador.
+     *
+     * @param idTauler Identificador del tauler.
+     * @return Grau del tauler.
+     * @throws IOException                Si hi ha un error d'entrada/sortida.
+     * @throws ExcepcioTaulerNoExisteix  Si el tauler no existeix.
+     */
     public int obtenirGrauTauler(int idTauler) throws IOException, ExcepcioTaulerNoExisteix {
         if (!existeixTauler(idTauler)) {
             throw new ExcepcioTaulerNoExisteix();
@@ -89,6 +120,11 @@ public class CtrlTauler {
     }
     
 
+    /**
+     * Carrega un tauler amb un identificador donat.
+     *
+     * @param idTauler Identificador del tauler a carregar.
+     */
     public void carregarTauler(int idTauler) {
         try {
             int g = obtenirGrauTauler(idTauler);
@@ -101,6 +137,13 @@ public class CtrlTauler {
         }
     }
     
+    /**
+     * Llegeix un tauler des d'un fitxer amb un identificador donat.
+     *
+     * @param idTauler Identificador del tauler a llegir.
+     * @return Matriu que representa el tauler llegit.
+     * @throws IOException Si hi ha un error d'entrada/sortida.
+     */
     public static int[][] llegirTauler(int idTauler) throws IOException {
         String nomFitxer = "Data/" + idTauler + ".txt";
         BufferedReader reader = new BufferedReader(new FileReader(nomFitxer));
@@ -118,7 +161,7 @@ public class CtrlTauler {
             for (int j = 0; j < numElements; j++) {
                 int fila = Integer.parseInt(valors[k]) - 1; // Ajustar a l'indexació de Java (que comença per 0)
                 int columna = Integer.parseInt(valors[k + 1]) - 1; // Ajustar a l'indexació de Java
-                if (/*j + 1 < valors.length &&*/ valors[k + 2].startsWith("[")) {
+                if (valors[k + 2].startsWith("[")) {
                     int valor = Integer.parseInt(valors[j + 1].substring(1, valors[k + 2].length() - 1));
                     tauler[fila][columna] = valor;
                     k = k + 3;
@@ -134,23 +177,28 @@ public class CtrlTauler {
         return tauler;
     }
 
+    /**
+     * Mostra un tauler amb un identificador donat.
+     *
+     * @param idTauler Identificador del tauler a mostrar.
+     */
     public void mostrarTauler(int idTauler) {
         try {
-            // Leer el tablero desde el archivo
+            // Llegir tauler desde .txt
             int[][] tauler = llegirTauler(idTauler);
     
-            // Mostrar el tablero
-            int n = tauler.length; // Obtener el tamaño del tablero (grado)
+            // Mostra el tauler
+            int n = tauler.length; // Obtenir mida (grau)
     
-            // Imprimir filas
+            // Imprimir files
             for (int i = 0; i < n; i++) {
-                // Imprimir borde superior de la fila
+                // Imprimir banda superior de la fila
                 for (int j = 0; j < n; j++) {
                     System.out.print("+---");
                 }
                 System.out.println("+");
     
-                // Imprimir valores de la fila
+                // Imprimir valors de la fila
                 for (int j = 0; j < n; j++) {
                     int valor = tauler[i][j];
                     String valorStr = (valor == 0) ? " " : Integer.toString(valor);
@@ -159,7 +207,7 @@ public class CtrlTauler {
                 System.out.println("|");
             }
     
-            // Imprimir borde inferior del tablero
+            // Imprimir banda inferior del tauler
             for (int j = 0; j < n; j++) {
                 System.out.print("+---");
             }
@@ -169,6 +217,12 @@ public class CtrlTauler {
         }
     }
 
+    /**
+     * Llegeix un tauler de joc des d'un fitxer amb un identificador donat.
+     *
+     * @param idTauler Identificador del tauler a llegir.
+     * @return Tauler de joc llegit.
+     */
     public Tauler llegirTaulerJoc(int idTauler) {
         String path = Paths.get("Data/", idTauler + ".txt").toString();
         try {
@@ -186,6 +240,13 @@ public class CtrlTauler {
         }
     }
 
+    /**
+     * Construeix un tauler de joc a partir de les dades llegides d'un fitxer.
+     *
+     * @param idTauler Identificador del tauler de joc.
+     * @param lines    Línies llegides del fitxer.
+     * @return Tauler de joc construït.
+     */
     private TaulerJoc construirTaulerKenKen(int idTauler, List<String> lines) {
         int n = Integer.parseInt(lines.get(0));
         TaulerJoc K = new TaulerJoc(idTauler,n);
@@ -208,8 +269,6 @@ public class CtrlTauler {
             }else{
                 op = new Exponenciacio();
             }
-            //Operacio op = new Operacio(parts[0]);
-            //Operacio op = new Operacio()
             int res = Integer.parseInt(parts[1]);
             int j = 1;
             for (int k = 0; k < nc; ++k) {
@@ -224,6 +283,4 @@ public class CtrlTauler {
         }
         return K;
     }
-    
-
 }
