@@ -1,5 +1,5 @@
 package main.persistencia;
-import main.domini.controladors.ControladorPartida;
+
 import java.io.*;
 import java.nio.file.*;
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.HashSet;
 
 /**
  * Controlador de persistencia per a {@code Partida} que s'encarrega de gestionar la càrrega i el guardat de partides.
- * Es relaciona amb el controlador de partides de domini {@link ControladorPartida}.
+ * Es relaciona amb el controlador de partides de domini {@link main.domini.controladors.ControladorPartida}.
  * Opera amb fitxers de text per a guardar les partides.<br>
  * El fitxer per guardar les partides guardades és "Data/PartidesGuardades.txt".<br>
  * Els fitxers per guardar les partides acabades són "Data/PartidesAcabadesGuardades.txt",<br>

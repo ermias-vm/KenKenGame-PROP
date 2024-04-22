@@ -58,8 +58,9 @@ public class Resta implements Operacio {
             throw new ExcepcioMoltsValors(1, "MAX");
         }
         Set<Integer> solucions = new HashSet<>();
+        if (resultat == 0) return  solucions;
         if (valors.length == 1) {
-            if (valors[0] < 1 || valors[0] > midaTauler || resultat == 0) {
+            if (valors[0] < 1 || valors[0] > midaTauler) {
                 throw new ExcepcioValorInvalid();
             }
             int resta = valors[0] - resultat;

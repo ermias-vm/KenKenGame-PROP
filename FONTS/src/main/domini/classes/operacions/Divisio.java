@@ -62,8 +62,9 @@ public class Divisio implements Operacio {
         if (valors.length >= 2) {throw new ExcepcioMoltsValors(1, "MAX");}
         else {
             Set<Integer> solucions = new HashSet<>();
+            if (resultat == 1) return solucions;
             if (valors.length == 1) {
-                if (valors[0] > midaTauler || valors[0] < 1 || resultat <= 1) {
+                if (valors[0] > midaTauler || valors[0] < 1 ) {
                     throw new ExcepcioValorInvalid();
                 }
                 int resMult = valors[0] * resultat;

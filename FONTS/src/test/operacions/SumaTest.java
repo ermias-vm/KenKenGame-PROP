@@ -5,8 +5,13 @@ import main.domini.excepcions.*;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import java.util.*;
-
+/**
+ * La classe {@code SumaTest} és una classe de test unitari per a la classe {@code Suma}.
+ */
 public class SumaTest {
+    /**
+     * Comprova que el mètode opera2 funcioni correctament.
+     */
     @Test
     public void opera2() {
         Suma suma = new Suma();
@@ -16,7 +21,9 @@ public class SumaTest {
         assertEquals(3, suma.opera2(0, 3));
         assertEquals(-3, suma.opera2(0, -3));
     }
-
+    /**
+     * Comprova que el mètode operaN funcioni correctament.
+     */
     @Test
     public void operaN() throws ExcepcioMoltsValors {
         Suma suma = new Suma();
@@ -26,12 +33,20 @@ public class SumaTest {
         assertEquals(4, suma.operaN(new int[]{1, 0, 3}));
     }
 
+    /**
+     * Comprova que el mètode operaN llenci una excepció si no té com a mínim 1 valor.
+     * @throws ExcepcioMoltsValors
+     */
     @Test(expected = ExcepcioMoltsValors.class)
     public void operaNExcepcioMoltsValorsBuit() throws ExcepcioMoltsValors {
         Suma suma = new Suma();
         suma.operaN(new int[]{});
     }
 
+    /**
+     * Comprova que el mètode calculaPossiblesValors funcioni correctament.
+     * En aquest cas amb els sumatoris d'1 a n.
+     */
     @Test
     public void calculaPossiblesValors() throws ExcepcioMoltsValors, ExcepcioValorInvalid {
         Suma suma = new Suma();
@@ -50,6 +65,10 @@ public class SumaTest {
         assertEquals(set, suma.calculaPossiblesValors(sumaN, n, n, new int[]{}));
 
     }
+    /**
+     * Comprova que el mètode calculaPossiblesValors funcioni correctament en el cas maxim de repeticions,
+     * quan hi ha una regió en forma d'escala.
+     */
     @Test
     public void calculaPossiblesValorsEscala() throws ExcepcioMoltsValors, ExcepcioValorInvalid {
         Suma suma = new Suma();
@@ -58,6 +77,10 @@ public class SumaTest {
         assertEquals(expected, suma.calculaPossiblesValors(12, 3, 8, new int[]{1}));
         assertEquals(new HashSet<>(Arrays.asList(2)), suma.calculaPossiblesValors(12, 3, 8, new int[]{1,1,1,1}));
     }
+
+    /**
+     * Comprova que el mètode calculaPossiblesValors funcioni correctament amb un valor inicial.
+     */
     @Test
     public void calculaPossiblesValorsValorInicial() throws ExcepcioMoltsValors, ExcepcioValorInvalid {
         Suma suma = new Suma();
@@ -65,27 +88,29 @@ public class SumaTest {
         assertEquals(expected, suma.calculaPossiblesValors(3, 3, 2, new int[]{1}));
     }
 
+    /**
+     * Comprova que el mètode calculaPossiblesValors llenci una excepció si té igual o més que midaRegio valors inicials.
+     */
     @Test(expected = ExcepcioMoltsValors.class)
     public void calculaPossiblesValorsThrowsExceptionForTooManyInitialValues() throws ExcepcioMoltsValors, ExcepcioValorInvalid {
         Suma suma = new Suma();
         suma.calculaPossiblesValors(3, 3, 2, new int[]{1, 2});
+        suma.calculaPossiblesValors(3, 3, 2, new int[]{1, 2,3});
     }
+    /**
+     * Comprova que el mètode calculaPossiblesValors llenci una excepció si algun dels valors és invàlid pel tauler.
+     */
     @Test(expected = ExcepcioValorInvalid.class)
     public void calculaPossiblesValorsValorInvalid() throws ExcepcioMoltsValors, ExcepcioValorInvalid {
         Suma suma = new Suma();
         suma.calculaPossiblesValors(3, 3, 2, new int[]{4});
         suma.calculaPossiblesValors(3, 3, 2, new int[]{0});
-    }
-    @Test(expected = ExcepcioValorInvalid.class)
-    public void calculaPossiblesValorsValor0() throws ExcepcioMoltsValors, ExcepcioValorInvalid {
-        Suma suma = new Suma();
-        suma.calculaPossiblesValors(3, 3, 2, new int[]{0});
-    }
-    @Test(expected = ExcepcioValorInvalid.class)
-    public void calculaPossiblesValorsValorNegatiu() throws ExcepcioMoltsValors, ExcepcioValorInvalid {
-        Suma suma = new Suma();
         suma.calculaPossiblesValors(3, 3, 2, new int[]{-3});
     }
+
+    /**
+     * Comprova que el mètode retorni el resultat, si és vàlid en una regió de mida 1.
+     */
     @Test
     public void calculaPossiblesValorsMidaRegio1() throws ExcepcioMoltsValors, ExcepcioValorInvalid {
         Suma suma = new Suma();

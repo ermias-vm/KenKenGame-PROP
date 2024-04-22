@@ -19,5 +19,9 @@ public class TaulerStub {
         // Implement the logic for this method or return a hardcoded value
         return true;
     }
+
+    public String generaTaulerText() {
+        return "Perdò no em tocava la classe Tauler, soc un Stub";
+    }
 }
 

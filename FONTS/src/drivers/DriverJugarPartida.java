@@ -1,9 +1,10 @@
 package drivers;
 
 import main.domini.controladors.ControladorPartida;
-import main.domini.controladors.CtrlTauler;
 import main.domini.excepcions.*;
 import main.persistencia.ControladorPersistenciaPartida;
+import main.stubs.CtrlTaulerStub;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -19,7 +20,7 @@ public class DriverJugarPartida {
     public static void main(String[] args) {
         ControladorPartida controladorPartida = new ControladorPartida();
         ControladorPersistenciaPartida controladorPersistenciaPartida = new ControladorPersistenciaPartida();
-        CtrlTauler controladorTaulers = new CtrlTauler();
+        CtrlTaulerStub controladorTaulers = new CtrlTaulerStub();
         controladorPartida.setControladorTauler(controladorTaulers);
         controladorPartida.setControladorPersistenciaPartida(controladorPersistenciaPartida);
         System.out.println("Benvingut/da al driver de jugar partida! \n M'encarrego de" +
@@ -118,8 +119,9 @@ public class DriverJugarPartida {
                     while(!sortir);
                     break;
                 case 3:
-                    //NO IMPLEMENTAT
+                    System.out.println("NO IMPLEMENTAT");
                     break;
+                    /*
                     System.out.println("Introdueix el grau del tauler:");
                     int mida = scanner.nextInt();
                     try {
@@ -139,6 +141,7 @@ public class DriverJugarPartida {
                         String[] estat = controladorPartida.iniciaPartidaIdentificadorTauler(identificadorTauler, nomUsuari);
                         jugar(scanner, controladorPartida, estat, nomUsuari);
                         break;
+
                     }
                     catch (ExcepcioPartidaEnCurs e) {
                         System.out.println(e.getMessage());
@@ -146,6 +149,7 @@ public class DriverJugarPartida {
                         System.out.println("Error en el print de l'estat de la partida:" + e.getMessage());
                     }
                     break;
+                    */
                 case 4:
                     System.out.println("Vols introduïr el tauler des d'un fitxer .txt o manualment? (Fitxer/Manualment)");
                     String decisio = scanner.nextLine();
