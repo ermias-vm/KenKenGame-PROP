@@ -223,7 +223,7 @@ public class CtrlTauler {
      * @param idTauler Identificador del tauler a llegir.
      * @return Tauler de joc llegit.
      */
-    public Tauler llegirTaulerJoc(int idTauler) {
+    public TaulerJoc llegirTaulerJoc(int idTauler) {
         String path = Paths.get("Data/", idTauler + ".txt").toString();
         try {
             BufferedReader reader = new BufferedReader(new FileReader(new File(path)));
@@ -266,8 +266,10 @@ public class CtrlTauler {
                 op = new Divisio();
             }else if(parts[0].equals("5")){
                 op = new Modul();
-            }else{
+            }else if(parts[0].equals("6")) {
                 op = new Exponenciacio();
+            } else {
+                op = null;
             }
             int res = Integer.parseInt(parts[1]);
             int j = 1;
@@ -275,6 +277,7 @@ public class CtrlTauler {
                 int x = Integer.parseInt(parts[j]);
                 int y = Integer.parseInt(parts[j + 1]);
                 Casella c = K.getCasella(x, y);
+                K.afegirCasella(c);
                 VC.add(c);
                 j += 2;
             }
