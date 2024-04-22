@@ -4,13 +4,29 @@ import main.domini.controladors.CtrlDomini;
 
 import java.util.Scanner;
 
+/**
+ * Driver per a la classe Kenken.
+ * Aquesta classe permet interactuar amb la classe Kenken a través de la línia de comandes.
+ * @author Ermias Valls Mayor
+ */
 public class DriverKenken {
-    private CtrlDomini CD;
+    /**
+     * Controlador de domini que es farà servir per interactuar amb la classe Kenken.
+     */
+    private static CtrlDomini CD;
 
+    /**
+     * Constructor del driver.
+     * @param CD Controlador de domini que es farà servir per interactuar amb la classe Kenken.
+     */
     public DriverKenken(CtrlDomini CD) {
         this.CD = CD;
     }
 
+    /**
+     * Mètode principal del driver.
+     * Aquest mètode permet a l'usuari interactuar amb la classe Kenken a través de la línia de comandes.
+     */
     public void run() {
         Scanner scanner = new Scanner(System.in);
         int idTauler = 0;
