@@ -34,32 +34,38 @@ public class CtrlDomini {
 
     //Kenkens
 
-    public void importarKenken(int idTauler) throws IOException {
-        TJ = CT.llegirTauler(idTauler);
+    public void importarKenken(int idTauler) throws Exception {
+        TJ = CT.llegirTaulerJoc(idTauler);
+        resoldreKenken();
     }
 
     public void resoldreKenken() throws Exception {
         TJ.solucionarKenken(TJ);
         if (TJ.teSolucion()) {
             System.out.println("Kenken resolt correctament");
-            mostrarKenken();
+            mostrarTaulerJoc(TJ);
         } else {
             System.out.println("Kenken no te solucio");
         }
 
     }
 
-    public void mostrarKenken() throws Exception {
-        CP.transformarKenkenMatriu(TJ);
-        CP.imprimirMatriuKenken();
+    public void mostrarTaulerJoc(TaulerJoc TJ) throws Exception {
+        int grau = TJ.getGrau();
+        for (int i = 1; i <= grau; i++) {
+            for (int j = 1; j <= grau; j++) {
+                int valor = TJ.getCasella(i, j).getValor();
+                System.out.print(valor + " ");
+            }
+            System.out.println();
+        }
     }
-
     //Partida
-    private void carregarUltimaPartida(String nomUsuari) throws ExcepcioCarregaPartida, ExcepcioInicialitzacioPersistenciaPartida, ExcepcioNoPermisUsuari, ExcepcioPartidaEnCurs {
+    private void carregarUltimaPartida(String nomUsuari) throws ExcepcioCarregaPartida, ExcepcioInicialitzacioPersistenciaPartida, ExcepcioNoPermisUsuari, ExcepcioPartidaEnCurs, ExcepcioCreacioPartida {
         CP.carregarUltimaPartidaGuardada(nomUsuari);
     }
 
-    private void iniciarPartidaGuardada(String identificadorPartida, String nomUsuari) throws ExcepcioPartidaEnCurs, ExcepcioCarregaPartida {
+    private void iniciarPartidaGuardada(String identificadorPartida, String nomUsuari) throws ExcepcioPartidaEnCurs, ExcepcioCarregaPartida, ExcepcioNoPermisUsuari, ExcepcioCreacioPartida {
         CP.iniciarPartidaGuardada(identificadorPartida, nomUsuari);
     }
 
@@ -80,7 +86,7 @@ public class CtrlDomini {
         CP.introduirValor(fila, columna, valor);
     }
 
-    private void donarPista() throws ExcepcioCarregaPartida {
+    private void donarPista() throws ExcepcioCarregaPartida, ExcepcioPartidaTancada, ExcepcioValorInvalid, ExcepcioPartidaAcabada, ExcepcionPosicioIncorrecta {
         CP.donaPista();
     }
 
