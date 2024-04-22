@@ -1,6 +1,6 @@
 package main.domini.classes;
-import main.domini.excepcions.*;
-
+import main.domini.excepcions.ExcepcioCasellaNoModificable;
+import main.domini.excepcions.ExcepcioCasellaJaTePosicioAssignada;
 /**
  * La classe Casella representa una cel·la en un joc de KenKen.
  * Conté el valor de la cel·la, la seva posició (x, y) i si és modificable o no.
