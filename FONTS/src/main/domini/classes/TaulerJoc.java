@@ -71,7 +71,6 @@ public class TaulerJoc extends Tauler {
         return null;
     }
 
-
     /**
      * Comprova si un número és vàlid per a una fila donada.
      * @param fila Fila a comprovar
@@ -79,7 +78,7 @@ public class TaulerJoc extends Tauler {
      * @return true si el número és vàlid, false en cas contrari
      */
     public boolean esFilaValida(int fila, int num) {
-        for (int colum = 0; colum < getGrau(); ++colum) {
+        for (int colum = 1; colum <= getGrau(); ++colum) {
             if (getCasella(fila, colum).getValor() == num) return false;
         }
         return true;
@@ -92,7 +91,7 @@ public class TaulerJoc extends Tauler {
      * @return true si el número és vàlid, false en cas contrari
      */
     public boolean esColumValida(int colum, int num) {
-        for (int fila = 0; fila < getGrau(); ++fila) {
+        for (int fila = 1; fila <= getGrau(); ++fila) {
             if (getCasella(fila, colum).getValor() == num) return false;
         }
         return true;
