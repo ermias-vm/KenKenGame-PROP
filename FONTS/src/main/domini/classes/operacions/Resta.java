@@ -57,32 +57,30 @@ public class Resta implements Operacio {
         if (valors.length >= 2) {
             throw new ExcepcioMoltsValors(1, "MAX");
         }
+        Set<Integer> solucions = new HashSet<>();
+        if (valors.length == 1) {
+            if (valors[0] < 1 || valors[0] > midaTauler || resultat == 0) {
+                throw new ExcepcioValorInvalid();
+            }
+            int resta = valors[0] - resultat;
+            if (resta > 0 && resta <= midaTauler) {
+                solucions.add(resta);
+            }
+            int suma = valors[0] + resultat;
+            if (suma > 0 && suma <= midaTauler) {
+                solucions.add(suma);
+            }
+        }
         else {
-            Set<Integer> solucions = new HashSet<>();
-            if (valors.length == 1) {
-                if (valors[0] == 0 || resultat == 0) {
-                    throw new ExcepcioValorInvalid();
-                }
-                int resta = valors[0] - resultat;
+            for (int i = 1; i <= midaTauler; i++) {
+                int resta = resultat + i;
                 if (resta > 0 && resta <= midaTauler) {
+                    solucions.add(i);
                     solucions.add(resta);
                 }
-                int suma = valors[0] + resultat;
-                if (suma > 0 && suma <= midaTauler) {
-                    solucions.add(suma);
-                }
             }
-            else {
-                for (int i = 1; i <= midaTauler; i++) {
-                    int resta = resultat + i;
-                    if (resta > 0 && resta <= midaTauler) {
-                        solucions.add(i);
-                        solucions.add(resta);
-                    }
-                }
-            }
-            return solucions;
         }
+        return solucions;
     }
 
     @Override

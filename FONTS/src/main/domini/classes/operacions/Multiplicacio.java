@@ -72,6 +72,7 @@ public class Multiplicacio implements Operacio {
                 throw new ExcepcioNoDivisor(valor, multiplicacio);
             }
             multiplicacio = multiplicacio / valor;
+            --vegadesRepetibles[valor-1];
             midaUtil--;
         }
         Set<Integer> solucions = new HashSet<>();

@@ -63,20 +63,15 @@ public class Divisio implements Operacio {
         else {
             Set<Integer> solucions = new HashSet<>();
             if (valors.length == 1) {
-                if (valors[0] > midaTauler || valors[0] < 1) {
+                if (valors[0] > midaTauler || valors[0] < 1 || resultat <= 1) {
                     throw new ExcepcioValorInvalid();
                 }
-                if (!divisible(valors[0], resultat)) {
-                    int res = valors[0] * resultat;
-                    if (res > 0 && res <= midaTauler) {
-                        solucions.add (res);
-                    }
-                } else {
-                    int resMult = valors[0] * resultat;
-                    if (resMult > 0 && resMult <= midaTauler) {
-                        solucions.add(resMult);
-                    }
-                    int resDiv = valors[0] / resultat;
+                int resMult = valors[0] * resultat;
+                if (resMult > 0 && resMult <= midaTauler) {
+                    solucions.add(resMult);
+                }
+                if (divisible(valors[0], resultat)) {
+                int resDiv = valors[0] / resultat;
                     if (resDiv > 0 && resDiv <= midaTauler) {
                         solucions.add(resDiv);
                     }

@@ -31,7 +31,18 @@ public class TaulerJoc extends Tauler {
     public boolean teSolucion() {
         return trobat;
     }
-
+    public boolean corretgeix(int[][] valors) {
+        for (int i = 0; i < getGrau(); ++i) {
+            for (int j = 0; j < getGrau(); ++j) {
+                if (valors[i][j] != 0) {
+                    if (!esFilaValida(i, valors[i][j]) || !esColumValida(j, valors[i][j])) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
     /**
      * Afegeix una regió de joc a la llista de regionsJoc.
      * @param regioJoc La regió de joc a afegir

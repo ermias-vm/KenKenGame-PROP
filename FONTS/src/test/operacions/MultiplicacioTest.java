@@ -1,6 +1,7 @@
 package test.operacions;
 
 import main.domini.classes.operacions.Multiplicacio;
+import main.domini.classes.operacions.Suma;
 import main.domini.excepcions.*;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
@@ -48,5 +49,11 @@ public class MultiplicacioTest {
     public void calculaPossiblesValorsThrowsExceptionForNonDivisorInitialValue() throws ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioValorInvalid {
         Multiplicacio multiplicacio = new Multiplicacio();
         multiplicacio.calculaPossiblesValors(6, 9, 2, new int[]{5});
+    }
+    @Test
+    public void calculaPossiblesValorsEscala() throws ExcepcioMoltsValors, ExcepcioValorInvalid, ExcepcioNoDivisor {
+        Multiplicacio multiplicacio = new Multiplicacio();
+        Set<Integer> expected = new HashSet<>(Arrays.asList(1,2));
+        assertEquals(expected, multiplicacio.calculaPossiblesValors(8, 3, 6, new int[]{}));
     }
 }

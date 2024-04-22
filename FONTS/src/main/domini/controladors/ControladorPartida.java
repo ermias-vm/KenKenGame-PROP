@@ -168,7 +168,7 @@ public class ControladorPartida {
     public String[] iniciaPartidaIdentificadorTauler(String identificadorTauler, String nomUsuari) throws ExcepcioCarregaTauler, ExcepcioPartidaEnCurs, ExcepcioInicialitzacioControladorTauler {
         if (partida_ != null) throw new ExcepcioPartidaEnCurs("S'està jugant una partida en aquest moment");
         if (controladorTauler_ == null) throw new ExcepcioInicialitzacioControladorTauler("No s'ha inicialitzat el controlador de taulers");
-        Tauler tauler = controladorTauler_.carregarKenken(identificadorTauler);
+        Tauler tauler = controladorTauler_.llegirTaulerJoc(Integer.parseInt(identificadorTauler));
         if (tauler == null) throw new ExcepcioCarregaTauler("No s'ha pogut carregar el tauler amb identificador " + identificadorTauler);
         partida_ = new Partida(nomUsuari, tauler);
         String partidaText = partida_.generaPartidaText();
@@ -355,7 +355,7 @@ public class ControladorPartida {
         String identificadorUsuariPartida = parts[0];
         if (!identificadorUsuariPartida.equals(nomUsuari)) throw new ExcepcioNoPermisUsuari("El nom d'usuari no coincideix amb el de la partida");
         String identificadorTaulerPartida = divisio[1];
-        int tempsPartida = Integer.parseInt(divisio[2]);
+        float tempsPartida = Float.parseFloat(divisio[2]);
         int midaPartida = Integer.parseInt(divisio[3]);
         int [][] valorsPartida = new int[midaPartida][midaPartida];
         for (int i = 0; i < midaPartida; i++) {
@@ -364,7 +364,7 @@ public class ControladorPartida {
                 valorsPartida[i][j] = Integer.parseInt(valors[j]);
             }
         }
-        Tauler tauler = controladorTauler_.carregarKenken(identificadorTaulerPartida);
+        Tauler tauler = controladorTauler_.llegirTaulerJoc(Integer.parseInt(identificadorTaulerPartida));
         if (tauler.getGrau() != midaPartida) throw new ExcepcioCarregaPartida("La mida de la partida guardada no coincideix amb la mda del seu tauler" );
         return new Partida(identificadorPartida, identificadorUsuariPartida, tauler, tempsPartida, valorsPartida);
     }

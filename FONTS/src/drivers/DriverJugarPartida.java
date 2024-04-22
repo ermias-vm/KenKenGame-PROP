@@ -118,6 +118,8 @@ public class DriverJugarPartida {
                     while(!sortir);
                     break;
                 case 3:
+                    //NO IMPLEMENTAT
+                    break;
                     System.out.println("Introdueix el grau del tauler:");
                     int mida = scanner.nextInt();
                     try {

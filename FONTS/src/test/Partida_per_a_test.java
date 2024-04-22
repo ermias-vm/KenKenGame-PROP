@@ -18,7 +18,6 @@ import java.time.format.DateTimeFormatter;
  * @author Nil Beascoechea Vàzquez
  */
 public class Partida_per_a_test {
-    //for testing inicialitzat a 2022-01-01 00:00
     /**
      * Identificador de la partida, creat a partir de l'usuari i el moment de creació de la partida.
      * El format és "identificadorUsuariPartida:yyyy-mm-ddThh:mm:ss".
@@ -27,7 +26,7 @@ public class Partida_per_a_test {
     /**
      * Data d'inici de la instanciació actual.
      */
-    private final LocalDateTime iniciPartida_ = LocalDateTime.of(2022, 1, 1, 0, 0);
+    private final LocalDateTime iniciPartida_;
     /**
      * Grau del tauler de la partida, és a dir la N d'un tauler NxN.
      */
@@ -47,7 +46,7 @@ public class Partida_per_a_test {
     /**
      * Temps que s'ha estat jugant.
      */
-    private int tempsPartida_;
+    private float tempsPartida_;
     /**
      * Indica si la partida està guardada. Es guardarà a l'arxiu de partides guardades.
      */
@@ -71,8 +70,7 @@ public class Partida_per_a_test {
      */
     public Partida_per_a_test(String identificadorUsuariPartida, TaulerStub TaulerPartida) {
 
-        //this.iniciPartida_ = LocalDateTime.now();
-        //This is commented for testing
+        this.iniciPartida_ = LocalDateTime.now();
         int grauPartida = TaulerPartida.getGrau();
         this.identificadorUsuariPartida_ = identificadorUsuariPartida;
         this.taulerPartida_ = TaulerPartida;
@@ -90,11 +88,15 @@ public class Partida_per_a_test {
      * @param valorsPartida Valors de les caselles de la partida en un instant.
      */
     //Per a carregar una partida guardada, parametres donats pel controlador guardar i carregar i s'ocupa de comprovar que no estigui ja carregada
-    public Partida_per_a_test(String identificadorPartida, String identificadorUsuariPartida, TaulerStub TaulerPartida, int tempsPartida, int[][] valorsPartida) {
+    public Partida_per_a_test(String identificadorPartida, String identificadorUsuariPartida, TaulerStub TaulerPartida, float tempsPartida, int[][] valorsPartida) throws ExcepcioCreacioPartida {
 
-        //this.iniciPartida_ = LocalDateTime.now();
-        //This is commented for testing
-
+        this.iniciPartida_ = LocalDateTime.now();
+        if (TaulerPartida.getGrau() != valorsPartida.length) {
+            throw new ExcepcioCreacioPartida("El grau del tauler i la mida de la matriu de valors no coincideixen.");
+        }
+        if (!identificadorPartida.contains(identificadorUsuariPartida+":")) {
+            throw new ExcepcioCreacioPartida("L'identificador de la partida no coincideix amb l'usuari.");
+        }
         this.identificadorUsuariPartida_ = identificadorUsuariPartida;
         this.taulerPartida_ = TaulerPartida;
         this.grauPartida_ = TaulerPartida.getGrau();
@@ -169,7 +171,7 @@ public class Partida_per_a_test {
      *és a dir, quan es vol guardar, acabar o tancar la partida.
      * @return Temps que s'ha estat jugant.
      */
-    public int getTempsPartida() {
+    public float getTempsPartida() {
         return tempsPartida_;
     }
     /**
@@ -346,15 +348,13 @@ public class Partida_per_a_test {
      * Funció privada auxiliar per a calcular el temps total de la partida.
      * Ho calcula a partir de la data d'inici de la sessió de la partida actual i
      * el temps de la crida, sumant el temps acumulat.
+     *
      * @return temps total de la partida.
      */
-    private int calculaTemps() {
-        //for testing purposes
-        //LocalDateTime tempsActual = LocalDateTime.now();
-        LocalDateTime tempsActual = LocalDateTime.of(2022, 1, 1, 0, 8);;
-
+    private float calculaTemps() {
+        LocalDateTime tempsActual = LocalDateTime.now();
         Duration duracio = Duration.between(this.iniciPartida_, tempsActual);
-        int tempsTotal = this.tempsPartida_ + (int) duracio.getSeconds();
+        float tempsTotal = this.tempsPartida_ + duracio.getSeconds() + duracio.getNano() / 1000000000.0f;
         return tempsTotal;
     }
     /**
