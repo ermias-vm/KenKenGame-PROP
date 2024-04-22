@@ -1,10 +1,13 @@
 package main.domini.controladors;
 
 import main.domini.excepcions.*;
-
-//import main.domini.classes.Casella;
+import main.domini.interficies.Operacio;
+import main.domini.classes.operacions.*;
+import main.domini.classes.Casella;
+import main.domini.classes.RegioJoc;
 //import main.domini.classes.Regio;
 import main.domini.classes.Tauler;
+import main.domini.classes.TaulerJoc;
 
 //import java.io.*;
 import java.io.File;
@@ -15,8 +18,10 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.Scanner;
 
-//import java.util.ArrayList;
-//import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
+
+import java.nio.file.Paths;
 
 
 
@@ -97,7 +102,7 @@ public class CtrlTauler {
     }
     
     public static int[][] llegirTauler(int idTauler) throws IOException {
-        String nomFitxer = "BDTaulers/" + idTauler + ".txt";
+        String nomFitxer = "Data/" + idTauler + ".txt";
         BufferedReader reader = new BufferedReader(new FileReader(nomFitxer));
         String linia = reader.readLine();
         String[] dimensions = linia.split(" ");
@@ -164,8 +169,8 @@ public class CtrlTauler {
         }
     }
 
-    public TaulerKenKen llegirTaulerJoc(int idTauler) {
-        String path = Paths.get("Data", idTauler + ".txt").toString();
+    public Tauler llegirTaulerJoc(int idTauler) {
+        String path = Paths.get("Data/", idTauler + ".txt").toString();
         try {
             BufferedReader reader = new BufferedReader(new FileReader(new File(path)));
             List<String> lines = new ArrayList<>();
@@ -174,33 +179,48 @@ public class CtrlTauler {
                 lines.add(line);
             }
             reader.close();
-            return construirTaulerKenKen(lines);
+            return construirTaulerKenKen(idTauler,lines);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    private TaulerKenKen construirTaulerKenKen(List<String> lines) {
+    private TaulerJoc construirTaulerKenKen(int idTauler, List<String> lines) {
         int n = Integer.parseInt(lines.get(0));
-        TaulerKenKen K = new TaulerKenKen(n);
+        TaulerJoc K = new TaulerJoc(idTauler,n);
         int nr = Integer.parseInt(lines.get(1));
         for (int i = 2; i < nr + 2; ++i) {
-            Vector<Cella> VC = new Vector<>();
+            ArrayList<Casella> VC = new ArrayList<>();
             String[] parts = lines.get(i).split(" ");
-            int nc = Integer.parseInt(parts[0]);
+            int nc = Integer.parseInt(parts[2]);
+            Operacio op;
+            if(parts[0].equals("1")){
+                op = new Suma();
+            }else if(parts[0].equals("2")){
+                op = new Resta();
+            }else if(parts[0].equals("3")){
+                op = new Multiplicacio();
+            }else if(parts[0].equals("4")){
+                op = new Divisio();
+            }else if(parts[0].equals("5")){
+                op = new Modul();
+            }else{
+                op = new Exponenciacio();
+            }
+            //Operacio op = new Operacio(parts[0]);
+            //Operacio op = new Operacio()
+            int res = Integer.parseInt(parts[1]);
             int j = 1;
             for (int k = 0; k < nc; ++k) {
                 int x = Integer.parseInt(parts[j]);
                 int y = Integer.parseInt(parts[j + 1]);
-                Cella c = K.getCella(x, y);
+                Casella c = K.getCasella(x, y);
                 VC.add(c);
                 j += 2;
             }
-            String op = parts[j];
-            int res = Integer.parseInt(parts[j + 1]);
-            RegioKenKen r = new RegioKenKen(nc, VC, op, res, i - 2);
-            K.afegeixRegio(r);
+            RegioJoc r = new RegioJoc(VC, op, res);
+            K.afegirRegioJoc(r);
         }
         return K;
     }
