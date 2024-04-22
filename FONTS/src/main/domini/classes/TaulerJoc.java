@@ -31,6 +31,18 @@ public class TaulerJoc extends Tauler {
     public boolean teSolucion() {
         return trobat;
     }
+
+    /**
+     * Comprova si els valors donats són vàlids per a cada fila i columna del tauler.
+     *
+     * @param valors Matriu bidimensional d'enters que representa els valors a comprovar.
+     * @return true si tots els valors són vàlids per a les seves respectives files i columnes, false en cas contrari.
+     *
+     * Un valor és vàlid per a una fila si no apareix en cap altra casella de la mateixa fila.
+     * Un valor és vàlid per a una columna si no apareix en cap altra casella de la mateixa columna.
+     *
+     * Si un valor és 0, es considera que no té valor i per tant es considera vàlid.
+     */
     public boolean corretgeix(int[][] valors) {
         for (int i = 0; i < getGrau(); ++i) {
             for (int j = 0; j < getGrau(); ++j) {
@@ -43,6 +55,7 @@ public class TaulerJoc extends Tauler {
         }
         return true;
     }
+
     /**
      * Afegeix una regió de joc a la llista de regionsJoc.
      * @param regioJoc La regió de joc a afegir
