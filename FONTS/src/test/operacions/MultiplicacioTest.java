@@ -20,6 +20,7 @@ public class MultiplicacioTest {
     }
     /**
      * Comprova que el mètode operaN retorna el producte correcte d'un conjunt d'enters.
+     * @throws ExcepcioMoltsValors quan s'intenta operar un conjunt buit d'enters.
      */
     @Test
     public void operaNCorrecte() throws ExcepcioMoltsValors {
@@ -28,6 +29,7 @@ public class MultiplicacioTest {
     }
     /**
      * Comprova que el mètode operaN llença una excepció quan s'intenta operar un conjunt buit d'enters.
+     * @throws ExcepcioMoltsValors quan s'intenta operar un conjunt buit d'enters.
      */
     @Test(expected = ExcepcioMoltsValors.class)
     public void operaNExcepcioMoltsValors() throws ExcepcioMoltsValors {
@@ -36,6 +38,9 @@ public class MultiplicacioTest {
     }
     /**
      * Comprova que el mètode calculaPossiblesValors retorna el conjunt correcte de valors possibles.
+     * @throws ExcepcioNoDivisor quan no es pot trobar un divisor per a la multiplicació.
+     * @throws ExcepcioMoltsValors quan hi ha massa valors inicials.
+     * @throws ExcepcioValorInvalid quan s'introdueix un valor inicial invàlid.
      */
     @Test
     public void calculaPossiblesCorrecte() throws ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioValorInvalid {
@@ -45,6 +50,9 @@ public class MultiplicacioTest {
     }
     /**
      * Comprova que el mètode calculaPossiblesValors llença una excepció quan hi ha massa valors inicials.
+     * @throws ExcepcioNoDivisor quan no es pot trobar un divisor per a la multiplicació.
+     * @throws ExcepcioMoltsValors quan hi ha massa valors inicials.
+     * @throws ExcepcioValorInvalid quan s'introdueix un valor inicial invàlid.
      */
     @Test(expected = ExcepcioMoltsValors.class)
     public void calculaPossiblesValorsExcepcioMoltsValors() throws ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioValorInvalid {
@@ -53,6 +61,9 @@ public class MultiplicacioTest {
     }
     /**
      * Comprova que el mètode calculaPossiblesValors llença una excepció quan s'introdueix un valor inicial invàlid donada la mida del tauler.
+     * @throws ExcepcioNoDivisor quan no es pot trobar un divisor per a la multiplicació.
+     * @throws ExcepcioMoltsValors quan hi ha massa valors inicials.
+     * @throws ExcepcioValorInvalid quan s'introdueix un valor inicial invàlid.
      */
     @Test(expected = ExcepcioValorInvalid.class)
     public void calculaPossiblesValorsExcepcioValorInvalid() throws ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioValorInvalid {
@@ -61,6 +72,9 @@ public class MultiplicacioTest {
     }
     /**
      * Comprova que el mètode calculaPossiblesValors llença una excepció quan s'introdueix un valor inicial que no és divisor del resultat.
+     * @throws ExcepcioNoDivisor quan no es pot trobar un divisor per a la multiplicació.
+     * @throws ExcepcioMoltsValors quan hi ha massa valors inicials.
+     * @throws ExcepcioValorInvalid quan s'introdueix un valor inicial invàlid.
      */
     @Test(expected = ExcepcioNoDivisor.class)
     public void calculaPossiblesValorsExcepcioNoDivisor() throws ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioValorInvalid {
@@ -70,6 +84,9 @@ public class MultiplicacioTest {
     /**
      * Comprova que el mètode calculaPossiblesValors assumint que la regió fos una escala correctament.
      * En aquest cas seria de la forma 1*1*1**2*2*2
+     * @throws ExcepcioNoDivisor quan no es pot trobar un divisor per a la multiplicació.
+     * @throws ExcepcioMoltsValors quan hi ha massa valors inicials.
+     * @throws ExcepcioValorInvalid quan s'introdueix un valor inicial invàlid.
      *
      */
     @Test

@@ -80,10 +80,13 @@ public class Partida {
     /**
      * Crea una nova partida amb un identificador d'usuari, un tauler, un temps i uns valors donats.
      * Utilitzat per carregar una partida guardada.
+     * @param identificadorPartida Identificador de la partida.
      * @param identificadorUsuariPartida identificador de l'usuari que ha creat la partida.
      * @param TaulerPartida Tauler de la partida.
      * @param tempsPartida Temps que s'ha estat jugant.
      * @param valorsPartida Valors de les caselles de la partida en un instant.
+     * @throws ExcepcioCreacioPartida si el grau del tauler i la mida de la matriu de valors no coincideixen.
+     * @throws ExcepcioCreacioPartida si l'identificador de la partida no coincideix amb l'usuari.
      */
     //Per a carregar una partida guardada, parametres donats pel controlador guardar i carregar i s'ocupa de comprovar que no estigui ja carregada
     public Partida(String identificadorPartida, String identificadorUsuariPartida, TaulerJoc TaulerPartida, float tempsPartida, int[][] valorsPartida) throws ExcepcioCreacioPartida {
@@ -195,9 +198,9 @@ public class Partida {
 
     /**
      * Estableix un valor a una casella de la partida.
-     * @param valor
-     * @param fila
-     * @param columna
+     * @param valor Valor a establir.
+     * @param fila Fila de la casella.
+     * @param columna Columna de la casella.
      * @return true si s'ha pogut establir el valor, llença una excepció altrament.
      * @throws ExcepcionPosicioIncorrecta si la fila o la columna no són vàlides. És a dir si no estan entre 0 i el grau del tauler-1.
      * @throws ExcepcioValorInvalid si el valor no és vàlid. És a dir si no és un valor entre 1 i el grau del tauler.

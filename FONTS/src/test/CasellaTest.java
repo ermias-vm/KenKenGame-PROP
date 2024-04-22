@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 /**
  * Classe de prova per a Casella.
  *
- * @autor Ermias Valls Mayor
+ * @author Ermias Valls Mayor
  */
 public class CasellaTest {
     Casella casella;

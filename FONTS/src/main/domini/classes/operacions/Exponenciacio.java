@@ -29,7 +29,6 @@ public class Exponenciacio implements Operacio {
      *
      * @param valors Un array d'enters.
      * @return El resultat de l'operació d'exponenciació en els enters de l'array.
-     * @throws ExcepcioMoltsValors Si l'array conté més de dos enters.
      */
     @Override
     public int operaN(int[] valors) {

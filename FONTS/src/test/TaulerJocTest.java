@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 /**
  * Classe de test per a TaulerJoc.
  *
- * @autor Ermias Valls Mayor
+ * @author Ermias Valls Mayor
  */
 public class TaulerJocTest {
 

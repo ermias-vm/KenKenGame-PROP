@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * La classe {@code Multiplicació} és una implementació de la interfície {@code Operacio}
  * que realitza els càlculs mitjançant l'operacio de multiplicació d'enters.
- * @autor Nil Beascoechea Vàzquez
+ * @author Nil Beascoechea Vàzquez
  */
 public class Multiplicacio implements Operacio {
     /**
@@ -51,7 +51,6 @@ public class Multiplicacio implements Operacio {
      * @param valors Un vector d'enters que conté els valors inicials de la regió a partir dels quals es calcula si hi ha possible solució i quina.
      *               No pot ser igual a la mida de la regió. És a dir la regió no pot estar plena.
      * @throws ExcepcioMoltsValors Si el vector té igual o més valors que caselles la regió.
-     * @throws ExcepcioDivisio_0 Si algun dels valors és 0.
      * @throws ExcepcioNoDivisor Si algun dels valors no és divisor del resultat.
      * @throws ExcepcioValorInvalid Si algun dels valors és més gran que la mida del tauler o negatiu.
      * @return Tots els possibles valors únics que poden ser solució.

@@ -29,7 +29,6 @@ public class Modul implements Operacio {
      *
      * @param valors Un array d'enters.
      * @return El resultat de l'operació de mòdul en els enters de l'array.
-     * @throws ExcepcioMoltsValors Si l'array conté més de dos enters.
      */
     @Override
     public int operaN(int[] valors) {

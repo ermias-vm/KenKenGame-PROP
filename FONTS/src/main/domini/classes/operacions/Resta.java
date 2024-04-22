@@ -8,7 +8,7 @@ import java.util.Set;
 /**
  * La classe {@code Resta} és una implementació de la interfície {@code Operacio}
  * que realitza els càlculs mitjançant l'operacio de resta d'enters.
- * @autor Nil Beascoechea Vàzquez
+ * @author Nil Beascoechea Vàzquez
  */
 public class Resta implements Operacio {
     /**
@@ -46,7 +46,6 @@ public class Resta implements Operacio {
      * @param valors Un vector d'enters que conté els valors inicials de la regió a partir dels quals es calcula si hi ha possible solució i quina.
      *               No pot ser igual a la mida de la regió. És a dir la regió no pot estar plena.
      * @throws ExcepcioMoltsValors Si el vector té igual o més de dos valors o la regió té més de dues caselles. És a dir només s'hauria d'entrar si la regió no està plena.
-     * @throws ExcepcioDivisio_0 Si algun dels valors és 0.
      * @return Tots els possibles valors únics que poden ser solució.
      */
     @Override

@@ -20,6 +20,7 @@ public class RestaTest {
     }
     /**
      * Comprova que el mètode operaN funcioni correctament amb dos valors.
+     * @throws ExcepcioMoltsValors si hi ha més o menys de dos valors.
      */
     @Test
     public void operaN() throws ExcepcioMoltsValors {
@@ -29,6 +30,7 @@ public class RestaTest {
 
     /**
      * Comprova que el mètode operaN llenci una excepció si es passa més o menys de 2 valors.
+     * @throws ExcepcioMoltsValors si hi ha més o menys de dos valors.
      */
     @Test(expected = ExcepcioMoltsValors.class)
     public void operaNMoltsValors() throws ExcepcioMoltsValors {
@@ -39,6 +41,8 @@ public class RestaTest {
 
     /**
      * Comprova que el mètode calculaPossiblesValors funcioni correctament.
+     * @throws ExcepcioMoltsValors si no hi ha 0 o 1 valor inicial o la mida de la regió no és 2.
+     * @throws ExcepcioValorInvalid si el valor inicial no és vàlid.
      */
     @Test
     public void calculaPossiblesValors() throws ExcepcioMoltsValors, ExcepcioValorInvalid {
@@ -48,6 +52,8 @@ public class RestaTest {
     }
     /**
      * Comprova que el mètode calculaPossiblesValors funcioni amb un valor inicial.
+     * @throws ExcepcioMoltsValors si no hi ha 0 o 1 valor inicial o la mida de la regió no és 2.
+     * @throws ExcepcioValorInvalid si el valor inicial no és vàlid.
      */
     @Test
     public void calculaPossiblesValorsInicial() throws ExcepcioMoltsValors, ExcepcioValorInvalid {
@@ -57,6 +63,8 @@ public class RestaTest {
     }
     /**
      * Comprova que el mètode calculaPossiblesValors llenci una excepció si es passa dos o més valors.
+     * @throws ExcepcioMoltsValors si no hi ha 0 o 1 valor inicial o la mida de la regió no és 2.
+     * @throws ExcepcioValorInvalid si el valor inicial no és vàlid.
      */
     @Test(expected = ExcepcioMoltsValors.class)
     public void calculaPossiblesValorsMoltsValors() throws ExcepcioMoltsValors, ExcepcioValorInvalid {
@@ -66,6 +74,8 @@ public class RestaTest {
     }
     /**
      * Comprova que el mètode calculaPossiblesValors llenci una excepció si la regió no és de mida 2.
+     * @throws ExcepcioMoltsValors si no hi ha 0 o 1 valor inicial o la mida de la regió no és 2.
+     * @throws ExcepcioValorInvalid si el valor inicial no és vàlid.
      */
     @Test(expected = ExcepcioMoltsValors.class)
     public void calculaPossiblesValorsRegioMoltsValors() throws ExcepcioMoltsValors, ExcepcioValorInvalid {
@@ -76,6 +86,8 @@ public class RestaTest {
 
     /**
      * Comprova que el mètode calculaPossiblesValors retorni el set buit si el resultat és 0.
+     * @throws ExcepcioMoltsValors si no hi ha 0 o 1 valor inicial o la mida de la regió no és 2.
+     * @throws ExcepcioValorInvalid si el valor inicial no és vàlid.
      */
     @Test
     public void calculaPossiblesValorsValorInvalid0() throws ExcepcioMoltsValors, ExcepcioValorInvalid {
@@ -85,6 +97,8 @@ public class RestaTest {
     /**
      * Comprova que el mètode calculaPossiblesValors llenci excepció si un dels valors inicials és invàlid.
      * Ja sigui perquè és més gran que la mida del tauler o perquè és inferior a 1.
+     * @throws ExcepcioMoltsValors si no hi ha 0 o 1 valor inicial o la mida de la regió no és 2.
+     * @throws ExcepcioValorInvalid si el valor inicial no és vàlid.
      */
     @Test(expected = ExcepcioValorInvalid.class)
     public void calculaPossiblesValorsValorInvalid() throws ExcepcioMoltsValors, ExcepcioValorInvalid {

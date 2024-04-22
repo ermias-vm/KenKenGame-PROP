@@ -11,6 +11,7 @@ public interface Operacio {
      * @param a primer enter
      * @param b segon enter
      * @return el resultat de l'operació
+     * @throws Exception en funció de l'operació, veure Javadoc de les diferents implementacions.
      */
     public int opera2(int a, int b) throws Exception;
     /**

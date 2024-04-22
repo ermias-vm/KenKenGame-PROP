@@ -106,6 +106,7 @@ public class ControladorPartida {
      * @throws ExcepcioCarregaPartida Si no hi ha cap partida guardada de l'usuari.
      * @throws ExcepcioPartidaEnCurs Si ja s'està jugant una partida.
      * @throws ExcepcioNoPermisUsuari Si el nom d'usuari no coincideix amb el de la partida.
+     * @throws ExcepcioCreacioPartida Si no s'ha pogut crear la partida amb les dades guardades.
      */
     public String[] carregarUltimaPartidaGuardada(String nomUsuari) throws ExcepcioCarregaPartida, ExcepcioInicialitzacioPersistenciaPartida, ExcepcioPartidaEnCurs, ExcepcioNoPermisUsuari, ExcepcioCreacioPartida {
         if (controladorPersistenciaPartida_ == null) throw new ExcepcioInicialitzacioPersistenciaPartida("No s'ha inicialitzat el controlador de persistència de les partides");
@@ -124,6 +125,7 @@ public class ControladorPartida {
      * @param nomUsuari Nom de l'usuari que vol carregar les partides.
      * @return Retorna un vector de String amb els identificadors de les partides de l'usuari.
      * @throws ExcepcioCarregaPartida Si no hi ha cap partida guardada de l'usuari.
+     * @throws ExcepcioInicialitzacioPersistenciaPartida Si no s'ha inicialitzat el controlador de persistència de les partides.
      */
     public ArrayList<String> carregarPartidesGuardadesUsuari(String nomUsuari) throws ExcepcioCarregaPartida, ExcepcioInicialitzacioPersistenciaPartida {
         if (controladorPersistenciaPartida_ == null) throw new ExcepcioInicialitzacioPersistenciaPartida("No s'ha inicialitzat el controlador de persistència de les partides");
@@ -147,6 +149,8 @@ public class ControladorPartida {
      * @return Retorna un vector de String amb l'estat de la partida a l'índex [0] i les dades del tauler a l'índex [1].
      * @throws ExcepcioCarregaPartida Si no s'ha pogut carregar la partida amb l'identificador donat.
      * @throws ExcepcioPartidaEnCurs Si ja s'està jugant una partida.
+     * @throws ExcepcioNoPermisUsuari Si el nom d'usuari no coincideix amb el de la partida.
+     * @throws ExcepcioCreacioPartida Si no s'ha pogut crear la partida amb les dades guardades.
      */
     public String[] iniciarPartidaGuardada(String identificadorPartida, String nomUsuari) throws ExcepcioCarregaPartida, ExcepcioPartidaEnCurs, ExcepcioNoPermisUsuari, ExcepcioCreacioPartida {
         if (partida_ != null) throw new ExcepcioPartidaEnCurs("S'està jugant una partida en aquest moment");
@@ -167,6 +171,7 @@ public class ControladorPartida {
      * @return Retorna un vector de String amb l'estat de la partida a l'índex [0] i les dades del tauler a l'índex [1].
      * @throws ExcepcioCarregaTauler si no s'ha pogut carregar el tauler amb identificador identificadorTauler.
      * @throws ExcepcioPartidaEnCurs si ja s'està jugant una partida.
+     * @throws ExcepcioInicialitzacioControladorTauler si no s'ha inicialitzat el controlador de taulers.
      */
     public String[] iniciaPartidaIdentificadorTauler(String identificadorTauler, String nomUsuari) throws ExcepcioCarregaTauler, ExcepcioPartidaEnCurs, ExcepcioInicialitzacioControladorTauler {
         if (partida_ != null) throw new ExcepcioPartidaEnCurs("S'està jugant una partida en aquest moment");
@@ -185,6 +190,7 @@ public class ControladorPartida {
      * @return Retorna un vector de String amb l'estat de la partida a l'índex [0] i les dades del tauler a l'índex [1].
      * @throws ExcepcioCarregaTauler si no s'ha pogut crear el tauler amb les dades donades.
      * @throws ExcepcioPartidaEnCurs si ja s'està jugant una partida.
+     * @throws ExcepcioInicialitzacioControladorTauler si no s'ha inicialitzat el controlador de taulers.
      */
     public String[] iniciaPartidaDadesTauler(String dadesTauler, String nomUsuari) throws ExcepcioCarregaTauler, ExcepcioPartidaEnCurs, ExcepcioInicialitzacioControladorTauler {
         if (partida_ != null) throw new ExcepcioPartidaEnCurs("S'està jugant una partida en aquest moment");
@@ -288,6 +294,7 @@ public class ControladorPartida {
      * @throws ExcepcioCarregaPartida Si no hi ha cap partida carregada o el nom d'usuari no coincideix amb la partida a guardar.
      * @throws ExcepcioPartidaTancada Si la partida està tancada.
      * @throws ExcepcioPartidaAcabada Si la partida està acabada.
+     * @throws ExcepcioNoPermisUsuari Si el nom d'usuari no coincideix amb el de la partida.
      */
     public boolean guardarPartida(String nomUsuari) throws ExcepcioCarregaPartida, ExcepcioPartidaTancada, ExcepcioPartidaAcabada, ExcepcioNoPermisUsuari {
         if (partida_ == null) throw new ExcepcioCarregaPartida("No hi ha cap partida carregada");
@@ -350,6 +357,8 @@ public class ControladorPartida {
      * @param nomUsuari Nom de l'usuari que vol carregar la partida.
      * @return Retorna una instància de {@code Partida} amb les dades de la string.
      * @throws ExcepcioCarregaPartida Si el nom d'usuari no coincideix amb el de la partida.
+     * @throws ExcepcioCreacioPartida Si no s'ha pogut crear la partida amb les dades donades.
+     * @throws ExcepcioNoPermisUsuari Si el nom d'usuari no coincideix amb el de la partida.
      */
     private Partida_per_a_test stringToPartida(String partida, String nomUsuari) throws ExcepcioNoPermisUsuari, ExcepcioCarregaPartida, ExcepcioCreacioPartida {
         String[] divisio = partida.split("\n");

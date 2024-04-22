@@ -6,7 +6,7 @@ import java.util.*;
 /**
  * La classe {@code Suma} és una implementació de la interfície {@code Operacio}
  * que realitza els càlculs mitjançant l'operacio de suma d'enters.
- * @autor Nil Beascoechea Vàzquez
+ * @author Nil Beascoechea Vàzquez
  */
 public class Suma implements Operacio{
     /**

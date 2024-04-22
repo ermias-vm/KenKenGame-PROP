@@ -23,6 +23,7 @@ public class SumaTest {
     }
     /**
      * Comprova que el mètode operaN funcioni correctament.
+     * @throws ExcepcioMoltsValors si no valors.
      */
     @Test
     public void operaN() throws ExcepcioMoltsValors {
@@ -35,7 +36,7 @@ public class SumaTest {
 
     /**
      * Comprova que el mètode operaN llenci una excepció si no té com a mínim 1 valor.
-     * @throws ExcepcioMoltsValors
+     * @throws ExcepcioMoltsValors si no valors.
      */
     @Test(expected = ExcepcioMoltsValors.class)
     public void operaNExcepcioMoltsValorsBuit() throws ExcepcioMoltsValors {
@@ -46,6 +47,8 @@ public class SumaTest {
     /**
      * Comprova que el mètode calculaPossiblesValors funcioni correctament.
      * En aquest cas amb els sumatoris d'1 a n.
+     * @throws ExcepcioMoltsValors si té més valors que la mida de la regió.
+     * @throws ExcepcioValorInvalid si algun dels valors és invàlid pel tauler.
      */
     @Test
     public void calculaPossiblesValors() throws ExcepcioMoltsValors, ExcepcioValorInvalid {
@@ -68,6 +71,8 @@ public class SumaTest {
     /**
      * Comprova que el mètode calculaPossiblesValors funcioni correctament en el cas maxim de repeticions,
      * quan hi ha una regió en forma d'escala.
+     * @throws ExcepcioMoltsValors si té més valors que la mida de la regió.
+     * @throws ExcepcioValorInvalid si algun dels valors és invàlid pel tauler.
      */
     @Test
     public void calculaPossiblesValorsEscala() throws ExcepcioMoltsValors, ExcepcioValorInvalid {
@@ -80,6 +85,8 @@ public class SumaTest {
 
     /**
      * Comprova que el mètode calculaPossiblesValors funcioni correctament amb un valor inicial.
+     * @throws ExcepcioMoltsValors si té més valors que la mida de la regió.
+     * @throws ExcepcioValorInvalid si algun dels valors és invàlid pel tauler.
      */
     @Test
     public void calculaPossiblesValorsValorInicial() throws ExcepcioMoltsValors, ExcepcioValorInvalid {
@@ -90,6 +97,8 @@ public class SumaTest {
 
     /**
      * Comprova que el mètode calculaPossiblesValors llenci una excepció si té igual o més que midaRegio valors inicials.
+     * @throws ExcepcioMoltsValors si té més valors que la mida de la regió.
+     * @throws ExcepcioValorInvalid si algun dels valors és invàlid pel tauler.
      */
     @Test(expected = ExcepcioMoltsValors.class)
     public void calculaPossiblesValorsThrowsExceptionForTooManyInitialValues() throws ExcepcioMoltsValors, ExcepcioValorInvalid {
@@ -99,6 +108,8 @@ public class SumaTest {
     }
     /**
      * Comprova que el mètode calculaPossiblesValors llenci una excepció si algun dels valors és invàlid pel tauler.
+     * @throws ExcepcioMoltsValors si té més valors que la mida de la regió.
+     * @throws ExcepcioValorInvalid si algun dels valors és invàlid pel tauler.
      */
     @Test(expected = ExcepcioValorInvalid.class)
     public void calculaPossiblesValorsValorInvalid() throws ExcepcioMoltsValors, ExcepcioValorInvalid {
@@ -110,6 +121,8 @@ public class SumaTest {
 
     /**
      * Comprova que el mètode retorni el resultat, si és vàlid en una regió de mida 1.
+     * @throws ExcepcioMoltsValors si té més valors que la mida de la regió.
+     * @throws ExcepcioValorInvalid si algun dels valors és invàlid pel tauler.
      */
     @Test
     public void calculaPossiblesValorsMidaRegio1() throws ExcepcioMoltsValors, ExcepcioValorInvalid {

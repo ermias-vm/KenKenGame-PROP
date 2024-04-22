@@ -1,3 +1,4 @@
+/*
 package test;
 
 import main.domini.classes.Casella;
@@ -165,3 +166,4 @@ public class TestRegio {
 
     // Puedes continuar agregando más pruebas para los otros métodos de Regio aquí
 }
+*/

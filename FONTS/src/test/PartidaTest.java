@@ -57,7 +57,7 @@ public class PartidaTest {
     /**
      * Comprova que llença {@code ExcepcionPosicioIncorrecta}
      * quan s'intenta accedir a una posició fora de la matriu de les caselles.
-     * @throws Exception
+     * @throws Exception diversos casos, veure javadoc de la implementació.
      */
     @Test(expected = ExcepcionPosicioIncorrecta.class)
     public void setValorPosicioIncorrecta() throws Exception {
@@ -69,6 +69,7 @@ public class PartidaTest {
 
     /**
      * Comprova que llença {@code ExcepcioValorInvalid} quan s'intenta posar un valor fora del rang [1..grau].
+     * @throws Exception diversos casos, veure javadoc de la implementació.
      */
     @Test(expected = ExcepcioValorInvalid.class)
     public void setValorInvalid() throws Exception {
@@ -88,6 +89,7 @@ public class PartidaTest {
     /**
      * Comprova que la partida prohibeix la modificació si està tancada.
      * Comprova que la partida posa correctament les flags de tancada i guardada.
+     * @throws Exception si hi ha un error en la tancada de la partida.
      */
     @Test(expected = ExcepcioPartidaTancada.class)
     public void partidaGuardarITancar() throws Exception {
@@ -100,6 +102,7 @@ public class PartidaTest {
     /**
      * Comprova que la partida retorna la informació com s'espera al acabar-la.
      * Primer de tot s'espera 4s per comprovar que la durada de la partida sigui correcta.
+     * @throws Exception si hi ha un error en la durada de la partida.
      */
     @Test
     public void partidaAcabadaFormatCorrecte() throws Exception {
@@ -118,6 +121,7 @@ public class PartidaTest {
     /**
      * Comprova que la partida retorna la informació com s'espera al guardar-la.
      * Primer de tot s'espera 4s per comprovar que la durada de la partida sigui correcta.
+     * @throws Exception si hi ha un error en la durada de la partida.
      */
     @Test
     public void partidaGuardadaFormatCorrecte() throws Exception {
@@ -139,6 +143,10 @@ public class PartidaTest {
 
     /**
      * Comprova que la partida retorna l'estat correcte després de posar valors correctes.
+     * @throws ExcepcioPartidaTancada si la partida està tancada.
+     * @throws ExcepcioValorInvalid si el valor és invàlid.
+     * @throws ExcepcioPartidaAcabada si la partida ja està acabada.
+     * @throws ExcepcionPosicioIncorrecta si la posició és incorrecta.
      */
     @Test
     public void partidaRetornaEstatCorrecte() throws ExcepcioPartidaTancada, ExcepcioValorInvalid, ExcepcioPartidaAcabada, ExcepcionPosicioIncorrecta {
@@ -155,6 +163,7 @@ public class PartidaTest {
 
     /**
      * Comprova que la creadora d'una partida amb dades guardades funciona correctament.
+     * @throws ExcepcioCreacioPartida si el nom d'usuari no coincideix o si la mida del tauler i la mida dels valors de la partida no coincideixen..
      */
     @Test
     public void partidaCreadoraGuardada() throws ExcepcioCreacioPartida {
@@ -174,6 +183,7 @@ public class PartidaTest {
     /**
      * Comprova que la creadora d'una partida amb dades guardades llença {@code ExcepcioCreacioPartida}
      * quan s'intenta crear una partida amb un usuari diferent del de les dades guardades.
+     * @throws ExcepcioCreacioPartida si el nom d'usuari no coincideix.
      */
     @Test(expected = ExcepcioCreacioPartida.class)
     public void partidaCreadoraNoPermisUser() throws ExcepcioCreacioPartida {
@@ -193,6 +203,7 @@ public class PartidaTest {
     /**
      * Comprova que la creadora d'una partida amb dades guardades llença {@code ExcepcioCreacioPartida}
      * quan la mida del tauler i la mida dels valors de la partida no coincideixen.
+     * @throws ExcepcioCreacioPartida si la mida del tauler i la mida dels valors de la partida no coincideixen.
      */
     @Test(expected = ExcepcioCreacioPartida.class)
     public void partidaCreadoraNoTaulerMida() throws ExcepcioCreacioPartida {

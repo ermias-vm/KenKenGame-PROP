@@ -63,7 +63,8 @@ public class CtrlUsuari {
 
     /**
      * Registar usuari nou.
-     * @param numUsuari El nom a registrar.
+     * @param nomUsuari El nom a registrar.
+     * @param contrasenya La contrasenya a registrar.
      */
     public void registrarUsuari(String nomUsuari, String contrasenya) {
 
@@ -120,7 +121,6 @@ public class CtrlUsuari {
      * Iniciar sessio.
      * @param nomUsuari El nom d'usuari.
      * @param contrasenya La contrasenya de l'usuari.
-     * @return .
      */
     public void iniciarSessio(String nomUsuari, String contrasenya) {
 

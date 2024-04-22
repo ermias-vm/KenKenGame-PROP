@@ -2,7 +2,7 @@ package main.domini.excepcions;
 /**
  * Excepció que es llança quan s'intenta assignar una posició a una casella que ja té una posició assignada.
  *
- * @autor Ermias Valls Mayor
+ * @author Ermias Valls Mayor
  */
 public class ExcepcioCasellaJaTePosicioAssignada extends Exception {
     private String missatge;

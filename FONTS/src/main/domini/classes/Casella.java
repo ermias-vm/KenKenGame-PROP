@@ -36,7 +36,6 @@ public class Casella {
     /**
      * Estableix el valor de la cel·la.
      * @param num El valor a establir.
-     * @throws ExcepcioCasellaNoModificable Si la cel·la no és modificable.
      */
     public void setValor(int num) {
         try {
@@ -49,7 +48,6 @@ public class Casella {
 
     /**
      * Esborra el valor de la cel·la (l'estableix a 0).
-     * @throws ExcepcioCasellaNoModificable Si la cel·la no és modificable.
      */
     public void borrarValor() {
         try {
@@ -88,7 +86,6 @@ public class Casella {
      * Estableix la posició de la cel·la.
      * @param x La posició x a establir.
      * @param y La posició y a establir.
-     * @throws ExcepcioCasellaJaTePosicioAssignada Si la cel·la ja té una posició assignada.
      */
     public void setPosXY(int x, int y) {
         try {
