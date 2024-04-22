@@ -27,7 +27,7 @@ public class DriverKenken {
      * Mètode principal del driver.
      * Aquest mètode permet a l'usuari interactuar amb la classe Kenken a través de la línia de comandes.
      */
-    public void run() {
+    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int idTauler = 0;
 
