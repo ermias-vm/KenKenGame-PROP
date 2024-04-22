@@ -371,4 +371,12 @@ public class ControladorPartida {
         if (tauler.getGrau() != midaPartida) throw new ExcepcioCarregaPartida("La mida de la partida guardada no coincideix amb la mda del seu tauler" );
         return new Partida_per_a_test(identificadorPartida, identificadorUsuariPartida, tauler, tempsPartida, valorsPartida);
     }
+
+    public String[] iniciaPartidaProvaDriver(String nomUsuari) {
+        TaulerStub t = new TaulerStub("4",3);
+        partida_ = new Partida_per_a_test(nomUsuari, t);
+        String partidaText = partida_.generaPartidaText();
+        String taulerText = partida_.getTaulerPartida().generaTaulerText();
+        return new String[]{partidaText, taulerText};
+    }
 }

@@ -35,8 +35,10 @@ public class DriverJugarPartida {
                     "2. Continuar jugant una de les partides guardades per aquest usuari.\n" +
                     "3. Jugar una partida amb un tauler de mida específica.\n" +
                     "4. Jugar una partida amb un tauler introduït per l'usuari.\n" +
-                    "5. Sortir.");
+                    "5. Sortir.\n" +
+                    "6. Jugar única partida que funciona ja que no tinc el tauler bé.");
             int opcio = scanner.nextInt();
+            scanner.nextLine();
             switch (opcio) {
                 case 1:
                     try {
@@ -151,8 +153,21 @@ public class DriverJugarPartida {
                     break;
                     */
                 case 4:
-                    System.out.println("Vols introduïr el tauler des d'un fitxer .txt o manualment? (Fitxer/Manualment)");
+                    System.out.println("Vols introduïr el tauler des d'un fitxer .txt o manualment? (Fitxer/Manualment/Sortir)");
+                    boolean decidit = false;
                     String decisio = scanner.nextLine();
+                    do {
+                        decisio = scanner.nextLine();
+                        if (decisio.equals("Sortir")) {
+                            break;
+                        }
+                        if (decisio.equals("Fitxer") || decisio.equals("Manualment")) {
+                            decidit = true;
+                        }
+                        System.out.println("Introdueix una de les opcions especificades.");
+
+                    }
+                    while(!decidit);
                     if (decisio.equals("Fitxer")){
                         boolean trobat = false;
                         BufferedReader llegir = null;
@@ -192,12 +207,12 @@ public class DriverJugarPartida {
                             System.out.println("Hi ha hagut un error en la inicialització del controlador de taulers, torna a intentar-ho.");
                             controladorPartida.setControladorTauler(controladorTaulers);
                         }
+                        break;
                     }
                     else {
                         System.out.println("Introdueix el tauler seguint el format descrit a l'enunciat, recorda que si en qualsevol moment vols sortir pots escriure Sortir.");
                         StringBuilder dadesTauler = new StringBuilder();
-                        String linia;
-                        linia = scanner.nextLine();
+                        String linia = scanner.nextLine();
                         if (linia.equals("Sortir")) {
                             break;
                         }
@@ -223,6 +238,14 @@ public class DriverJugarPartida {
                 case 5:
                     scanner.close();
                     return;
+                case 6:
+                    try {
+                        String[] estat = controladorPartida.iniciaPartidaProvaDriver(nomUsuari);
+                        jugar(scanner, controladorPartida, estat, nomUsuari);
+                    } catch (Exception e) {
+                        System.out.println("Error en el print de l'estat de la partida:" + e.getMessage());
+                    }
+                    break;
             }
         }
     }
@@ -247,6 +270,7 @@ public class DriverJugarPartida {
                     "7. Tancar i guardar partida.\n" +
                     "8. Sortir de la partida sense guardar.");
             int opcio = scanner.nextInt();
+            scanner.nextLine();
             switch (opcio) {
                 case 1:
                     System.out.println("Introdueix la fila, la columna i el valor que vols posar com a: [fila columna valor] sense els [].");

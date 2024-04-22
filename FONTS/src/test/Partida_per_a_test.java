@@ -217,7 +217,7 @@ public class Partida_per_a_test {
         if (fila < 0 || fila >= grauPartida_ || columna < 0 || columna >= grauPartida_) {
             throw new ExcepcionPosicioIncorrecta();
         }
-        if (1 <= valor && valor <= grauPartida_) {
+        if (0 <= valor && valor <= grauPartida_) {
             valorsPartida_[fila][columna] = valor;
             return true;
         }

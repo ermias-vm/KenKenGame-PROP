@@ -21,7 +21,7 @@ public class TaulerStub {
     }
 
     public String generaTaulerText() {
-        return "Perdò no em tocava la classe Tauler, soc un Stub";
+        return "Perdò no em tocava la classe Tauler, soc un Stub\n";
     }
 }
 
