@@ -26,7 +26,6 @@ public class RegioJoc extends Regio {
         super(tam);
         this.operacio = operacio;
         this.resultat = resultat;
-        Operacio  a = new Suma();
     }
 
     /**

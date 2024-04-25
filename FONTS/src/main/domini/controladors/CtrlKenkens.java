@@ -1,0 +1,102 @@
+package main.domini.controladors;
+
+import main.domini.interficies.Operacio;
+import main.domini.classes.operacions.*;
+import main.domini.classes.Casella;
+import main.domini.classes.RegioJoc;
+import main.domini.classes.TaulerJoc;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+
+
+public class CtrlKenkens {
+
+    private final String  pathTaulers = "data/taulers/";
+
+    private Operacio getOperacio(int oper) {
+        switch (oper) {
+            case 1:
+                return new Suma();
+            case 2:
+                return new Resta();
+            case 3:
+                return new Multiplicacio();
+            case 4:
+                return new Divisio();
+            case 5:
+                return new Modul();
+            case 6:
+                return new Exponenciacio();
+            default:
+                return null;
+        }
+    }
+
+    public String getTaulerJoc(String filePath) throws IOException {
+        StringBuilder content = new StringBuilder();
+        File file = new File(filePath);
+        FileReader fr = new FileReader(file);
+        BufferedReader br = new BufferedReader(fr);
+        String line;
+        while ((line = br.readLine()) != null) {
+            content.append(line).append("\n");
+        }
+        return content.toString();
+    }
+
+    public TaulerJoc llegirTaulerJoc(int id , String grau) {
+        String path = Paths.get(pathTaulers,grau, id + ".txt").toAbsolutePath().toString();
+        try {
+            String content = getTaulerJoc(path);
+            String[] lines = content.split("\n");
+            // Leer N y R desde la primera línea
+            String[] primeraLinea = lines[0].split(" ");
+            int N = Integer.parseInt(primeraLinea[0]);
+            int R = Integer.parseInt(primeraLinea[1]);
+
+            TaulerJoc TJ = new TaulerJoc(id, N);
+
+            // Leer cada región
+            for (int i = 0; i < R; i++) {
+                String[] regioInfo = lines[i+1].split(" ");
+                int oper = Integer.parseInt(regioInfo[0]);
+                int result = Integer.parseInt(regioInfo[1]);
+                int e = Integer.parseInt(regioInfo[2]);
+
+                ArrayList<Casella> caselles = new ArrayList<>();
+                int j = 3;
+                while(j < regioInfo.length) {
+                    int x = Integer.parseInt(regioInfo[j]);
+                    int y = Integer.parseInt(regioInfo[j+1]);
+                    Casella casella = new Casella(x, y);
+                    j += 2;
+                    if (j < regioInfo.length && regioInfo[j].startsWith("[")) {
+                        String valorString = regioInfo[j].replaceAll("[\\[\\]]", "");
+                        casella.setValor(Integer.parseInt(valorString));
+                        casella.setInmodificable();
+                        ++j;
+                    }
+                    caselles.add(casella);
+                    TJ.afegirCasella(casella);
+                }
+
+                Operacio operacio = getOperacio(oper);
+                RegioJoc rj = new RegioJoc(caselles, operacio, result);
+                TJ.afegirRegioJoc(rj);
+            }
+
+            return TJ;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+
+}

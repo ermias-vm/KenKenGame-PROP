@@ -1,6 +1,5 @@
 package main.domini.controladors;
 
-
 import main.domini.classes.*;
 import main.domini.excepcions.*;
 
@@ -15,7 +14,7 @@ public class CtrlDomini {
     private TaulerJoc  TJ;
     private CtrlUsuari CU;
     private ControladorPartida CP;
-    private CtrlTauler CT;
+    private CtrlKenkens CK;
 
     /**
      * Constructor del controlador de domini.
@@ -23,7 +22,7 @@ public class CtrlDomini {
     public CtrlDomini() {
         CP = new ControladorPartida();
         CU = new CtrlUsuari();
-        CT = new CtrlTauler();
+        CK = new CtrlKenkens();
     }
 
     /**
@@ -60,15 +59,12 @@ public class CtrlDomini {
      * @param idTauler Identificador del tauler a importar.
      * @throws Exception Si es produeix un error durant la importació.
      */
-    public void importarKenken(int idTauler) throws Exception {
-        TJ = CT.llegirTaulerJoc(idTauler);
+    public void importarKenken(int idTauler, String grau) throws Exception {
+        TJ = CK.llegirTaulerJoc(idTauler, grau);
         resoldreKenken();
     }
 
-    /**
-     * Resol un Kenken.
-     * @throws Exception Si es produeix un error durant la resolució.
-     */
+
     public void resoldreKenken() throws Exception {
         TJ.solucionarKenken(TJ);
         if (TJ.teSolucion()) {
@@ -80,11 +76,7 @@ public class CtrlDomini {
 
     }
 
-    /**
-     * Mostra un tauler de joc.
-     * @param TJ Tauler de joc a mostrar.
-     * @throws Exception Si es produeix un error durant la visualització.
-     */
+
     public void mostrarTaulerJoc(TaulerJoc TJ) throws Exception {
         int grau = TJ.getGrau();
         for (int i = 1; i <= grau; i++) {

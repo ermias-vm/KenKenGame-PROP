@@ -30,6 +30,7 @@ public class DriverKenken {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int idTauler = 0;
+        String grau = "";
 
         do {
             System.out.println("Introdueixi un el Tauler a solucionar  [1-10]:");
@@ -45,9 +46,12 @@ public class DriverKenken {
                 continue;
             }
 
+            scanner.nextLine(); // consume the newline left-over
+            System.out.println("Introdueixi el grau:");
+            grau = scanner.nextLine();
+
             try {
-                CD.importarKenken(idTauler);
-                CD.resoldreKenken();
+                CD.importarKenken(idTauler, grau);
             } catch (Exception e) {
                 System.out.println("S'ha produït un error: " + e.getMessage());
             }
