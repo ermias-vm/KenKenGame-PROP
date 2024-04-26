@@ -73,6 +73,7 @@ public class CtrlDomini {
         }
         else {
             System.out.println("El tauler no té solució."+ "\n");
+            CK.mostrarTaulerJoc(TJ);
         }
     }
 
