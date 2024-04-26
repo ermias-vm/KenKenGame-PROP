@@ -234,7 +234,7 @@ public class CtrlTauler {
             }
             reader.close();
             return construirTaulerKenKen(idTauler,lines);
-        } catch (IOException e) {
+        } catch (IOException | ExcepcioCasellaNoExisteix e) {
             e.printStackTrace();
             return null;
         }
@@ -247,7 +247,7 @@ public class CtrlTauler {
      * @param lines    Línies llegides del fitxer.
      * @return Tauler de joc construït.
      */
-    private TaulerJoc construirTaulerKenKen(int idTauler, List<String> lines) {
+    private TaulerJoc construirTaulerKenKen(int idTauler, List<String> lines) throws ExcepcioCasellaNoExisteix {
         int n = Integer.parseInt(lines.get(0));
         TaulerJoc K = new TaulerJoc(idTauler,n);
         int nr = Integer.parseInt(lines.get(1));

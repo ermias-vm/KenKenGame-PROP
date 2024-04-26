@@ -69,7 +69,6 @@ public class CtrlKenkens {
                 String[] regioInfo = lines[i+1].split(" ");
                 int oper = Integer.parseInt(regioInfo[0]);
                 int result = Integer.parseInt(regioInfo[1]);
-                int e = Integer.parseInt(regioInfo[2]);
 
                 ArrayList<Casella> caselles = new ArrayList<>();
                 int j = 3;
@@ -90,6 +89,7 @@ public class CtrlKenkens {
                 }
 
                 Operacio operacio = getOperacio(oper);
+                //System.out.print(operacio.getNumOperacio());
                 RegioJoc rj = new RegioJoc(caselles, operacio, result);
                 TJ.afegirRegioJoc(rj);
             }
@@ -104,7 +104,7 @@ public class CtrlKenkens {
     public void mostrarTaulerJoc(TaulerJoc TJ) throws Exception {
         int grau = TJ.getGrau();
         int id = TJ.getIdTauler();
-        System.out.println("Contingut del Tauler " + id + " de grau " + grau + ":");
+
         for (int i = 1; i <= grau; i++) {
             for (int j = 1; j <= grau; j++) {
                 int valor = TJ.getCasella(i, j).getValor();

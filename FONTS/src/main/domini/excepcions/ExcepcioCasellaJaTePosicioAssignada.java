@@ -1,20 +1,24 @@
 package main.domini.excepcions;
-
-public class CasellaNoExisteixException extends Exception {
+/**
+ * Excepció que es llança quan s'intenta assignar una posició a una casella que ja té una posició assignada.
+ *
+ * @author Ermias Valls Mayor
+ */
+public class ExcepcioCasellaJaTePosicioAssignada extends Exception {
     private String missatge;
 
     /**
-     * Crea una nova instància de CasellaNoExisteixException amb un missatge predeterminat.
+     * Crea una nova instància de ExcepcioCasellaJaTePosicioAssignada amb un missatge predeterminat.
      */
-    public CasellaNoExisteixException(int x, int y) {
-        this("La casella en la posició (" + x + ", " + y + ") no existeix.");
+    public ExcepcioCasellaJaTePosicioAssignada() {
+        this("La casella ja te una posicio assignada");
     }
 
     /**
-     * Crea una nova instància de CasellaNoExisteixException amb un missatge específic.
+     * Crea una nova instància de ExcepcioCasellaJaTePosicioAssignada amb un missatge específic.
      * @param s El missatge de l'excepció.
      */
-    public CasellaNoExisteixException(String s) {
+    public ExcepcioCasellaJaTePosicioAssignada(String s) {
         super(s);
         this.missatge = s;
     }

@@ -251,7 +251,7 @@ public class Partida {
      * @throws ExcepcioPartidaTancada si la partida està tancada.
      * @throws ExcepcioPartidaMalament si la partida no està correctament resolta.
      */
-    public String acabaPartida() throws ExcepcioPartidaAcabada, ExcepcioPartidaTancada, ExcepcioPartidaMalament {
+    public String acabaPartida() throws ExcepcioPartidaAcabada, ExcepcioPartidaTancada, ExcepcioPartidaMalament, ExcepcioCasellaNoExisteix {
         if (acabadaPartida_) {
             throw new ExcepcioPartidaAcabada();
         }

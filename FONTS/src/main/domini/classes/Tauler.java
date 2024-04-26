@@ -1,5 +1,7 @@
 package main.domini.classes;
 
+import main.domini.excepcions.ExcepcioCasellaNoExisteix;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +12,7 @@ import java.util.List;
 public class Tauler {
     private int idTauler; // Identificador del tauler
     private int grau; // Grau del tauler
-    private List<Casella> caselles; // Llista de caselles del tauler
+    private ArrayList<Casella> caselles; // Llista de caselles del tauler
 
     /**
      * Constructor de la classe Tauler.
@@ -55,20 +57,14 @@ public class Tauler {
         return grau;
     }
 
-    /**
-     * Obté la casella a la posició (x, y) del tauler.
-     *
-     * @param x Coordenada x de la casella.
-     * @param y Coordenada y de la casella.
-     * @return La casella a la posició (x, y) o null si no existeix.
-     */
-    public Casella getCasella(int x, int y) {
+
+    public Casella getCasella(int x, int y) throws ExcepcioCasellaNoExisteix {
         for (Casella casella : this.caselles) {
             if (casella.getPosX() == x && casella.getPosY() == y) {
                 return casella;
             }
         }
-        return null;
+        throw new ExcepcioCasellaNoExisteix(x, y);
     }
 
     /**
@@ -76,7 +72,7 @@ public class Tauler {
      *
      * @return Llista de caselles del tauler.
      */
-    public List<Casella> getCaselles() {
+    public ArrayList<Casella> getCaselles() {
         return caselles;
     }
 
@@ -105,7 +101,7 @@ public class Tauler {
      * @param y Coordenada y de la casella.
      * @return Valor de la casella a la posició (x, y).
      */
-    public int getValor(int x, int y) {
+    public int getValor(int x, int y) throws ExcepcioCasellaNoExisteix {
         return getCasella(x, y).getValor();
     }
 
@@ -116,7 +112,7 @@ public class Tauler {
      * @param y   Coordenada y de la casella.
      * @param num Nou valor per la casella.
      */
-    public void setValor(int x, int y, int num) {
+    public void setValor(int x, int y, int num) throws ExcepcioCasellaNoExisteix {
         getCasella(x, y).setValor(num);
     }
 
@@ -126,7 +122,7 @@ public class Tauler {
      * @param x Coordenada x de la casella.
      * @param y Coordenada y de la casella.
      */
-    public void borrarValor(int x, int y) {
+    public void borrarValor(int x, int y) throws ExcepcioCasellaNoExisteix {
         getCasella(x, y).borrarValor();
     }
 
@@ -137,7 +133,7 @@ public class Tauler {
      * @param y Coordenada y de la casella.
      * @return true si la casella és modificable, false en cas contrari.
      */
-    public boolean esModificable(int x, int y) {
+    public boolean esModificable(int x, int y) throws ExcepcioCasellaNoExisteix {
         return getCasella(x, y).esModificable();
     }
 
@@ -148,7 +144,7 @@ public class Tauler {
      * @param y Coordenada y de la casella.
      * @return true si la casella està buida, false en cas contrari.
      */
-    public boolean esBuida(int x, int y) {
+    public boolean esBuida(int x, int y) throws ExcepcioCasellaNoExisteix {
         return getCasella(x, y).esBuida();
     }
 }

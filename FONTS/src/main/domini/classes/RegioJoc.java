@@ -115,9 +115,6 @@ public class RegioJoc extends Regio {
      */
     public boolean esValida() throws Exception {
 
-        if (!esCompleta()) {
-            return false;
-        }
         int valors[] = getValorsCaselles();
         //no operacio
         if (getTamany() == 1) return this.resultat == valors[0];

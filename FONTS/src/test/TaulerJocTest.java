@@ -5,6 +5,7 @@ import main.domini.classes.RegioJoc;
 import main.domini.classes.Casella;
 
 import main.domini.classes.operacions.Suma;
+import main.domini.excepcions.ExcepcioCasellaNoExisteix;
 import main.domini.interficies.Operacio;
 import org.junit.After;
 import org.junit.Before;
@@ -47,7 +48,7 @@ public class TaulerJocTest {
      */
     @Test
     public void teSolucion() {
-        assertFalse(taulerJoc.teSolucion());
+        assertFalse(taulerJoc.teSolucio());
     }
 
     /**
@@ -55,11 +56,11 @@ public class TaulerJocTest {
      * S'espera que la casella sigui modificable inicialment i després no sigui modificable.
      */
     @Test
-    public void esModificable() {
-        taulerJoc.getCasella(0,0);
-        assertTrue(taulerJoc.esModificable(0, 0));
-        taulerJoc.getCasella(0,0).setInmodificable();
-        assertFalse(taulerJoc.esModificable(0, 0));
+    public void esModificable() throws ExcepcioCasellaNoExisteix {
+        taulerJoc.getCasella(1,1);
+        assertTrue(taulerJoc.esModificable(1, 1));
+        taulerJoc.getCasella(1,1).setInmodificable();
+        assertFalse(taulerJoc.esModificable(1, 1));
     }
 
     /**
@@ -121,7 +122,7 @@ public class TaulerJocTest {
      * S'espera que el número 1 sigui vàlid i el número 2 no sigui vàlid per a la fila 1.
      */
     @Test
-    public void esFilaValida() {
+    public void esFilaValida() throws ExcepcioCasellaNoExisteix {
         TaulerJoc tj = new TaulerJoc(1, 2);
 
         Casella casella1 = new Casella(1, 1);
@@ -145,7 +146,7 @@ public class TaulerJocTest {
      * S'espera que el número 1 sigui vàlid i el número 3 no sigui vàlid per a la columna 1.
      */
     @Test
-    public void esColumValida() {
+    public void esColumValida() throws ExcepcioCasellaNoExisteix {
         TaulerJoc tj = new TaulerJoc(1, 2);
 
         Casella casella1 = new Casella(1, 1);

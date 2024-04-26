@@ -40,7 +40,7 @@ public class Regio {
 	}
 
     public int getTamany() {
-        return tamany;
+        return caselles.size();
     }
      
     public int getNumcasellesPlenas() { 

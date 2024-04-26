@@ -43,6 +43,7 @@ public class DriverKenken {
                 case 2:
                     grau = obtenirGrau(scanner);
                     idTauler = obtenirIdentificador(scanner);
+                    CD.resoldreKenken(idTauler, grau);
                     break;
                 case 3:
                     System.out.println("Pendent a implementar");

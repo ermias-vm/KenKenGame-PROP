@@ -1,5 +1,7 @@
 package main.domini.classes;
 
+import main.domini.excepcions.ExcepcioCasellaNoExisteix;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -28,7 +30,7 @@ public class TaulerJoc extends Tauler {
      * Comprova si el tauler té una solució.
      * @return true si té solució, false en cas contrari
      */
-    public boolean teSolucion() {
+    public boolean teSolucio() {
         return trobat;
     }
 
@@ -43,7 +45,7 @@ public class TaulerJoc extends Tauler {
      *
      * Si un valor és 0, es considera que no té valor i per tant es considera vàlid.
      */
-    public boolean corretgeix(int[][] valors) {
+    public boolean corretgeix(int[][] valors) throws ExcepcioCasellaNoExisteix {
         for (int i = 0; i < getGrau(); ++i) {
             for (int j = 0; j < getGrau(); ++j) {
                 if (valors[i][j] != 0) {
@@ -103,7 +105,7 @@ public class TaulerJoc extends Tauler {
      * @param num Número a comprovar
      * @return true si el número és vàlid, false en cas contrari
      */
-    public boolean esFilaValida(int fila, int num) {
+    public boolean esFilaValida(int fila, int num) throws ExcepcioCasellaNoExisteix {
         for (int colum = 1; colum <= getGrau(); ++colum) {
             if (getCasella(fila, colum).getValor() == num) return false;
         }
@@ -116,7 +118,7 @@ public class TaulerJoc extends Tauler {
      * @param num Número a comprovar
      * @return true si el número és vàlid, false en cas contrari
      */
-    public boolean esColumValida(int colum, int num) {
+    public boolean esColumValida(int colum, int num) throws ExcepcioCasellaNoExisteix {
         for (int fila = 1; fila <= getGrau(); ++fila) {
             if (getCasella(fila, colum).getValor() == num) return false;
         }
@@ -132,25 +134,27 @@ public class TaulerJoc extends Tauler {
      */
     private void backtracking(TaulerJoc TJ, int i, int j) throws Exception {
         //Cas base , te solucio
-        if (i == TJ.getGrau()) {
+        if (i == TJ.getGrau()+1) {
             trobat = true;
         }
         // Crida Recursiva
+
         else if (!TJ.esModificable(i, j)) {
             // Si la casella no es modificable, pasa a la seguent
             if (j + 1 == TJ.getGrau()) {
-                backtracking(TJ, i + 1, 0);
+                backtracking(TJ, i + 1, 1);
             } else {
                 backtracking(TJ, i, j + 1);
             }
+
         } else {
             for (int valor = 1; valor <= TJ.getGrau() && !trobat; ++valor) {
                 if (TJ.esFilaValida(i, valor) && TJ.esColumValida(j, valor)) {
                     TJ.setValor(i, j, valor);
                     RegioJoc r = TJ.getRegio(i, j);
-                    if ((!r.esCompleta() || r.esCompleta() && r.esValida())) {
-                        if (j + 1 == TJ.getGrau()) {
-                            backtracking(TJ, i + 1, 0);
+                    if ((r.esCompleta() && r.esValida()) || !r.esCompleta()) {
+                        if (j + 1 > TJ.getGrau()) {
+                            backtracking(TJ, i + 1, 1);
                         } else {
                             backtracking(TJ, i, j + 1);
                         }
@@ -169,6 +173,6 @@ public class TaulerJoc extends Tauler {
      * @throws Exception Si es produeix un error durant la resolució
      */
     public void solucionarKenken(TaulerJoc T) throws Exception {
-        backtracking(T, 0, 0);
+        backtracking(T, 1, 1);
     }
 }

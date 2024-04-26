@@ -57,13 +57,23 @@ public class CtrlDomini {
 
     public void pintarTaulerJoc(int idTauler, String grau) throws Exception {
         TJ = CK.llegirTaulerJoc(idTauler, grau);
+        System.out.println("Contingut del Tauler " + idTauler + " de grau " + grau + ":");
         CK.mostrarTaulerJoc(TJ);
     }
 
     public void resoldreKenken(int idTauler, String grau) throws Exception {
         TJ = CK.llegirTaulerJoc(idTauler, grau);
-        //CK.resoldreKenken(TJ);
+        System.out.println("Contingut del Tauler " + idTauler + " de grau " + grau + ":");
         CK.mostrarTaulerJoc(TJ);
+
+        TJ.solucionarKenken(TJ);
+        if (TJ.teSolucio()) {
+            System.out.println("Tauler resolt:");
+            CK.mostrarTaulerJoc(TJ);
+        }
+        else {
+            System.out.println("El tauler no té solució.");
+        }
     }
 
 
