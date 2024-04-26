@@ -48,13 +48,15 @@ public class DriverKenken {
                 case 3:
                     System.out.println("Pendent a implementar");
                     break;
-                case 0:
-                    System.out.println("Fins aviat!");
-                    break;
+
                 case 4:
                     grau = obtenirGrau(scanner);
                     idTauler = obtenirIdentificador(scanner);
                     CD.pintarTaulerJoc(idTauler, grau);
+                    break;
+                case 0:
+                    System.out.println("Fins aviat!");
+                    break;
                 default:
                     System.out.println("Opció no vàlida.");
                     break;

@@ -54,7 +54,7 @@ public class CtrlKenkens {
         String path = Paths.get(pathTaulers,grau, id + ".txt").toAbsolutePath().toString();
         try {
             String content = getTaulerJoc(path);
-            System.out.println(content); //imprimir prova
+            //System.out.println(content); //imprimir prova
             String[] lines = content.split("\n");
             String[] primeraLinea = lines[0].split(" ");
             //System.out.println(Arrays.toString(primeraLinea));
@@ -112,9 +112,7 @@ public class CtrlKenkens {
             }
             System.out.println();
         }
+        System.out.println();
     }
-
-
-
 
 }

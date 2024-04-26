@@ -141,7 +141,7 @@ public class TaulerJoc extends Tauler {
 
         else if (!TJ.esModificable(i, j)) {
             // Si la casella no es modificable, pasa a la seguent
-            if (j + 1 == TJ.getGrau()) {
+            if (j == TJ.getGrau()) {
                 backtracking(TJ, i + 1, 1);
             } else {
                 backtracking(TJ, i, j + 1);
@@ -153,7 +153,7 @@ public class TaulerJoc extends Tauler {
                     TJ.setValor(i, j, valor);
                     RegioJoc r = TJ.getRegio(i, j);
                     if ((r.esCompleta() && r.esValida()) || !r.esCompleta()) {
-                        if (j + 1 > TJ.getGrau()) {
+                        if (j ==  TJ.getGrau()) {
                             backtracking(TJ, i + 1, 1);
                         } else {
                             backtracking(TJ, i, j + 1);

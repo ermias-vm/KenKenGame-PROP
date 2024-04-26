@@ -72,7 +72,7 @@ public class CtrlDomini {
             CK.mostrarTaulerJoc(TJ);
         }
         else {
-            System.out.println("El tauler no té solució.");
+            System.out.println("El tauler no té solució."+ "\n");
         }
     }
 
