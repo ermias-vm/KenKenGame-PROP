@@ -12,11 +12,12 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class CtrlKenkens {
 
-    private final String  pathTaulers = "data/taulers/";
+    private final String  pathTaulers = "Data/taulers/";
 
     private Operacio getOperacio(int oper) {
         switch (oper) {
@@ -53,15 +54,17 @@ public class CtrlKenkens {
         String path = Paths.get(pathTaulers,grau, id + ".txt").toAbsolutePath().toString();
         try {
             String content = getTaulerJoc(path);
+            System.out.println(content); //imprimir prova
             String[] lines = content.split("\n");
-            // Leer N y R desde la primera línea
             String[] primeraLinea = lines[0].split(" ");
+            //System.out.println(Arrays.toString(primeraLinea));
             int N = Integer.parseInt(primeraLinea[0]);
             int R = Integer.parseInt(primeraLinea[1]);
 
+
             TaulerJoc TJ = new TaulerJoc(id, N);
 
-            // Leer cada región
+            //Llegir cada regio
             for (int i = 0; i < R; i++) {
                 String[] regioInfo = lines[i+1].split(" ");
                 int oper = Integer.parseInt(regioInfo[0]);
@@ -70,6 +73,7 @@ public class CtrlKenkens {
 
                 ArrayList<Casella> caselles = new ArrayList<>();
                 int j = 3;
+                //Llegir cada casella de la regio
                 while(j < regioInfo.length) {
                     int x = Integer.parseInt(regioInfo[j]);
                     int y = Integer.parseInt(regioInfo[j+1]);
@@ -96,6 +100,20 @@ public class CtrlKenkens {
         }
         return null;
     }
+
+    public void mostrarTaulerJoc(TaulerJoc TJ) throws Exception {
+        int grau = TJ.getGrau();
+        int id = TJ.getIdTauler();
+        System.out.println("Contingut del Tauler " + id + " de grau " + grau + ":");
+        for (int i = 1; i <= grau; i++) {
+            for (int j = 1; j <= grau; j++) {
+                int valor = TJ.getCasella(i, j).getValor();
+                System.out.print(valor + " ");
+            }
+            System.out.println();
+        }
+    }
+
 
 
 

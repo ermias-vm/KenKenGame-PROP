@@ -17,6 +17,7 @@ import java.util.Scanner;
  */
 public class DriverJugarPartida {
     private final static inout io = new inout();
+
     public static void main(String[] args) {
         ControladorPartida controladorPartida = new ControladorPartida();
         ControladorPersistenciaPartida controladorPersistenciaPartida = new ControladorPersistenciaPartida();

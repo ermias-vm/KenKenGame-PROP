@@ -54,39 +54,18 @@ public class CtrlDomini {
     }
 
 
-    /**
-     * Importa un Kenken amb un identificador de tauler donat.
-     * @param idTauler Identificador del tauler a importar.
-     * @throws Exception Si es produeix un error durant la importació.
-     */
-    public void importarKenken(int idTauler, String grau) throws Exception {
+
+    public void pintarTaulerJoc(int idTauler, String grau) throws Exception {
         TJ = CK.llegirTaulerJoc(idTauler, grau);
-        resoldreKenken();
+        CK.mostrarTaulerJoc(TJ);
     }
 
-
-    public void resoldreKenken() throws Exception {
-        TJ.solucionarKenken(TJ);
-        if (TJ.teSolucion()) {
-            System.out.println("Kenken resolt correctament");
-            mostrarTaulerJoc(TJ);
-        } else {
-            System.out.println("Kenken no te solucio");
-        }
-
+    public void resoldreKenken(int idTauler, String grau) throws Exception {
+        TJ = CK.llegirTaulerJoc(idTauler, grau);
+        //CK.resoldreKenken(TJ);
+        CK.mostrarTaulerJoc(TJ);
     }
 
-
-    public void mostrarTaulerJoc(TaulerJoc TJ) throws Exception {
-        int grau = TJ.getGrau();
-        for (int i = 1; i <= grau; i++) {
-            for (int j = 1; j <= grau; j++) {
-                int valor = TJ.getCasella(i, j).getValor();
-                System.out.print(valor + " ");
-            }
-            System.out.println();
-        }
-    }
 
     /**
      * Carrega l'última partida guardada d'un usuari.
