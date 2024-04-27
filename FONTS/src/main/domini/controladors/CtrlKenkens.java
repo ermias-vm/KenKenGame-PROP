@@ -58,7 +58,7 @@ public class CtrlKenkens {
             //System.out.println(content); //imprimir prova
             String[] lines = content.split("\n");
             String[] primeraLinea = lines[0].split(" ");
-            //System.out.println(Arrays.toString(primeraLinea));
+            System.out.println(Arrays.toString(primeraLinea));
             int N = Integer.parseInt(primeraLinea[0]);
             int R = Integer.parseInt(primeraLinea[1]);
 
@@ -68,6 +68,7 @@ public class CtrlKenkens {
             //Llegir cada regio
             for (int i = 0; i < R; i++) {
                 String[] regioInfo = lines[i+1].split(" ");
+                //System.out.println(Arrays.toString(regioInfo));
                 int oper = Integer.parseInt(regioInfo[0]);
                 int result = Integer.parseInt(regioInfo[1]);
 
@@ -104,8 +105,6 @@ public class CtrlKenkens {
 
     public void mostrarTaulerJoc(TaulerJoc TJ) throws Exception {
         int grau = TJ.getGrau();
-        int id = TJ.getIdTauler();
-
         for (int i = 1; i <= grau; i++) {
             for (int j = 1; j <= grau; j++) {
                 int valor = TJ.getCasella(i, j).getValor();

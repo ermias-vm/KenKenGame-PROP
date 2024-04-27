@@ -166,13 +166,22 @@ public class TaulerJoc extends Tauler {
             }
         }
     }
-
+    private void optimitzacioNoOperacio(TaulerJoc TJ) {
+        for (RegioJoc r : TJ.getRegionsJoc()) {
+            if (r.getTamany() == 1) {
+                Casella c = r.getCaselles().get(0);
+                c.setValor(r.getResultat());
+                c.setInmodificable();
+            }
+        }
+    }
     /**
      * Resol el tauler de joc Kenken.
-     * @param T Tauler de joc a resoldre
+     * @param TJ Tauler de joc a resoldre
      * @throws Exception Si es produeix un error durant la resolució
      */
-    public void solucionarKenken(TaulerJoc T) throws Exception {
-        backtracking(T, 1, 1);
+    public void solucionarKenken(TaulerJoc TJ) throws Exception {
+        optimitzacioNoOperacio(TJ);
+        backtracking(TJ, 1, 1);
     }
 }

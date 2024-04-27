@@ -26,7 +26,8 @@ public class Divisio implements Operacio {
         if (a == 0 || b == 0) {throw new ExcepcioDivisio_0();}
         if (divisible(a,b)) {return a/b;}
         else if (divisible(b,a)) {return b/a;}
-        else{throw new ExcepcioNoDivisor(a,b);}
+        //else{throw new ExcepcioNoDivisor(a,b);}
+        return -1;
     }
     /**
      * Realitza la divisió de dos enters independentment de l'ordre donats com a vector.

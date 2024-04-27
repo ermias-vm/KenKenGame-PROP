@@ -42,8 +42,12 @@ public class DriverKenken {
                     break;
                 case 2:
                     grau = obtenirGrau(scanner);
+                    long startTime = System.currentTimeMillis();
                     idTauler = obtenirIdentificador(scanner);
                     CD.resoldreKenken(idTauler, grau);
+                    long endTime = System.currentTimeMillis();
+                    long duration = endTime - startTime;
+                    System.out.println('\n'+ "Temps en resoldre: " + duration + " ms.");
                     break;
                 case 3:
                     System.out.println("Pendent a implementar");
