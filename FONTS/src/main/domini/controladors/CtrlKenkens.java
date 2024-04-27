@@ -1,5 +1,6 @@
 package main.domini.controladors;
 
+import main.domini.excepcions.ExcepcioCasellaNoExisteix;
 import main.domini.interficies.Operacio;
 import main.domini.classes.operacions.*;
 import main.domini.classes.Casella;
@@ -68,10 +69,10 @@ public class CtrlKenkens {
             //Llegir cada regio
             for (int i = 0; i < R; i++) {
                 String[] regioInfo = lines[i+1].split(" ");
-                //System.out.println(Arrays.toString(regioInfo));
+                System.out.println(Arrays.toString(regioInfo));
                 int oper = Integer.parseInt(regioInfo[0]);
                 int result = Integer.parseInt(regioInfo[1]);
-
+                int elements = Integer.parseInt(regioInfo[2]);
                 ArrayList<Casella> caselles = new ArrayList<>();
                 int j = 3;
                 //Llegir cada casella de la regio
@@ -79,6 +80,7 @@ public class CtrlKenkens {
                     int x = Integer.parseInt(regioInfo[j]);
                     int y = Integer.parseInt(regioInfo[j+1]);
                     Casella casella = new Casella(x, y);
+                    casella.setPermutacions(elements);
                     j += 2;
                     if (j < regioInfo.length && regioInfo[j].startsWith("[")) {
                         String valorString = regioInfo[j].replaceAll("[\\[\\]]", "");
@@ -87,7 +89,7 @@ public class CtrlKenkens {
                         ++j;
                     }
                     caselles.add(casella);
-                    TJ.afegirCasella(casella);
+                    TJ.afegirCasella(x, y, casella);
                 }
 
                 Operacio operacio = getOperacio(oper);
@@ -99,6 +101,8 @@ public class CtrlKenkens {
             return TJ;
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (ExcepcioCasellaNoExisteix e) {
+            throw new RuntimeException(e);
         }
         return null;
     }

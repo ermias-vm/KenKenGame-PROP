@@ -12,7 +12,7 @@ import java.util.List;
 public class Tauler {
     private int idTauler; // Identificador del tauler
     private int grau; // Grau del tauler
-    private ArrayList<Casella> caselles; // Llista de caselles del tauler
+    private Casella[][] caselles; // Llista de caselles del tauler
 
     /**
      * Constructor de la classe Tauler.
@@ -23,7 +23,7 @@ public class Tauler {
     public Tauler(int idTauler, int grau) {
         this.idTauler = idTauler;
         this.grau = grau;
-        this.caselles = new ArrayList<>();
+        this.caselles = new Casella[grau][grau];
     }
 
     /**
@@ -33,7 +33,7 @@ public class Tauler {
      * @param grau      Grau del tauler.
      * @param caselles  Llista de caselles del tauler.
      */
-    public Tauler(int idTauler, int grau, ArrayList<Casella> caselles) {
+    public Tauler(int idTauler, int grau, Casella [][] caselles) {
         this.idTauler = idTauler;
         this.grau = grau;
         this.caselles = caselles;
@@ -59,12 +59,10 @@ public class Tauler {
 
 
     public Casella getCasella(int x, int y) throws ExcepcioCasellaNoExisteix {
-        for (Casella casella : this.caselles) {
-            if (casella.getPosX() == x && casella.getPosY() == y) {
-                return casella;
-            }
+        if (x < 1 || x > grau || y < 1 || y > grau) {
+            throw new ExcepcioCasellaNoExisteix(x, y);
         }
-        throw new ExcepcioCasellaNoExisteix(x, y);
+        return caselles[x-1][y-1];
     }
 
     /**
@@ -72,7 +70,7 @@ public class Tauler {
      *
      * @return Llista de caselles del tauler.
      */
-    public ArrayList<Casella> getCaselles() {
+    public Casella [][] getCaselles() {
         return caselles;
     }
 
@@ -81,17 +79,20 @@ public class Tauler {
      *
      * @param casella Casella a afegir.
      */
-    public void afegirCasella(Casella casella) {
-        caselles.add(casella);
+
+    public void afegirCasella(int x, int y, Casella casella) throws ExcepcioCasellaNoExisteix {
+        if (x < 1 || x > grau || y < 1 || y > grau) {
+            throw new ExcepcioCasellaNoExisteix(x, y);
+        }
+        caselles[x-1][y-1] = casella;
     }
 
-    /**
-     * Elimina una casella del tauler.
-     *
-     * @param casella Casella a eliminar.
-     */
-    public void borrarCasella(Casella casella) {
-        caselles.remove(casella);
+
+    public void borrarCasella(int x, int y) throws ExcepcioCasellaNoExisteix {
+        if (x < 1 || x > grau || y < 1 || y > grau) {
+            throw new ExcepcioCasellaNoExisteix(x, y);
+        }
+        caselles[x-1][y-1] = null;
     }
 
     /**

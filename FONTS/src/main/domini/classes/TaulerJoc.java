@@ -2,6 +2,7 @@ package main.domini.classes;
 
 import main.domini.excepcions.ExcepcioCasellaNoExisteix;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -166,6 +167,30 @@ public class TaulerJoc extends Tauler {
             }
         }
     }
+
+    private void backtrackingPerm(ArrayList<Casella> casellas, int index) throws Exception {
+        if (index == casellas.size()) {
+            trobat = true;
+        } else {
+            Casella c = casellas.get(index);
+            int i = c.getPosX();
+            int j = c.getPosY();
+            TaulerJoc TJ = this; // Asumiendo que backtracking es un método de la clase TaulerJoc
+            for (int valor = 1; valor <= TJ.getGrau() && !trobat; ++valor) {
+                if (TJ.esFilaValida(i, valor) && TJ.esColumValida(j, valor)) {
+                    TJ.setValor(i, j, valor);
+                    RegioJoc r = TJ.getRegio(i, j);
+                    if ((r.esCompleta() && r.esValida()) || !r.esCompleta()) {
+                        backtrackingPerm(casellas, index + 1);
+                    }
+                    if (!trobat) {
+                        TJ.borrarValor(i, j);
+                    }
+                }
+            }
+        }
+    }
+
     private void optimitzacioNoOperacio(TaulerJoc TJ) {
         for (RegioJoc r : TJ.getRegionsJoc()) {
             if (r.getTamany() == 1) {
@@ -182,6 +207,11 @@ public class TaulerJoc extends Tauler {
      */
     public void solucionarKenken(TaulerJoc TJ) throws Exception {
         optimitzacioNoOperacio(TJ);
+
+
+        //ArrayList<Casella> caselles = TJ.getCaselles();
+        //caselles.sort(Comparator.comparing(Casella::getPermutacions));
+        //backtrackingFast(caselles,0);
         backtracking(TJ, 1, 1);
     }
 }

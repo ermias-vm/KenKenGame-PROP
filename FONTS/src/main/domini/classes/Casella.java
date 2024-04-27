@@ -13,6 +13,7 @@ public class Casella {
     private int posX;
     private int posY;
     private boolean modificable;
+    private int permutacions;
 
     /**
      * Constructor per defecte. Inicialitza la cel·la amb la posició (-1, -1).
@@ -31,8 +32,14 @@ public class Casella {
         this.posX = x;
         this.posY = y;
         this.modificable = true;
+        this.permutacions = 1;
     }
-
+    public void setPermutacions(int num) {
+        this.permutacions = num;
+    }
+    public int getPermutacions() {
+        return this.permutacions;
+    }
     /**
      * Estableix el valor de la cel·la.
      * @param num El valor a establir.
