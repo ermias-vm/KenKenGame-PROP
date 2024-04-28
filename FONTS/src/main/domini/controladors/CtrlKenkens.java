@@ -6,18 +6,16 @@ import main.domini.classes.operacions.*;
 import main.domini.classes.Casella;
 import main.domini.classes.RegioJoc;
 import main.domini.classes.TaulerJoc;
+import main.persistencia.CtrlKenkenData;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 
 public class CtrlKenkens {
-
+    private CtrlKenkenData CKD = new CtrlKenkenData();
     private final String  pathTaulers = "Data/taulers/";
 
     private Operacio getOperacio(int oper) {
@@ -40,26 +38,14 @@ public class CtrlKenkens {
         }
     }
 
-    public String getTaulerJoc(String filePath) throws IOException {
-        StringBuilder content = new StringBuilder();
-        File file = new File(filePath);
-        FileReader fr = new FileReader(file);
-        BufferedReader br = new BufferedReader(fr);
-        String line;
-        while ((line = br.readLine()) != null) {
-            content.append(line).append("\n");
-        }
-        return content.toString();
-    }
 
     public TaulerJoc llegirTaulerJoc(int id , String grau) {
         String path = Paths.get(pathTaulers,grau, id + ".txt").toAbsolutePath().toString();
         try {
-            String content = getTaulerJoc(path);
+            String content = CKD.getTaulerJoc(path);
             //System.out.println(content); //imprimir prova
             String[] lines = content.split("\n");
             String[] primeraLinea = lines[0].split(" ");
-            System.out.println(Arrays.toString(primeraLinea));
             int N = Integer.parseInt(primeraLinea[0]);
             int R = Integer.parseInt(primeraLinea[1]);
 
@@ -69,7 +55,7 @@ public class CtrlKenkens {
             //Llegir cada regio
             for (int i = 0; i < R; i++) {
                 String[] regioInfo = lines[i+1].split(" ");
-                System.out.println(Arrays.toString(regioInfo));
+                //System.out.println(Arrays.toString(regioInfo));
                 int oper = Integer.parseInt(regioInfo[0]);
                 int result = Integer.parseInt(regioInfo[1]);
                 int elements = Integer.parseInt(regioInfo[2]);

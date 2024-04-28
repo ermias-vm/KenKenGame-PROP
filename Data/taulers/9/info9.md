@@ -1,6 +1,5 @@
 CAS ID = 1 : si  
 (+,-) :  
-<img src="../img/7_1.png" width="200">
 NO TE SOLUCIO
 
 CAS ID = 2 :  si  
