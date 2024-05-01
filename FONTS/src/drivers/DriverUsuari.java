@@ -1,8 +1,11 @@
 package drivers;
 
 import main.domini.controladors.CtrlUsuari;
+import main.domini.excepcions.ExcepcioUsuariJaExisteix;
+import main.domini.excepcions.ExcepcioUsuariNoExisteix;
 
 import java.util.Scanner;
+import java.io.IOException;
 
 public class DriverUsuari {
     private static CtrlUsuari controladorUsuari;
@@ -53,13 +56,17 @@ public class DriverUsuari {
             String contrasenya = scanner.nextLine();
     
             try {
-                controladorUsuari.iniciarSessio(nomUsuari, contrasenya);
-                sessioIniciada = true;
-                System.out.println("Sessió iniciada amb èxit!");
-                mostrarMenuUsuari();
-            } catch (Exception e) {
-                System.out.println("Error: " + e.getMessage());
-                System.out.println("Si us plau, torna-ho a provar.");
+                sessioIniciada = controladorUsuari.iniciarSessio(nomUsuari, contrasenya);
+                if (sessioIniciada) {
+                    System.out.println("Sessió iniciada amb èxit!");
+                    mostrarMenuUsuari();
+                } else {
+                    System.out.println("Usuari o contrasenya incorrectes. Torna-ho a provar.");
+                }
+            } catch (ExcepcioUsuariNoExisteix e) {
+                System.out.println(e.getMessage());
+            } catch (IOException e) {
+                System.out.println("Error al intentar iniciar sessió. Si us plau, torna-ho a provar.");
             }
         }
     }
@@ -69,18 +76,22 @@ public class DriverUsuari {
         while (!usuariRegistrat) {
             System.out.println("Introdueix el teu nom d'usuari:");
             String nomUsuari = scanner.nextLine();
-    
+
             System.out.println("Introdueix la teva contrasenya:");
             String contrasenya = scanner.nextLine();
-    
+
             try {
-                controladorUsuari.registrarUsuari(nomUsuari, contrasenya);
-                usuariRegistrat = true;
-                System.out.println("Usuari registrat amb èxit!");
-                mostrarMenuUsuari();
-            } catch (Exception e) {
-                System.out.println("Error: " + e.getMessage());
-                System.out.println("Si us plau, torna-ho a provar.");
+                usuariRegistrat = controladorUsuari.registrarUsuari(nomUsuari, contrasenya);
+                if (usuariRegistrat) {
+                    System.out.println("Usuari registrat amb èxit!");
+                    mostrarMenuUsuari();
+                } else {
+                    System.out.println("Error al registrar l'usuari. Si us plau, intenta-ho de nou.");
+                }
+            } catch (ExcepcioUsuariJaExisteix e) {
+                System.out.println(e.getMessage());
+            } catch (IOException e) {
+                System.out.println("Error al intentar registrar l'usuari. Si us plau, torna-ho a provar.");
             }
         }
     }

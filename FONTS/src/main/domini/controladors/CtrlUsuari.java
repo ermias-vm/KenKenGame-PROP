@@ -4,11 +4,8 @@ import main.domini.excepcions.*;
 
 import main.domini.classes.Usuari;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.*;
-import java.util.Scanner;
+//import java.util.Scanner;
 
 /**
  * Controlador para gestionar las operaciones relacionadas con los usuarios.
@@ -45,7 +42,7 @@ public class CtrlUsuari {
         boolean existeix = false;
         String linea;
         
-        try (BufferedReader br = new BufferedReader(new FileReader("BDUsuaris.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("Data/BDUsuaris.txt"))) {
             while ((linea = br.readLine()) != null) {
                 String[] partes = linea.split(" ");
                 String nom = partes[0];
@@ -66,31 +63,17 @@ public class CtrlUsuari {
      * @param nomUsuari El nom a registrar.
      * @param contrasenya La contrasenya a registrar.
      */
-    public void registrarUsuari(String nomUsuari, String contrasenya) {
-
-        try {
-            if (existeixUsuari(nomUsuari)) throw new ExcepcioUsuariJaExisteix();
-        } catch (ExcepcioUsuariJaExisteix e) {
-            System.out.println(e.getMessage());
+    public boolean registrarUsuari(String nomUsuari, String contrasenya) throws ExcepcioUsuariJaExisteix, IOException {
+        if (existeixUsuari(nomUsuari)) {
+            throw new ExcepcioUsuariJaExisteix("Ja existeix un usuari amb aquest nom.");
         }
-
-        try {
-            FileWriter fw = new FileWriter("BDUsuaris.txt", true);
-            BufferedWriter bw = new BufferedWriter(fw);
-            PrintWriter pw = new PrintWriter(bw);
-
-            pw.println(nomUsuari + " " + contrasenya);
-
-            pw.close();
-            bw.close();
-            fw.close();
-
-            System.out.println("Usuario registrado correctamente.");
-
-        } catch (IOException e) {
-            System.out.println("Error al intentar registrar el usuario.");
-            e.printStackTrace();
+    
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("Data/BDUsuaris.txt", true))) {
+            bw.write(nomUsuari + " " + contrasenya);
+            bw.newLine();
         }
+        
+        return true;
     }
 
     /**
@@ -100,7 +83,7 @@ public class CtrlUsuari {
      */
     public String obtenirContrasenya(String nomUsuari) {
         String contrasenya = null;
-        try (BufferedReader br = new BufferedReader(new FileReader("BDUsuaris.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("Data/BDUsuaris.txt"))) {
             String linea;
             while ((linea = br.readLine()) != null) {
                 String[] partes = linea.split(" ");
@@ -122,42 +105,21 @@ public class CtrlUsuari {
      * @param nomUsuari El nom d'usuari.
      * @param contrasenya La contrasenya de l'usuari.
      */
-    public void iniciarSessio(String nomUsuari, String contrasenya) {
-
-        try {
-            if (!existeixUsuari(nomUsuari)) throw new ExcepcioUsuariNoExisteix();
-        } catch (ExcepcioUsuariNoExisteix e) {
-            System.out.println(e.getMessage());
-        }
-
-        try {
-            File file = new File("BDUsuaris.txt");
-            Scanner scanner = new Scanner(file);
-
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                String[] parts = line.split(" ");
-                if (parts[0].equals(nomUsuari)) {
-                    if (parts[1].equals(contrasenya)) {
-                        System.out.println("Inicio de sesión exitoso.");
-                        String c = obtenirContrasenya(nomUsuari);
-                        Usuari usuari = new Usuari(nomUsuari,c);
-                        setUsuariActual(usuari);
-                        scanner.close();
-                        return;
-                    } else {
-                        System.out.println("Contraseña incorrecta.");
-                        scanner.close();
-                        return;
-                    }
+    public boolean iniciarSessio(String nomUsuari, String contrasenya) throws ExcepcioUsuariNoExisteix, IOException {
+        try (BufferedReader br = new BufferedReader(new FileReader("Data/BDUsuaris.txt"))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] partes = linea.split(" ");
+                String nom = partes[0];
+                String contrasenyaGuardada = partes[1];
+                if (nom.equals(nomUsuari) && contrasenya.equals(contrasenyaGuardada)) {
+                    Usuari usuari = new Usuari(nomUsuari, contrasenya);
+                    setUsuariActual(usuari);
+                    return true;
                 }
             }
-            scanner.close();
-
-        } catch (IOException e) {
-            System.out.println("Error al intentar iniciar sesion.");
-            e.printStackTrace();
         }
+        throw new ExcepcioUsuariNoExisteix("Usuari o contrasenya incorrectes.");
     }
 
     /**
