@@ -16,7 +16,7 @@ import java.util.Arrays;
 
 public class CtrlKenkens {
     private CtrlKenkenData CKD = new CtrlKenkenData();
-    private final String  pathTaulers = "Data/taulers/";
+    private final String  pathTaulers = "data/taulers/";
 
     private Operacio getOperacio(int oper) {
         switch (oper) {
