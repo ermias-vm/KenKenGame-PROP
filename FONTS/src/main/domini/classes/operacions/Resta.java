@@ -1,14 +1,17 @@
 package main.domini.classes.operacions;
+
 import main.domini.excepcions.ExcepcioDivisio_0;
 import main.domini.excepcions.ExcepcioMoltsValors;
 import main.domini.excepcions.ExcepcioValorInvalid;
 import main.domini.interficies.Operacio;
+
 import java.util.HashSet;
 import java.util.Set;
+
 /**
  * La classe {@code Resta} és una implementació de la interfície {@code Operacio}
  * que realitza els càlculs mitjançant l'operacio de resta d'enters.
- * @author Nil Beascoechea Vàzquez
+ * @autor Nil Beascoechea Vàzquez
  */
 public class Resta implements Operacio {
     /**
@@ -44,8 +47,8 @@ public class Resta implements Operacio {
      * @param midaTauler La mida del tauler on es calcula.
      * @param midaRegio La mida de la regió on es calcula.
      * @param valors Un vector d'enters que conté els valors inicials de la regió a partir dels quals es calcula si hi ha possible solució i quina.
-     *               No pot ser igual a la mida de la regió. És a dir la regió no pot estar plena.
-     * @throws ExcepcioMoltsValors Si el vector té igual o més de dos valors o la regió té més de dues caselles. És a dir només s'hauria d'entrar si la regió no està plena.
+     * @throws ExcepcioMoltsValors Si el vector té més de dos valors o la regió té més de dues caselles. És a dir només s'hauria d'entrar si la regió no està plena.
+     * @throws ExcepcioDivisio_0 Si algun dels valors és 0.
      * @return Tots els possibles valors únics que poden ser solució.
      */
     @Override
@@ -53,38 +56,69 @@ public class Resta implements Operacio {
         if (midaRegio != 2) {
             throw new ExcepcioMoltsValors(2, "EQ");
         }
-        if (valors.length >= 2) {
-            throw new ExcepcioMoltsValors(1, "MAX");
-        }
-        Set<Integer> solucions = new HashSet<>();
-        if (resultat == 0) return  solucions;
-        if (valors.length == 1) {
-            if (valors[0] < 1 || valors[0] > midaTauler) {
-                throw new ExcepcioValorInvalid();
-            }
-            int resta = valors[0] - resultat;
-            if (resta > 0 && resta <= midaTauler) {
-                solucions.add(resta);
-            }
-            int suma = valors[0] + resultat;
-            if (suma > 0 && suma <= midaTauler) {
-                solucions.add(suma);
-            }
+        if (valors.length > 2) {
+            throw new ExcepcioMoltsValors(2, "MAX");
         }
         else {
-            for (int i = 1; i <= midaTauler; i++) {
-                int resta = resultat + i;
+            Set<Integer> solucions = new HashSet<>();
+            if (!valorPotSerResultat(resultat)) { return solucions;}
+            if (valors.length == 2) {return solucions;}
+            if (valors.length == 1) {
+                if (valors[0] == 0 || resultat == 0) {
+                    throw new ExcepcioValorInvalid();
+                }
+                int resta = valors[0] - resultat;
                 if (resta > 0 && resta <= midaTauler) {
-                    solucions.add(i);
                     solucions.add(resta);
                 }
+                int suma = valors[0] + resultat;
+                if (suma > 0 && suma <= midaTauler) {
+                    solucions.add(suma);
+                }
             }
+            else {
+                for (int i = 1; i <= midaTauler; i++) {
+                    int resta = resultat + i;
+                    if (resta > 0 && resta <= midaTauler) {
+                        solucions.add(i);
+                        solucions.add(resta);
+                    }
+                }
+            }
+            return solucions;
         }
-        return solucions;
     }
 
+    /**
+     * Retorna el número de l'operació.
+     * @return 2.
+     */
     @Override
     public int getNumOperacio() {
         return 2;
+    }
+    /**
+     * Retorna si el valor pot ser resultat de l'operació de resta
+     * @param resultat El valor a comprovar
+     * @return True si el valor és positiu major que 0, false altrament.
+     */
+    @Override
+    public boolean valorPotSerResultat(int resultat) {
+        return resultat > 0;
+    }
+
+    /**
+     * Retorna si l'operació és commutativa.
+     *
+     * @return False.
+     */
+    @Override
+    public boolean esCommutativa() {
+        return false;
+    }
+
+    @Override
+    public String getOperacioText() {
+        return "-";
     }
 }

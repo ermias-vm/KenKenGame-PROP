@@ -90,4 +90,28 @@ public class Exponenciacio implements Operacio {
         return 6;
     }
 
+    /**
+     * Retorna si el valor pot ser resultat de l'operació de l'exponenciació.
+     * @param resultat El resultat de l'operació.
+     * @return True si el resultat és major que 1, false altrament.
+     */
+    @Override
+    public boolean valorPotSerResultat(int resultat) {
+        return resultat >= 1;
+    }
+
+    /**
+     * Retorna si l'operació és commutativa.
+     *
+     * @return False.
+     */
+    @Override
+    public boolean esCommutativa() {
+        return false;
+    }
+
+    @Override
+    public String getOperacioText() {
+        return "^";
+    }
 }

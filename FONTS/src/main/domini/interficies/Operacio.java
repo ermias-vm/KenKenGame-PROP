@@ -1,9 +1,12 @@
 package main.domini.interficies;
+
+import main.domini.excepcions.ExcepcioDivisio_0;
 import main.domini.excepcions.ExcepcioMoltsValors;
 import main.domini.excepcions.ExcepcioNoDivisor;
 import main.domini.excepcions.ExcepcioValorInvalid;
 
 import java.util.Set;
+
 /**
  * La interfície {@code Operacio} defineix els diferents càlculs que es poden fer amb una operació determinada.
  * @author Nil Beascoechea Vàzquez
@@ -15,17 +18,18 @@ public interface Operacio {
      * @param a primer enter
      * @param b segon enter
      * @return el resultat de l'operació
-     * @throws Exception en funció de l'operació, veure Javadoc de les diferents implementacions.
      */
     public int opera2(int a, int b) throws Exception;
     /**
      * Realitza una operació de n enters donats en un vector.
      *
      * @param valors vector d'enters
-     * @throws Exception en funció de l'operació, veure Javadoc de les diferents implementacions.
+     * @throws ExcepcioMoltsValors Si l'array conté més de dos enters i l'operació no és commutativa.
+     * @throws ExcepcioDivisio_0 Si algun dels valors és 0
+     * @throws ExcepcioNoDivisor Si cap dels dos valors és divisor de l'altre
      * @return el resultat de l'operació
      */
-    public int operaN(int[] valors) throws Exception;
+    public int operaN(int[] valors) throws ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioNoDivisor;
     /**
      * Calcula totes les possibles solucions de dos enters d'1 a la mida del tauler que donin el resultat introduït.
      *  Es poden passar valors inicials per a que el mètode els tingui en compte.
@@ -40,5 +44,27 @@ public interface Operacio {
      * @return tots els possibles valors únics que poden ser solució.
      */
     public Set<Integer> calculaPossiblesValors(int Resultat, int midaTauler, int midaRegio, int[] valors) throws ExcepcioMoltsValors, ExcepcioValorInvalid, ExcepcioNoDivisor;
+    /**
+     * Obté el número de l'operació.
+     * @return el número de l'operació
+     */
     public int getNumOperacio();
+
+    /**
+     * Retorna si el valor pot ser resultat de l'operació.
+     * @param resultat el valor a comprovar
+     * @return true si el valor pot ser resultat de l'operació, false altrament.
+     */
+    public boolean valorPotSerResultat(int resultat);
+    /**
+     * Retorna si l'operació és commutativa.
+     * @return true si l'operació és commutativa, false altrament.
+     */
+    public boolean esCommutativa();
+
+    /**
+     * Retorna el text de l'operació. Per exemple d'una suma "+"
+     * @return el text de l'operació
+     */
+    String getOperacioText();
 }

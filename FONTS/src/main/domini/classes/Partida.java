@@ -26,9 +26,9 @@ public class Partida {
      */
     private final LocalDateTime iniciPartida_;
     /**
-     * Grau del tauler de la partida, és a dir la N d'un tauler NxN.
+     * Mida del tauler de la partida, és a dir la N d'un tauler NxN.
      */
-    private final int grauPartida_;
+    private final int midaPartida_;
     /**
      * Identificador de l'usuari que ha creat la partida.
      */
@@ -36,7 +36,7 @@ public class Partida {
     /**
      * Tauler de la partida.
      */
-    private final TaulerJoc taulerPartida_;
+    private final Tauler taulerPartida_;
     /**
      * Valors de les caselles de la partida en un instant com a una matriu d'enters.
      */
@@ -66,32 +66,29 @@ public class Partida {
      * @param identificadorUsuariPartida Identificador de l'usuari que ha creat la partida.
      * @param TaulerPartida Tauler de la partida.
      */
-    public Partida(String identificadorUsuariPartida, TaulerJoc TaulerPartida) {
+    public Partida(String identificadorUsuariPartida, Tauler TaulerPartida) {
 
         this.iniciPartida_ = LocalDateTime.now();
-        int grauPartida = TaulerPartida.getGrau();
+        int MidaPartida = TaulerPartida.getMida();
         this.identificadorUsuariPartida_ = identificadorUsuariPartida;
         this.taulerPartida_ = TaulerPartida;
-        this.grauPartida_ = grauPartida;
+        this.midaPartida_ = MidaPartida;
         this.identificadorPartida_ = creaIdentificadorPartida() ;
-        this.valorsPartida_ = new int[grauPartida][grauPartida]; //per defecte a 0
+        this.valorsPartida_ = new int[MidaPartida][MidaPartida]; //per defecte a 0
         this.tempsPartida_ = 0;
     }
     /**
      * Crea una nova partida amb un identificador d'usuari, un tauler, un temps i uns valors donats.
      * Utilitzat per carregar una partida guardada.
-     * @param identificadorPartida Identificador de la partida.
      * @param identificadorUsuariPartida identificador de l'usuari que ha creat la partida.
      * @param TaulerPartida Tauler de la partida.
      * @param tempsPartida Temps que s'ha estat jugant.
      * @param valorsPartida Valors de les caselles de la partida en un instant.
-     * @throws ExcepcioCreacioPartida si el grau del tauler i la mida de la matriu de valors no coincideixen.
-     * @throws ExcepcioCreacioPartida si l'identificador de la partida no coincideix amb l'usuari.
      */
     //Per a carregar una partida guardada, parametres donats pel controlador guardar i carregar i s'ocupa de comprovar que no estigui ja carregada
-    public Partida(String identificadorPartida, String identificadorUsuariPartida, TaulerJoc TaulerPartida, float tempsPartida, int[][] valorsPartida) throws ExcepcioCreacioPartida {
-        if (TaulerPartida.getGrau() != valorsPartida.length) {
-            throw new ExcepcioCreacioPartida("El grau del tauler i la mida de la matriu de valors no coincideixen.");
+    public Partida(String identificadorPartida, String identificadorUsuariPartida, Tauler TaulerPartida, float tempsPartida, int[][] valorsPartida) throws ExcepcioCreacioPartida {
+        if (TaulerPartida.getMida() != valorsPartida.length) {
+            throw new ExcepcioCreacioPartida("El Mida del tauler i la mida de la matriu de valors no coincideixen.");
         }
         if (!identificadorPartida.contains(identificadorUsuariPartida+":")) {
             throw new ExcepcioCreacioPartida("L'identificador de la partida no coincideix amb l'usuari.");
@@ -99,7 +96,7 @@ public class Partida {
         this.iniciPartida_ = LocalDateTime.now();
         this.identificadorUsuariPartida_ = identificadorUsuariPartida;
         this.taulerPartida_ = TaulerPartida;
-        this.grauPartida_ = TaulerPartida.getGrau();
+        this.midaPartida_ = TaulerPartida.getMida();
         this.identificadorPartida_ = identificadorPartida ;
         this.valorsPartida_ = valorsPartida; //per defecte a 0
         this.tempsPartida_ = tempsPartida;
@@ -122,11 +119,11 @@ public class Partida {
         return identificadorPartida_;
     }
     /**
-     * Retorna el grau del tauler de la partida.
-     * @return Grau del tauler de la partida.
+     * Retorna el Mida del tauler de la partida.
+     * @return Mida del tauler de la partida.
      */
-    public int getGrauPartida() {
-        return grauPartida_;
+    public int getMidaPartida() {
+        return midaPartida_;
     }
     /**
      * Retorna l'identificador de l'usuari que ha creat la partida.
@@ -147,7 +144,7 @@ public class Partida {
      * @return Identificador del tauler de la partida.
      */
     public String getIdentificadorTaulerPartida() {
-        return String.valueOf(taulerPartida_.getIdTauler());
+        return String.valueOf(taulerPartida_.getIdentificadorTauler());
     }
     /**
      * Retorna el valor d'una casella de la partida.
@@ -198,26 +195,26 @@ public class Partida {
 
     /**
      * Estableix un valor a una casella de la partida.
-     * @param valor Valor a establir.
-     * @param fila Fila de la casella.
-     * @param columna Columna de la casella.
+     * @param valor
+     * @param fila
+     * @param columna
      * @return true si s'ha pogut establir el valor, llença una excepció altrament.
-     * @throws ExcepcionPosicioIncorrecta si la fila o la columna no són vàlides. És a dir si no estan entre 0 i el grau del tauler-1.
-     * @throws ExcepcioValorInvalid si el valor no és vàlid. És a dir si no és un valor entre 1 i el grau del tauler.
+     * @throws ExcepcioPosicioIncorrecta si la fila o la columna no són vàlides. És a dir si no estan entre 0 i el Mida del tauler-1.
+     * @throws ExcepcioValorInvalid si el valor no és vàlid. És a dir si no és un valor entre 1 i el Mida del tauler.
      * @throws ExcepcioPartidaAcabada si la partida ja està acabada.
      * @throws ExcepcioPartidaTancada si la partida està tancada.
      */
-    public boolean setValorPartida(int fila, int columna, int valor) throws ExcepcionPosicioIncorrecta, ExcepcioValorInvalid, ExcepcioPartidaAcabada, ExcepcioPartidaTancada {
+    public boolean setValorPartida(int fila, int columna, int valor) throws ExcepcioPosicioIncorrecta, ExcepcioValorInvalid, ExcepcioPartidaAcabada, ExcepcioPartidaTancada {
         if (tancadaPartida_) {
             throw new ExcepcioPartidaTancada();
         }
         if (acabadaPartida_) {
             throw new ExcepcioPartidaAcabada();
         }
-        if (fila < 0 || fila >= grauPartida_ || columna < 0 || columna >= grauPartida_) {
-            throw new ExcepcionPosicioIncorrecta();
+        if (fila < 0 || fila >= midaPartida_ || columna < 0 || columna >= midaPartida_) {
+            throw new ExcepcioPosicioIncorrecta();
         }
-        if (1 <= valor && valor <= grauPartida_) {
+        if (1 <= valor && valor <= midaPartida_) {
             valorsPartida_[fila][columna] = valor;
             return true;
         }
@@ -240,7 +237,7 @@ public class Partida {
      * Identificador de l'usuari<br>
      * Identificador del tauler<br>
      * Temps total de la partida<br>
-     * Grau del tauler<br>
+     * Mida del tauler<br>
      * Si ha estat guardada o no<br>
      * |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||<br>
      * Per tant, cada partida acabada ocupa 6 línies.
@@ -251,19 +248,17 @@ public class Partida {
      * @throws ExcepcioPartidaTancada si la partida està tancada.
      * @throws ExcepcioPartidaMalament si la partida no està correctament resolta.
      */
-    public String acabaPartida() throws ExcepcioPartidaAcabada, ExcepcioPartidaTancada, ExcepcioPartidaMalament, ExcepcioCasellaNoExisteix {
+    public String acabaPartida() throws ExcepcioPartidaAcabada, ExcepcioPartidaTancada, ExcepcioValorIncorrectePosicio, ExcepcioRegioMalament, ExcepcioTaulerPartidaMidaDiferent {
         if (acabadaPartida_) {
             throw new ExcepcioPartidaAcabada();
         }
         if (tancadaPartida_) {
             throw new ExcepcioPartidaTancada();
         }
-        if (taulerPartida_.corretgeix(valorsPartida_)) {
-            this.acabadaPartida_ = true;
-            String textPartidaAcabada = this.identificadorPartida_ + '\n' + this.identificadorUsuariPartida_ + '\n' + this.getIdentificadorTaulerPartida() + '\n' + this.calculaTemps() + '\n' + this.grauPartida_ + '\n' + this.guardadaPartida_;
-            return textPartidaAcabada;
-        }
-        else throw new ExcepcioPartidaMalament();
+        taulerPartida_.corretgeix(valorsPartida_);
+        this.acabadaPartida_ = true;
+        String textPartidaAcabada = this.identificadorPartida_ + '\n' + this.identificadorUsuariPartida_ + '\n' + this.getIdentificadorTaulerPartida() + '\n' + this.calculaTemps() + '\n' + this.midaPartida_ + '\n' + this.guardadaPartida_;
+        return textPartidaAcabada;
     }
     /**
      * Tanca i guarda la partida. Genera un text amb el format descrit a {@link #guardaPartida()}.
@@ -290,10 +285,10 @@ public class Partida {
      * Identificador de la partida<br>
      * Identificador del tauler<br>
      * Temps total de la partida<br>
-     * Grau del tauler<br>
+     * Mida del tauler<br>
      * Valors de les caselles de la partida separats per espais en files i per salts de línia en columnes.<br>
      * ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||<br>
-     * És a dir ocuparà 4 + Grau línies.
+     * És a dir ocuparà 4 + Mida línies.
      * @return Text amb la informació de la partida per a emmagatzemar-la a partides guardades.
      * @throws ExcepcioPartidaAcabada si la partida ja està acabada.
      * @throws ExcepcioPartidaTancada si la partida ja està tancada.
@@ -315,15 +310,15 @@ public class Partida {
      * ...<br>
      * 'x'' 'x'' 'x'' ... 'x''\n'<br>
      * |||||||||||||||||||||||||||||||||||||||||||||||||||<br>
-     * On hi haurà tantes x a cada fila com el grau de la partida i tantas files com el grau de la partida.
+     * On hi haurà tantes x a cada fila com el Mida de la partida i tantas files com el Mida de la partida.
      * Per a comunicar-se amb la capa de presentació en el {@link ControladorPartida}
      * @return Text amb la informació de la matriu de valors de la partida.
      */
     public String generaPartidaText() {
         StringBuilder textPartida = new StringBuilder();
-        for (int i = 0; i < this.grauPartida_; i++) {
-            for (int j = 0; j < this.grauPartida_; j++) {
-                if (j != this.grauPartida_ - 1) textPartida.append(this.valorsPartida_[i][j]).append(" ");
+        for (int i = 0; i < this.midaPartida_; i++) {
+            for (int j = 0; j < this.midaPartida_; j++) {
+                if (j != this.midaPartida_ - 1) textPartida.append(this.valorsPartida_[i][j]).append(" ");
                 else textPartida.append(this.valorsPartida_[i][j]).append("\n");
             }
         }
@@ -340,10 +335,10 @@ public class Partida {
         textPartidaGuardada.append(this.identificadorPartida_).append('\n')
                 .append(this.getIdentificadorTaulerPartida()).append('\n')
                 .append(tempsPartida_).append('\n')
-                .append(this.grauPartida_).append('\n');
-        for (int i = 0; i < this.grauPartida_; i++) {
-            for (int j = 0; j < this.grauPartida_; j++) {
-                if (j != this.grauPartida_ - 1) textPartidaGuardada.append(this.valorsPartida_[i][j]).append(" ");
+                .append(this.midaPartida_).append('\n');
+        for (int i = 0; i < this.midaPartida_; i++) {
+            for (int j = 0; j < this.midaPartida_; j++) {
+                if (j != this.midaPartida_ - 1) textPartidaGuardada.append(this.valorsPartida_[i][j]).append(" ");
                 else textPartidaGuardada.append(this.valorsPartida_[i][j]).append("\n");
             }
         }

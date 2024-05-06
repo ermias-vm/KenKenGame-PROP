@@ -1,14 +1,19 @@
 package main.domini.classes.operacions;
-import main.domini.excepcions.ExcepcioDivisio_0;
+
 import main.domini.excepcions.ExcepcioMoltsValors;
 import main.domini.excepcions.ExcepcioNoDivisor;
 import main.domini.excepcions.ExcepcioValorInvalid;
 import main.domini.interficies.Operacio;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * La classe {@code Multiplicació} és una implementació de la interfície {@code Operacio}
  * que realitza els càlculs mitjançant l'operacio de multiplicació d'enters.
- * @author Nil Beascoechea Vàzquez
+ * @autor Nil Beascoechea Vàzquez
  */
 public class Multiplicacio implements Operacio {
     /**
@@ -49,15 +54,14 @@ public class Multiplicacio implements Operacio {
      * @param midaTauler La mida del tauler on es calcula.
      * @param midaRegio La mida de la regió on es calcula.
      * @param valors Un vector d'enters que conté els valors inicials de la regió a partir dels quals es calcula si hi ha possible solució i quina.
-     *               No pot ser igual a la mida de la regió. És a dir la regió no pot estar plena.
-     * @throws ExcepcioMoltsValors Si el vector té igual o més valors que caselles la regió.
+     * @throws ExcepcioMoltsValors Si el vector té més valors que caselles la regió.
      * @throws ExcepcioNoDivisor Si algun dels valors no és divisor del resultat.
      * @throws ExcepcioValorInvalid Si algun dels valors és més gran que la mida del tauler o negatiu.
      * @return Tots els possibles valors únics que poden ser solució.
      */
     @Override
     public Set<Integer> calculaPossiblesValors(int resultat, int midaTauler, int midaRegio, int[] valors) throws ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioValorInvalid {
-        if (valors.length >= midaRegio) {throw new ExcepcioMoltsValors(midaRegio-1, "MAX");}
+        if (valors.length > midaRegio) {throw new ExcepcioMoltsValors(midaRegio, "MAX");}
         int nombreRepeticions = (midaRegio + 1)/2;
         int[] vegadesRepetibles = new int[midaTauler];
         Arrays.fill(vegadesRepetibles, nombreRepeticions);
@@ -71,7 +75,6 @@ public class Multiplicacio implements Operacio {
                 throw new ExcepcioNoDivisor(valor, multiplicacio);
             }
             multiplicacio = multiplicacio / valor;
-            --vegadesRepetibles[valor-1];
             midaUtil--;
         }
         Set<Integer> solucions = new HashSet<>();
@@ -79,9 +82,38 @@ public class Multiplicacio implements Operacio {
         return solucions;
     }
 
+    /**
+     * Retorna el número de l'operació.
+     * @return 3.
+     */
     @Override
     public int getNumOperacio() {
         return 3;
+    }
+
+    /**
+     * Diu si un valor pot ser resultat de la multiplicació.
+     * @param resultat El valor a comprovar.
+     * @return True si el valor és major que 1 (1*1 no és vàlid en el context del joc), false altrament.
+     */
+    @Override
+    public boolean valorPotSerResultat(int resultat) {
+        if (resultat <= 1) return false;
+        return true;
+    }
+
+    /**
+     * Retorna si l'operació és commutativa.
+     * @return True.
+     */
+    @Override
+    public boolean esCommutativa() {
+        return true;
+    }
+
+    @Override
+    public String getOperacioText() {
+        return "*";
     }
 
     /**

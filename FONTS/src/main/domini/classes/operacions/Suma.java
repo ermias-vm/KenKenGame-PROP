@@ -1,12 +1,18 @@
 package main.domini.classes.operacions;
+
 import main.domini.excepcions.ExcepcioMoltsValors;
 import main.domini.excepcions.ExcepcioValorInvalid;
 import main.domini.interficies.Operacio;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * La classe {@code Suma} és una implementació de la interfície {@code Operacio}
  * que realitza els càlculs mitjançant l'operacio de suma d'enters.
- * @author Nil Beascoechea Vàzquez
+ * @autor Nil Beascoechea Vàzquez
  */
 public class Suma implements Operacio{
     /**
@@ -25,6 +31,7 @@ public class Suma implements Operacio{
      *
      * @param valors Vector d'enters a sumar
      * @return La suma de tots els enters del vector
+     * @throws ExcepcioMoltsValors Si el vector és buit.
      */
     @Override
     public int operaN(int[] valors) throws ExcepcioMoltsValors {
@@ -46,13 +53,12 @@ public class Suma implements Operacio{
      * @param midaTauler La mida del tauler on es calcula.
      * @param midaRegio La mida de la regió on es calcula.
      * @param valors Un vector d'enters que conté els valors inicials de la regió a partir dels quals es calcula si hi ha possible solució i quina.
-     *               No pot ser igual a la mida de la regió. És a dir la regió no pot estar plena.
-     * @throws ExcepcioMoltsValors Si el vector té igual o més valors que caselles la regió. És a dir només s'hauria d'entrar si la regió no està plena.
+     * @throws ExcepcioMoltsValors Si el vector té més valors que caselles la regió.
      * @return Tots els possibles valors únics que poden ser solució.
      */
     @Override
     public Set<Integer> calculaPossiblesValors(int resultat, int midaTauler, int midaRegio, int[] valors) throws ExcepcioMoltsValors, ExcepcioValorInvalid {
-        if (valors.length >= midaRegio ){throw new ExcepcioMoltsValors(midaRegio-1, "MAX");}
+        if (valors.length > midaRegio ){throw new ExcepcioMoltsValors(midaRegio, "MAX");}
         int nombreRepeticions = (midaRegio + 1)/2;
         int[] vegadesRepetibles = new int[midaTauler];
         Arrays.fill(vegadesRepetibles, nombreRepeticions);
@@ -71,9 +77,37 @@ public class Suma implements Operacio{
         return solucions;
     }
 
+    /**
+     * Retorna el nombre d'operació que representa la suma.
+     * @return 1
+     */
     @Override
     public int getNumOperacio() {
         return 1;
+    }
+
+    /**
+     * Retorna si el valor pot ser resultat de la suma.
+     * @param resultat El valor a comprovar si pot ser resultat de la suma.
+     * @return True si el valor és major o igual a 1 (ja que la suma pot ser també de només 1 element), false altrament.
+     */
+    @Override
+    public boolean valorPotSerResultat(int resultat) {
+        return resultat >= 1;
+    }
+
+    /**
+     * Retorna si l'operació de suma és commutativa.
+     * @return True.
+     */
+    @Override
+    public boolean esCommutativa() {
+        return true;
+    }
+
+    @Override
+    public String getOperacioText() {
+        return "+";
     }
 
     /**

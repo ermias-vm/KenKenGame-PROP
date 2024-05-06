@@ -82,5 +82,27 @@ public class Modul implements Operacio {
     public int getNumOperacio() {
         return 5;
     }
+    /**
+     * Per a un valor qualsevol diu si el valor seria possible com a resultat d'una operació de mòdul.
+     * @param resultat El valor a comprovar.
+     * @return True si el valor és positiu, false altrament.
+     */
+    @Override
+    public boolean valorPotSerResultat(int resultat) {
+        return resultat >= 0;
+    }
 
+    /**
+     * Diu si l'operació és commutativa.
+     * @return False
+     */
+    @Override
+    public boolean esCommutativa() {
+        return false;
+    }
+
+    @Override
+    public String getOperacioText() {
+        return "%";
+    }
 }

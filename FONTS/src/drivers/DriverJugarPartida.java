@@ -1,9 +1,11 @@
 package drivers;
 
+import drivers.inout;
 import main.domini.controladors.ControladorPartida;
+import main.domini.controladors.CtrlKenkens;
 import main.domini.excepcions.*;
 import main.persistencia.ControladorPersistenciaPartida;
-import main.stubs.CtrlTaulerStub;
+import main.persistencia.ControladorPersistenciaTauler;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -17,11 +19,12 @@ import java.util.Scanner;
  */
 public class DriverJugarPartida {
     private final static inout io = new inout();
-
     public static void main(String[] args) {
         ControladorPartida controladorPartida = new ControladorPartida();
         ControladorPersistenciaPartida controladorPersistenciaPartida = new ControladorPersistenciaPartida();
-        CtrlTaulerStub controladorTaulers = new CtrlTaulerStub();
+        CtrlKenkens controladorTaulers = new CtrlKenkens();
+        ControladorPersistenciaTauler controladorPersistenciaTauler = new ControladorPersistenciaTauler();
+        controladorTaulers.setControladorPersistenciaTauler(controladorPersistenciaTauler);
         controladorPartida.setControladorTauler(controladorTaulers);
         controladorPartida.setControladorPersistenciaPartida(controladorPersistenciaPartida);
         System.out.println("Benvingut/da al driver de jugar partida! \n M'encarrego de" +
@@ -36,8 +39,7 @@ public class DriverJugarPartida {
                     "2. Continuar jugant una de les partides guardades per aquest usuari.\n" +
                     "3. Jugar una partida amb un tauler de mida específica.\n" +
                     "4. Jugar una partida amb un tauler introduït per l'usuari.\n" +
-                    "5. Sortir.\n" +
-                    "6. Jugar única partida que funciona ja que no tinc el tauler bé.");
+                    "5. Sortir.");
             int opcio = scanner.nextInt();
             scanner.nextLine();
             switch (opcio) {
@@ -122,9 +124,6 @@ public class DriverJugarPartida {
                     while(!sortir);
                     break;
                 case 3:
-                    System.out.println("NO IMPLEMENTAT");
-                    break;
-                    /*
                     System.out.println("Introdueix el grau del tauler:");
                     int mida = scanner.nextInt();
                     try {
@@ -152,34 +151,23 @@ public class DriverJugarPartida {
                         System.out.println("Error en el print de l'estat de la partida:" + e.getMessage());
                     }
                     break;
-                    */
                 case 4:
                     System.out.println("Vols introduïr el tauler des d'un fitxer .txt o manualment? (Fitxer/Manualment/Sortir)");
-                    boolean decidit = false;
                     String decisio = scanner.nextLine();
-                    do {
-                        decisio = scanner.nextLine();
-                        if (decisio.equals("Sortir")) {
-                            break;
-                        }
-                        if (decisio.equals("Fitxer") || decisio.equals("Manualment")) {
-                            decidit = true;
-                        }
-                        System.out.println("Introdueix una de les opcions especificades.");
-
+                    if (decisio.equals("Sortir")) {
+                        break;
                     }
-                    while(!decidit);
                     if (decisio.equals("Fitxer")){
                         boolean trobat = false;
                         BufferedReader llegir = null;
-                        System.out.println("El fitxer hauria d'estar a la carpeta Input, introdueix el nom del fitxer amb l'extensió:");
+                        System.out.println("El fitxer hauria d'estar a la carpeta data/input, introdueix el nom del fitxer amb l'extensió:");
                         do {
                             String nomFitxer = scanner.nextLine();
                             if (nomFitxer.equals("Sortir")) {
                                 break;
                             }
                             try {
-                                llegir = new BufferedReader(new FileReader("Input/" + nomFitxer));
+                                llegir = new BufferedReader(new FileReader("data/input/" + nomFitxer));
                                 trobat = true;
                             } catch (FileNotFoundException e) {
                                 System.out.println("No s'ha trobat el fitxer especificat, torna a introduir el nom del fitxer o, si vols sortir escriu Sortir.");
@@ -202,7 +190,7 @@ public class DriverJugarPartida {
                         try{
                             String[] estat = controladorPartida.iniciaPartidaDadesTauler(dadesTauler.toString(),  nomUsuari);
                             jugar(scanner, controladorPartida, estat, nomUsuari);
-                        } catch (ExcepcioCarregaTauler|ExcepcioPartidaEnCurs e) {
+                        } catch (ExcepcioCarregaTauler | ExcepcioPartidaEnCurs | ExcepcioPosicioIncorrecta | ExcepcioOperacioNoExisteix e) {
                             System.out.println(e.getMessage());
                         } catch (ExcepcioInicialitzacioControladorTauler e) {
                             System.out.println("Hi ha hagut un error en la inicialització del controlador de taulers, torna a intentar-ho.");
@@ -228,7 +216,8 @@ public class DriverJugarPartida {
                         try{
                             String[] estat = controladorPartida.iniciaPartidaDadesTauler(dadesTauler.toString(),  nomUsuari);
                             jugar(scanner, controladorPartida, estat, nomUsuari);
-                        } catch (ExcepcioCarregaTauler|ExcepcioPartidaEnCurs e) {
+                        } catch (ExcepcioCarregaTauler | ExcepcioPartidaEnCurs | ExcepcioOperacioNoExisteix |
+                                 ExcepcioPosicioIncorrecta e) {
                             System.out.println(e.getMessage());
                         } catch (ExcepcioInicialitzacioControladorTauler e) {
                             System.out.println("Hi ha hagut un error en la inicialització del controlador de taulers, torna a intentar-ho.");
@@ -239,14 +228,6 @@ public class DriverJugarPartida {
                 case 5:
                     scanner.close();
                     return;
-                case 6:
-                    try {
-                        String[] estat = controladorPartida.iniciaPartidaProvaDriver(nomUsuari);
-                        jugar(scanner, controladorPartida, estat, nomUsuari);
-                    } catch (Exception e) {
-                        System.out.println("Error en el print de l'estat de la partida:" + e.getMessage());
-                    }
-                    break;
             }
         }
     }
@@ -293,7 +274,7 @@ public class DriverJugarPartida {
                         System.out.println(e.getMessage());
                         return;
                     }
-                    catch (ExcepcionPosicioIncorrecta|ExcepcioValorInvalid e) {
+                    catch (ExcepcioPosicioIncorrecta | ExcepcioValorInvalid e) {
                         System.out.println(e.getMessage());
                         System.out.println("Tingues en compte que la fila i la columna comencen per 0 fins a grau-1 i el valor ha d'estar entre 1 i la grau del tauler.");
                     }
@@ -311,7 +292,7 @@ public class DriverJugarPartida {
                     } catch (ExcepcioPartidaTancada|ExcepcioPartidaAcabada e) {
                         System.out.println(e.getMessage());
                         return;
-                    } catch (ExcepcioValorInvalid|ExcepcioDoUndo|ExcepcionPosicioIncorrecta e) {
+                    } catch (ExcepcioValorInvalid | ExcepcioDoUndo | ExcepcioPosicioIncorrecta e) {
                         System.out.println(e.getMessage());
                         break;
                     }
@@ -329,7 +310,7 @@ public class DriverJugarPartida {
                     } catch (ExcepcioPartidaTancada|ExcepcioPartidaAcabada e) {
                         System.out.println(e.getMessage());
                         return;
-                    } catch (ExcepcioValorInvalid|ExcepcioDoUndo|ExcepcionPosicioIncorrecta e) {
+                    } catch (ExcepcioValorInvalid | ExcepcioDoUndo | ExcepcioPosicioIncorrecta e) {
                         System.out.println(e.getMessage());
                         break;
                     }
@@ -347,7 +328,10 @@ public class DriverJugarPartida {
                     } catch (ExcepcioCarregaPartida|ExcepcioPartidaTancada|ExcepcioPartidaAcabada e) {
                         System.out.println(e.getMessage());
                         return;
-                    } catch (ExcepcioValorInvalid|ExcepcionPosicioIncorrecta e) {
+                    }
+                    catch (ExcepcioRegioMalament | ExcepcioValorIncorrectePosicio e) {
+                        System.out.println(e.getMessage());
+                    } catch (ExcepcioValorInvalid | ExcepcioPosicioIncorrecta e) {
                         System.out.println("Error a l'hora de generar una pista, disculpi les molèsties:" + e.getMessage());
                     }
                     break;
@@ -381,10 +365,11 @@ public class DriverJugarPartida {
                             return;
                         }
                         else System.out.println("No s'ha pogut acabar la partida, torna-ho a intentar.");
-                    } catch (ExcepcioPartidaTancada | ExcepcioCarregaPartida | ExcepcioPartidaAcabada e) {
+                    } catch (ExcepcioPartidaTancada | ExcepcioCarregaPartida | ExcepcioPartidaAcabada |
+                             ExcepcioTaulerPartidaMidaDiferent e) {
                         System.out.println(e.getMessage());
                         return;
-                    } catch (ExcepcioPartidaMalament e) {
+                    } catch (ExcepcioPartidaMalament | ExcepcioValorIncorrectePosicio | ExcepcioRegioMalament e) {
                         System.out.println("La partida és incorrecta continua buscant una solució.");
                         break;
                     }
@@ -403,8 +388,8 @@ public class DriverJugarPartida {
                     }
                     break;
                 case 8:
-                        controladorPartida.tancaPartida();
-                        return;
+                    controladorPartida.tancaPartida();
+                    return;
             }
         }
     }

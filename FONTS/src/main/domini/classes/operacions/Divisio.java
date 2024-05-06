@@ -1,15 +1,18 @@
 package main.domini.classes.operacions;
-import main.domini.excepcions.ExcepcioNoDivisor;
-import main.domini.excepcions.ExcepcioMoltsValors;
+
 import main.domini.excepcions.ExcepcioDivisio_0;
+import main.domini.excepcions.ExcepcioMoltsValors;
+import main.domini.excepcions.ExcepcioNoDivisor;
 import main.domini.excepcions.ExcepcioValorInvalid;
 import main.domini.interficies.Operacio;
+
 import java.util.HashSet;
 import java.util.Set;
+
 /**
  * La classe {@code Divisio} és una implementació de la interfície {@code Operacio}
  * que realitza els càlculs mitjançant l'operacio de divisió d'enters.
- * @author Nil Beascoechea Vàzquez
+ * @autor Nil Beascoechea Vàzquez
  */
 public class Divisio implements Operacio {
     /**
@@ -26,8 +29,7 @@ public class Divisio implements Operacio {
         if (a == 0 || b == 0) {throw new ExcepcioDivisio_0();}
         if (divisible(a,b)) {return a/b;}
         else if (divisible(b,a)) {return b/a;}
-        //else{throw new ExcepcioNoDivisor(a,b);}
-        return -1;
+        else{throw new ExcepcioNoDivisor(a,b);}
     }
     /**
      * Realitza la divisió de dos enters independentment de l'ordre donats com a vector.
@@ -59,20 +61,26 @@ public class Divisio implements Operacio {
     @Override
     public Set<Integer> calculaPossiblesValors(int resultat, int midaTauler, int midaRegio, int[] valors) throws ExcepcioMoltsValors, ExcepcioValorInvalid {
         if (midaRegio != 2) {throw new ExcepcioMoltsValors(2, "EQ");}
-        if (valors.length >= 2) {throw new ExcepcioMoltsValors(1, "MAX");}
+        if (valors.length > 2) {throw new ExcepcioMoltsValors(2, "MAX");}
         else {
             Set<Integer> solucions = new HashSet<>();
-            if (resultat == 1) return solucions;
+            if (!valorPotSerResultat(resultat)) return solucions;
+            if (valors.length == 2) return solucions;
             if (valors.length == 1) {
-                if (valors[0] > midaTauler || valors[0] < 1 ) {
+                if (valors[0] > midaTauler || valors[0] < 1) {
                     throw new ExcepcioValorInvalid();
                 }
-                int resMult = valors[0] * resultat;
-                if (resMult > 0 && resMult <= midaTauler) {
-                    solucions.add(resMult);
-                }
-                if (divisible(valors[0], resultat)) {
-                int resDiv = valors[0] / resultat;
+                if (!divisible(valors[0], resultat)) {
+                    int res = valors[0] * resultat;
+                    if (res > 0 && res <= midaTauler) {
+                        solucions.add (res);
+                    }
+                } else {
+                    int resMult = valors[0] * resultat;
+                    if (resMult > 0 && resMult <= midaTauler) {
+                        solucions.add(resMult);
+                    }
+                    int resDiv = valors[0] / resultat;
                     if (resDiv > 0 && resDiv <= midaTauler) {
                         solucions.add(resDiv);
                     }
@@ -81,7 +89,7 @@ public class Divisio implements Operacio {
             else {
                 for (int i = 1; i <= midaTauler; i++) {
                     int solucio = i * resultat;
-                    if (solucio > 0 && solucio <= midaTauler) {
+                    if (solucio > 0 && solucio <= midaTauler ) {
                         solucions.add(i);
                         solucions.add(solucio);
                     }
@@ -98,6 +106,32 @@ public class Divisio implements Operacio {
     @Override
     public int getNumOperacio() {
         return 4;
+    }
+
+    /**
+     * Per a un resultat qualsevol, diu si es podria aconseguir en el context del joc
+     * @param resultat Resultat que volem saber si és vàlid.
+     * @return False si el resultat és < 2, ja que 1 no pot ser resultat perquè implicaria la repetició d'un valor,
+     * 0 ni cap nombre negatiu ho pot ser perquè no són valors vàlids.
+     */
+    @Override
+    public boolean valorPotSerResultat(int resultat) {
+        return resultat >= 2;
+    }
+
+    /**
+     * Diu si l'operació és commutativa.
+     *
+     * @return False.
+     */
+    @Override
+    public boolean esCommutativa() {
+        return false;
+    }
+
+    @Override
+    public String getOperacioText() {
+        return "/";
     }
 
     /**
