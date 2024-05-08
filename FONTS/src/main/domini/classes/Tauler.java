@@ -1,43 +1,34 @@
 package main.domini.classes;
 
 import main.domini.excepcions.ExcepcioCasellaNoExisteix;
-
 import java.util.ArrayList;
-import java.util.List;
 
-/**
- * Classe que representa un tauler del joc.
- * @author David Giribet
- */
+
 public class Tauler {
-    private int idTauler; // Identificador del tauler
-    private int grau; // Grau del tauler
-    private Casella[][] caselles; // Llista de caselles del tauler
+    private int idTauler;
+    private int grau;
+    private boolean trobat;
+    
+    private Casella[][] caselles;
+    private ArrayList<Regio> regions;
 
-    /**
-     * Constructor de la classe Tauler.
-     *
-     * @param idTauler Identificador del tauler.
-     * @param grau     Grau del tauler.
-     */
     public Tauler(int idTauler, int grau) {
         this.idTauler = idTauler;
         this.grau = grau;
+        this.trobat = false;
+        
         this.caselles = new Casella[grau][grau];
+        this.regions = new ArrayList<>();
     }
-
-    /**
-     * Constructor de la classe Tauler amb llista de caselles.
-     *
-     * @param idTauler  Identificador del tauler.
-     * @param grau      Grau del tauler.
-     * @param caselles  Llista de caselles del tauler.
-     */
-    public Tauler(int idTauler, int grau, Casella [][] caselles) {
+    
+    public Tauler(int idTauler, int grau, Casella [][] caselles, ArrayList<Regio> regions) {
         this.idTauler = idTauler;
         this.grau = grau;
+
         this.caselles = caselles;
+        this.regions = regions;
     }
+
 
     /**
      * Obté l'identificador del tauler.
@@ -54,31 +45,20 @@ public class Tauler {
      * @return Grau del tauler.
      */
     public int getGrau() {
-        return grau;
-    }
-
-
-    public Casella getCasella(int x, int y) throws ExcepcioCasellaNoExisteix {
-        if (x < 1 || x > grau || y < 1 || y > grau) {
-            throw new ExcepcioCasellaNoExisteix(x, y);
-        }
-        return caselles[x-1][y-1];
+        return this.grau;
     }
 
     /**
-     * Obté la llista de caselles del tauler.
-     *
-     * @return Llista de caselles del tauler.
+     * Comprova si el tauler té una solució.
+     * @return true si té solució, false en cas contrari
      */
-    public Casella [][] getCaselles() {
-        return caselles;
+    public boolean teSolucio() {
+        return trobat;
     }
 
-    /**
-     * Afegeix una casella al tauler.
-     *
-     * @param casella Casella a afegir.
-     */
+    public void setTrobat(boolean trobat) {
+        this.trobat = trobat;
+    }
 
     public void afegirCasella(int x, int y, Casella casella) throws ExcepcioCasellaNoExisteix {
         if (x < 1 || x > grau || y < 1 || y > grau) {
@@ -95,6 +75,24 @@ public class Tauler {
         caselles[x-1][y-1] = null;
     }
 
+
+    public Casella getCasella(int x, int y) throws ExcepcioCasellaNoExisteix {
+        if (x < 1 || x > this.grau || y < 1 || y > this.grau) {
+            throw new ExcepcioCasellaNoExisteix(x, y);
+        }
+        return this.caselles[x-1][y-1];
+    }
+
+    /**
+     * Obté la llista de caselles del tauler.
+     *
+     * @return Llista de caselles del tauler.
+     */
+    public Casella [][] getCaselles() {
+        return this.caselles;
+    }
+
+    
     /**
      * Obté el valor de la casella a la posició (x, y) del tauler.
      *
@@ -148,4 +146,100 @@ public class Tauler {
     public boolean esBuida(int x, int y) throws ExcepcioCasellaNoExisteix {
         return getCasella(x, y).esBuida();
     }
+    
+
+
+    
+    /**
+     * Afegeix una regió de joc a la llista de regions.
+     * @param regioJoc La regió de joc a afegir
+     */
+    public void afegirRegioJoc(Regio regioJoc) {
+        this.regions.add(regioJoc);
+    }
+
+    /**
+     * Esborra una regió de joc de la llista de regions.
+     * @param regioJoc La regió de joc a esborrar
+     */
+    public void borrarRegioJoc(Regio regioJoc) {
+        this.regions.remove(regioJoc);
+    }
+
+    /**
+     * Retorna la llista de regions de joc.
+     * @return Llista de regions de joc
+     */
+    public ArrayList<Regio> getRegionsJoc() {
+        return this.regions;
+    }
+
+    /**
+     * Retorna la regió de joc que conté la casella amb les coordenades x, y.
+     * @param x Coordenada x de la casella
+     * @param y Coordenada y de la casella
+     * @return Regió de joc que conté la casella, null si no es troba
+     */
+    public Regio getRegio(int x, int y) {
+        for (Regio r : regions) {
+            for (int j = 0; j < r.getTamany(); ++j) {
+                if (r.getCasella(j).getPosX() == x && r.getCasella(j).getPosY() == y) {
+                    return r;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Comprova si un número és vàlid per a una fila donada.
+     * @param fila Fila a comprovar
+     * @param num Número a comprovar
+     * @return true si el número és vàlid, false en cas contrari
+     */
+    public boolean esFilaValida(int fila, int num) throws ExcepcioCasellaNoExisteix {
+        for (int colum = 1; colum <= getGrau(); ++colum) {
+            if (getCasella(fila, colum).getValor() == num) return false;
+        }
+        return true;
+    }
+
+    /**
+     * Comprova si un número és vàlid per a una columna donada.
+     * @param colum Columna a comprovar
+     * @param num Número a comprovar
+     * @return true si el número és vàlid, false en cas contrari
+     */
+    public boolean esColumValida(int colum, int num) throws ExcepcioCasellaNoExisteix {
+        for (int fila = 1; fila <= getGrau(); ++fila) {
+            if (getCasella(fila, colum).getValor() == num) return false;
+        }
+        return true;
+    }
+
+    /**
+     * Comprova si els valors donats són vàlids per a cada fila i columna del tauler.
+     *
+     * @param valors Matriu bidimensional d'enters que representa els valors a comprovar.
+     * @return true si tots els valors són vàlids per a les seves respectives files i columnes, false en cas contrari.
+     *
+     * Un valor és vàlid per a una fila si no apareix en cap altra casella de la mateixa fila.
+     * Un valor és vàlid per a una columna si no apareix en cap altra casella de la mateixa columna.
+     *
+     * Si un valor és 0, es considera que no té valor i per tant es considera vàlid.
+     */
+    public boolean corretgeix(int[][] valors) throws ExcepcioCasellaNoExisteix {
+        for (int i = 0; i < getGrau(); ++i) {
+            for (int j = 0; j < getGrau(); ++j) {
+                if (valors[i][j] != 0) {
+                    if (!esFilaValida(i, valors[i][j]) || !esColumValida(j, valors[i][j])) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+
 }

@@ -1,8 +1,4 @@
 package main.domini.interficies;
-import main.domini.excepcions.ExcepcioMoltsValors;
-import main.domini.excepcions.ExcepcioNoDivisor;
-import main.domini.excepcions.ExcepcioValorInvalid;
-
 import java.util.Set;
 /**
  * La interfície {@code Operacio} defineix els diferents càlculs que es poden fer amb una operació determinada.
@@ -39,6 +35,6 @@ public interface Operacio {
      * @throws Exception en funció de l'operació, veure Javadoc de les diferents implementacions.
      * @return tots els possibles valors únics que poden ser solució.
      */
-    public Set<Integer> calculaPossiblesValors(int Resultat, int midaTauler, int midaRegio, int[] valors) throws ExcepcioMoltsValors, ExcepcioValorInvalid, ExcepcioNoDivisor;
+    public Set<Integer> calculaPossiblesValors(int Resultat, int midaTauler, int midaRegio, int[] valors) throws Exception;
     public int getNumOperacio();
 }

@@ -36,7 +36,7 @@ public class Partida {
     /**
      * Tauler de la partida.
      */
-    private final TaulerJoc taulerPartida_;
+    private final Tauler taulerPartida_;
     /**
      * Valors de les caselles de la partida en un instant com a una matriu d'enters.
      */
@@ -66,7 +66,7 @@ public class Partida {
      * @param identificadorUsuariPartida Identificador de l'usuari que ha creat la partida.
      * @param TaulerPartida Tauler de la partida.
      */
-    public Partida(String identificadorUsuariPartida, TaulerJoc TaulerPartida) {
+    public Partida(String identificadorUsuariPartida, Tauler TaulerPartida) {
 
         this.iniciPartida_ = LocalDateTime.now();
         int grauPartida = TaulerPartida.getGrau();
@@ -89,7 +89,7 @@ public class Partida {
      * @throws ExcepcioCreacioPartida si l'identificador de la partida no coincideix amb l'usuari.
      */
     //Per a carregar una partida guardada, parametres donats pel controlador guardar i carregar i s'ocupa de comprovar que no estigui ja carregada
-    public Partida(String identificadorPartida, String identificadorUsuariPartida, TaulerJoc TaulerPartida, float tempsPartida, int[][] valorsPartida) throws ExcepcioCreacioPartida {
+    public Partida(String identificadorPartida, String identificadorUsuariPartida, Tauler TaulerPartida, float tempsPartida, int[][] valorsPartida) throws ExcepcioCreacioPartida {
         if (TaulerPartida.getGrau() != valorsPartida.length) {
             throw new ExcepcioCreacioPartida("El grau del tauler i la mida de la matriu de valors no coincideixen.");
         }

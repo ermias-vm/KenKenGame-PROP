@@ -1,75 +1,42 @@
 package main.domini.classes;
 
-//import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-//import java.util.Objects;
-//import java.util.TreeMap;
 
-
-/**
- * Classe que representa un usuari del sistema.
- * @author David Giribet
- */
 public class Usuari {
-    private String nom; // Nom de l'usuari
-    private String contrasenya; // Contrasenya de l'usuari
-    private List<Tauler> taulers; // Llista de taulers de l'usuari
 
-    /**
-     * Constructor de la classe Usuari.
-     *
-     * @param nom          Nom de l'usuari.
-     * @param contrasenya  Contrasenya de l'usuari.
-     */
-    public Usuari(String nom, String contrasenya) {
-        this.nom = nom;
+    private String nomUsuari;
+    private String contrasenya;
+
+    public Usuari() {
+        this.nomUsuari = null;
+        this.contrasenya = null;
+    }
+
+    public Usuari(String nomUsuari, String contrasenya) {
+        this.nomUsuari = nomUsuari;
         this.contrasenya = contrasenya;
-        this.taulers = new ArrayList<>();
     }
 
-    /**
-     * Obté el nom de l'usuari.
-     *
-     * @return Nom de l'usuari.
-     */
-    public String getNom() {
-        return nom;
+    public String getNomUsuari() {
+        return this.nomUsuari;
     }
 
-    /**
-     * Obté la contrasenya de l'usuari.
-     *
-     * @return Contrasenya de l'usuari.
-     */
     public String getContrasenya() {
-        return contrasenya;
+        return this.contrasenya;
     }
 
-    /**
-     * Obté la llista de taulers de l'usuari.
-     *
-     * @return Llista de taulers de l'usuari.
-     */
-    public List<Tauler> getTaulers() {
-        return taulers;
+    public void setNomUsuari(String nomUsuari) {
+        this.nomUsuari = nomUsuari;
     }
 
-    /**
-     * Afegeix un tauler a la llista de taulers de l'usuari.
-     *
-     * @param tauler Tauler a afegir.
-     */
-    public void afegirTauler(Tauler tauler) {
-        taulers.add(tauler);
+    public void setContrasenya(String contrasenya) {
+        this.contrasenya = contrasenya;
+    }
+    public boolean esContrasenyaCorrecta(String contrasenya) {
+        return this.contrasenya.equals(contrasenya);
     }
 
-    /**
-     * Esborra un tauler de la llista de taulers de l'usuari.
-     *
-     * @param tauler Tauler a esborrar.
-     */
-    public void esborrarTauler(Tauler tauler) {
-        taulers.remove(tauler);
+    public  boolean teContrasenya() {
+        return this.contrasenya != null;
     }
+
 }

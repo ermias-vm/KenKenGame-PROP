@@ -1,18 +1,5 @@
 package test;
 
-import main.domini.classes.TaulerJoc;
-import main.domini.classes.RegioJoc;
-import main.domini.classes.Casella;
-
-import main.domini.classes.operacions.Suma;
-import main.domini.excepcions.ExcepcioCasellaNoExisteix;
-import main.domini.interficies.Operacio;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import java.util.ArrayList;
-import static org.junit.Assert.*;
-
 /**
  * Classe de test per a TaulerJoc.
  *

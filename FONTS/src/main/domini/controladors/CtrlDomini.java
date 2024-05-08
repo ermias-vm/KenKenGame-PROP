@@ -4,6 +4,7 @@ import main.domini.classes.*;
 import main.domini.excepcions.*;
 
 import java.io.IOException;
+//import main.persistencia.CtrlPersistencia;
 
 /**
  * Controlador de domini que gestiona les operacions principals del joc Kenken.
@@ -11,73 +12,68 @@ import java.io.IOException;
  */
 public class CtrlDomini {
 
-    private TaulerJoc  TJ;
     private CtrlUsuari CU;
     private ControladorPartida CP;
     private CtrlKenkens CK;
 
+
+    private Tauler T;
+    private SolucionadorKenken AS;
+    private CreadorKenkenManual AC;
     /**
      * Constructor del controlador de domini.
      */
     public CtrlDomini() {
         CP = new ControladorPartida();
-        CU = new CtrlUsuari();
         CK = new CtrlKenkens();
+        CU = new CtrlUsuari();
+        AS = new SolucionadorKenken();
+        AC = new CreadorKenkenManual();
+
     }
 
-    /**
-     * Inicia sessió amb un usuari i contrasenya donats.
-     * @param usuari Nom de l'usuari.
-     * @param contrasenya Contrasenya de l'usuari.
-     */
-    public void iniciaSessio(String usuari, String contrasenya) {
-        CU.iniciarSessio(usuari,contrasenya);
+    //Usuari
+    public void iniciarSessio(String usuari, String contrasenya) throws IOException, ExcepcioContrasenyaIncorrecta, ExcepcioUsuariNoExisteix {
+        CU.iniciarSessio(usuari, contrasenya);
     }
 
-    /**
-     * Comprova si existeix un usuari amb un nom donat.
-     * @param u Nom de l'usuari.
-     * @return True si l'usuari existeix, false en cas contrari.
-     */
-    public boolean existeixUsuari (String u) {
-        return CU.existeixUsuari(u);
+    public void registrarUsuari(String usuari, String contrasenya) throws ExcepcioUsuariJaExisteix, IOException {
+        CU.registrarse(usuari, contrasenya);
     }
 
-    /**
-     * Canvia la contrasenya d'un usuari.
-     * @param usuari Nom de l'usuari.
-     * @param ctrActual Contrasenya actual de l'usuari.
-     * @param ctrNova Nova contrasenya de l'usuari.
-     */
-    public void canviarContrasenya(String usuari, String ctrActual, String ctrNova) {
-        CU.canviarContrasenya(usuari, ctrActual, ctrNova);
+    public void canviarContrasenya(String ctrActual, String ctrNova) throws ExcepcioContrasenyaIncorrecta, IOException {
+        CU.canviarContrasenya(ctrActual, ctrNova);
+    }
+
+    public void tancarSessio() {
+        CU.tancarSessio();
     }
 
 
-
-    public void pintarTaulerJoc(int idTauler, String grau) throws Exception {
-        TJ = CK.llegirTaulerJoc(idTauler, grau);
+    //Kenkens
+    public void pintarTauler(int idTauler, String grau) throws Exception {
+        T = CK.llegirTauler(idTauler, grau);
         System.out.println("Contingut del Tauler " + idTauler + " de grau " + grau + ":");
-        CK.mostrarTaulerJoc(TJ);
+        CK.mostrarTauler(T);
     }
 
     public void resoldreKenken(int idTauler, String grau) throws Exception {
-        TJ = CK.llegirTaulerJoc(idTauler, grau);
+        T = CK.llegirTauler(idTauler, grau);
         System.out.println("Contingut del Tauler " + idTauler + " de grau " + grau + ":");
-        CK.mostrarTaulerJoc(TJ);
-
-        TJ.solucionarKenken(TJ);
-        if (TJ.teSolucio()) {
+        CK.mostrarTauler(T);
+        AS.solucionarKenken(T);
+        if (T.teSolucio()) {
             System.out.println("Tauler resolt:");
-            CK.mostrarTaulerJoc(TJ);
+            CK.mostrarTauler(T);
         }
         else {
             System.out.println("El tauler no té solució."+ "\n");
-            CK.mostrarTaulerJoc(TJ);
+            CK.mostrarTauler(T);
         }
     }
 
 
+    //Partida
     /**
      * Carrega l'última partida guardada d'un usuari.
      * @param nomUsuari Nom de l'usuari.

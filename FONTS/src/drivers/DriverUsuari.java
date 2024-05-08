@@ -1,150 +1,102 @@
 package drivers;
 
-import main.domini.controladors.CtrlUsuari;
+import main.domini.controladors.CtrlDomini;
+import main.domini.excepcions.ExcepcioContrasenyaIncorrecta;
 import main.domini.excepcions.ExcepcioUsuariJaExisteix;
 import main.domini.excepcions.ExcepcioUsuariNoExisteix;
 
-import java.util.Scanner;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class DriverUsuari {
-    private static CtrlUsuari controladorUsuari;
-    private static Scanner scanner;
+    private static CtrlDomini CD;
+    private static Scanner scanner = new Scanner(System.in);
 
-    public static void main(String[] args) {
-        controladorUsuari = new CtrlUsuari();
-        scanner = new Scanner(System.in);
+    public static void main(String[] args) throws Exception {
+        CD = new CtrlDomini();
+        int opcio;
 
-        System.out.println("Benvingut/da al driver d'usuari de Kenken!");
-
-        boolean sortir = false;
-        while (!sortir) {
-            System.out.println("Opcions:");
+        do {
+            System.out.println("MENÚ:");
             System.out.println("1. Iniciar sessió");
-            System.out.println("2. Registrar-se");
-            System.out.println("3. Sortir");
-            int opcio = scanner.nextInt();
-            scanner.nextLine(); // Netegem el buffer del scanner
+            System.out.println("2. Registrarse");
+            System.out.println("0. Sortir");
+            opcio = scanner.nextInt();
 
             switch (opcio) {
                 case 1:
                     iniciarSessio();
+                    menuUsuari();
                     break;
                 case 2:
-                    registrarUsuari();
+                    registrarse();
+                    menuUsuari();
                     break;
-                case 3:
-                    sortir = true;
+                case 0:
                     System.out.println("Fins aviat!");
                     break;
                 default:
-                    System.out.println("Opció invàlida. Si us plau, tria una opció vàlida.");
+                    System.out.println("Opció no vàlida.");
+                    break;
             }
-        }
-
-        // Tanquem el scanner en sortir
-        scanner.close();
+        } while (opcio != 0);
     }
 
-    private static void iniciarSessio() {
-        boolean sessioIniciada = false;
-        while (!sessioIniciada) {
-            System.out.println("Introdueix el teu nom d'usuari:");
-            String nomUsuari = scanner.nextLine();
-    
-            System.out.println("Introdueix la teva contrasenya:");
-            String contrasenya = scanner.nextLine();
-    
-            try {
-                sessioIniciada = controladorUsuari.iniciarSessio(nomUsuari, contrasenya);
-                if (sessioIniciada) {
-                    System.out.println("Sessió iniciada amb èxit!");
-                    mostrarMenuUsuari();
-                } else {
-                    System.out.println("Usuari o contrasenya incorrectes. Torna-ho a provar.");
-                }
-            } catch (ExcepcioUsuariNoExisteix e) {
-                System.out.println(e.getMessage());
-            } catch (IOException e) {
-                System.out.println("Error al intentar iniciar sessió. Si us plau, torna-ho a provar.");
-            }
-        }
-    }
-    
-    private static void registrarUsuari() {
-        boolean usuariRegistrat = false;
-        while (!usuariRegistrat) {
-            System.out.println("Introdueix el teu nom d'usuari:");
-            String nomUsuari = scanner.nextLine();
-
-            System.out.println("Introdueix la teva contrasenya:");
-            String contrasenya = scanner.nextLine();
-
-            try {
-                usuariRegistrat = controladorUsuari.registrarUsuari(nomUsuari, contrasenya);
-                if (usuariRegistrat) {
-                    System.out.println("Usuari registrat amb èxit!");
-                    mostrarMenuUsuari();
-                } else {
-                    System.out.println("Error al registrar l'usuari. Si us plau, intenta-ho de nou.");
-                }
-            } catch (ExcepcioUsuariJaExisteix e) {
-                System.out.println(e.getMessage());
-            } catch (IOException e) {
-                System.out.println("Error al intentar registrar l'usuari. Si us plau, torna-ho a provar.");
-            }
-        }
+    private static void iniciarSessio() throws IOException, ExcepcioContrasenyaIncorrecta, ExcepcioUsuariNoExisteix {
+        System.out.println("Introdueix el nom d'usuari:");
+        String nomUsuari = scanner.next();
+        System.out.println("Introdueix la contrasenya:");
+        String contrasenya = scanner.next();
+        CD.iniciarSessio(nomUsuari, contrasenya);
     }
 
-    private static void mostrarMenuUsuari() {
-        boolean sortir = false;
-        while (!sortir) {
-            System.out.println("Opcions:");
-            System.out.println("1. Configurar perfil");
-            System.out.println("2. Crear KenKen");
+    private static void registrarse() throws ExcepcioUsuariJaExisteix, IOException {
+        System.out.println("Introdueix el nom d'usuari:");
+        String nomUsuari = scanner.next();
+        System.out.println("Introdueix la contrasenya:");
+        String contrasenya = scanner.next();
+        CD.registrarUsuari(nomUsuari, contrasenya);
+    }
+
+    private static void menuUsuari() throws ExcepcioContrasenyaIncorrecta, IOException {
+        int opcio;
+        do {
+            System.out.println("MENÚ USUARI:");
+            System.out.println("1. Configurar Usuari");
+            System.out.println("2. Crear Kenken");
             System.out.println("3. Jugar");
-            System.out.println("4. Mirar el ranking");
-            System.out.println("5. Sortir");
-
-            int opcio = scanner.nextInt();
-            scanner.nextLine(); // Netegem el buffer del scanner
+            System.out.println("4. Ranking");
+            System.out.println("5. Tancar Sessió");
+            System.out.println("0. Tornar");
+            opcio = scanner.nextInt();
 
             switch (opcio) {
                 case 1:
-                    configurarPerfil();
-                    break;
-                case 2:
-                    crearKenKen();
-                    break;
-                case 3:
-                    jugar();
-                    break;
-                case 4:
-                    mirarRanking();
+                    canviarContrasenya();
                     break;
                 case 5:
-                    sortir = true;
-                    System.out.println("Sessió tancada. Fins aviat!");
-                    break;
+                    CD.tancarSessio();
+                    return;
+                case 0:
+                    return;
                 default:
-                    System.out.println("Opció invàlida. Si us plau, tria una opció vàlida.");
+                    System.out.println("Opció no vàlida.");
+                    break;
             }
+        } while (opcio != 0);
+    }
+
+    private static void canviarContrasenya() throws ExcepcioContrasenyaIncorrecta, IOException {
+        System.out.println("Introdueix la contrasenya actual:");
+        String ctrActual = scanner.next();
+        System.out.println("Introdueix la nova contrasenya:");
+        String ctrNova = scanner.next();
+        System.out.println("Confirma la nova contrasenya:");
+        String ctrNovaConfirm = scanner.next();
+        if (!ctrNova.equals(ctrNovaConfirm)) {
+            System.out.println("La confirmació de la contrasenya no coincideix.");
+            return;
         }
-    }
-
-    private static void configurarPerfil() {
-        // Lògica per configurar el perfil de l'usuari
-    }
-
-    private static void crearKenKen() {
-        // Lògica per crear un nou KenKen
-    }
-
-    private static void jugar() {
-        // Lògica per iniciar una partida de KenKen
-    }
-
-    private static void mirarRanking() {
-        // Lògica per mostrar el ranking d'usuaris
+        CD.canviarContrasenya(ctrActual, ctrNova);
     }
 }
