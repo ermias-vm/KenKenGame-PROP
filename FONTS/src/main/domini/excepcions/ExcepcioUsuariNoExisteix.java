@@ -3,13 +3,9 @@ package main.domini.excepcions;
 public class ExcepcioUsuariNoExisteix extends Exception {
     private String missatge;
 
-    public ExcepcioUsuariNoExisteix() {
-        this("El Usuari NO existeix");
-    }
-
-    public ExcepcioUsuariNoExisteix(String s) {
-        super(s);
-        this.missatge = s;
+    public ExcepcioUsuariNoExisteix(String nomUsuari) {
+        super("El Usuari " + nomUsuari + " NO existeix");
+        this.missatge = "El Usuari " + nomUsuari + " NO existeix";
     }
 
     @Override

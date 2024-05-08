@@ -5,10 +5,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class CtrlKenkenData {
+public class CtrlKenkensData {
 
 
-    public String getTaulerJoc(String filePath) throws IOException {
+    public String getTauler(String filePath) throws IOException {
         StringBuilder content = new StringBuilder();
         File file = new File(filePath);
         FileReader fr = new FileReader(file);

@@ -56,7 +56,7 @@ public class DriverKenken {
                 case 4:
                     grau = obtenirGrau(scanner);
                     idTauler = obtenirIdentificador(scanner);
-                    CD.pintarTaulerJoc(idTauler, grau);
+                    CD.pintarTauler(idTauler, grau);
                     break;
                 case 0:
                     System.out.println("Fins aviat!");

@@ -1,22 +1,25 @@
 package main.domini.controladors;
 
+import main.domini.classes.Tauler;
 import main.domini.excepcions.ExcepcioCasellaNoExisteix;
 import main.domini.interficies.Operacio;
 import main.domini.classes.operacions.*;
 import main.domini.classes.Casella;
-import main.domini.classes.RegioJoc;
-import main.domini.classes.TaulerJoc;
-import main.persistencia.CtrlKenkenData;
+import main.domini.classes.Regio;
+import main.persistencia.CtrlKenkensData;
 
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 
 public class CtrlKenkens {
-    private CtrlKenkenData CKD = new CtrlKenkenData();
+    private  CtrlKenkensData CKD;
     private final String  pathTaulers = "data/taulers/";
+
+    public CtrlKenkens() {
+        CKD = new CtrlKenkensData();
+    }
 
     private Operacio getOperacio(int oper) {
         switch (oper) {
@@ -39,10 +42,10 @@ public class CtrlKenkens {
     }
 
 
-    public TaulerJoc llegirTaulerJoc(int id , String grau) {
+    public Tauler llegirTauler(int id , String grau) {
         String path = Paths.get(pathTaulers,grau, id + ".txt").toAbsolutePath().toString();
         try {
-            String content = CKD.getTaulerJoc(path);
+            String content = CKD.getTauler(path);
             //System.out.println(content); //imprimir prova
             String[] lines = content.split("\n");
             String[] primeraLinea = lines[0].split(" ");
@@ -50,7 +53,7 @@ public class CtrlKenkens {
             int R = Integer.parseInt(primeraLinea[1]);
 
 
-            TaulerJoc TJ = new TaulerJoc(id, N);
+            Tauler T = new Tauler(id, N);
 
             //Llegir cada regio
             for (int i = 0; i < R; i++) {
@@ -75,16 +78,16 @@ public class CtrlKenkens {
                         ++j;
                     }
                     caselles.add(casella);
-                    TJ.afegirCasella(x, y, casella);
+                    T.afegirCasella(x, y, casella);
                 }
 
                 Operacio operacio = getOperacio(oper);
                 //System.out.print(operacio.getNumOperacio());
-                RegioJoc rj = new RegioJoc(caselles, operacio, result);
-                TJ.afegirRegioJoc(rj);
+                Regio rj = new Regio(caselles, operacio, result);
+                T.afegirRegioJoc(rj);
             }
 
-            return TJ;
+            return T;
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ExcepcioCasellaNoExisteix e) {
@@ -93,11 +96,11 @@ public class CtrlKenkens {
         return null;
     }
 
-    public void mostrarTaulerJoc(TaulerJoc TJ) throws Exception {
-        int grau = TJ.getGrau();
+    public void mostrarTauler(Tauler T) throws Exception {
+        int grau = T.getGrau();
         for (int i = 1; i <= grau; i++) {
             for (int j = 1; j <= grau; j++) {
-                int valor = TJ.getCasella(i, j).getValor();
+                int valor = T.getCasella(i, j).getValor();
                 System.out.print(valor + " ");
             }
             System.out.println();
