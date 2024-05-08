@@ -2,35 +2,45 @@ package main.domini.classes;
 
 import java.util.*;
 
-import main.domini.controladors.CtrlRanking;
-import main.domini.classes.Ranking;
+public class RankingPerTipus extends Ranking{
+	private int nEntrades; //Nombre d'entrades
+	private static ArrayList<Tupla> tempsJugador; //ArrayList de Tupla<Jugador,Temps>
 
-public class RankinperMida extends Ranking{
-    
-  
-
-	public RankinperMida () {
-        tempstotals = new ArrayList<ArrayList<Pack>>();
-        for (int i = 3; i <= 9; ++i) { //Per cada grau
-            
-		tempsgrau = new ArrayList<Pack>();
-        CtrlRanking ctrlRanking = new CtrlRanking();
-		ctrlRanking.carregarAcabadesGrau(this, i);
-		for (int j=0; j<informacio.size(); j++){ //Per cada linia d'informacio
-			ArrayList<String> s = informacio.get(j);
-			String idusuari = new String(s.get(1)); //Agafa l'idusuari
-			double time = Double.parseDouble(s.get(3));
-			String idtauler = new String(s.get(0));
-			Pack a = new Pack();
-			a.setTemps(time);
-            a.setIduser(idusuari); //Ho coloquem a la Pack	
-            a.setidtauler(idtauler);
-			tempsgrau.add(a); //Ho afegim a ArrayList
-		Collections.sort(tempsgrau, new CustomComparator()); //Ordenem ArrayList
+	
+	public class CustomComparator implements Comparator<Tupla>{ //Comparador per ordenar de major a menor (per invertir l'ordre invertir el compare)
+		public int compare(Tupla t1,Tupla t2){
+			return t1.getTemps().compareTo(t2.getTemps());
 		}
-        tempstotals.add(tempsgrau);
-     }
+	}
+	public RankingPerTipus (String d, int nEntrades) {
+		RankingPerTipus.tempsJugador = new ArrayList<Tupla>();
+		this.nEntrades=nEntrades;
+		CTRLRanking.carregar(this, "Partides");
+		for (int j=0; j<Info.size(); j++){ //Per cada linia d'info
+			ArrayList<String> s = Info.get(j);
+			if (s.get(2).equals(d)){ //Selecciona la linia de la dificultat seleccionada per l'usuari
+				String user = new String(s.get(0)); //Agafa l'user
+				double time = Double.parseDouble(s.get(3));
+				String id = new String(s.get(1));
+				Tupla aux = new Tupla();
+				aux.setTemps(time);
+				aux.setUser(user); //Ho coloquem a la tupla
+				aux.setId(id);
+				RankingPerTipus.tempsJugador.add(aux); //Ho afegim a ArrayList
+			}
+		Collections.sort(tempsJugador, new CustomComparator()); //Ordenem ArrayList
+		}
+	}
+	
+	public void setnEntrades(int nEntrades) {
+		this.nEntrades = nEntrades;
+	}
+	
+	public int getnEntrades() {
+		return nEntrades;
 	}
 
-    	
+	public ArrayList<Tupla> getTempsJugador() {
+		return tempsJugador;
+	}	
 }
