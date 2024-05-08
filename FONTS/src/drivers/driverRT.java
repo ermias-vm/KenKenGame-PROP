@@ -25,7 +25,7 @@ public class driverRT {
 				int n = 0;
 				if (scan.hasNext()) n = scan.nextInt();
 				else System.out.println("Les entrades no son les correctes");
-				RankingFactory RF = new RankingFactory();
+				creadorRanking RF = new creadorRanking();
 				RankingPerTipus RT = RF.generarRankingPerTipus(d, n); 
 				mostraOpcions(d);
 				int opt2;

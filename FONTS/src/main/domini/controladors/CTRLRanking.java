@@ -9,7 +9,7 @@ public class CTRLRanking {
 	public static void carregar(Ranking r, String arxiu) {
 		ControladorPersistenciaPartida.setSeparator(" ");
 		try {
-			r.Info = ControladorPersistenciaPartida.loadTable("./data/" + arxiu + ".txt");
+			r.Info = ControladorPersistenciaPartida.carregaPartidesAcabadesMida());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

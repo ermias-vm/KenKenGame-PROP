@@ -23,7 +23,7 @@ public class driverRP {
 			String u = null;
 			if (scan.hasNext()) u = scan.next();
 			else System.err.println("Aquest usuari no es correcte");
-			RankingFactory RF = new RankingFactory();
+			creadorRanking RF = new creadorRanking();
 			if (CtrlUser.getUsuari(u) == null) throw (new ExcepcionUsuariNoExisteix());
 			else {
 				RankingPersonal RP = RF.generarRankingPersonal(u);				

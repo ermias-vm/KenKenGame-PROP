@@ -1,13 +1,12 @@
 package main.domini.classes;
 
 import main.domini.controladors.*;
-import main.persistencia.CtrlPersistencia;
+import main.persistencia.*;
 
-public class RankingFactory {
+public class creadorRanking {
 	
-	public RankingFactory() {
-		CtrlPersistencia.setSeparator(" ");
-		CtrlUser CU = new CtrlUser();
+	public creadorRanking() {
+		CTRLRanking CR = new CTRLRanking();
 	}
 	
 	
