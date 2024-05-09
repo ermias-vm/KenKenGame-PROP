@@ -172,17 +172,15 @@ public class Regio {
 	 */
 	public boolean esValida() throws Exception {
 		int valors[] = getValorsCaselles();
+		if (!esCompleta()) return false;
 		//no operacio
 		if (getTamany() == 1) return this.resultat == valors[0];
 
-		int numOp  = this.operacio.getNumOperacio();
-
 		//operacions on:  2 >= tamanyRegio <= N : suma , multiplicacio
-		if (numOp == 1 || numOp == 3) {
+		if (operacio.esCommutativa()) {
 			int result = operacio.operaN(valors);
 			return result == this.resultat;
 		}
-
 		//operacions on: tamanyRegio = 2 : resta, divisió, mòdul, exponenciació
 		int result1 = this.operacio.opera2(valors[0], valors[1]);
 		int result2 = this.operacio.opera2(valors[1], valors[0]);

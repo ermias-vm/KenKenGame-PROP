@@ -12,9 +12,10 @@ public class ControladorPersistenciaTauler {
      */
     public String llegirTauler(String identificadorTauler) {
         int mida = Integer.parseInt(identificadorTauler.split("-")[1]);
+        String carpeta = "data/taulers/mida"+mida;
         StringBuilder dadesTauler = new StringBuilder();
         try {
-            BufferedReader lector = new BufferedReader(new FileReader("data/taulers/mida"+mida+"/"+identificadorTauler));
+            BufferedReader lector = new BufferedReader(new FileReader(carpeta+"/"+identificadorTauler));
             String linia;
             while((linia = lector.readLine()) != null) {
                 dadesTauler.append(linia).append("\n");
@@ -51,14 +52,8 @@ public class ControladorPersistenciaTauler {
             }
         }
         String sufix = generaSufixFitxer(dadesTauler);
+        int mida = Integer.parseInt(sufix.split("-")[1]);
         String[] identificadors = taulersPerSufix.get(sufix);
-        for (String sufixTaulers:taulersPerSufix.keySet()){
-            System.out.println(sufixTaulers);
-            for (String identificador:taulersPerSufix.get(sufixTaulers)){
-                System.out.println(identificador);
-            }
-        }
-        System.out.println(taulersPerSufix.isEmpty());
         if (identificadors != null) {
             for (String identificador : identificadors) {
                 String dadesTaulerGuardat = llegirTauler(identificador);
@@ -68,7 +63,6 @@ public class ControladorPersistenciaTauler {
                 }
             }
         }
-        int mida = Integer.parseInt(sufix.split("-")[1]);
         String carpeta = "data/taulers/mida"+mida;
         String fitxer;
         try{
@@ -79,7 +73,7 @@ public class ControladorPersistenciaTauler {
             PrintWriter escriptor = new PrintWriter("data/taulers/ultimidentificador.txt");
             escriptor.print(identificadorNou);
             escriptor.close();
-            fitxer = identificador+"-"+mida;
+            fitxer = identificador + "-" + mida + ".txt";
             File directori = new File (carpeta);
             File actualFile = new File (directori, fitxer);
             PrintWriter escriptorTauler = new PrintWriter(actualFile);

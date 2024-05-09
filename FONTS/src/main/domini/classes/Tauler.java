@@ -5,14 +5,14 @@ import java.util.ArrayList;
 
 
 public class Tauler {
-    private int idTauler;
+    private String idTauler;
     private int grau;
     private boolean trobat;
     
     private Casella[][] caselles;
     private ArrayList<Regio> regions;
 
-    public Tauler(int idTauler, int grau) {
+    public Tauler(String idTauler, int grau) {
         this.idTauler = idTauler;
         this.grau = grau;
         this.trobat = false;
@@ -21,7 +21,7 @@ public class Tauler {
         this.regions = new ArrayList<>();
     }
     
-    public Tauler(int idTauler, int grau, Casella [][] caselles, ArrayList<Regio> regions) {
+    public Tauler(String idTauler, int grau, Casella [][] caselles, ArrayList<Regio> regions) {
         this.idTauler = idTauler;
         this.grau = grau;
 
@@ -35,7 +35,7 @@ public class Tauler {
      *
      * @return Identificador del tauler.
      */
-    public int getIdTauler() {
+    public String getIdTauler() {
         return idTauler;
     }
 

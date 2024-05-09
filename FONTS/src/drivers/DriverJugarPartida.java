@@ -22,9 +22,8 @@ public class DriverJugarPartida {
     public static void main(String[] args) {
         ControladorPartida controladorPartida = new ControladorPartida();
         ControladorPersistenciaPartida controladorPersistenciaPartida = new ControladorPersistenciaPartida();
-        CtrlKenkens controladorTaulers = new CtrlKenkens();
         ControladorPersistenciaTauler controladorPersistenciaTauler = new ControladorPersistenciaTauler();
-        controladorTaulers.setControladorPersistenciaTauler(controladorPersistenciaTauler);
+        CtrlKenkens controladorTaulers = new CtrlKenkens(controladorPersistenciaTauler);
         controladorPartida.setControladorTauler(controladorTaulers);
         controladorPartida.setControladorPersistenciaPartida(controladorPersistenciaPartida);
         System.out.println("Benvingut/da al driver de jugar partida! \n M'encarrego de" +

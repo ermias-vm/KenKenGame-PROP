@@ -1,26 +1,23 @@
 package main.domini.controladors;
 
+import main.domini.classes.SolucionadorKenken;
 import main.domini.classes.Tauler;
 import main.domini.excepcions.ExcepcioCasellaNoExisteix;
 import main.domini.interficies.Operacio;
 import main.domini.classes.operacions.*;
 import main.domini.classes.Casella;
 import main.domini.classes.Regio;
-import main.persistencia.CtrlKenkensData;
+import main.persistencia.ControladorPersistenciaTauler;
 
-import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 
 
 public class CtrlKenkens {
-    private  CtrlKenkensData CKD;
-    private final String  pathTaulers = "data/taulers/";
-
-    public CtrlKenkens() {
-        CKD = new CtrlKenkensData();
+    private  ControladorPersistenciaTauler controladorPersistenciaTauler_;
+    private SolucionadorKenken AS = new SolucionadorKenken();
+    public CtrlKenkens(ControladorPersistenciaTauler controladorPersistenciaTauler) {
+        controladorPersistenciaTauler_ = controladorPersistenciaTauler;
     }
-
     private Operacio getOperacio(int oper) {
         switch (oper) {
             case 1:
@@ -42,10 +39,9 @@ public class CtrlKenkens {
     }
 
 
-    public Tauler llegirTauler(int id , String grau) {
-        String path = Paths.get(pathTaulers,grau, id + ".txt").toAbsolutePath().toString();
+    public Tauler llegirTauler(String id) {
         try {
-            String content = CKD.getTauler(path);
+            String content = controladorPersistenciaTauler_.llegirTauler(id);
             //System.out.println(content); //imprimir prova
             String[] lines = content.split("\n");
             String[] primeraLinea = lines[0].split(" ");
@@ -86,14 +82,10 @@ public class CtrlKenkens {
                 Regio rj = new Regio(caselles, operacio, result);
                 T.afegirRegioJoc(rj);
             }
-
             return T;
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (ExcepcioCasellaNoExisteix e) {
             throw new RuntimeException(e);
         }
-        return null;
     }
 
     public void mostrarTauler(Tauler T) throws Exception {
@@ -107,5 +99,51 @@ public class CtrlKenkens {
         }
         System.out.println();
     }
-
+    /*
+    public void pintarTauler(String idTauler, String grau) throws Exception {
+        T = CK.llegirTauler(idTauler);
+        System.out.println("Contingut del Tauler " + idTauler + " de grau " + grau + ":");
+        CK.mostrarTauler(T);
+    }
+    */
+    public int[][] resoldreKenken(Tauler T, int[][] valorsPartida) throws Exception {
+        for (int i = 0; i < valorsPartida.length; i++) {
+            for (int j = 0; j < valorsPartida[i].length; j++) {
+                int x = i + 1;
+                int y = j + 1;
+                int valor = valorsPartida[i][j];
+                T.setValor(x, y, valor);
+            }
+        }
+        AS.solucionarKenken(T);
+        if (T.teSolucio()) {
+            int[][] valorsSolucio = new int[valorsPartida.length][valorsPartida[0].length];
+            for (int i = 0; i < valorsPartida.length; i++) {
+                for (int j = 0; j < valorsPartida[i].length; j++) {
+                    int x = i + 1;
+                    int y = j + 1;
+                    valorsSolucio[i][j] = T.getValor(x, y);
+                }
+            }
+            return valorsSolucio;
+        }
+        return null;
+    }
+    /*
+    public void resoldreKenken(Tauler T) throws Exception {
+        int grau = Integer.parseInt(idTauler.split("-")[1]);
+        Tauler T = llegirTauler(idTauler);
+        System.out.println("Contingut del Tauler " + idTauler + " de grau " + grau + ":");
+        mostrarTauler(T);
+        AS.solucionarKenken(T);
+        if (T.teSolucio()) {
+            System.out.println("Tauler resolt:");
+            CK.mostrarTauler(T);
+        }
+        else {
+            System.out.println("El tauler no té solució."+ "\n");
+            CK.mostrarTauler(T);
+        }
+    }
+    */
 }
