@@ -1,5 +1,7 @@
 package main.domini.classes;
 
+import java.util.ArrayList;
+
 public class SolucionadorKenken {
 
     /**
@@ -29,7 +31,7 @@ public class SolucionadorKenken {
                 if (T.esFilaValida(i, valor) && T.esColumValida(j, valor)) {
                     T.setValor(i, j, valor);
                     Regio r = T.getRegio(i, j);
-                    if ((r.esCompleta() && r.esValida()) || !r.esCompleta()) {
+                    if ((r.esCompleta() && r.esValida(null)) || !r.esCompleta()) {
                         if (j ==  T.getGrau()) {
                             backtracking(T, i + 1, 1);
                         } else {
@@ -45,7 +47,7 @@ public class SolucionadorKenken {
     }
 
     private void optimitzacioNoOperacio(Tauler T) {
-        for (Regio r : T.getRegionsJoc()) {
+        for (Regio r : T.getRegions()) {
             if (r.getTamany() == 1) {
                 Casella c = r.getCaselles().get(0);
                 c.setValor(r.getResultat());
@@ -58,5 +60,26 @@ public class SolucionadorKenken {
     public void solucionarKenken(Tauler T) throws Exception {
         optimitzacioNoOperacio(T);
         backtracking(T, 1, 1);
+    }
+
+    public int[] getValorsRegioMatriu(int [][] valorsTauler, int [][] posicionsRegio) {
+        int [] valorsRegio = new int[posicionsRegio.length];
+        for (int i = 0; i < posicionsRegio.length; ++i) {
+            valorsRegio[i] = valorsTauler[posicionsRegio[i][0]][posicionsRegio[i][1]];
+        }
+        return valorsRegio;
+    }
+
+
+    public ArrayList<Regio> getRegionsIncorrectes(int [][] valorsTauler , Tauler T) throws Exception {
+        ArrayList<Regio> regionsIncorrectes = new ArrayList<>();
+        for (Regio r : T.getRegions()) {
+            int [][] posicionsRegio = r.getPosicionsCaselles();
+            int [] valorsRegio  =  getValorsRegioMatriu(valorsTauler, posicionsRegio);
+            if (!r.esValida(valorsRegio)) {
+                regionsIncorrectes.add(r);
+            }
+        }
+        return regionsIncorrectes;
     }
 }

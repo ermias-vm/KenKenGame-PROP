@@ -150,6 +150,20 @@ public class Regio {
 	}
 
 	/**
+	 * Retorna les posicions de les caselles de la regió.
+	 *
+	 * @return Array d'enters amb les posicions de les caselles.
+	 */
+	public int[][] getPosicionsCaselles() {
+		int[][] posicions = new int[tamany][2];
+		for (int i = 0; i < tamany; i++) {
+			posicions[i][0] = caselles.get(i).getPosX();
+			posicions[i][1] = caselles.get(i).getPosY();
+		}
+		return posicions;
+	}
+
+	/**
 	 * Comprova si la regió està completa.
 	 *
 	 * @return true si la regió està completa, false en cas contrari.
@@ -164,14 +178,11 @@ public class Regio {
 		return true;
 	}
 
-	/**
-	 * Comprova si la regió és vàlida.
-	 *
-	 * @return true si la regió és vàlida, false en cas contrari.
-	 * @throws Exception si hi ha un error en l'operació.
-	 */
-	public boolean esValida() throws Exception {
-		int valors[] = getValorsCaselles();
+
+	public boolean esValida(int[] valors ) throws Exception {
+		if (valors == null) {
+			valors = getValorsCaselles();
+		}
 		if (!esCompleta()) return false;
 		//no operacio
 		if (getTamany() == 1) return this.resultat == valors[0];

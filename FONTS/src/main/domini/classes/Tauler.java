@@ -170,7 +170,7 @@ public class Tauler {
      * Retorna la llista de regions de joc.
      * @return Llista de regions de joc
      */
-    public ArrayList<Regio> getRegionsJoc() {
+    public ArrayList<Regio> getRegions() {
         return this.regions;
     }
 
@@ -229,10 +229,10 @@ public class Tauler {
      * Si un valor és 0, es considera que no té valor i per tant es considera vàlid.
      */
     public boolean corretgeix(int[][] valors) throws ExcepcioCasellaNoExisteix {
-        for (int i = 0; i < getGrau(); ++i) {
-            for (int j = 0; j < getGrau(); ++j) {
-                if (valors[i][j] != 0) {
-                    if (!esFilaValida(i, valors[i][j]) || !esColumValida(j, valors[i][j])) {
+        for (int i = 1; i <= getGrau(); ++i) {
+            for (int j = 1; j <= getGrau(); ++j) {
+                if (valors[i-1][j-1] != 0) {
+                    if (!esFilaValida(i, valors[i-1][j-1]) || !esColumValida(j, valors[i-1][j-1])) {
                         return false;
                     }
                 }
