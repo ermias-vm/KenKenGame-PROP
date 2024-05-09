@@ -69,7 +69,7 @@ public class Partida {
     public Partida(String identificadorUsuariPartida, Tauler TaulerPartida) {
 
         this.iniciPartida_ = LocalDateTime.now();
-        int MidaPartida = TaulerPartida.getMida();
+        int MidaPartida = TaulerPartida.getGrau();
         this.identificadorUsuariPartida_ = identificadorUsuariPartida;
         this.taulerPartida_ = TaulerPartida;
         this.midaPartida_ = MidaPartida;
@@ -87,7 +87,7 @@ public class Partida {
      */
     //Per a carregar una partida guardada, parametres donats pel controlador guardar i carregar i s'ocupa de comprovar que no estigui ja carregada
     public Partida(String identificadorPartida, String identificadorUsuariPartida, Tauler TaulerPartida, float tempsPartida, int[][] valorsPartida) throws ExcepcioCreacioPartida {
-        if (TaulerPartida.getMida() != valorsPartida.length) {
+        if (TaulerPartida.getGrau() != valorsPartida.length) {
             throw new ExcepcioCreacioPartida("El Mida del tauler i la mida de la matriu de valors no coincideixen.");
         }
         if (!identificadorPartida.contains(identificadorUsuariPartida+":")) {
@@ -96,7 +96,7 @@ public class Partida {
         this.iniciPartida_ = LocalDateTime.now();
         this.identificadorUsuariPartida_ = identificadorUsuariPartida;
         this.taulerPartida_ = TaulerPartida;
-        this.midaPartida_ = TaulerPartida.getMida();
+        this.midaPartida_ = TaulerPartida.getGrau();
         this.identificadorPartida_ = identificadorPartida ;
         this.valorsPartida_ = valorsPartida; //per defecte a 0
         this.tempsPartida_ = tempsPartida;
@@ -144,7 +144,7 @@ public class Partida {
      * @return Identificador del tauler de la partida.
      */
     public String getIdentificadorTaulerPartida() {
-        return String.valueOf(taulerPartida_.getIdentificadorTauler());
+        return taulerPartida_.getIdTauler();
     }
     /**
      * Retorna el valor d'una casella de la partida.
@@ -248,7 +248,7 @@ public class Partida {
      * @throws ExcepcioPartidaTancada si la partida està tancada.
      * @throws ExcepcioPartidaMalament si la partida no està correctament resolta.
      */
-    public String acabaPartida() throws ExcepcioPartidaAcabada, ExcepcioPartidaTancada, ExcepcioValorIncorrectePosicio, ExcepcioRegioMalament, ExcepcioTaulerPartidaMidaDiferent {
+    public String acabaPartida() throws ExcepcioPartidaAcabada, ExcepcioPartidaTancada, ExcepcioCasellaNoExisteix {
         if (acabadaPartida_) {
             throw new ExcepcioPartidaAcabada();
         }

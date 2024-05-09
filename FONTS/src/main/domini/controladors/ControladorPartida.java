@@ -355,7 +355,7 @@ public class ControladorPartida {
      * @throws ExcepcioPartidaMalament Si la partida no s'ha pogut acabar per que és incorrecta.
      * @throws ExcepcioPartidaAcabada Si la partida ja està acabada.
      */
-    public String[] acabarPartida() throws ExcepcioCarregaPartida, ExcepcioPartidaTancada, ExcepcioPartidaMalament, ExcepcioPartidaAcabada{
+    public String[] acabarPartida() throws ExcepcioCarregaPartida, ExcepcioPartidaTancada, ExcepcioPartidaMalament, ExcepcioPartidaAcabada, ExcepcioCasellaNoExisteix {
         if (partida_ == null) throw new ExcepcioCarregaPartida("No hi ha cap partida carregada");
         boolean haviaEstatGuardada = partida_.getGuardadaPartida();
         referMoviments_.clear();
