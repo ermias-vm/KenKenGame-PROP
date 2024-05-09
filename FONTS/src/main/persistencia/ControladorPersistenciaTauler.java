@@ -15,7 +15,7 @@ public class ControladorPersistenciaTauler {
         String carpeta = "data/taulers/mida"+mida;
         StringBuilder dadesTauler = new StringBuilder();
         try {
-            BufferedReader lector = new BufferedReader(new FileReader(carpeta+"/"+identificadorTauler));
+            BufferedReader lector = new BufferedReader(new FileReader(carpeta+"/"+identificadorTauler + ".txt"));
             String linia;
             while((linia = lector.readLine()) != null) {
                 dadesTauler.append(linia).append("\n");
@@ -73,9 +73,10 @@ public class ControladorPersistenciaTauler {
             PrintWriter escriptor = new PrintWriter("data/taulers/ultimidentificador.txt");
             escriptor.print(identificadorNou);
             escriptor.close();
-            fitxer = identificador + "-" + mida + ".txt";
+            fitxer = identificador + "-" + mida;
+            String actualFitxer = fitxer + ".txt";
             File directori = new File (carpeta);
-            File actualFile = new File (directori, fitxer);
+            File actualFile = new File (directori, actualFitxer);
             PrintWriter escriptorTauler = new PrintWriter(actualFile);
             escriptorTauler.print(dadesTauler);
             escriptorTauler.close();
