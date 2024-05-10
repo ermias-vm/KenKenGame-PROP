@@ -97,7 +97,6 @@ public class ControladorPartida {
     /**
      * Carrega l'última partida guardada de l'usuari. Comença la partida amb les dades guardades.
      * Primer crea la partida amb la funció {@link #stringToPartida(String, String)}.
-     * Després genera el text de la partida i el tauler amb les funcions {@link Partida#generaPartidaText()} i {@link Tauler#generaTaulerText()}.
      * @param nomUsuari Nom de l'usuari que vol carregar la partida.
      * @return Retorna un vector de String amb l'estat de la partida a l'índex [0] i les dades del tauler a l'índex [1].
      * @throws ExcepcioInicialitzacioPersistenciaPartida Si no s'ha inicialitzat el controlador de persistència de les partides.
@@ -139,7 +138,6 @@ public class ControladorPartida {
     /**
      * Carrega una partida guardada de l'usuari segons un identificador. Comença la partida amb les dades guardades.
      * Primer carrega la partida amb la funció {@link #stringToPartida(String, String)}.
-     * Després genera el text de la partida i el tauler amb les funcions {@link Partida#generaPartidaText()} i {@link Tauler#generaTaulerText()}.
      * @param identificadorPartida Identificador de la partida guardada.
      * @param nomUsuari Nom de l'usuari que vol carregar la partida.
      * @return Retorna un vector de String amb l'estat de la partida a l'índex [0] i les dades del tauler a l'índex [1].
@@ -265,13 +263,25 @@ public class ControladorPartida {
      * @throws ExcepcioPartidaAcabada Si la partida està acabada.
      * @throws ExcepcioPosicioIncorrecta Si la posició de la casella no és correcta.
      */
-    public ArrayList<int[]> donaPista() throws ExcepcioCarregaPartida, ExcepcioPartidaTancada, ExcepcioValorInvalid, ExcepcioPartidaAcabada, ExcepcioPosicioIncorrecta{
+    public ArrayList<int[]> donaPista() throws ExcepcioCarregaPartida, ExcepcioPartidaTancada, ExcepcioValorInvalid, ExcepcioPartidaAcabada, ExcepcioPosicioIncorrecta, ExcepcioCasellaNoExisteix, ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioDivisio_0 {
         if (partida_ == null) throw new ExcepcioCarregaPartida("No hi ha cap partida carregada");
         ArrayList<int[]> valorsRepetits = comprovaRepetits(partida_.getValorsPartida());
         if (!valorsRepetits.isEmpty()){
             return valorsRepetits;
         }
-        ArrayList<int[]> valorsIncorrectes = comprovaIncorrectes(partida_.getValorsPartida(), partida_.getTaulerPartida());
+        ArrayList<Regio> valorsIncorrectes = partida_.getTaulerPartida().getRegionsIncorrectes(partida_.getValorsPartida());
+        if (!valorsIncorrectes.isEmpty()){
+            int longitud = valorsIncorrectes.size();
+            int index = (int) (Math.random() * longitud);
+            Regio regioIncorrecta = valorsIncorrectes.get(index);
+            int[][] posicions = regioIncorrecta.getPosicionsCaselles();
+            ArrayList<int[]> valorsIncorrectesRegio = new ArrayList<>();
+            for (int i = 0; i < posicions.length; ++i){
+                int fila = posicions[i][0]-1;
+                int columna = posicions[i][1]-1;
+                valorsIncorrectesRegio.add(new int[]{fila, columna});
+            }
+        }
         int[][] solucioTotal = controladorTauler_.resoldreKenken(partida_.getTaulerPartida(), partida_.getValorsPartida());
         boolean posat = false;
         while (!posat){

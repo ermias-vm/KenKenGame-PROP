@@ -1,6 +1,7 @@
 package main.domini.classes;
 
-import main.domini.excepcions.ExcepcioCasellaNoExisteix;
+import main.domini.excepcions.*;
+
 import java.util.ArrayList;
 
 
@@ -237,9 +238,33 @@ public class Tauler {
                     }
                 }
             }
+            ArrayList<Regio> regionsIncorrectes = getRegionsIncorrectes(valors);
+            if (!regionsIncorrectes.isEmpty()) return false;
         }
         return true;
     }
+    public int[] getValorsRegioMatriu(int [][] valorsTauler, int [][] posicionsRegio) {
+        int [] valorsRegio = new int[posicionsRegio.length];
+        for (int i = 0; i < posicionsRegio.length; ++i) {
+            valorsRegio[i] = valorsTauler[posicionsRegio[i][0]][posicionsRegio[i][1]];
+        }
+        return valorsRegio;
+    }
 
+    public ArrayList<Regio> getRegionsIncorrectes(int [][] valorsTauler){
+        ArrayList<Regio> regionsIncorrectes = new ArrayList<>();
+        for (Regio r : getRegions()) {
+            int [][] posicionsRegio = r.getPosicionsCaselles();
+            int [] valorsRegio  =  getValorsRegioMatriu(valorsTauler, posicionsRegio);
+            try {
+                if (!r.esValida(valorsRegio)) {
+                    regionsIncorrectes.add(r);
+                }
+            } catch (ExcepcioNoDivisor | ExcepcioMoltsValors | ExcepcioDivisio_0 | ExcepcioValorInvalid e) {
+                regionsIncorrectes.add(r);
+            }
+        }
+        return regionsIncorrectes;
+    }
 
 }

@@ -179,7 +179,7 @@ public class Regio {
 	}
 
 
-	public boolean esValida(int[] valors ) throws Exception {
+	public boolean esValida(int[] valors ) throws ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioValorInvalid {
 		if (valors == null) {
 			valors = getValorsCaselles();
 		}

@@ -2,7 +2,7 @@ package main.domini.controladors;
 
 import main.domini.classes.SolucionadorKenken;
 import main.domini.classes.Tauler;
-import main.domini.excepcions.ExcepcioCasellaNoExisteix;
+import main.domini.excepcions.*;
 import main.domini.interficies.Operacio;
 import main.domini.classes.operacions.*;
 import main.domini.classes.Casella;
@@ -106,7 +106,7 @@ public class CtrlKenkens {
         CK.mostrarTauler(T);
     }
     */
-    public int[][] resoldreKenken(Tauler T, int[][] valorsPartida) throws Exception {
+    public int[][] resoldreKenken(Tauler T, int[][] valorsPartida) throws ExcepcioCasellaNoExisteix, ExcepcioNoDivisor, ExcepcioValorInvalid, ExcepcioMoltsValors, ExcepcioDivisio_0 {
         for (int i = 0; i < valorsPartida.length; i++) {
             for (int j = 0; j < valorsPartida[i].length; j++) {
                 int x = i + 1;
