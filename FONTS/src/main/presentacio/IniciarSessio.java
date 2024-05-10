@@ -7,6 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class IniciarSessio {
 
@@ -19,6 +21,8 @@ public class IniciarSessio {
     private JPasswordField passwordFieldContr;
     private JButton buttonIniSessio;
     private JButton buttonCrearCompte;
+    private JLabel labelSerparado;
+    private JLabel errorLabel;
 
     //private CtrlPresentacio CPre = CtrlPresentacio.getInstance();
     private CtrlUsuariUI CUui = CtrlUsuariUI.getInstance();
@@ -33,15 +37,31 @@ public class IniciarSessio {
 
                 if (usuari.isEmpty() || contrasenya.isEmpty()) {
                     System.out.println("Usuari i/o contrasenya no valida");
+                    errorLabel.setText("<html>Usuari i/o contrasenya no valida.<br>Si us plau comproveu les dades.</html>");
                 } else {
                     try {
                         CUui.iniciarSessio(usuari, contrasenya);
                         System.out.println("Sessio iniciada correctament: es mostrara menu principal....");
-                    } catch (ExcepcioContrasenyaIncorrecta | ExcepcioUsuariNoExisteix ex) {
-                        System.out.println("Usuari y/o contrasenya  incorrecta");
-                    } catch (Exception ex) {
+                        CtrlPresentacio.getInstance().showMenuPrincipal();
+
+                    } catch (ExcepcioUsuariNoExisteix ex) {
+                        System.out.println("Usuari no existeix");
+                        errorLabel.setText("<html>Usuari no existeix.<br>Si us plau comproveu el vostre usuari.</html>");
+                    } catch (ExcepcioContrasenyaIncorrecta ex) {
+                        System.out.println("Contrasenya  incorrecta");
+                        errorLabel.setText("<html>Contrasenya incorrecta.<br>Si us plau comproveu la vostra contrsenya.</html>");
+                    }catch (Exception ex) {
                         ex.printStackTrace();
                     }
+                }
+            }
+        });
+
+        passwordFieldContr.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    buttonIniSessio.doClick();
                 }
             }
         });

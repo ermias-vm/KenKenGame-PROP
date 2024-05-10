@@ -12,6 +12,8 @@ public class CtrlPresentacio {
     private IniciarSessio iniSessio;
     private Registrarse registrar;
     private MenuPrincipal menuPrincipal;
+    private CrearKenKenParametres crearKenKenParametres;
+    private ConfigUsuari configUsuari;
 
     private CtrlPresentacio() {
         CD = CtrlDomini.getInstance();
@@ -47,7 +49,13 @@ public class CtrlPresentacio {
     public void showMenuPrincipal() {
         menuPrincipal = new MenuPrincipal();
         mainFrame.setTitle("Menu Principal");
-        //mainFrame.setContentPane(menuPrincipal.getDefaultPanel());
+        mainFrame.setContentPane(menuPrincipal.getDefaultPanel());
+        mainFrame.setVisible(true);
+    }
+    public void showConfigUsuari() {
+        configUsuari = new ConfigUsuari();
+        mainFrame.setTitle("Configuracio Usuari");
+        mainFrame.setContentPane(configUsuari.getDefaultPanel());
         mainFrame.setVisible(true);
     }
 
