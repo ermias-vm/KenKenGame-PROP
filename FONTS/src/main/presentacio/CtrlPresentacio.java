@@ -6,7 +6,7 @@ import javax.swing.*;
 
 public class CtrlPresentacio {
     private static CtrlPresentacio CPre;
-    private CtrlDomini CD;
+    private static CtrlDomini CD;
     private JFrame mainFrame = new JFrame();
 
     private IniciarSessio iniSessio;
@@ -14,7 +14,7 @@ public class CtrlPresentacio {
     private MenuPrincipal menuPrincipal;
 
     public CtrlPresentacio() {
-        CD = new CtrlDomini();
+        CD = CtrlDomini.getInstance();
     }
     public static CtrlPresentacio getInstance() {
         if (CPre == null) CPre = new CtrlPresentacio();
@@ -53,9 +53,7 @@ public class CtrlPresentacio {
     }
 
 
-    public void tancarSession() {
-        CD.tancarSessio();
-    }
+
 
 
 }

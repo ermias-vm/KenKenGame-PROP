@@ -18,7 +18,7 @@ public class CtrlUsuariUI {
     }
 
     public CtrlUsuariUI() {
-        CU = new CtrlUsuari();
+        CU = CtrlUsuari.getInstance();
     }
 
     public void iniciarSessio(String nomUsuari, String contrasenya) throws ExcepcioContrasenyaIncorrecta, IOException, ExcepcioUsuariNoExisteix {

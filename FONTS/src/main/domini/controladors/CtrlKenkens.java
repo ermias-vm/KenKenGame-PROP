@@ -13,10 +13,18 @@ import java.util.ArrayList;
 
 
 public class CtrlKenkens {
-    private  ControladorPersistenciaTauler controladorPersistenciaTauler_;
-    private SolucionadorKenken AS = new SolucionadorKenken();
-    public CtrlKenkens(ControladorPersistenciaTauler controladorPersistenciaTauler) {
-        controladorPersistenciaTauler_ = controladorPersistenciaTauler;
+    private static ControladorPersistenciaTauler ctrlTaulerData;
+    private static SolucionadorKenken AS = new SolucionadorKenken();
+
+    private static CtrlKenkens ctrlKenkens;
+
+    private CtrlKenkens() {
+        ctrlTaulerData = ControladorPersistenciaTauler.getInstance();
+    }
+
+    public static CtrlKenkens getInstance() {
+        if (ctrlKenkens == null) ctrlKenkens = new CtrlKenkens();
+        return ctrlKenkens;
     }
     private Operacio getOperacio(int oper) {
         switch (oper) {
@@ -41,7 +49,7 @@ public class CtrlKenkens {
 
     public Tauler llegirTauler(String id) {
         try {
-            String content = controladorPersistenciaTauler_.llegirTauler(id);
+            String content = ctrlTaulerData.llegirTauler(id);
             //System.out.println(content); //imprimir prova
             String[] lines = content.split("\n");
             String[] primeraLinea = lines[0].split(" ");

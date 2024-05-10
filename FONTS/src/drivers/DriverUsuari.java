@@ -1,6 +1,7 @@
 package drivers;
 
 import main.domini.controladors.CtrlDomini;
+import main.domini.controladors.CtrlUsuari;
 import main.domini.excepcions.ExcepcioContrasenyaIncorrecta;
 import main.domini.excepcions.ExcepcioUsuariJaExisteix;
 import main.domini.excepcions.ExcepcioUsuariNoExisteix;
@@ -9,11 +10,11 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class DriverUsuari {
-    private static CtrlDomini CD;
+    private static CtrlUsuari CU;
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) throws Exception {
-        CD = new CtrlDomini();
+        CU =  CtrlUsuari.getInstance();
         int opcio;
 
         do {
@@ -47,7 +48,7 @@ public class DriverUsuari {
         String nomUsuari = scanner.next();
         System.out.println("Introdueix la contrasenya:");
         String contrasenya = scanner.next();
-        CD.iniciarSessio(nomUsuari, contrasenya);
+        CU.iniciarSessio(nomUsuari, contrasenya);
     }
 
     private static void registrarse() throws ExcepcioUsuariJaExisteix, IOException {
@@ -55,7 +56,7 @@ public class DriverUsuari {
         String nomUsuari = scanner.next();
         System.out.println("Introdueix la contrasenya:");
         String contrasenya = scanner.next();
-        CD.registrarUsuari(nomUsuari, contrasenya);
+        CU.registrarse(nomUsuari, contrasenya);
     }
 
     private static void menuUsuari() throws ExcepcioContrasenyaIncorrecta, IOException {
@@ -75,7 +76,7 @@ public class DriverUsuari {
                     canviarContrasenya();
                     break;
                 case 5:
-                    CD.tancarSessio();
+                    CU.tancarSessio();
                     return;
                 case 0:
                     return;
@@ -97,6 +98,6 @@ public class DriverUsuari {
             System.out.println("La confirmació de la contrasenya no coincideix.");
             return;
         }
-        CD.canviarContrasenya(ctrActual, ctrNova);
+        CU.canviarContrasenya(ctrActual, ctrNova);
     }
 }

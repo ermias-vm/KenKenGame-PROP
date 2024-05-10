@@ -12,13 +12,18 @@ import com.google.gson.stream.JsonReader;
 public class CtrlUsuari {
 
     private Usuari usuariActual;
-    private CtrlUsuariData CUD;
+    private static CtrlUsuariData CUD;
+    private static CtrlUsuari CU;
     private Gson gson;
 
 
-    public CtrlUsuari() {
-        CUD = new CtrlUsuariData();
+    private  CtrlUsuari() {
+        CUD = CtrlUsuariData.getInstance();
         this.gson = new Gson();
+    }
+    public static CtrlUsuari getInstance() {
+        if (CU == null) CU = new CtrlUsuari();
+        return CU;
     }
 
     public void iniciarSessio(String nomUsuari, String contrasenya) throws IOException, ExcepcioContrasenyaIncorrecta, ExcepcioUsuariNoExisteix {

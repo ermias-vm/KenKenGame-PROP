@@ -17,6 +17,9 @@ import java.util.Scanner;
  * Driver per a simular una partida de Kenken.
  * @author Nil Beascoechea Vàzquez
  */
+
+/*//ELIMINAR AQUI
+
 public class DriverJugarPartida {
     private final static inout io = new inout();
     public static void main(String[] args) {
@@ -429,3 +432,5 @@ public class DriverJugarPartida {
         }
     }
 }
+
+*/   //ELIMINAR AQUI

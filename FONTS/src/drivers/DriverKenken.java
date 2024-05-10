@@ -1,6 +1,7 @@
 package drivers;
 
 import main.domini.controladors.CtrlDomini;
+import main.domini.controladors.CtrlKenkens;
 
 import java.util.Scanner;
 
@@ -13,7 +14,7 @@ public class DriverKenken {
     /**
      * Controlador de domini que es farà servir per interactuar amb la classe Kenken.
      */
-    private static CtrlDomini CD;
+    private static CtrlKenkens CK = CtrlKenkens.getInstance();
 
 
 
@@ -21,8 +22,8 @@ public class DriverKenken {
      * Mètode principal del driver.
      * Aquest mètode permet a l'usuari interactuar amb la classe Kenken a través de la línia de comandes.
      */
+    /*
     public static void main(String[] args) throws Exception {
-        CD = new CtrlDomini();
         Scanner scanner = new Scanner(System.in);
         int opcio, idTauler;
         String grau;
@@ -44,7 +45,7 @@ public class DriverKenken {
                     grau = obtenirGrau(scanner);
                     long startTime = System.currentTimeMillis();
                     idTauler = obtenirIdentificador(scanner);
-                    CD.resoldreKenken(idTauler, grau);
+                    CK.resoldreKenken(idTauler, grau);
                     long endTime = System.currentTimeMillis();
                     long duration = endTime - startTime;
                     System.out.println("Temps en resoldre: " + duration + " ms." + "\n");
@@ -56,7 +57,7 @@ public class DriverKenken {
                 case 4:
                     grau = obtenirGrau(scanner);
                     idTauler = obtenirIdentificador(scanner);
-                    CD.pintarTauler(idTauler, grau);
+                    CK.pintarTauler(idTauler, grau);
                     break;
                 case 0:
                     System.out.println("Fins aviat!");
@@ -67,7 +68,7 @@ public class DriverKenken {
             }
         } while (opcio != 0);
     }
-
+*/
     private static int obtenirIdentificador(Scanner scanner) {
         System.out.println("Introdueix l'identificador del tauler:");
         return scanner.nextInt();

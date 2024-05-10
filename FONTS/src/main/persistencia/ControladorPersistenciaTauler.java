@@ -5,6 +5,16 @@ import java.io.*;
 import java.util.HashMap;
 
 public class ControladorPersistenciaTauler {
+
+    private static ControladorPersistenciaTauler ctrTaulerData;
+
+    private ControladorPersistenciaTauler() {
+    }
+    public static ControladorPersistenciaTauler getInstance() {
+        if (ctrTaulerData== null) ctrTaulerData= new ControladorPersistenciaTauler();
+        return ctrTaulerData;
+    }
+
     /**
      * Llegeix un tauler del disc.
      * @param identificadorTauler Identificador del tauler.

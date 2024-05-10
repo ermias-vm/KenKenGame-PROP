@@ -1,11 +1,8 @@
 package main.domini.controladors;
 
-import main.domini.classes.*;
-import main.domini.excepcions.*;
+
 import main.persistencia.ControladorPersistencia;
 
-import java.io.IOException;
-//import main.persistencia.CtrlPersistencia;
 
 /**
  * Controlador de domini que gestiona les operacions principals del joc Kenken.
@@ -13,23 +10,26 @@ import java.io.IOException;
  */
 public class CtrlDomini {
 
-    private static CtrlUsuari controladorUsuari_;
-    private static ControladorPartida controladorPartida_;
-    private static CtrlKenkens controladorKenkens_;
-    private static CtrlRanking controladorRanking_;
-    private static ControladorPersistencia controladorPersistencia_;
-    /**
-     * Constructor del controlador de domini.
-     */
-    public CtrlDomini() {
-        new ControladorPersistencia();
-        controladorPartida_ = new ControladorPartida();
-        controladorRanking_ = new CtrlRanking();
-        controladorKenkens_ = new CtrlKenkens(ControladorPersistencia.getControladorPersistenciaTauler());
-        controladorUsuari_ = new CtrlUsuari();
-        controladorPartida_.setControladorTauler(controladorKenkens_);
-        controladorPartida_.setControladorPersistenciaPartida(ControladorPersistencia.getControladorPersistenciaPartida());
+    private static CtrlDomini ctrlDomini;
+
+    /*
+    private static CtrlUsuari ctrlUsuari;
+    private static ControladorPartida ctrlPartida;
+    private static CtrlKenkens ctrlKenkens;
+    private static CtrlRanking ctrlRanking;
+    private static ControladorPersistencia ctrlPersistencia;
+    */
+
+
+    private CtrlDomini() {
+
         //AC = new CreadorKenkenManual();
     }
 
+    public static CtrlDomini getInstance() {
+        if (ctrlDomini == null) ctrlDomini = new CtrlDomini();
+        return ctrlDomini;
     }
+
+
+}

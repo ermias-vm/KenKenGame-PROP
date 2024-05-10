@@ -5,9 +5,9 @@ public class ControladorPersistencia {
     private static CtrlUsuariData controladorPersistenciaUsuari_;
     private static ControladorPersistenciaPartida controladorPersistenciaPartida_;
     public ControladorPersistencia() {
-        controladorPersistenciaTauler_ = new ControladorPersistenciaTauler();
-        controladorPersistenciaUsuari_ = new CtrlUsuariData();
-        controladorPersistenciaPartida_ = new ControladorPersistenciaPartida();
+        //controladorPersistenciaTauler_ = new ControladorPersistenciaTauler();
+        //controladorPersistenciaUsuari_ = new CtrlUsuariData();
+        //controladorPersistenciaPartida_ = new ControladorPersistenciaPartida();
     }
     public static ControladorPersistenciaTauler getControladorPersistenciaTauler() {
         return controladorPersistenciaTauler_;

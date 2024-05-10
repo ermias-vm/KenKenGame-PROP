@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class DriverAfegirTauler {
     public static void main(String[] args) {
         DriverAfegirTauler driverAfegirTauler = new DriverAfegirTauler();
-        ControladorPersistenciaTauler controladorPersistenciaTauler = new ControladorPersistenciaTauler();
+        ControladorPersistenciaTauler controladorPersistenciaTauler = ControladorPersistenciaTauler.getInstance();
         while (true){
             System.out.println("Enter a block of text (type 'END' to finish):");
             Scanner scanner = new Scanner(System.in);
