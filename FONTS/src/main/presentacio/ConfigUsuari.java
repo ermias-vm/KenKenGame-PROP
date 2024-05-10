@@ -1,4 +1,4 @@
 package main.presentacio;
 
-public class MenuPrincipal {
+public class ConfigUsuari {
 }

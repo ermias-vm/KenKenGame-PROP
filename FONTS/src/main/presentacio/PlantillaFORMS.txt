@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="main.presentacio.MenuPrincipal">
-
+DESPRES DE CREAR LA CARPETA DE LA VISTA , AMB EL  nomVista.java i nomVista.form, PODEUS SUBSTITUIR AQUEST TEXT en el nomVista.form (A la 4 linea, on posa grid id):
   <grid id="27dc6" binding="panelComplet" layout-manager="GridLayoutManager" row-count="3" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>

@@ -13,7 +13,7 @@ public class CtrlPresentacio {
     private Registrarse registrar;
     private MenuPrincipal menuPrincipal;
 
-    public CtrlPresentacio() {
+    private CtrlPresentacio() {
         CD = CtrlDomini.getInstance();
     }
     public static CtrlPresentacio getInstance() {
@@ -28,7 +28,6 @@ public class CtrlPresentacio {
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
         showIniciarSessio();
-        //showRegistrarse();
     }
 
     public void showIniciarSessio() {
@@ -51,10 +50,6 @@ public class CtrlPresentacio {
         //mainFrame.setContentPane(menuPrincipal.getDefaultPanel());
         mainFrame.setVisible(true);
     }
-
-
-
-
 
 }
 
