@@ -19,7 +19,7 @@ public interface Operacio {
      * @param b segon enter
      * @return el resultat de l'operació
      */
-    public int opera2(int a, int b) throws Exception;
+    public int opera2(int a, int b) throws ExcepcioDivisio_0, ExcepcioNoDivisor, ExcepcioValorInvalid;
     /**
      * Realitza una operació de n enters donats en un vector.
      *
