@@ -29,6 +29,7 @@ public class IniciarSessio {
 
     public IniciarSessio() {
         createUIComponents();
+
         buttonIniSessio.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -75,6 +76,7 @@ public class IniciarSessio {
     }
 
     private void createUIComponents() {
+
         try {
             ImageIcon imageIcon = new ImageIcon("resources/imatges/logoKenken.jpeg");
             Image image = imageIcon.getImage();

@@ -30,6 +30,7 @@ public class CtrlPresentacio {
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
         showIniciarSessio();
+        //showConfigUsuari();
     }
 
     public void showIniciarSessio() {
@@ -57,6 +58,11 @@ public class CtrlPresentacio {
         mainFrame.setTitle("Configuracio Usuari");
         mainFrame.setContentPane(configUsuari.getDefaultPanel());
         mainFrame.setVisible(true);
+    }
+
+    public void logout() {
+        CtrlUsuariUI.getInstance().tancarSessio();
+        showIniciarSessio();
     }
 
 }

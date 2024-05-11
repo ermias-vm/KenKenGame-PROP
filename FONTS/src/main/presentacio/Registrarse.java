@@ -3,8 +3,11 @@ package main.presentacio;
 
 import main.domini.excepcions.ExcepcioUsuariJaExisteix;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Registrarse {
 
@@ -15,7 +18,7 @@ public class Registrarse {
     private JLabel labelUsuari;
     private JLabel labelContrasenya;
     private JPasswordField passwordFieldContr;
-    private JButton buttonResistrar;
+    private JButton buttonRegistrar;
     private JButton buttonIniciarSessio;
     private JLabel lableComfContra;
     private JPasswordField passwordFieldConfContr;
@@ -27,7 +30,7 @@ public class Registrarse {
 
     public Registrarse() {
         createUIComponents();
-        buttonResistrar.addActionListener(new ActionListener() {
+        buttonRegistrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String usuari = textFieldUsuari.getText();
@@ -54,16 +57,34 @@ public class Registrarse {
                 }
             }
         });
+
         buttonIniciarSessio.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CtrlPresentacio.getInstance().showIniciarSessio();
             }
         });
-    }
 
+        passwordFieldConfContr.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    buttonRegistrar.doClick();
+                }
+            }
+        });
+    }
     private void createUIComponents() {
 
+        try {
+            ImageIcon imageIcon = new ImageIcon("resources/imatges/logoKenken.jpeg");
+            Image image = imageIcon.getImage();
+            Image scaledImage = image.getScaledInstance(800, 800, java.awt.Image.SCALE_SMOOTH);
+            labelLogo = new JLabel(new ImageIcon(scaledImage));
+        } catch (Exception e) {
+            System.out.println("Error al  carregar la imatge: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
     public JPanel getDefaultPanel() {
         return panelComplet;
