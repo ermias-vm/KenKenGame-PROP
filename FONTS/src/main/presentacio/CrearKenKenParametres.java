@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class CrearKenKenParametres extends JDialog {
-    private JTextField textGrau;
+    //private JTextField textGrau;
     private JButton Crea;
     private JButton Cancela;
     private JPanel PanelCreacio;
@@ -16,12 +16,13 @@ public class CrearKenKenParametres extends JDialog {
     private JCheckBox Modul;
     private JCheckBox Exponenciacio;
     private JLabel ImatgeKenKen;
+    private JComboBox ComboBoxGrau;
 
     public CrearKenKenParametres() {
         Crea.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int grau = Integer.parseInt(textGrau.getText());
+                int grau = Integer.parseInt("" + ComboBoxGrau.getSelectedItem());
                 boolean suma = Suma.isSelected();
                 boolean resta = Resta.isSelected();
                 boolean multiplicacio = Multiplicacio.isSelected();
@@ -51,7 +52,17 @@ public class CrearKenKenParametres extends JDialog {
     }
 
     private void crearKenKen(int grau, boolean suma, boolean resta, boolean multiplicacio, boolean divisio, boolean modul, boolean exponenciacio) {
-        // Cridar a CreadorKenkenParam.java
+
+        //Aixo treu error si no ha seleccionat cap operacio
+        if(!suma && !resta && !multiplicacio && !divisio && !modul && !exponenciacio){
+            JOptionPane.showMessageDialog(this,
+                    "Siusplau seleccionar minim una operacio",
+                    "Torna-ho a provar",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Aqui, tocara cridar a CreadorKenkenParam.java quan el codi estigui acabat
         System.out.println("Creando KenKen con los siguientes parámetros:");
         System.out.println("Grado: " + grau);
         System.out.println("Operaciones:");
