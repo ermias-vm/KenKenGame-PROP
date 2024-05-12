@@ -44,6 +44,7 @@ public class IniciarSessio {
                         CUui.iniciarSessio(usuari, contrasenya);
                         System.out.println("Sessio iniciada correctament: es mostrara menu principal....");
                         CtrlPresentacio.getInstance().showMenuPrincipal();
+                        //CtrlPresentacio.getInstance().showConfigUsuari();
 
                     } catch (ExcepcioUsuariNoExisteix ex) {
                         System.out.println("Usuari no existeix");

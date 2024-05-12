@@ -12,12 +12,14 @@ public class MenuPrincipal {
     private JLabel labelLogo;
     private JPanel panel2;
     private JButton configuracioUsuariButton;
-    private JButton crearKenkenButton;
+    private JButton crearKenkenManualButton;
     private JButton jugarButton;
     private JButton rankingButton;
+    private JButton crearKenkenAleatoriButton;
 
     public MenuPrincipal() {
         createUIComponents();
+
         configuracioUsuariButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -27,6 +29,7 @@ public class MenuPrincipal {
             }
         });
     }
+
     private void createUIComponents() {
 
         try {

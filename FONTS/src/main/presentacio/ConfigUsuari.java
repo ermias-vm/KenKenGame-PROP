@@ -116,6 +116,7 @@ public class ConfigUsuari {
                 String contraActual = new String(passwordFieldActual.getPassword());
                 String contraNova = new String(passwordFieldContr.getPassword());
                 String contraNovaConf = new String(passwordFieldConfContr.getPassword());
+                if (!errorLabel.getText().isEmpty()) errorLabel.setText("");
 
                 if (contraActual.isEmpty() || contraActual.equals("Contrasenya actual") || contraNova.isEmpty() || contraNova.equals("Nova contrasenya") || contraNovaConf.isEmpty() || contraNovaConf.equals("Comfirmar nova contrasenya")) {
                     System.out.println("Contrasenya actual i/o nova contrasenya no valida");
@@ -125,15 +126,19 @@ public class ConfigUsuari {
                     errorLabel.setText("<html>Contrasenyes no coincideixen.<br>Si us plau comproveu les dades.</html>");
                 } else {
                     try {
-                        CtrlUsuariUI.getInstance().canviarContrasenya(contraActual, contraNova);
-                        System.out.println("Contrasenya canviada correctament");
-                        errorLabel.setText("<html>CORRECTA, Afegir popUp Comfirmar.</html>");
+                        MissatgePopUp missatgePopUp = CtrlPresentacio.getInstance().showPopUp("<html>Estas segur que vols canviar<br>la contrasenya actual?</html>");
+                        if (!missatgePopUp.esCancelat()) {
+                            CtrlUsuariUI.getInstance().canviarContrasenya(contraActual, contraNova);
+                            System.out.println("Contrasenya canviada correctament");
+                        }
+                        else {
+                            System.out.println("Canvi de contrasenya cancelat");
+                        }
                     } catch (Exception ex) {
                         System.out.println("Contrasenya actual incorrecta");
                         errorLabel.setText("<html>Contrasenya actual incorrecta.<br>Si us plau comproveu la vostra contrasenya.</html>");
                     }
                 }
-
             }
         });
 

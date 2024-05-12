@@ -14,10 +14,12 @@ public class CtrlPresentacio {
     private MenuPrincipal menuPrincipal;
     private CrearKenKenParametres crearKenKenParametres;
     private ConfigUsuari configUsuari;
+    private MissatgePopUp missatgePopUp;
 
     private CtrlPresentacio() {
         CD = CtrlDomini.getInstance();
     }
+
     public static CtrlPresentacio getInstance() {
         if (CPre == null) CPre = new CtrlPresentacio();
         return CPre;
@@ -30,7 +32,6 @@ public class CtrlPresentacio {
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
         showIniciarSessio();
-        //showConfigUsuari();
     }
 
     public void showIniciarSessio() {
@@ -60,9 +61,15 @@ public class CtrlPresentacio {
         mainFrame.setVisible(true);
     }
 
-    public void logout() {
-        CtrlUsuariUI.getInstance().tancarSessio();
-        showIniciarSessio();
+    public MissatgePopUp showPopUp(String message) {
+        JDialog dialog = new JDialog(mainFrame, "Missatge Comfirmacio", true);
+        MissatgePopUp missatgePopUp = new MissatgePopUp(message, dialog);
+        dialog.setContentPane(missatgePopUp.getDefaultPanel());
+        dialog.setSize(375, 175);
+        dialog.setResizable(false);
+        dialog.setLocationRelativeTo(mainFrame);
+        dialog.setVisible(true);
+        return missatgePopUp;
     }
 
 }
