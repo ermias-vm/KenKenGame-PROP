@@ -132,10 +132,21 @@ public class ControladorPersistenciaPartida {
      * @param nomUsuari Nom de l'usuari del qual es volen carregar les partides.
      * @return Una llista de cadenes de text amb la informació de les partides acabades.
      */
-    public  ArrayList<ArrayList<String>> carregarPartidesAcabadesUsuari(String nomUsuari) {
+    public  static ArrayList<ArrayList<String>> carregarPartidesAcabadesUsuari(String nomUsuari) {
+        String[] fitxersPartidesAcabades_ =
+            {
+                    "Data/PartidesAcabadesGuardades.txt",
+                    "Data/PartidesAcabadesGrau3.txt", //  Grau 3 = fitxersPartidesAcabades_[1]
+                    "Data/PartidesAcabadesGrau4.txt", // Grau 4 = fitxersPartidesAcabades_[2]...
+                    "Data/PartidesAcabadesGrau5.txt",
+                    "Data/PartidesAcabadesGrau6.txt",
+                    "Data/PartidesAcabadesGrau7.txt",
+                    "Data/PartidesAcabadesGrau8.txt",
+                    "Data/PartidesAcabadesGrau9.txt"
+            }; 
         try {
             ArrayList<ArrayList<String>> partides = new ArrayList<ArrayList<String>>();
-            for (String partidesAcabades : this.fitxersPartidesAcabades_) {
+            for (String partidesAcabades : fitxersPartidesAcabades_) {
                 BufferedReader lector = new BufferedReader(new FileReader(partidesAcabades));
                 String linia;
                 while ((linia = lector.readLine()) != null) {
@@ -145,7 +156,7 @@ public class ControladorPersistenciaPartida {
                         for (int j = 0; j < 4; j++) {
                             partida.add(lector.readLine());
                         }
-                        if (partidesAcabades == this.fitxersPartidesAcabades_[0]) {
+                        if (partidesAcabades == fitxersPartidesAcabades_[0]) {
                             partida.add("true");;
                         }
                         else {
@@ -172,9 +183,20 @@ public class ControladorPersistenciaPartida {
      * @param grau Grau de les partides que es volen carregar.
      * @return Una llista de cadenes de text amb la informació de les partides acabades.
      */
-    public  ArrayList<ArrayList<String>> carregaPartidesAcabadesGrau(int grau) {
+    public static ArrayList<ArrayList<String>> carregaPartidesAcabadesGrau(int grau) {
+        String[] fitxersPartidesAcabades_ =
+            {
+                    "Data/PartidesAcabadesGuardades.txt",
+                    "Data/PartidesAcabadesGrau3.txt", //  Grau 3 = fitxersPartidesAcabades_[1]
+                    "Data/PartidesAcabadesGrau4.txt", // Grau 4 = fitxersPartidesAcabades_[2]...
+                    "Data/PartidesAcabadesGrau5.txt",
+                    "Data/PartidesAcabadesGrau6.txt",
+                    "Data/PartidesAcabadesGrau7.txt",
+                    "Data/PartidesAcabadesGrau8.txt",
+                    "Data/PartidesAcabadesGrau9.txt"
+            }; 
         try {
-            ArrayList<ArrayList<String>> partides = new ArrayList<ArrayList<String>>();            BufferedReader lector = new BufferedReader(new FileReader(this.fitxersPartidesAcabades_[grau-2]));
+            ArrayList<ArrayList<String>> partides = new ArrayList<ArrayList<String>>();            BufferedReader lector = new BufferedReader(new FileReader(fitxersPartidesAcabades_[grau-2]));
             String linia;
             while ((linia = lector.readLine()) != null) {
                 ArrayList<String> partida = new ArrayList<String>();
