@@ -3,28 +3,40 @@ package main.domini.classes;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class CreadorKenkenParam {
-    private int[][] solution;
-    private char[][] blockSolution;
-    private int size;
-    private int maxSize;
-    private int numMerges;
+    private int[][] solution; // Matriu que representa la solució del Kenken
+    private char[][] blockSolution; // Matriu que representa la solució dels blocs
+    private int size; // Mida del tauler
+    private int maxSize; // Mida màxima dels blocs
 
-    public CreadorKenkenParam(int size, int maxSize, int numMerges) {
+    /**
+     * Constructor de la classe CreadorKenkenParam.
+     *
+     * @param size    Mida del tauler.
+     * @param maxSize Mida màxima dels blocs.
+     */
+    public CreadorKenkenParam(int size, int maxSize) {
         this.size = size;
         this.maxSize = maxSize;
-        this.numMerges = numMerges;
         this.solution = new int[size][size];
         this.blockSolution = new char[size][size];
     }
 
+    /**
+     * Genera la solució del Kenken i el tauler de blocs fusionats.
+     */
     public void generateSolutionAndBoard() {
         generateSolution();
         generateBoard();
     }
 
+
+    //PART NUMEROS:
+
+    /**
+     * Genera la solució del Kenken (es a dir, els numeros del resultat).
+     */
     private void generateSolution() {
         List<Integer> numbers = generateNumberList();
 
@@ -38,6 +50,11 @@ public class CreadorKenkenParam {
         shuffleRowsAndColumns();
     }
 
+    /**
+     * Genera una llista de nombres consecutius.
+     *
+     * @return Llista de nombres consecutius.
+     */
     private List<Integer> generateNumberList() {
         Integer[] numbers = new Integer[size];
         for (int i = 0; i < size; i++) {
@@ -46,6 +63,9 @@ public class CreadorKenkenParam {
         return Arrays.asList(numbers);
     }
 
+    /**
+     * Barreja les files i columnes de la solució.
+     */
     private void shuffleRowsAndColumns() {
         List<int[]> rows = Arrays.asList(solution);
         Collections.shuffle(rows);
@@ -57,6 +77,9 @@ public class CreadorKenkenParam {
         solution = rows.toArray(new int[rows.size()][]);
     }
 
+    /**
+     * Transposa la matriu de solució.
+     */
     private void transposeSolution() {
         int[][] transposed = new int[size][size];
         for (int i = 0; i < size; i++) {
@@ -67,10 +90,13 @@ public class CreadorKenkenParam {
         solution = transposed;
     }
 
-    //PART BLOCS
 
+    // PART BLOCS (generacio de Regions):
+
+    /**
+     * Genera el tauler de blocs fusionats.
+     */
     private void generateBoard() {
-        Random rnd = new Random();
         Board board = new Board(size);
 
         List<Candidate> candidates = generateCandidates();
@@ -80,15 +106,18 @@ public class CreadorKenkenParam {
             Cell cell2 = board.grid[candidate.x2][candidate.y2].findRoot();
             if (cell1.size + cell2.size <= maxSize) {
                 cell1.merge(cell2);
-                if (--numMerges == 0) break;
             }
         }
 
         updateBlockSolution(board);
     }
 
+    /**
+     * Genera una llista de candidates per fusionar blocs.
+     *
+     * @return Llista de candidates per fusionar blocs.
+     */
     private List<Candidate> generateCandidates() {
-        Random rnd = new Random();
         List<Candidate> candidates = Arrays.asList(new Candidate[size * (size - 1) * 2]);
         int idx = 0;
         for (int x = 0; x < size; x++) {
@@ -105,21 +134,31 @@ public class CreadorKenkenParam {
         return candidates;
     }
 
+    /**
+     * Li posa la lletra a cada block/regio.
+     *
+     * @param board Tauler amb les cel·les fusionades.
+     */
     private void updateBlockSolution(Board board) {
-        char blockLetter = 'A';
+        char blockLetter = 'a';
         for (int x = 0; x < size; x++) {
             for (int y = 0; y < size; y++) {
                 Cell root = board.grid[x][y].findRoot();
                 if (blockSolution[root.x][root.y] == 0) {
                     blockSolution[root.x][root.y] = blockLetter++;
+                    if ((blockLetter - 1) == 'z') blockLetter = 'A';
                 }
                 blockSolution[x][y] = blockSolution[root.x][root.y];
             }
         }
     }
 
-    //IMPRESIONS PER TERMINAL
 
+    // IMPRESSIONS PER TERMINAL:
+
+    /**
+     * Imprimeix la solució del Kenken per la terminal.
+     */
     public void printSolution() {
         System.out.println("Número:");
         for (int i = 0; i < size; i++) {
@@ -130,6 +169,9 @@ public class CreadorKenkenParam {
         }
     }
 
+    /**
+     * Imprimeix la solució dels blocs per la terminal.
+     */
     public void printBlockSolution() {
         System.out.println("Bloques:");
         for (int i = 0; i < size; i++) {
@@ -140,12 +182,11 @@ public class CreadorKenkenParam {
         }
     }
 
-    //MAIN TEMPORAL PER ANAAR PROVANTEL CODI
+    // MAIN TEMPORAL PER ANAR PROVANTEL CODI
     public static void main(String[] args) {
-        int size = 4;
+        int size = 9;
         int maxSize = 3;
-        int numMerges = 5;
-        CreadorKenkenParam generator = new CreadorKenkenParam(size, maxSize, numMerges);
+        CreadorKenkenParam generator = new CreadorKenkenParam(size, maxSize);
         generator.generateSolutionAndBoard();
         generator.printSolution();
         generator.printBlockSolution();
@@ -155,6 +196,11 @@ public class CreadorKenkenParam {
 class Board {
     public Cell[][] grid;
 
+    /**
+     * Constructor de la classe Board.
+     *
+     * @param size Mida del tauler.
+     */
     public Board(int size) {
         grid = new Cell[size][size];
         for (int x = 0; x < size; x++) {
@@ -171,6 +217,12 @@ class Cell {
     public Cell parent;
     public int size;
 
+    /**
+     * Constructor de la classe Cell.
+     *
+     * @param x Coordenada x de la cel·la.
+     * @param y Coordenada y de la cel·la.
+     */
     public Cell(int x, int y) {
         this.x = x;
         this.y = y;
@@ -178,6 +230,11 @@ class Cell {
         this.size = 1;
     }
 
+    /**
+     * Fusiona 2 cel·les, es el proces de posar-ho a la mateixa regio.
+     *
+     * @param other Altra cel·la a fusionar.
+     */
     public void merge(Cell other) {
         Cell root1 = findRoot();
         Cell root2 = other.findRoot();
@@ -193,6 +250,11 @@ class Cell {
         root1.size += root2.size;
     }
 
+    /**
+     * Troba la cel·la parent.
+     *
+     * @return Cel·la arrel.
+     */
     public Cell findRoot() {
         if (parent == null) return this;
         Cell root = parent.findRoot();
@@ -207,6 +269,14 @@ class Candidate {
     public int x2;
     public int y2;
 
+    /**
+     * Constructor de la classe Candidate.
+     *
+     * @param x1 Coordenada x de la primera cel·la.
+     * @param y1 Coordenada y de la primera cel·la.
+     * @param x2 Coordenada x de la segona cel·la.
+     * @param y2 Coordenada y de la segona cel·la.
+     */
     public Candidate(int x1, int y1, int x2, int y2) {
         this.x1 = x1;
         this.y1 = y1;
