@@ -3,6 +3,7 @@ package main.domini.classes;
 import main.domini.excepcions.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 
 public class Tauler {
@@ -267,4 +268,42 @@ public class Tauler {
         return regionsIncorrectes;
     }
 
+    /**
+     * Per a cada posicio del tauler retorna un vector de Booleans amb 4 valors, top left bottom i right que és true si la casella de la posicio que indica pertany a la regió.
+     * @return Matriu de Booleans de mida grau x grau on cada posicio indica si les caselles del voltant pertanyen a la regió.
+     */
+    public ArrayList<Boolean>[][] getAdjacents() {
+        ArrayList<Boolean>[][] adjacents = new ArrayList[grau][grau];
+        for (int i = 0; i < grau; i++) {
+            for (int j = 0; j < grau; j++) {
+                adjacents[i][j] = new ArrayList<>(4);
+            }
+        }
+        for (Regio r: regions) {
+            int[][] posicionsCaselles = r.getPosicionsCaselles();
+            HashSet<Integer[]> casellesRegio = new HashSet<>();
+            for (int i = 0; i < posicionsCaselles.length; i++){
+                int x = posicionsCaselles[i][0];
+                int y = posicionsCaselles[i][1];
+                casellesRegio.add(new Integer[]{x, y});
+            }
+            for (int i = 0; i < posicionsCaselles.length; i++){
+                int x = posicionsCaselles[i][0];
+                int y = posicionsCaselles[i][1];
+                Integer[] top = new Integer[]{x, y-1};
+                if (!casellesRegio.contains(top)) adjacents[x-1][y-1].set(0, false);
+                else adjacents[x-1][y-1].set(0, true);
+                Integer[] left = new Integer[]{x-1, y};
+                if (!casellesRegio.contains(left)) adjacents[x-1][y-1].set(1, false);
+                else adjacents[x-1][y-1].set(1, true);
+                Integer[] bottom = new Integer[]{x, y+1};
+                if (!casellesRegio.contains(bottom)) adjacents[x-1][y-1].set(2, false);
+                else adjacents[x-1][y-1].set(2, true);
+                Integer[] right = new Integer[]{x+1, y};
+                if (!casellesRegio.contains(right)) adjacents[x-1][y-1].set(3, false);
+                else adjacents[x-1][y-1].set(3, true);
+            }
+        }
+        return adjacents;
+    }
 }

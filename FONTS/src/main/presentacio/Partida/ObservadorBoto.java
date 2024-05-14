@@ -14,19 +14,21 @@ public interface ObservadorBoto {
 
     void notificarSortir();
 
-    void introduirTaulerManualment();
+    void jugarIntroduirTaulerManualment();
 
-    void introduirIdentificadorTauler();
+    void jugarIntroduirIdentificadorTauler();
 
-    void partidaAleatoria();
+    void jugarPartidaAleatoria();
 
-    void ultimaPartidaGuardada();
+    void jugarUltimaPartidaGuardada();
 
-    void partidaGuardada();
+    void jugarPartidaGuardada();
 
     void tornar();
 
+    void tornarMenu();
+
     void carregaPartida(String buttonText);
 
-    void next10();
+    void notificarAcabar();
 }

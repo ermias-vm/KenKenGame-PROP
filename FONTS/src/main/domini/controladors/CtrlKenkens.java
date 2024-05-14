@@ -137,6 +137,14 @@ public class CtrlKenkens {
         }
         return null;
     }
+
+    public String seleccionaTaulerAleatori(int mida) {
+        return controladorPersistenciaTauler_.seleccionaTaulerAleatori(mida);
+    }
+
+    public String creaKenkenStub(int mida) {
+        return "";
+    }
     /*
     public void resoldreKenken(Tauler T) throws Exception {
         int grau = Integer.parseInt(idTauler.split("-")[1]);

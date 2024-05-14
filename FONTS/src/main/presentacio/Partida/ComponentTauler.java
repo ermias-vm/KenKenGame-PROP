@@ -37,4 +37,18 @@ public class ComponentTauler extends JPanel {
     public void addObserver(ObservadorCasella observer , int i, int j) {
         tauler[i][j].addObserver(observer);
     }
+
+    public void actualitzaValors(int[][] tauler) {
+        for (int i = 0; i < tauler.length; i++) {
+            for (int j = 0; j < tauler[0].length; j++) {
+                this.tauler[i][j].setValor(String.valueOf(tauler[i][j]));
+            }
+        }
+    }
+
+    public void actualitzaPosicionsIncorrectes(ArrayList<int[]> posicionsIncorrectes) {
+        for (int[] pos : posicionsIncorrectes) {
+            tauler[pos[0]][pos[1]].setIncorrecte(true);
+        }
+    }
 }

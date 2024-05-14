@@ -4,9 +4,11 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class VistaPartida extends JPanel{
+    private String identificadorUsuari_;
     private ComponentTauler componentTauler_;
     private MenuPartida menuPartida_;
-    VistaPartida(int mida, ArrayList<Boolean>[][] mapaAdjacents){
+    VistaPartida(int mida, ArrayList<Boolean>[][] mapaAdjacents, String identificadorUsuari){
+        identificadorUsuari_ = identificadorUsuari;
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         ComponentTauler componentTauler = new ComponentTauler(mida, mapaAdjacents);
@@ -28,10 +30,27 @@ public class VistaPartida extends JPanel{
         componentTauler_ = componentTauler;
         menuPartida_ = menuPartida;
     }
-    private void addObserverMenuPartida(ObservadorBoto observadorBoto){
+
+    public void mostrarMissatgeMenu(String missatge, boolean correctesa) {
+        menuPartida_.mostrarMissatge(missatge, correctesa);
+    }
+
+    public void addObserverMenuPartida(ObservadorBoto observadorBoto){
         menuPartida_.addObservadorBoto(observadorBoto);
     }
     public void addObserverCasella(ObservadorCasella observadorCasella, int i, int j){
         componentTauler_.addObserver(observadorCasella, i, j);
+    }
+
+    public void actualitzaValors(int[][] tauler){
+        componentTauler_.actualitzaValors(tauler);
+    }
+
+    public void actualitzaPosicionsIncorrectes(ArrayList<int[]> posicionsIncorrectes) {
+        componentTauler_.actualitzaPosicionsIncorrectes(posicionsIncorrectes);
+    }
+
+    public String getIdentificadorUsuari() {
+        return identificadorUsuari_;
     }
 }

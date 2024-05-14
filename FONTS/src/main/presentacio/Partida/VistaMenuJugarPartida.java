@@ -5,27 +5,28 @@ import java.util.ArrayList;
 
 public class VistaMenuJugarPartida extends JPanel {
     private ArrayList<ObservadorBoto> observadorsBoto_ = new ArrayList<>();
+    private String identificadorUsuari_;
     VistaMenuJugarPartida() {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         JButton introduirTaulerManualment = new JButton("Introduir Tauler Manualment");
         introduirTaulerManualment.addActionListener(e -> {
-            for (ObservadorBoto ob : observadorsBoto_) ob.introduirTaulerManualment();
+            for (ObservadorBoto ob : observadorsBoto_) ob.jugarIntroduirTaulerManualment();
         });
         JButton introduirIdentificadorTauler = new JButton("Introduir Identificador Tauler");
         introduirIdentificadorTauler.addActionListener(e -> {
-            for (ObservadorBoto ob : observadorsBoto_) ob.introduirIdentificadorTauler();
+            for (ObservadorBoto ob : observadorsBoto_) ob.jugarIntroduirIdentificadorTauler();
         });
         JButton partidaAleatoria = new JButton("Partida Aleatoria");
         partidaAleatoria.addActionListener(e -> {
-            for (ObservadorBoto ob : observadorsBoto_) ob.partidaAleatoria();
+            for (ObservadorBoto ob : observadorsBoto_) ob.jugarPartidaAleatoria();
         });
         JButton ultimaPartidaGuardada = new JButton("Ultima Partida Guardada");
         ultimaPartidaGuardada.addActionListener(e -> {
-            for (ObservadorBoto ob : observadorsBoto_) ob.ultimaPartidaGuardada();
+            for (ObservadorBoto ob : observadorsBoto_) ob.jugarUltimaPartidaGuardada();
         });
         JButton partidaGuardada = new JButton("Partida Guardada");
         partidaGuardada.addActionListener(e -> {
-            for (ObservadorBoto ob : observadorsBoto_) ob.partidaGuardada();
+            for (ObservadorBoto ob : observadorsBoto_) ob.jugarPartidaGuardada();
         });
         JButton tornar = new JButton("Tornar");
         tornar.addActionListener(e -> {
@@ -41,5 +42,9 @@ public class VistaMenuJugarPartida extends JPanel {
     }
     public void addObservadorBoto(ObservadorBoto ob) {
         observadorsBoto_.add(ob);
+    }
+
+    public String getUsuari() {
+        return identificadorUsuari_;
     }
 }
