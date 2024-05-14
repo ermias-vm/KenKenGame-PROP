@@ -72,6 +72,10 @@ public class CtrlPresentacio {
         return missatgePopUp;
     }
 
+    public void retornaMenuPrincipal() {
+        mainFrame.setContentPane(menuPrincipal.getDefaultPanel());
+        mainFrame.setVisible(true);
+    }
 }
 
 
