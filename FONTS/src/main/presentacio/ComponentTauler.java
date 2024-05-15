@@ -1,4 +1,4 @@
-package main.presentacio.Partida;
+package main.presentacio;
 
 import javax.swing.*;
 import javax.swing.border.Border;

@@ -1,4 +1,5 @@
-package main.presentacio.Partida;
+package main.presentacio;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import static main.presentacio.Partida.ControladorPresentacioPartida.COLOR_ERROR;
-import static main.presentacio.Partida.ControladorPresentacioPartida.COLOR_BE;
 
 public class ComponentCasella extends JPanel implements ActionListener, KeyListener{
     private JLabel valor_;

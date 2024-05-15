@@ -43,16 +43,7 @@ public class MenuPrincipal {
     }
 
     private void createUIComponents() {
-
-        try {
-            ImageIcon imageIcon = new ImageIcon("resources/imatges/fonsKenken.jpeg");
-            Image image = imageIcon.getImage();
-            Image scaledImage = image.getScaledInstance(800, 800, java.awt.Image.SCALE_SMOOTH);
-            labelLogo = new JLabel(new ImageIcon(scaledImage));
-        } catch (Exception e) {
-            System.out.println("Error al  carregar la imatge: " + e.getMessage());
-            e.printStackTrace();
-        }
+        labelLogo = new JLabel(Utils.carregarImatge("resources/imatges/fonsKenken.jpeg", 800, 800));
     }
 
     public JPanel getDefaultPanel() {

@@ -1,5 +1,7 @@
 package main.presentacio.Partida;
 
+import main.presentacio.ObservadorBoto;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import static main.presentacio.Partida.ControladorPresentacioPartida.COLOR_ERROR;
-import static main.presentacio.Partida.ControladorPresentacioPartida.COLOR_BE;
 
 public class MenuPartida extends JPanel {
     private JLabel missatge_;

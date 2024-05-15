@@ -3,13 +3,15 @@ package main.presentacio.Partida;
 import main.domini.controladors.ControladorPartida;
 import main.domini.excepcions.*;
 import main.presentacio.CtrlPresentacio;
+import main.presentacio.ObservadorBoto;
+import main.presentacio.ObservadorCasella;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class ControladorPresentacioPartida implements ObservadorCasella, ObservadorBoto{
+public class ControladorPresentacioPartida implements ObservadorCasella, ObservadorBoto {
     public static String COLOR_ERROR = "243, 67, 65";
     public static String COLOR_BE = "40, 250, 85";
     private static ControladorPartida controladorPartida_;

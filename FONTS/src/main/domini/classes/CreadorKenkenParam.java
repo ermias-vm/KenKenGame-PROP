@@ -185,7 +185,7 @@ public class CreadorKenkenParam {
     // MAIN TEMPORAL PER ANAR PROVANTEL CODI
     public static void main(String[] args) {
         int size = 9;
-        int maxSize = 3;
+        int maxSize = 6;
         CreadorKenkenParam generator = new CreadorKenkenParam(size, maxSize);
         generator.generateSolutionAndBoard();
         generator.printSolution();
