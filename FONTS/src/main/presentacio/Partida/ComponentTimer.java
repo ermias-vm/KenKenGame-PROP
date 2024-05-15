@@ -4,15 +4,27 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * ComponentTimer és la classe que representa un temporitzador en la interfície gràfica.
+ */
 public class ComponentTimer extends JPanel {
+    /**
+     * {@code seconds_} és el temps en segons del temporitzador.
+     */
     private int seconds_ = 0;
+    /**
+     * {@code timerLabel} és el JLabel que conté el temps del temporitzador.
+     */
     private JLabel timerLabel;
 
+    /**
+     * Creadora de la classe ComponentTimer.
+     * @param seconds Segons inicials del temporitzador.
+     */
     public ComponentTimer(int seconds) {
         this.seconds_ = seconds;
         timerLabel = new JLabel();
         this.add(timerLabel);
-
         Timer timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

@@ -25,6 +25,14 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
     public void setControladorPartida(ControladorPartida controladorPartida) {
         controladorPartida_ = controladorPartida;
     }
+    public void inicialitzaMenuJugarPartida(String usuari) {
+        vistaMenuJugarPartida_ = new VistaMenuJugarPartida();
+        vistaMenuJugarPartida_.setUsuari(usuari);
+        vistaMenuJugarPartida_.addObservadorBoto(this);
+        mainFrame_.setContentPane(vistaMenuJugarPartida_);
+        mainFrame_.revalidate();
+        mainFrame_.repaint();
+    }
     @Override
     public void notificarCanviValor(String valor, int fila, int columna) {
         try{
@@ -165,7 +173,14 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
     public void jugarPartidaAleatoria() {
         int midaTauler;
         do{
-            midaTauler = Integer.parseInt(JOptionPane.showInputDialog(mainFrame_, "Introdueix la mida del tauler que vols jugar"));
+            String midaTaulerDeciso = JOptionPane.showInputDialog(mainFrame_, "Introdueix la mida del tauler que vols jugar");
+            if (midaTaulerDeciso == null) return;
+            try {
+                midaTauler = Integer.parseInt(midaTaulerDeciso);
+            }
+            catch (NumberFormatException e) {
+                return;
+            }
             if (midaTauler > 9 || midaTauler < 3) {
                 JOptionPane.showMessageDialog(mainFrame_, "La mida del tauler ha de ser entre 3 i 9", "Error", JOptionPane.ERROR_MESSAGE);
             }

@@ -10,19 +10,62 @@ import java.util.ArrayList;
 
 import static main.presentacio.Partida.ControladorPresentacioPartida.COLOR_ERROR;
 
+/**
+ * {code MenuPartida} és un panell que conté els botons i el rellotge de la partida.
+ */
 public class MenuPartida extends JPanel {
+    /**
+     * {code missatge_} és un missatge que es mostra a l'usuari en situacions concretes.
+     */
     private JLabel missatge_;
+    /**
+     * {code timer_} és el rellotge de la partida. {@link ComponentTimer}
+     */
     private ComponentTimer timer_;
+    /**
+     * {code undoBoto_} és el botó per desfer l'última jugada.
+     */
     private JButton undoBoto_;
+    /**
+     * {code redoBoto_} és el botó per refer l'última jugada.
+     */
     private JButton redoBoto_;
+    /**
+     * {code pistaBoto_} és el botó per demanar una pista.
+     */
     private  JButton pistaBoto_;
+    /**
+     * {code pistaAvisat_} és un booleà que indica si s'ha avisat a l'usuari que si demana una pista no podrà participar en els rankings.
+     */
     private boolean pistaAvisat_ = false;
+    /**
+     * {code acabaBoto_} és el botó per acabar la partida.
+     */
     private JButton acabaBoto_;
+    /**
+     * {code guardaBoto_} és el botó per guardar la partida.
+     */
     private JButton guardaBoto_;
+    /**
+     * {code guardatAvisat_} és un booleà que indica si s'ha avisat a l'usuari que si guarda la partida no podrà participar en els rankings.
+     */
     private boolean guardatAvisat_ = false;
+    /**
+     * {code tancaIguardaBoto_} és el botó per tancar la partida i guardar-la.
+     */
     private JButton tancaIguardaBoto_;
+    /**
+     * {code sortirBoto_} és el botó per sortir de la partida en qualsevol moment.
+     */
     private JButton sortirBoto_;
+    /**
+     * {code observadorsBoto_} és una llista d'observadors que estan pendents dels esdeveniments dels botons.
+     */
     private ArrayList<ObservadorBoto> observadorsBoto_ = new ArrayList<>();
+
+    /**
+     * Creadora de la classe. Crea cada component del panell i els afegeix al panell.
+     */
     public MenuPartida() {
 
         this.setLayout(new BorderLayout());
@@ -108,10 +151,21 @@ public class MenuPartida extends JPanel {
         this.add(panellCentral, BorderLayout.CENTER);
         this.add(panellInferior, BorderLayout.SOUTH);
     }
+
+    /**
+     * Afegeix un observador a la llista d'observadors.
+     * @param observer Observador a afegir.
+     */
     public void addObservadorBoto(ObservadorBoto observer) {
         observadorsBoto_.add(observer);
     }
 
+    /**
+     * Mostra un missatge a l'usuari. Si el missatge és "dolent" es mostrarà en vermell, si és "bo" es mostrarà en verd.
+     * Després d'1,5 segons el missatge desapareixerà.
+     * @param missatge Missatge a mostrar.
+     * @param bo Booleà que indica si el missatge és "dolent" o "bó".
+     */
     public void mostrarMissatge(String missatge, boolean bo) {
         if (bo) {
             missatge_.setForeground(Color.GREEN);
