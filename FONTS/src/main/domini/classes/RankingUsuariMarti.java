@@ -1,9 +1,9 @@
+/*
 package main.domini.classes;
-import main.domini.excepcions.*;
 import main.domini.controladors.CtrlRanking;
 import java.util.*;
 
-public class RankingUsuari extends Ranking {
+public class RankingUsuariMarti extends RankingMarti {
 	private String usuari;
 	private int jocsResolts;
 	private Map<String,Double> bestTime;
@@ -29,7 +29,7 @@ public class RankingUsuari extends Ranking {
 		}
 	}
 	
-	public RankingUsuari(String usuari){
+	public RankingUsuariMarti(String usuari){
 		this.usuari = usuari;
 		System.out.println("Carregant informació...");
 		CtrlRanking.carregarpersonal(this,usuari);
@@ -54,3 +54,4 @@ public class RankingUsuari extends Ranking {
 		return bestTime.get(dif);
 	}
 }
+*/

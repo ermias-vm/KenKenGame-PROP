@@ -1,10 +1,10 @@
+/*
 package main.domini.classes;
-import main.domini.excepcions.*;
 import main.domini.controladors.CtrlRanking;
 
 import java.util.*;
 
-public class RankingPerMida extends Ranking{
+public class RankingPerMidaMarti extends RankingMarti {
 	private int nEntrades; //Nombre d'entrades
 	private static ArrayList<PackInfo> tempsJugador; //ArrayList de PackInfo<Jugador,Temps>
 
@@ -15,8 +15,8 @@ public class RankingPerMida extends Ranking{
             }
         }
 
-        public RankingPerMida (int d, int nEntrades) {
-            RankingPerMida.tempsJugador = new ArrayList<PackInfo>();
+        public RankingPerMidaMarti(int d, int nEntrades) {
+            RankingPerMidaMarti.tempsJugador = new ArrayList<PackInfo>();
             this.nEntrades=nEntrades;
             CtrlRanking.carregartipus(this,d);
             for (int j=0; j<Informacio.size(); j++){ //Per cada linia d'info
@@ -28,7 +28,7 @@ public class RankingPerMida extends Ranking{
                 aux.setTemps(time);
                 aux.setUser(user); //Ho coloquem a la PackInfo
                 aux.setId(id);
-                RankingPerMida.tempsJugador.add(aux); //Ho afegim a ArrayList
+                RankingPerMidaMarti.tempsJugador.add(aux); //Ho afegim a ArrayList
             }
             Collections.sort(tempsJugador, new CustomComparator()); //Ordenem ArrayList
         }
@@ -46,4 +46,4 @@ public class RankingPerMida extends Ranking{
         }
 }
 
-
+*/
