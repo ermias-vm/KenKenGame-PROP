@@ -29,6 +29,7 @@ public class Registrarse {
     private CtrlUsuariUI CUui = CtrlUsuariUI.getInstance();
 
     public Registrarse() {
+        System.out.println("Entrant a la pantalla de registrar-se");
         createUIComponents();
         buttonRegistrar.addActionListener(new ActionListener() {
             @Override
@@ -46,7 +47,8 @@ public class Registrarse {
                 else {
                     try {
                         CUui.registrarUsuari(usuari, contrasenya);
-                        System.out.println("Usuari registrat correctament: es mostrara menu principal....");
+                        System.out.println("Usuari registrat correctament");
+                        System.out.println("Sortint de registrar usuari ");
                         CtrlPresentacio.getInstance().showMenuPrincipal();
                     } catch (ExcepcioUsuariJaExisteix ex) {
                         System.out.println("Usuari ja existeix");
@@ -61,6 +63,7 @@ public class Registrarse {
         buttonIniciarSessio.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println("Sortint de registrar-se");
                 CtrlPresentacio.getInstance().showIniciarSessio();
             }
         });
@@ -77,7 +80,7 @@ public class Registrarse {
     private void createUIComponents() {
 
         try {
-            ImageIcon imageIcon = new ImageIcon("resources/imatges/logoKenken.jpeg");
+            ImageIcon imageIcon = new ImageIcon("resources/imatges/fonsKenken.jpeg");
             Image image = imageIcon.getImage();
             Image scaledImage = image.getScaledInstance(800, 800, java.awt.Image.SCALE_SMOOTH);
             labelLogo = new JLabel(new ImageIcon(scaledImage));

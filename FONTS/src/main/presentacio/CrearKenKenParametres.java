@@ -19,6 +19,7 @@ public class CrearKenKenParametres extends JDialog {
     private JComboBox ComboBoxGrau;
 
     public CrearKenKenParametres() {
+        System.out.println("Entrant a la pantalla de generar kenken");
         Crea.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -37,8 +38,8 @@ public class CrearKenKenParametres extends JDialog {
         Cancela.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Has de canviar-ho a tornar al menu anterior
-                System.exit(0);
+                System.out.println("Sortint de generar kenken");
+                CtrlPresentacio.getInstance().showMenuPrincipal();
             }
         });
     }
@@ -77,5 +78,8 @@ public class CrearKenKenParametres extends JDialog {
     private void createUIComponents() {
         // TODO: place custom component creation code here
         ImatgeKenKen = new JLabel(new ImageIcon("resources/imatges/cuadricula.png"));
+    }
+    public JPanel getDefaultPanel() {
+        return PanelCreacio;
     }
 }

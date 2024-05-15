@@ -21,8 +21,9 @@ public class ConfigUsuari {
 
 
     public ConfigUsuari() {
-
+        System.out.println("Entrant a la pantalla de configuracio d'usuari");
         createUIComponents();
+
         passwordFieldActual.setEchoChar((char) 0);
         passwordFieldContr.setEchoChar((char) 0);
         passwordFieldConfContr.setEchoChar((char) 0);
@@ -147,7 +148,6 @@ public class ConfigUsuari {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Tancant sessio");
-                System.out.println("Falta Afegir popUp Comfirmacr tancar sessio");
                 CtrlUsuariUI.getInstance().tancarSessio();
                 CtrlPresentacio.getInstance().showIniciarSessio();
 

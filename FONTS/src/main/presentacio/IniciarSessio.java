@@ -28,6 +28,7 @@ public class IniciarSessio {
     private CtrlUsuariUI CUui = CtrlUsuariUI.getInstance();
 
     public IniciarSessio() {
+        System.out.println("Entrant a la pantalla d'iniciar sessio");
         createUIComponents();
 
         buttonIniSessio.addActionListener(new ActionListener() {
@@ -42,7 +43,8 @@ public class IniciarSessio {
                 } else {
                     try {
                         CUui.iniciarSessio(usuari, contrasenya);
-                        System.out.println("Sessio iniciada correctament: es mostrara menu principal....");
+                        System.out.println("Sessio iniciada correctament");
+                        System.out.println("Sortint de iniciar sessio");
                         CtrlPresentacio.getInstance().showMenuPrincipal();
                         //CtrlPresentacio.getInstance().showConfigUsuari();
 
@@ -71,6 +73,7 @@ public class IniciarSessio {
         buttonCrearCompte.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println("Sortint de iniciar sessio");
                 CtrlPresentacio.getInstance().showRegistrarse();
             }
         });
@@ -79,7 +82,7 @@ public class IniciarSessio {
     private void createUIComponents() {
 
         try {
-            ImageIcon imageIcon = new ImageIcon("resources/imatges/logoKenken.jpeg");
+            ImageIcon imageIcon = new ImageIcon("resources/imatges/fonsKenken.jpeg");
             Image image = imageIcon.getImage();
             Image scaledImage = image.getScaledInstance(800, 800, java.awt.Image.SCALE_SMOOTH);
             labelLogo = new JLabel(new ImageIcon(scaledImage));

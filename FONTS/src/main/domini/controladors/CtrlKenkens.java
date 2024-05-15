@@ -11,6 +11,8 @@ import main.persistencia.ControladorPersistenciaTauler;
 
 import java.util.ArrayList;
 
+import static main.persistencia.ControladorPersistencia.controladorPersistenciaTauler_;
+
 
 public class CtrlKenkens {
     private static ControladorPersistenciaTauler ctrlTaulerData;

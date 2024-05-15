@@ -1,7 +1,7 @@
 package main.persistencia;
 
 public class ControladorPersistencia {
-    private static ControladorPersistenciaTauler controladorPersistenciaTauler_;
+    public static ControladorPersistenciaTauler controladorPersistenciaTauler_;
     private static CtrlUsuariData controladorPersistenciaUsuari_;
     private static ControladorPersistenciaPartida controladorPersistenciaPartida_;
     public ControladorPersistencia() {

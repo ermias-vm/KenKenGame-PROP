@@ -12,7 +12,8 @@ public class CtrlPresentacio {
     private IniciarSessio iniSessio;
     private Registrarse registrar;
     private MenuPrincipal menuPrincipal;
-    private CrearKenKenParametres crearKenKenParametres;
+    private CrearKenKenParametres generarKenken;
+    private CrearKenkenManual crearKenken;
     private ConfigUsuari configUsuari;
     private MissatgePopUp missatgePopUp;
 
@@ -58,6 +59,18 @@ public class CtrlPresentacio {
         configUsuari = new ConfigUsuari();
         mainFrame.setTitle("Configuracio Usuari");
         mainFrame.setContentPane(configUsuari.getDefaultPanel());
+        mainFrame.setVisible(true);
+    }
+    public void showGenerarKenKen() {
+        generarKenken = new CrearKenKenParametres();
+        mainFrame.setTitle("Generador Kenken");
+        mainFrame.setContentPane(generarKenken.getDefaultPanel());
+        mainFrame.setVisible(true);
+    }
+    public void showCrearKenKen() {
+        crearKenken= new CrearKenkenManual();
+        mainFrame.setTitle("Creador Kenken");
+        mainFrame.setContentPane(crearKenken.getDefaultPanel());
         mainFrame.setVisible(true);
     }
 

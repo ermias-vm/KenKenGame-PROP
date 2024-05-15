@@ -18,6 +18,7 @@ public class MissatgePopUp {
     private boolean esCancelat;
 
     public MissatgePopUp(String msgComfirmacio, JDialog dialog) {
+        System.out.println("Emergeix pop up de confirmacio");
         this.dialog = dialog;
         msgConfirmLabel.setText(msgComfirmacio);
         acceptarButton.addActionListener(new ActionListener() {

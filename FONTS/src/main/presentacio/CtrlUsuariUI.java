@@ -37,7 +37,7 @@ public class CtrlUsuariUI {
         return CU.getUsuariActual();
     }
 
-    ///poser cridar desde CtrlPresentacio
+
     public void tancarSessio() {
         CU.tancarSessio();
     }

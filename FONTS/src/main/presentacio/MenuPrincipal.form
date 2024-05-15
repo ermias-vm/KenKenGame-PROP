@@ -82,7 +82,7 @@
             <properties>
               <font size="20" style="1"/>
               <horizontalTextPosition value="0"/>
-              <text value="Crear Kenken Aleatori"/>
+              <text value="Generar Kenken"/>
             </properties>
           </component>
           <component id="b0f60" class="javax.swing.JButton" binding="crearKenkenManualButton">
@@ -92,7 +92,7 @@
             <properties>
               <font size="20" style="1"/>
               <horizontalTextPosition value="0"/>
-              <text value="Crear Kenken Manual"/>
+              <text value="Crear Kenken "/>
             </properties>
           </component>
           <component id="8081f" class="javax.swing.JButton" binding="jugarButton">

@@ -18,14 +18,26 @@ public class MenuPrincipal {
     private JButton crearKenkenAleatoriButton;
 
     public MenuPrincipal() {
+        System.out.println("Entrant a la pantalla menu principal");
         createUIComponents();
 
         configuracioUsuariButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Entrant configuracio usuari");
                 CtrlPresentacio.getInstance().showConfigUsuari();
 
+            }
+        });
+        crearKenkenManualButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CtrlPresentacio.getInstance().showCrearKenKen();
+            }
+        });
+        crearKenkenAleatoriButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CtrlPresentacio.getInstance().showGenerarKenKen();
             }
         });
     }
@@ -33,7 +45,7 @@ public class MenuPrincipal {
     private void createUIComponents() {
 
         try {
-            ImageIcon imageIcon = new ImageIcon("resources/imatges/logoKenken.jpeg");
+            ImageIcon imageIcon = new ImageIcon("resources/imatges/fonsKenken.jpeg");
             Image image = imageIcon.getImage();
             Image scaledImage = image.getScaledInstance(800, 800, java.awt.Image.SCALE_SMOOTH);
             labelLogo = new JLabel(new ImageIcon(scaledImage));
