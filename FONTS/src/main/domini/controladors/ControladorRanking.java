@@ -10,13 +10,20 @@ public class ControladorRanking {
     private final int midaMax_ = 9;
     private Ranking[] rankingPerMida_;
     private ControladorPersistenciaPartida controladorPersistenciaPartida_;
-    public ControladorRanking(ControladorPersistenciaPartida controladorPersistenciaPartida) {
+    private static ControladorRanking controladorRanking_;
+    private ControladorRanking(){
         rankingPerMida_ = new Ranking[midaMax_ - midaMin_ + 1];
         for (int i = 0; i < midaMax_ - midaMin_ + 1; ++i) {
             rankingPerMida_[i] = new Ranking();
         }
-        controladorPersistenciaPartida_ = controladorPersistenciaPartida;
+        controladorPersistenciaPartida_ = ControladorPersistenciaPartida.getInstance();
         inicialitzarRanking();
+    }
+    public static ControladorRanking getInstance() {
+        if (controladorRanking_ == null) {
+            controladorRanking_ = new ControladorRanking();
+        }
+        return controladorRanking_;
     }
     public boolean afegirPartida(String partidaAcabada) {
         String[] parts = partidaAcabada.split("\n");

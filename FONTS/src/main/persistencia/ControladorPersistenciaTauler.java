@@ -5,11 +5,19 @@ import java.io.*;
 import java.util.HashMap;
 
 public class ControladorPersistenciaTauler {
-
+    /**
+     * Instància del controlador de persistència de taulers.
+     */
     private static ControladorPersistenciaTauler ctrTaulerData;
-
+    /**
+     * Constructora de la classe.
+     */
     private ControladorPersistenciaTauler() {
     }
+    /**
+     * Retorna la instància del controlador de persistència de taulers.
+     * @return Instància del controlador de persistència de taulers.
+     */
     public static ControladorPersistenciaTauler getInstance() {
         if (ctrTaulerData== null) ctrTaulerData= new ControladorPersistenciaTauler();
         return ctrTaulerData;

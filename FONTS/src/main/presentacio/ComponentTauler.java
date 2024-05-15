@@ -22,14 +22,14 @@ public class ComponentTauler extends JPanel {
      * @param mida Mida del tauler
      * @param mapaAdjacents Matriu de booleans que indica si les caselles de dalt, esquerra, baix i dreta són de la mateixa regió.
      */
-    public ComponentTauler(int mida,ArrayList<Boolean>[][] mapaAdjacents) {
+    public ComponentTauler(int mida,ArrayList<Boolean>[][] mapaAdjacents, int[][] valorsTauler) {
         super(new GridLayout(mida, mida));
         Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
         this.setBorder(border);
         tauler = new ComponentCasella[mida][mida];
         for (int i = 0; i < mida; i++) {
             for (int j = 0; j < mida; j++) {
-                tauler[i][j] = new ComponentCasella(mida, i, j);
+                tauler[i][j] = new ComponentCasella(mida, i, j, valorsTauler[i][j]);
                 this.add(tauler[i][j]);
             }
         }

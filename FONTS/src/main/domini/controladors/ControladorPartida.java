@@ -4,6 +4,8 @@ import main.domini.classes.Regio;
 import main.domini.excepcions.*;
 import main.persistencia.ControladorPersistenciaPartida;
 import main.domini.classes.Tauler;
+import main.persistencia.ControladorPersistenciaTauler;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
@@ -52,11 +54,26 @@ public class ControladorPartida {
      */
     private CtrlKenkens controladorTauler_;
     /**
+     * Instància del controlador de partida.
+     */
+    private static ControladorPartida controladorPartida_;
+    /**
      * Constructora per defecte.
      */
-    public ControladorPartida() {
-        partida_ = null;
+    private ControladorPartida() {
+        controladorTauler_ = CtrlKenkens.getInstance();
+        controladorPersistenciaPartida_ = ControladorPersistenciaPartida.getInstance();
         partidesGuardadesUsuari_ = new HashMap<>();
+        partida_ = null;
+    }
+
+    /**
+     * Getter de la instància del controlador de partida.
+     * @return Retorna la instància del controlador de partida.
+     */
+    public static ControladorPartida getInstance() {
+        if (controladorPartida_ == null) controladorPartida_ = new ControladorPartida();
+        return new ControladorPartida();
     }
     /**
      * Setter del controlador de taulers.
@@ -84,7 +101,9 @@ public class ControladorPartida {
     public String[] getPartidesGuardadesUsuari() {
         return partidesGuardadesUsuari_.keySet().toArray(new String[0]);
     }
-
+    public int[][] getValorsPartida(){
+        return partida_.getValorsPartida();
+    }
     /**
      * Indica si hi ha cap existència en memòria d'una partida guardada amb l'identificador del tauler donat per aquell usuari.
      * @param identificadorTauler Identificador del tauler.

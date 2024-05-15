@@ -4,7 +4,7 @@ import main.domini.controladors.ControladorPartida;
 import main.persistencia.ControladorPersistenciaPartida;
 
 import javax.swing.*;
-
+/*
 public class DriverPresentacioPartida {
     public static void main(String[] args) {
             String usuari = "usuari";
@@ -20,3 +20,4 @@ public class DriverPresentacioPartida {
             controladorPresentacioPartida.inicialitzaMenuJugarPartida(usuari);
     }
 }
+*/

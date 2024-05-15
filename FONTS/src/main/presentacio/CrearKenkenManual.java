@@ -65,7 +65,7 @@ public class CrearKenkenManual {
             }
         }
 
-        tauler = new ComponentTauler(size, mapaAdjacents);
+        tauler = new ComponentTauler(size, mapaAdjacents, new int[size][size]);
         ObservadorDeCasella observador = new ObservadorDeCasella();
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {

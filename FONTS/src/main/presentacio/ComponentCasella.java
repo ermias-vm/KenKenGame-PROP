@@ -61,7 +61,7 @@ public class ComponentCasella extends JPanel implements ActionListener, KeyListe
      * @param fila Fila de la casella
      * @param columna Columna de la casella
      */
-    public ComponentCasella(int mida, int fila, int columna) {
+    public ComponentCasella(int mida, int fila, int columna, int valor) {
        this.setLayout(null);
         mida_ = mida;
         fila_ = fila;
@@ -74,6 +74,7 @@ public class ComponentCasella extends JPanel implements ActionListener, KeyListe
         operacio_.setBounds(0, 0, 25, 25);
         boto_.setBounds(0, 0, 100, 100);
         pintaBoto();
+        setValor(String.valueOf(valor));
         boto_.addActionListener(this);
         this.addKeyListener(this);
         this.setFocusable(true);

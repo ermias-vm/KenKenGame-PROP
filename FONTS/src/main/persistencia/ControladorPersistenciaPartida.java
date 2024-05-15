@@ -36,6 +36,25 @@ public class ControladorPersistenciaPartida {
                     "data/partides/PartidesAcabadesMida9.txt"
             };      // Mida n = fitxersPartidesAcabades_[n-2]
     /**
+     * Instància única de la classe.
+     */
+    private static ControladorPersistenciaPartida controladorPersistenciaPartida_;
+    /**
+     * Constructor per defecte.
+     */
+    private ControladorPersistenciaPartida() {
+    }
+    /**
+     * Retorna la instància única de la classe.
+     * @return Instància única de la classe.
+     */
+    public static ControladorPersistenciaPartida getInstance() {
+        if (controladorPersistenciaPartida_ == null) {
+            controladorPersistenciaPartida_ = new ControladorPersistenciaPartida();
+        }
+        return controladorPersistenciaPartida_;
+    }
+    /**
      * Carrega l'última partida guardada per un usuari. L'usuari existeix.
      * La informació de la partida guardada es troba al fitxer "data/partides/PartidesGuardades.txt" i està ordenada per última guardada.<br>
      * Utilitza el format descrit a {@link main.domini.classes.Partida#guardaPartida()} per a llegir les dades de la partida de memòria.<br>
