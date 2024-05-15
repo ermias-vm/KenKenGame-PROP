@@ -109,13 +109,13 @@ public class CtrlKenkens {
         }
         System.out.println();
     }
-    /*
-    public void pintarTauler(String idTauler, String grau) throws Exception {
-        T = CK.llegirTauler(idTauler);
-        System.out.println("Contingut del Tauler " + idTauler + " de grau " + grau + ":");
-        CK.mostrarTauler(T);
+
+    public void pintarTauler(String idTauler) throws Exception {
+         Tauler T = llegirTauler(idTauler);
+        System.out.println("Contingut del Tauler " + idTauler + ":");
+        mostrarTauler(T);
     }
-    */
+
     public int[][] resoldreKenken(Tauler T, int[][] valorsPartida) throws ExcepcioCasellaNoExisteix, ExcepcioNoDivisor, ExcepcioValorInvalid, ExcepcioMoltsValors, ExcepcioDivisio_0 {
         for (int i = 0; i < valorsPartida.length; i++) {
             for (int j = 0; j < valorsPartida[i].length; j++) {
@@ -140,6 +140,7 @@ public class CtrlKenkens {
         return null;
     }
 
+
     public String seleccionaTaulerAleatori(int mida) {
         return controladorPersistenciaTauler_.seleccionaTaulerAleatori(mida);
     }
@@ -147,8 +148,8 @@ public class CtrlKenkens {
     public String creaKenkenStub(int mida) {
         return "";
     }
-    /*
-    public void resoldreKenken(Tauler T) throws Exception {
+
+    public void resoldreKenken(String idTauler) throws Exception {
         int grau = Integer.parseInt(idTauler.split("-")[1]);
         Tauler T = llegirTauler(idTauler);
         System.out.println("Contingut del Tauler " + idTauler + " de grau " + grau + ":");
@@ -156,12 +157,12 @@ public class CtrlKenkens {
         AS.solucionarKenken(T);
         if (T.teSolucio()) {
             System.out.println("Tauler resolt:");
-            CK.mostrarTauler(T);
+            mostrarTauler(T);
         }
         else {
             System.out.println("El tauler no té solució."+ "\n");
-            CK.mostrarTauler(T);
+            mostrarTauler(T);
         }
     }
-    */
+
 }

@@ -11,53 +11,37 @@ import java.util.Scanner;
  * @author Ermias Valls Mayor
  */
 public class DriverKenken {
-    /**
-     * Controlador de domini que es farà servir per interactuar amb la classe Kenken.
-     */
-    private static CtrlKenkens CK = CtrlKenkens.getInstance();
-
-
 
     /**
      * Mètode principal del driver.
      * Aquest mètode permet a l'usuari interactuar amb la classe Kenken a través de la línia de comandes.
      */
-    /*
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
-        int opcio, idTauler;
-        String grau;
+        int opcio;
+        String idTauler;
 
         do {
             System.out.println("MENÚ:");
-            System.out.println("1. Crear/Validar");
-            System.out.println("2. Resoldre");
-            System.out.println("3. Generar Automàticament");
-            System.out.println("4. Mostrar Tauler");
+            System.out.println("1. Resoldre");
+            System.out.println("2. Mostrar Tauler");
             System.out.println("0. Sortir");
             opcio = scanner.nextInt();
 
             switch (opcio) {
                 case 1:
-                    System.out.println("Pendent a implementar");
-                    break;
-                case 2:
-                    grau = obtenirGrau(scanner);
+
+                    idTauler= obtenirIdentificadorTauler(scanner);
                     long startTime = System.currentTimeMillis();
-                    idTauler = obtenirIdentificador(scanner);
-                    CK.resoldreKenken(idTauler, grau);
+
+                    CtrlKenkens.getInstance().resoldreKenken(idTauler);
                     long endTime = System.currentTimeMillis();
                     long duration = endTime - startTime;
                     System.out.println("Temps en resoldre: " + duration + " ms." + "\n");
                     break;
-                case 3:
-                    System.out.println("Pendent a implementar");
-                    break;
-
-                case 4:
-                    grau = obtenirGrau(scanner);
-                    idTauler = obtenirIdentificador(scanner);
-                    CK.pintarTauler(idTauler, grau);
+                case 2:
+                    idTauler = obtenirIdentificadorTauler(scanner);
+                    CtrlKenkens.getInstance().pintarTauler(idTauler);
                     break;
                 case 0:
                     System.out.println("Fins aviat!");
@@ -68,14 +52,10 @@ public class DriverKenken {
             }
         } while (opcio != 0);
     }
-*/
-    private static int obtenirIdentificador(Scanner scanner) {
-        System.out.println("Introdueix l'identificador del tauler:");
-        return scanner.nextInt();
-    }
 
-    private static String obtenirGrau(Scanner scanner) {
-        System.out.println("Introdueix el grau del tauler:");
+    private static String obtenirIdentificadorTauler(Scanner scanner) {
+        System.out.println("Introdueix l'identificador del tauler amb el format : id-grau");
         return scanner.next();
     }
+
 }

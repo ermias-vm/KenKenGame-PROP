@@ -26,10 +26,11 @@ public class Divisio implements Operacio {
      */
     @Override
     public int opera2(int a, int b) throws ExcepcioDivisio_0, ExcepcioNoDivisor {
-        if (a == 0 || b == 0) {throw new ExcepcioDivisio_0();}
+        //if (a == 0 || b == 0) {throw new ExcepcioDivisio_0();}
         if (divisible(a,b)) {return a/b;}
         else if (divisible(b,a)) {return b/a;}
-        else{throw new ExcepcioNoDivisor(a,b);}
+        else return -1;
+        //else{throw new ExcepcioNoDivisor(a,b);}
     }
     /**
      * Realitza la divisió de dos enters independentment de l'ordre donats com a vector.
