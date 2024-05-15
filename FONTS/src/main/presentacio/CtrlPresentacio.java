@@ -89,6 +89,7 @@ public class CtrlPresentacio {
         mainFrame.setContentPane(menuPrincipal.getDefaultPanel());
         mainFrame.setVisible(true);
     }
+
 }
 
 
