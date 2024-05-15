@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class CrearKenkenManual {
     private JLabel grauLabel;
@@ -38,7 +39,8 @@ public class CrearKenkenManual {
         aceptarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int size = (int) grauComboBox.getSelectedItem();
+                int size = Integer.parseInt((String) Objects.requireNonNull(grauComboBox.getSelectedItem()));
+                System.out.println("Creant tauler de mida " + size);
                 createKenkenBoard(size);
             }
         });
@@ -49,30 +51,33 @@ public class CrearKenkenManual {
     }
 
     private void createKenkenBoard(int size) {
-        TaulerPanel.removeAll();
-        ArrayList<Boolean>[][] mapaAdjacents = new ArrayList[size][size]; // You need to provide the adjacency map
+        TaulerPanel = new JPanel();
+        createUIComponents();
+        //TaulerPanel.removeAll();
+
+        ArrayList<Boolean>[][] mapaAdjacents = new ArrayList[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                mapaAdjacents[i][j] = new ArrayList<>();
+                for (int k = 0; k < 4; k++) {
+                    mapaAdjacents[i][j].add(false);
+                }
+            }
+        }
+
         tauler = new ComponentTauler(size, mapaAdjacents);
         ObservadorDeCasella observador = new ObservadorDeCasella();
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                ComponentCasella cell = new ComponentCasella(size, i, j);
-                cell.addObserver(observador);
-                TaulerPanel.add(cell);
+                tauler.addObserver(observador, i, j);
             }
         }
+        TaulerPanel.add(tauler);
         TaulerPanel.revalidate();
         TaulerPanel.repaint();
     }
 
     private void createUIComponents() {
-        try {
-            ImageIcon imageIcon = new ImageIcon("resources/imatges/logoKenkenCreador.png");
-            Image image = imageIcon.getImage();
-            Image scaledImage = image.getScaledInstance(320, 320, java.awt.Image.SCALE_SMOOTH);
-            logoCreateLabel = new JLabel(new ImageIcon(scaledImage));
-        } catch (Exception e) {
-            System.out.println("Error al  carregar la imatge: " + e.getMessage());
-            e.printStackTrace();
-        }
+        logoCreateLabel = new JLabel(Utils.carregarImatge("resources/imatges/logoKenkenCreador.png", 320, 320));
     }
 }

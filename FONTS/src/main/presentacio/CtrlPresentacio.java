@@ -32,8 +32,8 @@ public class CtrlPresentacio {
         mainFrame.setResizable(false);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
-        //showIniciarSessio();
-        showCrearKenKen();
+        showIniciarSessio();
+        //showCrearKenKen();
     }
 
     public void showIniciarSessio() {
@@ -84,6 +84,10 @@ public class CtrlPresentacio {
         dialog.setLocationRelativeTo(mainFrame);
         dialog.setVisible(true);
         return missatgePopUp;
+    }
+
+    public void initJugar() {
+        //C.iniciarPartida();
     }
 
     public void retornaMenuPrincipal() {

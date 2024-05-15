@@ -160,6 +160,6 @@ public class ConfigUsuari {
     }
 
     private void createUIComponents() {
-        labelLogo = new JLabel(Utils.carregarImatge("resources/imatges/fonsKenken.jpeg", 800, 800));
+        labelLogo = new JLabel(Utils.carregarImatge("resources/imatges/fonsKenken.png", 800, 800));
     }
 }

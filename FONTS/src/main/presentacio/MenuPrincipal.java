@@ -40,10 +40,18 @@ public class MenuPrincipal {
                 CtrlPresentacio.getInstance().showGenerarKenKen();
             }
         });
+
+        jugarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CtrlPresentacio.getInstance().initJugar();
+
+            }
+        });
     }
 
     private void createUIComponents() {
-        labelLogo = new JLabel(Utils.carregarImatge("resources/imatges/fonsKenken.jpeg", 800, 800));
+        labelLogo = new JLabel(Utils.carregarImatge("resources/imatges/fonsKenken.png", 800, 800));
     }
 
     public JPanel getDefaultPanel() {
