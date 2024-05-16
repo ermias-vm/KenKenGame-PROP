@@ -64,7 +64,7 @@
       <component id="49748" class="javax.swing.JLabel">
         <constraints>
           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
-            <preferred-size width="223" height="31"/>
+            <preferred-size width="432" height="31"/>
           </grid>
         </constraints>
         <properties>
@@ -90,7 +90,7 @@
       </component>
       <component id="ad7de" class="javax.swing.JComboBox" binding="ComboBoxGrau">
         <constraints>
-          <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+          <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
             <minimum-size width="50" height="-1"/>
             <preferred-size width="85" height="34"/>
             <maximum-size width="50" height="-1"/>

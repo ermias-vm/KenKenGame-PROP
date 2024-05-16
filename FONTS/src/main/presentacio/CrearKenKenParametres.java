@@ -1,5 +1,7 @@
 package main.presentacio;
 
+import main.domini.classes.*;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -101,7 +103,7 @@ public class CrearKenKenParametres extends JDialog {
             return;
         }
 
-        // Aqui, tocara cridar a CreadorKenkenParam.java quan el codi estigui acabat
+        CreadorKenkenParam.creadora(grau, suma, resta, multiplicacio, divisio, modul, exponenciacio);
         System.out.println("Creando KenKen con los siguientes parámetros:");
         System.out.println("Grado: " + grau);
         System.out.println("Operaciones:");
