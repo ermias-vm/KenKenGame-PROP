@@ -211,13 +211,13 @@ public class CreadorKenkenParam {
             assignaDivisio();
         }
 
-        assignaBlocsRes(1,true, false, false, false, false);
+        assignaBlocsRes(1,false, false, false, false, false);
 
         if (resta || modul || exponenciacio) {
             assignaBlocsRes(2,false, false, resta, modul, exponenciacio);
         }
         
-        assignaBlocsRes(maxSize,true, true, false, false, false);
+        assignaBlocsRes(maxSize, suma, multiplicacio, false, false, false);
         
     }
 
@@ -311,6 +311,12 @@ public class CreadorKenkenParam {
                     }
                     int[] blockNumbers = findBlockNumbers(mida, currentBlock);
                     boolean operationFound = false;
+                    if(mida == 1){
+                        operationFound = true;
+                        System.out.println(currentBlock);
+                        System.out.println(blockNumbers[0]);
+                        processedBlocks.add(currentBlock);
+                    }
                     while (!operationFound) {
                         int randomOperation = (int) (Math.random() * 5); // Genera un número aleatorio entre 0 i 4 per determinar aleatoriament pel operacions
                         if ((suma && randomOperation == 0) || (multiplicacio && randomOperation == 1) ||

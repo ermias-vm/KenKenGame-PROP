@@ -117,7 +117,7 @@ public class CrearKenKenParametres extends JDialog {
 
     private void createUIComponents() {
         // TODO: place custom component creation code here
-        ImatgeKenKen = new JLabel(new ImageIcon("resources/imatges/cuadricula.png"));
+        ImatgeKenKen = new JLabel(new ImageIcon("resources/imatges/cuadricula 2.png"));
     }
     public JPanel getDefaultPanel() {
         return PanelCreacio;
