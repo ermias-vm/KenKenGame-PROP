@@ -13,7 +13,7 @@ public class SolucionadorKenken {
      * @param j Índex de la columna
      * @throws Exception Si es produeix un error durant la resolució
      */
-    private void backtracking(Tauler T, int i, int j) throws ExcepcioCasellaNoExisteix, ExcepcioNoDivisor, ExcepcioValorInvalid, ExcepcioMoltsValors, ExcepcioDivisio_0 {
+    private void backtracking(Tauler T, int i, int j) throws ExcepcioCasellaNoExisteix, ExcepcioNoDivisor, ExcepcioValorInvalid, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioCasellaNoModificable {
         //Cas base , te solucio
         if (i == T.getGrau()+1) {
             T.setTrobat(true);
@@ -48,9 +48,9 @@ public class SolucionadorKenken {
         }
     }
 
-    private void optimitzacioNoOperacio(Tauler T) {
+    private void optimitzacioNoOperacio(Tauler T) throws ExcepcioCasellaNoModificable {
         for (Regio r : T.getRegions()) {
-            if (r.getTamany() == 1) {
+            if (r.getMida() == 1) {
                 Casella c = r.getCaselles().get(0);
                 c.setValor(r.getResultat());
                 c.setInmodificable();
@@ -59,7 +59,7 @@ public class SolucionadorKenken {
     }
 
 
-    public void solucionarKenken(Tauler T) throws ExcepcioCasellaNoExisteix, ExcepcioNoDivisor, ExcepcioValorInvalid, ExcepcioMoltsValors, ExcepcioDivisio_0 {
+    public void solucionarKenken(Tauler T) throws ExcepcioCasellaNoExisteix, ExcepcioNoDivisor, ExcepcioValorInvalid, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioCasellaNoModificable {
         optimitzacioNoOperacio(T);
         backtracking(T, 1, 1);
     }

@@ -113,7 +113,7 @@ public class Tauler {
      * @param y   Coordenada y de la casella.
      * @param num Nou valor per la casella.
      */
-    public void setValor(int x, int y, int num) throws ExcepcioCasellaNoExisteix {
+    public void setValor(int x, int y, int num) throws ExcepcioCasellaNoExisteix, ExcepcioCasellaNoModificable {
         getCasella(x, y).setValor(num);
     }
 
@@ -123,7 +123,7 @@ public class Tauler {
      * @param x Coordenada x de la casella.
      * @param y Coordenada y de la casella.
      */
-    public void borrarValor(int x, int y) throws ExcepcioCasellaNoExisteix {
+    public void borrarValor(int x, int y) throws ExcepcioCasellaNoExisteix, ExcepcioCasellaNoModificable {
         getCasella(x, y).borrarValor();
     }
 
@@ -184,7 +184,7 @@ public class Tauler {
      */
     public Regio getRegio(int x, int y) {
         for (Regio r : regions) {
-            for (int j = 0; j < r.getTamany(); ++j) {
+            for (int j = 0; j < r.getMida(); ++j) {
                 if (r.getCasella(j).getPosX() == x && r.getCasella(j).getPosY() == y) {
                     return r;
                 }

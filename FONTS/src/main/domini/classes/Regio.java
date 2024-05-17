@@ -7,36 +7,34 @@ import java.util.ArrayList;
 
 public class Regio {
 
-    private int tamany;
+    private int mida;
 	private Operacio operacio;
 	private int resultat;
 	private ArrayList<Casella> caselles;
 
 	public Regio(int tam, Operacio operacio, int resultat) {
 		try {
-			if (tam < 1) throw new ExcepcionTamanyIncorrecte();
-
-			tamany = tam;
+			if (tam < 1) throw new ExcepcioMidaIncorrecte();
+			mida = tam;
 			this.operacio = operacio;
 			this.resultat = resultat;
 			this.caselles = new ArrayList<Casella>();
 
-		} catch (ExcepcionTamanyIncorrecte e) {
+		} catch (ExcepcioMidaIncorrecte e) {
 			System.out.println(e.getMessage());
 		}
 	}
 
-
 	public Regio(ArrayList<Casella> vCaselles, Operacio operacio, int resultat) {
 		try {
-			if (vCaselles.isEmpty()) throw new ExcepcionTamanyIncorrecte();
+			if (vCaselles.isEmpty()) throw new ExcepcioMidaIncorrecte();
 
 			this.caselles = vCaselles;
-			this.tamany = vCaselles.size();
+			this.mida = vCaselles.size();
 			this.operacio = operacio;
 			this.resultat = resultat;
 
-		} catch (ExcepcionTamanyIncorrecte e) {
+		} catch (ExcepcioMidaIncorrecte e) {
 			System.out.println(e.getMessage());
 		}
 	}
@@ -45,13 +43,13 @@ public class Regio {
 		return this.caselles;
 	}
 
-    public int getTamany() {
-        return caselles.size();
+    public int getMida() {
+        return mida;
     }
      
     public int getNumcasellesPlenas() { 
-        int numCasellesPlenas = tamany;
-        for (int i = 0; i < tamany; ++i) {
+        int numCasellesPlenas = mida;
+        for (int i = 0; i < mida; ++i) {
             if (caselles.get(i).esBuida()) numCasellesPlenas--;
         }
         return numCasellesPlenas;
@@ -59,7 +57,7 @@ public class Regio {
      
     public boolean esBuida(int pos) {
     	try {
-			if (pos < 0 || pos >= tamany) throw new ExcepcionPosicioIncorrecta();
+			if (pos < 0 || pos >= mida) throw new ExcepcionPosicioIncorrecta();
 			return (caselles.get(pos).esBuida());
 		} catch (ExcepcionPosicioIncorrecta e) {
 			System.out.println(e.getMessage());
@@ -69,7 +67,7 @@ public class Regio {
      
     public Casella getCasella(int pos) {
     	try {
-			if (pos < 0 || pos >= tamany) throw new ExcepcionPosicioIncorrecta();
+			if (pos < 0 || pos >= mida) throw new ExcepcionPosicioIncorrecta();
 			return (caselles.get(pos));
 		} catch (ExcepcionPosicioIncorrecta e) {
 			System.out.println(e.getMessage());
@@ -79,7 +77,7 @@ public class Regio {
      
     public int getValor(int pos) {
     	try {
-			if (pos < 0 || pos >= tamany) throw new ExcepcionPosicioIncorrecta();
+			if (pos < 0 || pos >= mida) throw new ExcepcionPosicioIncorrecta();
 			return (caselles.get(pos).getValor());
 		} catch (ExcepcionPosicioIncorrecta e) {
 			System.out.println(e.getMessage());
@@ -89,13 +87,15 @@ public class Regio {
      
     public void setValor(int pos, int val) {
     	try {
-			if (pos < 0 || pos >= tamany) throw new ExcepcionPosicioIncorrecta();
-			if (val < 1 || val > tamany) throw new ExcepcionPosicioIncorrecta();
+			if (pos < 0 || pos >= mida) throw new ExcepcionPosicioIncorrecta();
+			if (val < 1 || val > mida) throw new ExcepcionPosicioIncorrecta();
 			caselles.get(pos).setValor(val);
 		} catch (ExcepcionPosicioIncorrecta e) {
 			System.out.println(e.getMessage());
-		}
-		
+		} catch (ExcepcioCasellaNoModificable e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 	/**
@@ -155,8 +155,8 @@ public class Regio {
 	 * @return Array d'enters amb les posicions de les caselles.
 	 */
 	public int[][] getPosicionsCaselles() {
-		int[][] posicions = new int[tamany][2];
-		for (int i = 0; i < tamany; i++) {
+		int[][] posicions = new int[mida][2];
+		for (int i = 0; i < mida; i++) {
 			posicions[i][0] = caselles.get(i).getPosX();
 			posicions[i][1] = caselles.get(i).getPosY();
 		}
@@ -185,14 +185,14 @@ public class Regio {
 		}
 		if (!esCompleta()) return false;
 		//no operacio
-		if (getTamany() == 1) return this.resultat == valors[0];
+		if (getMida() == 1) return this.resultat == valors[0];
 
-		//operacions on:  2 >= tamanyRegio <= N : suma , multiplicacio
+		//operacions on:  2 >= midaRegio <= N : suma , multiplicacio
 		if (operacio.esCommutativa()) {
 			int result = operacio.operaN(valors);
 			return result == this.resultat;
 		}
-		//operacions on: tamanyRegio = 2 : resta, divisió, mòdul, exponenciació
+		//operacions on: midaRegio = 2 : resta, divisió, mòdul, exponenciació
 		int result1 = this.operacio.opera2(valors[0], valors[1]);
 		int result2 = this.operacio.opera2(valors[1], valors[0]);
 		return resultat == result1 || resultat == result2;

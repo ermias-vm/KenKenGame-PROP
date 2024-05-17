@@ -1,6 +1,5 @@
 package drivers;
 
-import main.domini.controladors.CtrlDomini;
 import main.domini.controladors.CtrlKenkens;
 
 import java.util.Scanner;
@@ -24,7 +23,9 @@ public class DriverKenken {
         do {
             System.out.println("MENÚ:");
             System.out.println("1. Resoldre");
-            System.out.println("2. Mostrar Tauler");
+            System.out.println("2. Resoldre i guardar Tauler");
+            System.out.println("3. Mostrar Tauler");
+
             System.out.println("0. Sortir");
             opcio = scanner.nextInt();
 
@@ -32,17 +33,24 @@ public class DriverKenken {
                 case 1:
 
                     idTauler= obtenirIdentificadorTauler(scanner);
-                    long startTime = System.currentTimeMillis();
+                    long t0 = System.currentTimeMillis();
 
-                    CtrlKenkens.getInstance().resoldreKenken(idTauler);
-                    long endTime = System.currentTimeMillis();
-                    long duration = endTime - startTime;
-                    System.out.println("Temps en resoldre: " + duration + " ms." + "\n");
+                    CtrlKenkens.getInstance().resoldreKenken(idTauler,false);
+                    long t1 = System.currentTimeMillis();
+                    long t_total = t1 - t0;
+                    System.out.println("Temps Total: " + t_total + " ms." + "\n");
                     break;
+
                 case 2:
+                    idTauler = obtenirIdentificadorTauler(scanner);
+                    CtrlKenkens.getInstance().resoldreKenken(idTauler,true);
+                    break;
+
+                case 3:
                     idTauler = obtenirIdentificadorTauler(scanner);
                     CtrlKenkens.getInstance().pintarTauler(idTauler);
                     break;
+
                 case 0:
                     System.out.println("Fins aviat!");
                     break;

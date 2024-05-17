@@ -93,6 +93,8 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
                  ExcepcioDivisio_0 | ExcepcioPosicioIncorrecta | ExcepcioPartidaTancada | ExcepcioValorInvalid |
                  ExcepcioPartidaAcabada e) {
             JOptionPane.showMessageDialog(mainPanel_, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ExcepcioCasellaNoModificable e) {
+            throw new RuntimeException(e);
         }
     }
     @Override

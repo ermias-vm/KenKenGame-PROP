@@ -44,25 +44,17 @@ public class Casella {
      * Estableix el valor de la cel·la.
      * @param num El valor a establir.
      */
-    public void setValor(int num) {
-        try {
+    public void setValor(int num) throws ExcepcioCasellaNoModificable {
             if (!modificable) throw new ExcepcioCasellaNoModificable();
             this.valor = num;
-        } catch (ExcepcioCasellaNoModificable e) {
-            System.out.println(e.getMessage());
-        }
     }
 
     /**
      * Esborra el valor de la cel·la (l'estableix a 0).
      */
-    public void borrarValor() {
-        try {
+    public void borrarValor() throws ExcepcioCasellaNoModificable {
             if (!modificable) throw new ExcepcioCasellaNoModificable();
             this.valor = 0;
-        } catch (ExcepcioCasellaNoModificable e) {
-            System.out.println(e.getMessage());
-        }
     }
 
     /**

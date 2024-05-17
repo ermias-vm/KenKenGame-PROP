@@ -31,7 +31,6 @@ public class ControladorPersistenciaTauler {
     public String llegirTauler(String identificadorTauler) {
 
         int mida = Integer.parseInt(identificadorTauler.split("-")[1]);
-        System.out.println(identificadorTauler+" "+mida);
         String carpeta = "data/taulers/mida"+mida;
         StringBuilder dadesTauler = new StringBuilder();
         try {

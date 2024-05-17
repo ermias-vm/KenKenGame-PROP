@@ -1,4 +1,5 @@
 package  test;
+import main.domini.excepcions.ExcepcioCasellaNoModificable;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,7 +38,7 @@ public class CasellaTest {
      * S'espera que el valor establert sigui igual al valor obtingut.
      */
     @Test
-    public void setValor() {
+    public void setValor() throws ExcepcioCasellaNoModificable {
         casella.setValor(5);
         assertEquals(5, casella.getValor());
     }
@@ -47,7 +48,7 @@ public class CasellaTest {
      * S'espera que el valor obtingut sigui 0 després de l'eliminació.
      */
     @Test
-    public void borrarValor() {
+    public void borrarValor() throws ExcepcioCasellaNoModificable {
         casella.setValor(5);
         casella.borrarValor();
         assertEquals(0, casella.getValor());
@@ -59,7 +60,7 @@ public class CasellaTest {
      * S'espera que el valor obtingut sigui igual al valor establert.
      */
     @Test
-    public void getValor() {
+    public void getValor() throws ExcepcioCasellaNoModificable {
         casella.setValor(5);
         assertEquals(5, casella.getValor());
     }
@@ -120,7 +121,7 @@ public class CasellaTest {
      * S'espera que la casella estigui buida inicialment i després no estigui buida després d'establir un valor.
      */
     @Test
-    public void esBuida() {
+    public void esBuida() throws ExcepcioCasellaNoModificable {
         assertTrue(casella.esBuida());
         casella.setValor(5);
         assertFalse(casella.esBuida());

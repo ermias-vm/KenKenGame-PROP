@@ -1,13 +1,13 @@
 package main.domini.excepcions;
 
-public class ExcepcionTamanyIncorrecte extends Exception {
+public class ExcepcioMidaIncorrecte extends Exception {
     private String missatge;
 
-    public ExcepcionTamanyIncorrecte() {
-        this("El tamany es incorrecta");
+    public ExcepcioMidaIncorrecte() {
+        this("La mida es incorrecta");
     }
 
-    public ExcepcionTamanyIncorrecte(String s) {
+    public ExcepcioMidaIncorrecte(String s) {
         super(s);
         this.missatge = s;
     }

@@ -304,7 +304,7 @@ public class ControladorPartida {
      * @throws ExcepcioPartidaAcabada Si la partida està acabada.
      * @throws ExcepcioPosicioIncorrecta Si la posició de la casella no és correcta.
      */
-    public ArrayList<int[]> donaPista() throws ExcepcioCarregaPartida, ExcepcioPartidaTancada, ExcepcioValorInvalid, ExcepcioPartidaAcabada, ExcepcioPosicioIncorrecta, ExcepcioCasellaNoExisteix, ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioDivisio_0 {
+    public ArrayList<int[]> donaPista() throws ExcepcioCarregaPartida, ExcepcioPartidaTancada, ExcepcioValorInvalid, ExcepcioPartidaAcabada, ExcepcioPosicioIncorrecta, ExcepcioCasellaNoExisteix, ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioCasellaNoModificable {
         if (partida_ == null) throw new ExcepcioCarregaPartida("No hi ha cap partida carregada");
         ArrayList<int[]> valorsRepetits = comprovaRepetits(partida_.getValorsPartida());
         if (!valorsRepetits.isEmpty()){

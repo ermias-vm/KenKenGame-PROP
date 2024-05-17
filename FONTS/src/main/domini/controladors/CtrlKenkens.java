@@ -80,7 +80,7 @@ public class CtrlKenkens {
                     if (j < regioInfo.length && regioInfo[j].startsWith("[")) {
                         String valorString = regioInfo[j].replaceAll("[\\[\\]]", "");
                         casella.setValor(Integer.parseInt(valorString));
-                        casella.setInmodificable();
+                        if (elements > 1) casella.setInmodificable();
                         ++j;
                     }
                     caselles.add(casella);
@@ -95,7 +95,25 @@ public class CtrlKenkens {
             return T;
         } catch (ExcepcioCasellaNoExisteix e) {
             throw new RuntimeException(e);
+        } catch (ExcepcioCasellaNoModificable e) {
+            throw new RuntimeException(e);
         }
+    }
+
+    public String taulerToString(Tauler T) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(T.getGrau()).append(" ").append(T.getRegions().size()).append("\n");
+        for (Regio r : T.getRegions()) {
+            if (r.getOperacio() == null) sb.append("0");
+            else sb.append(r.getOperacio().getNumOperacio());
+            sb.append(" ").append(r.getResultat()).append(" ").append(r.getMida());
+            for (Casella c : r.getCaselles()) {
+                sb.append(" ").append(c.getPosX()).append(" ").append(c.getPosY());
+                if (c.getValor() != 0) sb.append(" [").append(c.getValor()).append("]");
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 
     public void mostrarTauler(Tauler T) throws Exception {
@@ -111,12 +129,20 @@ public class CtrlKenkens {
     }
 
     public void pintarTauler(String idTauler) throws Exception {
-         Tauler T = llegirTauler(idTauler);
+        Tauler T = llegirTauler(idTauler);
         System.out.println("Contingut del Tauler " + idTauler + ":");
         mostrarTauler(T);
     }
 
-    public int[][] resoldreKenken(Tauler T, int[][] valorsPartida) throws ExcepcioCasellaNoExisteix, ExcepcioNoDivisor, ExcepcioValorInvalid, ExcepcioMoltsValors, ExcepcioDivisio_0 {
+    public String seleccionaTaulerAleatori(int mida) {
+        return controladorPersistenciaTauler_.seleccionaTaulerAleatori(mida);
+    }
+
+    public String creaKenkenStub(int mida) {
+        return "";
+    }
+
+    public int[][] resoldreKenken(Tauler T, int[][] valorsPartida) throws ExcepcioCasellaNoExisteix, ExcepcioNoDivisor, ExcepcioValorInvalid, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioCasellaNoModificable {
         for (int i = 0; i < valorsPartida.length; i++) {
             for (int j = 0; j < valorsPartida[i].length; j++) {
                 int x = i + 1;
@@ -141,20 +167,18 @@ public class CtrlKenkens {
     }
 
 
-    public String seleccionaTaulerAleatori(int mida) {
-        return controladorPersistenciaTauler_.seleccionaTaulerAleatori(mida);
-    }
-
-    public String creaKenkenStub(int mida) {
-        return "";
-    }
-
-    public void resoldreKenken(String idTauler) throws Exception {
+    public void resoldreKenken(String idTauler, boolean guardarBD) throws Exception {
         int grau = Integer.parseInt(idTauler.split("-")[1]);
         Tauler T = llegirTauler(idTauler);
         System.out.println("Contingut del Tauler " + idTauler + " de grau " + grau + ":");
         mostrarTauler(T);
+
+        long startTime = System.currentTimeMillis();
         AS.solucionarKenken(T);
+        long endTime = System.currentTimeMillis();
+        long duration = endTime - startTime;
+        System.out.println("Temps de resoldre: " + duration + " ms." + "\n");
+
         if (T.teSolucio()) {
             System.out.println("Tauler resolt:");
             mostrarTauler(T);
@@ -162,6 +186,11 @@ public class CtrlKenkens {
         else {
             System.out.println("El tauler no té solució."+ "\n");
             mostrarTauler(T);
+        }
+
+        if (guardarBD) {
+            ControladorPersistenciaTauler.getInstance().generaIdentificadorIGuardaTauler(taulerToString(T));
+            System.out.println("Tauler guardat en : data/talers/mida" + grau + "/");
         }
     }
 
