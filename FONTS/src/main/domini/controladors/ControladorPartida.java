@@ -58,11 +58,16 @@ public class ControladorPartida {
      */
     private static ControladorPartida controladorPartida_;
     /**
+     * Instància del controlador de ranking.
+     */
+    private static ControladorRanking controladorRanking_;
+    /**
      * Constructora per defecte.
      */
     private ControladorPartida() {
         controladorTauler_ = CtrlKenkens.getInstance();
         controladorPersistenciaPartida_ = ControladorPersistenciaPartida.getInstance();
+        controladorRanking_ = ControladorRanking.getInstance();
         partidesGuardadesUsuari_ = new HashMap<>();
         partida_ = null;
     }
@@ -389,7 +394,10 @@ public class ControladorPartida {
         String dataPartida = partida_.acabaPartida();
         String temps = dataPartida.split("\n")[3];
         boolean guardadaCorrectament = controladorPersistenciaPartida_.arxivarPartida(dataPartida);
-        if (guardadaCorrectament) tancaPartida();
+        if (guardadaCorrectament){
+            tancaPartida();
+            if (!haviaEstatGuardada) controladorRanking_.afegirPartida(dataPartida);
+        }
         return new String[]{String.valueOf(guardadaCorrectament), String.valueOf(haviaEstatGuardada), temps};
     }
     /**

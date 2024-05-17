@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import static main.presentacio.Partida.ControladorPresentacioPartida.COLOR_BE;
 import static main.presentacio.Partida.ControladorPresentacioPartida.COLOR_ERROR;
 
 /**
@@ -168,7 +169,7 @@ public class MenuPartida extends JPanel {
      */
     public void mostrarMissatge(String missatge, boolean bo) {
         if (bo) {
-            missatge_.setForeground(Color.GREEN);
+            missatge_.setForeground(Color.decode(COLOR_BE));
         } else {
             missatge_.setForeground(Color.decode(COLOR_ERROR));
         }

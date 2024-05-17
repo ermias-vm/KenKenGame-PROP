@@ -23,6 +23,7 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
 
     private ControladorPresentacioPartida() {
         controladorPartida_ = ControladorPartida.getInstance();
+        mainPanel_ = new JPanel();
     }
     public static ControladorPresentacioPartida getInstance() {
         if (controladorPresentacioPartida_ == null) controladorPresentacioPartida_ = new ControladorPresentacioPartida();

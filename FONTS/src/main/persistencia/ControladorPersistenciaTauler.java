@@ -76,7 +76,6 @@ public class ControladorPersistenciaTauler {
         if (identificadors != null) {
             for (String identificador : identificadors) {
                 String dadesTaulerGuardat = llegirTauler(identificador);
-                System.out.println("Sha trobat\n" + dadesTaulerGuardat);
                 if (dadesTaulerGuardat.equals(dadesTauler)) {
                     return identificador;
                 }
