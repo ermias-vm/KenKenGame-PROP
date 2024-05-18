@@ -1,5 +1,7 @@
 package main.domini.classes;
 
+import main.persistencia.ControladorPersistenciaTauler;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -7,12 +9,21 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Random;
 
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.nio.file.Path;
+import java.nio.file.Files;
+
+
 public class CreadorKenkenParam {
     private int[][] solution; // Matriu que representa la solució del Kenken
     private char[][] blockSolution; // Matriu que representa la solució dels blocs
     private int size; // Mida del tauler
     private int maxSize; // Mida màxima dels blocs
-
+    private int numReg; // Contador de regions
+    private StringBuilder taulerSencer; // String on es guardaran les dades 
+    private StringBuilder coordenadesRegio; // String que guarda les coordenades d'una sola regio
+    private String resultat; // Tauler passat a text sencer que es posara dins del .txt
     private Set<Character> processedBlocks = new HashSet<>(); // Set de blocs (regions) visitades quan esta creant operacions
 
     /**
@@ -26,12 +37,16 @@ public class CreadorKenkenParam {
         this.maxSize = maxSize;
         this.solution = new int[size][size];
         this.blockSolution = new char[size][size];
+        this.taulerSencer = new StringBuilder();
+        this.coordenadesRegio = new StringBuilder();
+        this.resultat = new String();
     }
 
     /**
      * Genera la solució del Kenken i el tauler de blocs fusionats.
      */
     public void generateSolutionAndBoard() {
+        taulerSencer.setLength(0);
         generateSolution();
         generateBoard();
     }
@@ -109,7 +124,6 @@ public class CreadorKenkenParam {
         for (Candidate candidate : candidates) {
             Cell cell1 = board.grid[candidate.x1][candidate.y1].findRoot();
             Cell cell2 = board.grid[candidate.x2][candidate.y2].findRoot();
-            //Cal afegir probabilitats per influir sobre el maxSize
             int midaBlocs;
             Random random = new Random();
             int casellesde2omes = random.nextInt(5);
@@ -119,7 +133,7 @@ public class CreadorKenkenParam {
                 cell1.merge(cell2);
             }
         }
-
+        taulerSencer.append(size).append(" ");
         updateBlockSolution(board);
     }
 
@@ -151,17 +165,21 @@ public class CreadorKenkenParam {
      * @param board Tauler amb les cel·les fusionades.
      */
     private void updateBlockSolution(Board board) {
+        numReg = 0;
         char blockLetter = 'a';
         for (int x = 0; x < size; x++) {
             for (int y = 0; y < size; y++) {
                 Cell root = board.grid[x][y].findRoot();
                 if (blockSolution[root.x][root.y] == 0) {
                     blockSolution[root.x][root.y] = blockLetter++;
+                    numReg++;
                     if ((blockLetter - 1) == 'z') blockLetter = 'A';
                 }
                 blockSolution[x][y] = blockSolution[root.x][root.y];
             }
         }
+        System.out.println("REGIONS: " + numReg);
+        taulerSencer.append(numReg).append("\n");
     }
 
 
@@ -188,6 +206,7 @@ public class CreadorKenkenParam {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 System.out.print(blockSolution[i][j] + " ");
+                
             }
             System.out.println();
         }
@@ -219,6 +238,8 @@ public class CreadorKenkenParam {
         
         assignaBlocsRes(maxSize, suma, multiplicacio, false, false, false);
         
+        resultat = taulerSencer.toString();
+        System.out.println(resultat);
     }
 
     /**
@@ -246,10 +267,12 @@ public class CreadorKenkenParam {
      */
     private int[] findBlockNumbers(int mida, char block) {
         int a = 0;
+        coordenadesRegio.setLength(0);
         int[] blockNumbers = new int[mida];
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 if (blockSolution[i][j] == block) {
+                    coordenadesRegio.append(" ").append(i+1).append(" ").append(j+1);
                     blockNumbers[a] = solution[i][j];
                     a++;
                 }
@@ -278,6 +301,7 @@ public class CreadorKenkenParam {
                             System.out.println(currentBlock);
                             System.out.println(bigNumber + " / " + smallNumber + " = " + (bigNumber / smallNumber));
                             processedBlocks.add(currentBlock);
+                            taulerSencer.append(4).append(" ").append(bigNumber / smallNumber).append(" ").append(2).append(coordenadesRegio).append("\n");
                             break outerLoop;
                         }
 
@@ -299,7 +323,8 @@ public class CreadorKenkenParam {
      * @param exponenciacio indica si el tauler ha de tenir alguna operacio exponenciacio o no
      */
     private void assignaBlocsRes(int mida, boolean suma, boolean multiplicacio, boolean resta, boolean modul, boolean exponenciacio) {
-        System.out.println("Operacions de " + mida + " Caselles:");
+        if (mida > 2) System.out.println("Operacions de " + mida + " o menys Caselles:");
+        else System.out.println("Operacions de " + mida + " Caselles:");
     
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -316,9 +341,11 @@ public class CreadorKenkenParam {
                         System.out.println(currentBlock);
                         System.out.println(blockNumbers[0]);
                         processedBlocks.add(currentBlock);
+                        taulerSencer.append(0).append(" ").append(blockNumbers[0]).append(" ").append(1).append(coordenadesRegio).append("\n");
                     }
                     while (!operationFound) {
                         int randomOperation = (int) (Math.random() * 5); // Genera un número aleatorio entre 0 i 4 per determinar aleatoriament pel operacions
+                        int midaEspecifica = 0;
                         if ((suma && randomOperation == 0) || (multiplicacio && randomOperation == 1) ||
                                 (resta && randomOperation == 2) || (modul && randomOperation == 3) ||
                                 (exponenciacio && randomOperation == 4)) {
@@ -328,10 +355,12 @@ public class CreadorKenkenParam {
                                     System.out.println(currentBlock);
                                     for (int k = 0; k < mida; k++){
                                         if (blockNumbers[k] == 0 ) break;
+                                        midaEspecifica = k + 1;
                                         if (k > 0) System.out.print(" + ");
                                         sumatori += blockNumbers[k];
                                         System.out.print(blockNumbers[k]);
                                     }
+                                    taulerSencer.append(1).append(" ").append(sumatori).append(" ").append(midaEspecifica).append(coordenadesRegio).append("\n");
                                     System.out.println(" = " + sumatori);
                                     break;
                                 case 1:
@@ -339,25 +368,39 @@ public class CreadorKenkenParam {
                                     System.out.println(currentBlock);
                                     for (int k = 0; k < mida; k++){
                                         if (blockNumbers[k] == 0 ) break;
+                                        midaEspecifica = k + 1;
                                         if (k > 0) System.out.print(" * ");
                                         productori *= blockNumbers[k];
                                         System.out.print(blockNumbers[k]);
                                     }
+                                    taulerSencer.append(3).append(" ").append(productori).append(" ").append(midaEspecifica).append(coordenadesRegio).append("\n");
                                     System.out.println(" = " + productori);
                                     break;
                                 case 2:
                                     System.out.println(currentBlock);
-                                    if(blockNumbers[0] > blockNumbers[1]) System.out.println(blockNumbers[0] + " - " + blockNumbers[1] + " = " + (blockNumbers[0] - blockNumbers[1]));
-                                    else System.out.println(blockNumbers[1] + " - " + blockNumbers[0] + " = " + (blockNumbers[1] - blockNumbers[0]));
-                                    break;
+                                    if(blockNumbers[0] > blockNumbers[1]){
+                                        System.out.println(blockNumbers[0] + " - " + blockNumbers[1] + " = " + (blockNumbers[0] - blockNumbers[1]));
+                                        taulerSencer.append(2).append(" ").append(blockNumbers[0] - blockNumbers[1]).append(" ").append(mida).append(coordenadesRegio).append("\n");
+                                    }else{
+                                        System.out.println(blockNumbers[1] + " - " + blockNumbers[0] + " = " + (blockNumbers[1] - blockNumbers[0]));
+                                        taulerSencer.append(2).append(" ").append(blockNumbers[1] - blockNumbers[0]).append(" ").append(mida).append(coordenadesRegio).append("\n");
+                                    }
+                                        break;
                                 case 3:
                                     System.out.println(currentBlock);
-                                    if(blockNumbers[0] > blockNumbers[1]) System.out.println(blockNumbers[0] + " % " + blockNumbers[1] + " = " + (blockNumbers[0] % blockNumbers[1]));
-                                    else System.out.println(blockNumbers[1] + " % " + blockNumbers[0] + " = " + (blockNumbers[1] % blockNumbers[0]));
+                                    if(blockNumbers[0] > blockNumbers[1]){
+                                        System.out.println(blockNumbers[0] + " % " + blockNumbers[1] + " = " + (blockNumbers[0] % blockNumbers[1]));
+                                        taulerSencer.append(5).append(" ").append(blockNumbers[0] % blockNumbers[1]).append(" ").append(mida).append(coordenadesRegio).append("\n");
+                                    }else{
+                                        System.out.println(blockNumbers[1] + " % " + blockNumbers[0] + " = " + (blockNumbers[1] % blockNumbers[0]));
+                                        taulerSencer.append(5).append(" ").append(blockNumbers[1] % blockNumbers[0]).append(" ").append(mida).append(coordenadesRegio).append("\n");
+                                    }
                                     break;
                                 case 4:
                                     System.out.println(currentBlock);
-                                    System.out.println(blockNumbers[0] + " ^ " + blockNumbers[1] + " = " + (int) Math.pow(blockNumbers[0], blockNumbers[1]));
+                                    int exp = (int) Math.pow(blockNumbers[0], blockNumbers[1]);
+                                    System.out.println(blockNumbers[0] + " ^ " + blockNumbers[1] + " = " + exp);
+                                    taulerSencer.append(6).append(" ").append(exp).append(" ").append(mida).append(coordenadesRegio).append("\n");
                                     break;
                             }
                             processedBlocks.add(currentBlock);
@@ -366,6 +409,19 @@ public class CreadorKenkenParam {
                     }
                 }
             }
+        }
+    }
+
+    private void crearArxiuText(){
+        ControladorPersistenciaTauler controlador = new ControladorPersistenciaTauler();
+        String identificador = controlador.generaIdentificadorIGuardaTauler(resultat);
+        String Directori = "data/taulers/mida" + size + "/";
+        try{
+            Path filePath = Paths.get(Directori + identificador + ".txt");
+            Files.writeString(filePath, resultat);
+            System.out.println("Arxiu creat");
+        } catch (IOException e){
+            e.printStackTrace();
         }
     }
 
@@ -389,6 +445,7 @@ public class CreadorKenkenParam {
         generator.printSolution();
         generator.printBlockSolution();
         generator.crearOperaciones(suma, resta, multiplicacio, divisio, modul, exponenciacio);
+        generator.crearArxiuText();
     }
 
 

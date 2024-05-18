@@ -12,7 +12,7 @@ public class ControladorPersistenciaTauler {
     /**
      * Constructora de la classe.
      */
-    private ControladorPersistenciaTauler() {
+    public ControladorPersistenciaTauler() {
     }
     /**
      * Retorna la instància del controlador de persistència de taulers.
