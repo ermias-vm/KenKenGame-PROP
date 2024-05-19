@@ -1,6 +1,7 @@
 package main.presentacio;
 
 import main.domini.classes.*;
+import main.domini.classes.CreeadoraKenkenParametres.CreadorKenkenParam;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

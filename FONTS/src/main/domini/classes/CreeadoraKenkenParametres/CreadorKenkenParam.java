@@ -1,4 +1,4 @@
-package main.domini.classes;
+package main.domini.classes.CreeadoraKenkenParametres;
 
 import main.persistencia.ControladorPersistenciaTauler;
 
@@ -216,7 +216,7 @@ public class CreadorKenkenParam {
     // ASSIGNACIO DE OPERACIONS:
 
     /**
-     * Crea les operacions segons quines estaven seleccionades
+     * Crea les operacions segons quines estaven seleccionades.
      *
      * @param suma indica si el tauler ha de tenir alguna operacio suma o no
      * @param resta indica si el tauler ha de tenir alguna operacio resta o no
@@ -243,7 +243,7 @@ public class CreadorKenkenParam {
     }
 
     /**
-     * Conta el nombre de caselles que te el bloc d'una lletra en especific
+     * Conta el nombre de caselles que te el bloc d'una lletra en especific.
      *
      * @param block la lletra de la casella en concret
      */
@@ -260,7 +260,7 @@ public class CreadorKenkenParam {
     }
     
     /**
-     * Conta el nombre de caselles que te el bloc d'una lletra en especific
+     * Conta el nombre de caselles que te el bloc d'una lletra en especific.
      *
      * @param mida el size de el conjunt de lletres de del bloc en especific
      * @param block la lletra de la casella en concret
@@ -282,7 +282,7 @@ public class CreadorKenkenParam {
     }
 
     /**
-     * Assigna les divisions als blocs valids
+     * Assigna les divisions als blocs valids.
      */
     private void assignaDivisio() {
         System.out.println("Operacions de Divisió:");
@@ -312,7 +312,7 @@ public class CreadorKenkenParam {
     }
     
     /**
-     * Assigna totes les operacions que no son divisions (i que siguin true) als blocs valids 
+     * Assigna totes les operacions que no son divisions (i que siguin true) als blocs valids.
      *
      * @param mida el size del conjunt de lletres de del bloc en especific
      * @param suma indica si el tauler ha de tenir alguna operacio suma o no
@@ -412,6 +412,9 @@ public class CreadorKenkenParam {
         }
     }
 
+    /**
+     * Funcio que recull les dades generades i ho posa en un .txt a la base de dades.
+     */
     private void crearArxiuText(){
         ControladorPersistenciaTauler controlador = new ControladorPersistenciaTauler();
         String identificador = controlador.generaIdentificadorIGuardaTauler(resultat);
@@ -426,8 +429,8 @@ public class CreadorKenkenParam {
     }
 
     /**
-     * Funcio invocada des de CrearKenKenParametres.java quan aquest vol crear un tauler per parametres (es a dir, li dona al boto de crear)
-     * La funcio concreetament posa en marxa tota la generacio del tauler
+     * Funcio invocada des de CrearKenKenParametres.java quan aquest vol crear un tauler per parametres (es a dir, li dona al boto de crear).
+     * La funcio concretament posa en marxa tota la generacio del tauler.
      * 
      * @param grau la dimensio del tauler a generar
      * @param suma indica si el tauler ha de tenir alguna operacio suma o no
@@ -449,7 +452,7 @@ public class CreadorKenkenParam {
     }
 
 
-    // MAIN TEMPORAL PER ANAR PROVANTEL CODI
+    // MAIN TEMPORAL PER ANAR PROVANT EL CODI
     public static void main(String[] args) {
         int grau = 9;
         boolean suma = true;
@@ -459,97 +462,5 @@ public class CreadorKenkenParam {
         boolean modul = true;
         boolean exponenciacio = true;
         creadora(grau, suma, resta, multiplicacio, divisio, modul, exponenciacio);
-    }
-}
-
-class Board {
-    public Cell[][] grid;
-
-    /**
-     * Constructor de la classe Board.
-     *
-     * @param size Mida del tauler.
-     */
-    public Board(int size) {
-        grid = new Cell[size][size];
-        for (int x = 0; x < size; x++) {
-            for (int y = 0; y < size; y++) {
-                grid[x][y] = new Cell(x, y);
-            }
-        }
-    }
-}
-
-class Cell {
-    public int x;
-    public int y;
-    public Cell parent;
-    public int size;
-
-    /**
-     * Constructor de la classe Cell.
-     *
-     * @param x Coordenada x de la cel·la.
-     * @param y Coordenada y de la cel·la.
-     */
-    public Cell(int x, int y) {
-        this.x = x;
-        this.y = y;
-        this.parent = null;
-        this.size = 1;
-    }
-
-    /**
-     * Fusiona 2 cel·les, es el proces de posar-ho a la mateixa regio.
-     *
-     * @param other Altra cel·la a fusionar.
-     */
-    public void merge(Cell other) {
-        Cell root1 = findRoot();
-        Cell root2 = other.findRoot();
-        if (root1 == root2) return;
-
-        if (root1.size < root2.size) {
-            Cell tmp = root1;
-            root1 = root2;
-            root2 = tmp;
-        }
-
-        root2.parent = root1;
-        root1.size += root2.size;
-    }
-
-    /**
-     * Troba la cel·la parent.
-     *
-     * @return Cel·la arrel.
-     */
-    public Cell findRoot() {
-        if (parent == null) return this;
-        Cell root = parent.findRoot();
-        parent = root;
-        return root;
-    }
-}
-
-class Candidate {
-    public int x1;
-    public int y1;
-    public int x2;
-    public int y2;
-
-    /**
-     * Constructor de la classe Candidate.
-     *
-     * @param x1 Coordenada x de la primera cel·la.
-     * @param y1 Coordenada y de la primera cel·la.
-     * @param x2 Coordenada x de la segona cel·la.
-     * @param y2 Coordenada y de la segona cel·la.
-     */
-    public Candidate(int x1, int y1, int x2, int y2) {
-        this.x1 = x1;
-        this.y1 = y1;
-        this.x2 = x2;
-        this.y2 = y2;
     }
 }
