@@ -32,8 +32,8 @@ public class CtrlPresentacio {
         mainFrame.setResizable(false);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
-        showIniciarSessio();
-        //showCrearKenKen();
+        //showIniciarSessio();
+        showCrearKenKen();
     }
 
     public void showIniciarSessio() {
@@ -72,6 +72,7 @@ public class CtrlPresentacio {
         crearKenken= new CrearKenkenManual();
         mainFrame.setTitle("Creador Kenken");
         mainFrame.setContentPane(crearKenken.getDefaultPanel());
+        //mainFrame.pack();
         mainFrame.setVisible(true);
     }
 
