@@ -48,19 +48,21 @@ public class CtrlKenkens {
         }
     }
 
-
     public Tauler llegirTauler(String id) {
+        String contingutTauler = ctrlTaulerData.llegirTauler(id);
+        return stringToTauler(contingutTauler, id);
+
+    }
+
+    public Tauler stringToTauler(String contingutTauler, String id) {
         try {
-            String content = ctrlTaulerData.llegirTauler(id);
             //System.out.println(content); //imprimir prova
-            String[] lines = content.split("\n");
+            String[] lines = contingutTauler.split("\n");
             String[] primeraLinea = lines[0].split(" ");
             int N = Integer.parseInt(primeraLinea[0]);
             int R = Integer.parseInt(primeraLinea[1]);
 
-
             Tauler T = new Tauler(id, N);
-
             //Llegir cada regio
             for (int i = 0; i < R; i++) {
                 String[] regioInfo = lines[i+1].split(" ");
@@ -191,6 +193,16 @@ public class CtrlKenkens {
         if (guardarBD) {
             ControladorPersistenciaTauler.getInstance().generaIdentificadorIGuardaTauler(taulerToString(T));
             System.out.println("Tauler guardat en : data/talers/mida" + grau + "/");
+        }
+    }
+
+    public boolean comprovarKenkenCreat(String contingutTauler) {
+        try {
+            Tauler T = stringToTauler(contingutTauler, "temporal");
+            AS.solucionarKenken(T);
+            return T.teSolucio();
+        } catch (Exception e) {
+            return false;
         }
     }
 

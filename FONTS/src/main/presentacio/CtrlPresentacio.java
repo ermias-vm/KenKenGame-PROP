@@ -69,10 +69,10 @@ public class CtrlPresentacio {
         mainFrame.setVisible(true);
     }
     public void showCrearKenKen() {
-        crearKenken= new CrearKenkenManual();
+        CrearKenkenManual.newInstance();
+        crearKenken = CrearKenkenManual.getInstance();
         mainFrame.setTitle("Creador Kenken");
         mainFrame.setContentPane(crearKenken.getDefaultPanel());
-        //mainFrame.pack();
         mainFrame.setVisible(true);
     }
 
