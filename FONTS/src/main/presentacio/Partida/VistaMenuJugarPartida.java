@@ -1,5 +1,7 @@
 package main.presentacio.Partida;
 
+import main.presentacio.ObservadorBoto;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -77,7 +79,7 @@ public class VistaMenuJugarPartida extends JPanel {
         });
         JButton tornar = new JButton("Tornar");
         tornar.addActionListener(e -> {
-            for (ObservadorBoto ob : observadorsBoto_) ob.tornar();
+            for (ObservadorBoto ob : observadorsBoto_) ob.notificarSortir();
         });
 
         menu.add(new JPanel(), panelBuitEsquerra);

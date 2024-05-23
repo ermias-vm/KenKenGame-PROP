@@ -12,14 +12,14 @@ public class ControladorRanking {
     /**
      * Mida mínima del tauler de les partides.
      */
-    private final int MIDAMIN_ = 3;
+    public static final int MIDAMIN = 3;
     /**
      * Mida màxima del tauler de les partides.
      */
-    private final int MIDAMAX_ = 9;
+    public static final int MIDAMAX = 9;
     /**
      * Rankings de les partides acabades per mida.
-     * Cada posició i representa el ranking de les partides acabades de mida i + MIDAMIN_.
+     * Cada posició i representa el ranking de les partides acabades de mida i + MIDAMIN.
      */
     private Ranking[] rankingPerMida_;
     /**
@@ -34,8 +34,8 @@ public class ControladorRanking {
      * Constructora de la classe.
      */
     private ControladorRanking(){
-        rankingPerMida_ = new Ranking[MIDAMAX_ - MIDAMIN_ + 1];
-        for (int i = 0; i < MIDAMAX_ - MIDAMIN_ + 1; ++i) {
+        rankingPerMida_ = new Ranking[MIDAMAX - MIDAMIN + 1];
+        for (int i = 0; i < MIDAMAX - MIDAMIN + 1; ++i) {
             rankingPerMida_[i] = new Ranking();
         }
         controladorPersistenciaPartida_ = ControladorPersistenciaPartida.getInstance();
@@ -60,7 +60,7 @@ public class ControladorRanking {
     public boolean afegirPartida(String partidaAcabada) {
         String[] parts = partidaAcabada.split("\n");
         int mida = Integer.parseInt(parts[4]);
-        return rankingPerMida_[mida - MIDAMIN_].afegirPartida(partidaAcabada);
+        return rankingPerMida_[mida - MIDAMIN].afegirPartida(partidaAcabada);
     }
 
     /**
@@ -71,7 +71,16 @@ public class ControladorRanking {
      * @return Llista de les N partides amb millor temps a partir de l'índex donat.
      */
     public ArrayList<String> getRankingN(int mida, int index, int n) {
-        return rankingPerMida_[mida - MIDAMIN_].getN(index,n);
+        return rankingPerMida_[mida - MIDAMIN].getN(index,n);
+    }
+
+    /**
+     * Retorna el ranking complet de les partides de la mida corresponent.
+     * @param mida Mida del tauler de les partides.
+     * @return Llista de les partides del ranking.
+     */
+    public ArrayList<String> getRankingMida(int mida) {
+        return rankingPerMida_[mida - MIDAMIN].getRanking();
     }
     /**
      * Retorna les partides d'un usuari donat de la mida corresponent.
@@ -91,7 +100,7 @@ public class ControladorRanking {
      */
     private void inicialitzarRanking() {
         for (int i = 0; i < rankingPerMida_.length; ++i) {
-            ArrayList<String> partidesAcabades = controladorPersistenciaPartida_.carregaPartidesAcabadesMida(i + MIDAMIN_);
+            ArrayList<String> partidesAcabades = controladorPersistenciaPartida_.carregaPartidesAcabadesMida(i + MIDAMIN);
             for (String partidaAcabada : partidesAcabades) {
                 rankingPerMida_[i].afegirPartida(partidaAcabada);
             }

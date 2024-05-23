@@ -308,6 +308,11 @@ public class ControladorPartida {
      * @throws ExcepcioValorInvalid Si el valor de la casella no és vàlid.
      * @throws ExcepcioPartidaAcabada Si la partida està acabada.
      * @throws ExcepcioPosicioIncorrecta Si la posició de la casella no és correcta.
+     * @throws ExcepcioCasellaNoExisteix Si la casella no existeix.
+     * @throws ExcepcioCasellaNoModificable Si la casella no es pot modificar.
+     * @throws ExcepcioNoDivisor Si no es pot dividir entre algun valor amb un altre.
+     * @throws ExcepcioMoltsValors Si el nombre de valors no es correspon amb la regió.
+     * @throws ExcepcioDivisio_0 Si s'intenta dividir entre 0.
      */
     public ArrayList<int[]> donaPista() throws ExcepcioCarregaPartida, ExcepcioPartidaTancada, ExcepcioValorInvalid, ExcepcioPartidaAcabada, ExcepcioPosicioIncorrecta, ExcepcioCasellaNoExisteix, ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioCasellaNoModificable {
         if (partida_ == null) throw new ExcepcioCarregaPartida("No hi ha cap partida carregada");
@@ -339,7 +344,7 @@ public class ControladorPartida {
             }
         }
         partida_.setGuardadaPartida();
-        return null;
+        return new ArrayList<>();
     }
 
     /**

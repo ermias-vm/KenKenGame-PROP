@@ -47,6 +47,17 @@ public class Ranking {
         return ranking;
     }
     /**
+     * Retorna el ranking complet de les partides.
+     * @return Llista de les partides del ranking.
+     */
+    public ArrayList<String> getRanking() {
+        ArrayList<String> ranking = new ArrayList<>();
+        for (PartidaAcabada partida : rankingPartides) {
+            ranking.add(partida.getPartidaAcabada());
+        }
+        return ranking;
+    }
+    /**
      * Retorna les partides d'un usuari donat.
      * @param identificadorUsuari Identificador de l'usuari.
      * @return Llista de les partides de l'usuari donat.

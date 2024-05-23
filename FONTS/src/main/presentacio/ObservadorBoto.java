@@ -1,4 +1,4 @@
-package main.presentacio.Partida;
+package main.presentacio;
 
 /**
  * Interfície que defineix els mètodes que hauran d'implementar els observadors dels botons de la vista de jugar partida.
@@ -59,23 +59,6 @@ public interface ObservadorBoto {
      * Notifica als observadors que l'usuari vol jugar una partida guardada.
      */
     void jugarPartidaGuardada();
-
-    /**
-     * Notifica als observadors que l'usuari vol tornar.
-     */
-    void tornar();
-
-    /**
-     * Notifica als observadors que l'usuari vol tornar al menú.
-     */
-    void tornarMenu();
-
-    /**
-     * Notifica als observadors que l'usuari vol carregar una partida.
-     * @param buttonText El text del botó que s'ha premut.
-     */
-    void carregaPartida(String buttonText);
-
     /**
      * Notifica als observadors que l'usuari vol acabar.
      */
