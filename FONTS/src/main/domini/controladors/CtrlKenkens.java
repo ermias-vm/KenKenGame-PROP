@@ -44,7 +44,6 @@ public class CtrlKenkens {
             case 6:
                 return new Exponenciacio();
             default:
-                //System.out.println("SENSE OPERACIO");
                 return null;
         }
     }
