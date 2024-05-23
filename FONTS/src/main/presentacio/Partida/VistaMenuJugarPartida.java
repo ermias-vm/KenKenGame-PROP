@@ -1,7 +1,5 @@
 package main.presentacio.Partida;
 
-import main.presentacio.ObservadorBoto;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;

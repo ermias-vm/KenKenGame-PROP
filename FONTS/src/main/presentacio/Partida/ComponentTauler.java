@@ -1,4 +1,4 @@
-package main.presentacio;
+package main.presentacio.Partida;
 
 
 

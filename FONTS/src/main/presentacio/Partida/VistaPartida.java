@@ -1,7 +1,4 @@
 package main.presentacio.Partida;
-import main.presentacio.ComponentTauler;
-import main.presentacio.ObservadorBoto;
-import main.presentacio.ObservadorCasella;
 
 import javax.swing.*;
 import java.awt.*;

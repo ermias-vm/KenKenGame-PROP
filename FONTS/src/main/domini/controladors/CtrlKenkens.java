@@ -28,6 +28,7 @@ public class CtrlKenkens {
         if (ctrlKenkens == null) ctrlKenkens = new CtrlKenkens();
         return ctrlKenkens;
     }
+
     private Operacio getOperacio(int oper) {
         switch (oper) {
             case 1:
@@ -118,24 +119,6 @@ public class CtrlKenkens {
         return sb.toString();
     }
 
-    public void mostrarTauler(Tauler T) throws Exception {
-        int grau = T.getGrau();
-        for (int i = 1; i <= grau; i++) {
-            for (int j = 1; j <= grau; j++) {
-                int valor = T.getCasella(i, j).getValor();
-                System.out.print(valor + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
-    }
-
-    public void pintarTauler(String idTauler) throws Exception {
-        Tauler T = llegirTauler(idTauler);
-        System.out.println("Contingut del Tauler " + idTauler + ":");
-        mostrarTauler(T);
-    }
-
     public String seleccionaTaulerAleatori(int mida) {
         return controladorPersistenciaTauler_.seleccionaTaulerAleatori(mida);
     }
@@ -169,6 +152,34 @@ public class CtrlKenkens {
     }
 
 
+    public String guardarTaulerBD(String contigutTauler) {
+        String idTauler = ControladorPersistenciaTauler.getInstance().generaIdentificadorIGuardaTauler(contigutTauler);
+        return idTauler;
+    }
+
+    public boolean comprovarKenkenCreat(String contingutTauler) {
+        try {
+            System.out.println(contingutTauler);
+            Tauler T = stringToTauler(contingutTauler, "temporal");
+            AS.solucionarKenken(T);
+            if (T.teSolucio()) {
+                System.out.println("Tauler resolt:");
+                mostrarTauler(T);
+            }
+            else {
+                System.out.println("El tauler no té solució."+ "\n");
+                mostrarTauler(T);
+            }
+            return T.teSolucio();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+
+
+    ///////////////////////////////  FUNCIONS DIRVERS  ///////////////////////////////////
+
     public void resoldreKenken(String idTauler, boolean guardarBD) throws Exception {
         int grau = Integer.parseInt(idTauler.split("-")[1]);
         Tauler T = llegirTauler(idTauler);
@@ -189,21 +200,27 @@ public class CtrlKenkens {
             System.out.println("El tauler no té solució."+ "\n");
             mostrarTauler(T);
         }
-
         if (guardarBD) {
-            ControladorPersistenciaTauler.getInstance().generaIdentificadorIGuardaTauler(taulerToString(T));
-            System.out.println("Tauler guardat en : data/talers/mida" + grau + "/");
+            guardarTaulerBD(taulerToString(T));
         }
     }
 
-    public boolean comprovarKenkenCreat(String contingutTauler) {
-        try {
-            Tauler T = stringToTauler(contingutTauler, "temporal");
-            AS.solucionarKenken(T);
-            return T.teSolucio();
-        } catch (Exception e) {
-            return false;
+    public void pintarTauler(String idTauler) throws Exception {
+        Tauler T = llegirTauler(idTauler);
+        System.out.println("Contingut del Tauler " + idTauler + ":");
+        mostrarTauler(T);
+    }
+
+    public void mostrarTauler(Tauler T) throws Exception {
+        int grau = T.getGrau();
+        for (int i = 1; i <= grau; i++) {
+            for (int j = 1; j <= grau; j++) {
+                int valor = T.getCasella(i, j).getValor();
+                System.out.print(valor + " ");
+            }
+            System.out.println();
         }
+        System.out.println();
     }
 
 }

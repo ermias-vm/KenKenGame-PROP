@@ -1,6 +1,7 @@
 package main.presentacio;
 
 import main.domini.controladors.CtrlDomini;
+import main.presentacio.CrearKenkenManual.CrearKenkenManual;
 
 import javax.swing.*;
 

@@ -1,4 +1,4 @@
-package main.presentacio;
+package main.presentacio.Partida;
 
 /**
  * Interfície que defineix els mètodes que hauran d'implementar els observadors dels botons de la vista de jugar partida.

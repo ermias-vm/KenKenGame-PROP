@@ -1,4 +1,4 @@
-package main.presentacio;
+package main.presentacio.CrearKenkenManual;
 
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
@@ -24,8 +24,7 @@ public class CasellaConstructora extends JPanel {
         this.posY = posY;
         this.setBorder(BorderFactory.createLineBorder(Color.GRAY));
         this.setBackground(Color.WHITE);
-        this.setLayout(null);
-        //System.out.println("Soc a la casella " + posX + " " + posY);
+        this.setLayout(null);//MIRAR_----------------------------------
         addMouseListener();
     }
 
@@ -101,7 +100,7 @@ public class CasellaConstructora extends JPanel {
                             }
                         }
                         String resultat = resultatField.getText();
-                        CrearKenkenManual.getInstance().assignarCasellesRegio(operacio, resultat);
+                        TaulerConstrutor.getInstance().assignarCasellesRegio(operacio, resultat);
                     }
                 }
             }
@@ -112,12 +111,12 @@ public class CasellaConstructora extends JPanel {
             if (this.seleccionada) {
                 this.seleccionada = false;
                 this.setBackground(new Color(255, 255, 255));
-                CrearKenkenManual.getInstance().eliminarPosCasella(posX, posY);
+                TaulerConstrutor.getInstance().eliminarPosCasella(posX, posY);
 
             } else {
                 this.seleccionada = true;
                 this.setBackground(new Color(145, 252, 246));
-                CrearKenkenManual.getInstance().afegirPosCasella(posX, posY);
+                TaulerConstrutor.getInstance().afegirPosCasella(posX, posY);
             }
     }
 

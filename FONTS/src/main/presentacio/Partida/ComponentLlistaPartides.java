@@ -1,8 +1,5 @@
-package main.presentacio;
+package main.presentacio.Partida;
 
-import javax.swing.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 /*
 public class ComponentLlistaPartides extends JLayeredPane implements ActionListener {
     private final int NOMBREPARTIDES_ = 10;
