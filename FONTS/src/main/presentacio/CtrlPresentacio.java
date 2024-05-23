@@ -1,11 +1,11 @@
 package main.presentacio;
 
 import main.domini.controladors.CtrlDomini;
-import main.presentacio.CrearKenkenManual.CrearKenkenManual;
 
 import javax.swing.*;
 
 public class CtrlPresentacio {
+    public static final int NOMBREPARTIDESLLISTA = 10;
     private static CtrlPresentacio CPre;
     private static CtrlDomini CD;
     private JFrame mainFrame = new JFrame();
@@ -70,10 +70,10 @@ public class CtrlPresentacio {
         mainFrame.setVisible(true);
     }
     public void showCrearKenKen() {
-        CrearKenkenManual.newInstance();
-        crearKenken = CrearKenkenManual.getInstance();
+        crearKenken= new CrearKenkenManual();
         mainFrame.setTitle("Creador Kenken");
         mainFrame.setContentPane(crearKenken.getDefaultPanel());
+        //mainFrame.pack();
         mainFrame.setVisible(true);
     }
 
@@ -91,12 +91,6 @@ public class CtrlPresentacio {
     public void initJugar() {
         //C.iniciarPartida();
     }
-
-    public void retornaMenuPrincipal() {
-        mainFrame.setContentPane(menuPrincipal.getDefaultPanel());
-        mainFrame.setVisible(true);
-    }
-
 }
 
 
