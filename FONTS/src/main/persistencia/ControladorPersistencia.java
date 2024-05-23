@@ -1,21 +1,22 @@
 package main.persistencia;
 
 public class ControladorPersistencia {
-    public static ControladorPersistenciaTauler controladorPersistenciaTauler_;
+
+    private static ControladorPersistencia controladorPersistencia_;
+    private static ControladorPersistenciaTauler controladorPersistenciaTauler_;
     private static CtrlUsuariData controladorPersistenciaUsuari_;
     private static ControladorPersistenciaPartida controladorPersistenciaPartida_;
-    public ControladorPersistencia() {
-        //controladorPersistenciaTauler_ = new ControladorPersistenciaTauler();
-        //controladorPersistenciaUsuari_ = new CtrlUsuariData();
-        //controladorPersistenciaPartida_ = new ControladorPersistenciaPartida();
+
+    private ControladorPersistencia() {
+        controladorPersistenciaTauler_ = ControladorPersistenciaTauler.getInstance();
+        controladorPersistenciaUsuari_ = CtrlUsuariData.getInstance();
+        controladorPersistenciaPartida_ = ControladorPersistenciaPartida.getInstance();
     }
-    public static ControladorPersistenciaTauler getControladorPersistenciaTauler() {
-        return controladorPersistenciaTauler_;
+
+    public static ControladorPersistencia getInstance() {
+        if (controladorPersistencia_ == null) controladorPersistencia_ = new ControladorPersistencia();
+        return controladorPersistencia_;
     }
-    public static CtrlUsuariData getControladorPersistenciaUsuari() {
-        return controladorPersistenciaUsuari_;
-    }
-    public static ControladorPersistenciaPartida getControladorPersistenciaPartida() {
-        return controladorPersistenciaPartida_;
-    }
+
+    //AFEGIR FUNCIONS DE CONTROLADORS DE PERSISTENCIA
 }

@@ -7,8 +7,10 @@ import javax.swing.*;
 
 public class CtrlPresentacio {
     public static final int NOMBREPARTIDESLLISTA = 10;
-    private static CtrlPresentacio CPre;
-    private static CtrlDomini CD;
+
+    private static CtrlPresentacio CPresentacio;
+    private static CtrlDomini CDomini;
+    private static CtrlUsuariUI CUsuariUI;
     private JFrame mainFrame = new JFrame();
 
     private IniciarSessio iniSessio;
@@ -20,12 +22,12 @@ public class CtrlPresentacio {
     private MissatgePopUp missatgePopUp;
 
     private CtrlPresentacio() {
-        CD = CtrlDomini.getInstance();
+        CDomini= CtrlDomini.getInstance();
     }
 
     public static CtrlPresentacio getInstance() {
-        if (CPre == null) CPre = new CtrlPresentacio();
-        return CPre;
+        if (CPresentacio == null) CPresentacio= new CtrlPresentacio();
+        return CPresentacio;
     }
 
     public void run() {

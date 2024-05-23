@@ -1,6 +1,6 @@
 package main.presentacio.Ranking;
 
-public class PartidesRanking extends main.presentacio.ComponentLlistaPartides{
+public class PartidesRanking extends main.presentacio.Partida.ComponentLlistaPartides{
     /**
      * Crea una llista de partides amb la informació donada i el nombre de partides a mostrar per pàgina.
      *

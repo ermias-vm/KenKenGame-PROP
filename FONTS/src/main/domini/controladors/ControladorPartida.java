@@ -67,7 +67,7 @@ public class ControladorPartida {
     private ControladorPartida() {
         controladorTauler_ = CtrlKenkens.getInstance();
         controladorPersistenciaPartida_ = ControladorPersistenciaPartida.getInstance();
-        controladorRanking_ = ControladorRanking.getInstance();
+        //controladorRanking_ = ControladorRanking.getInstance();
         partidesGuardadesUsuari_ = new HashMap<>();
         partida_ = null;
     }

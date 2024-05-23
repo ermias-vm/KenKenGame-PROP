@@ -1,5 +1,4 @@
-package main.presentacio;
-
+package main.presentacio.Partida;
 
 
 import javax.swing.*;

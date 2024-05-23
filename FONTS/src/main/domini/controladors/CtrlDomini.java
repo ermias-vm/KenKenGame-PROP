@@ -1,6 +1,5 @@
 package main.domini.controladors;
 
-
 import main.persistencia.ControladorPersistencia;
 
 
@@ -10,26 +9,27 @@ import main.persistencia.ControladorPersistencia;
  */
 public class CtrlDomini {
 
-    private static CtrlDomini ctrlDomini;
-
-    /*
-    private static CtrlUsuari ctrlUsuari;
-    private static ControladorPartida ctrlPartida;
-    private static CtrlKenkens ctrlKenkens;
-    private static CtrlRanking ctrlRanking;
-    private static ControladorPersistencia ctrlPersistencia;
-    */
-
+    private static CtrlDomini CDomini;
+    private static CtrlUsuari CUsuari;
+    private static ControladorPartida CPartida;
+    private static CtrlKenkens CKenkens;
+    //private static CtrlRanking CRanking;
+    private static ControladorPersistencia CPersistencia;
 
     private CtrlDomini() {
+        CPersistencia = ControladorPersistencia.getInstance();
+        CUsuari = CtrlUsuari.getInstance();
+        CPartida = ControladorPartida.getInstance();
+        CKenkens = CtrlKenkens.getInstance();
+        //CRanking = CtrlRanking.getInstance();  ----Falta afegir
 
-        //AC = new CreadorKenkenManual();
     }
+
 
     public static CtrlDomini getInstance() {
-        if (ctrlDomini == null) ctrlDomini = new CtrlDomini();
-        return ctrlDomini;
+        if (CDomini == null) CDomini = new CtrlDomini();
+        return CDomini;
     }
 
-
+    //AFEGIR FUNCIONS DE CONTROLADORS DEL DOMINI
 }

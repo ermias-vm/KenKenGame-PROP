@@ -11,9 +11,6 @@ import main.persistencia.ControladorPersistenciaTauler;
 
 import java.util.ArrayList;
 
-import static main.persistencia.ControladorPersistencia.controladorPersistenciaTauler_;
-
-
 public class CtrlKenkens {
     private static ControladorPersistenciaTauler ctrlTaulerData;
     private static SolucionadorKenken AS = new SolucionadorKenken();
@@ -119,7 +116,8 @@ public class CtrlKenkens {
     }
 
     public String seleccionaTaulerAleatori(int mida) {
-        return controladorPersistenciaTauler_.seleccionaTaulerAleatori(mida);
+        //Sha de fer desde Domini
+        return ControladorPersistenciaTauler.getInstance().seleccionaTaulerAleatori(mida);
     }
 
     public String creaKenkenStub(int mida) {
