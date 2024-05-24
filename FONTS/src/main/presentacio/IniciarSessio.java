@@ -21,7 +21,7 @@ public class IniciarSessio {
     private JPasswordField passwordFieldContr;
     private JButton buttonIniSessio;
     private JButton buttonCrearCompte;
-    private JLabel labelSerparado;
+    private JLabel labelSeparador;
     private JLabel errorLabel;
 
     //private CtrlPresentacio CPre = CtrlPresentacio.getInstance();
@@ -39,21 +39,22 @@ public class IniciarSessio {
 
                 if (usuari.isEmpty() || contrasenya.isEmpty()) {
                     System.out.println("Usuari i/o contrasenya no valida");
-                    errorLabel.setText("<html>Usuari i/o contrasenya no valida.<br>Si us plau comproveu les dades.</html>");
+                    errorLabel.setText("<html><div style='text-align: center;'>Usuari i/o contrasenya no valida." +
+                            "<br>Si us plau comproveu les dades.</div></html>");
                 } else {
                     try {
                         CUui.iniciarSessio(usuari, contrasenya);
                         System.out.println("Sessio iniciada correctament");
                         System.out.println("Sortint de iniciar sessio");
                         CtrlPresentacio.getInstance().showMenuPrincipal();
-                        //CtrlPresentacio.getInstance().showConfigUsuari();
-
                     } catch (ExcepcioUsuariNoExisteix ex) {
                         System.out.println("Usuari no existeix");
-                        errorLabel.setText("<html>Usuari no existeix.<br>Si us plau comproveu el vostre usuari.</html>");
+                        errorLabel.setText("<html><div style='text-align: center;'>Usuari no existeix." +
+                                "<br>Si us plau comproveu el vostre usuari.</div></html>");
                     } catch (ExcepcioContrasenyaIncorrecta ex) {
                         System.out.println("Contrasenya  incorrecta");
-                        errorLabel.setText("<html>Contrasenya incorrecta.<br>Si us plau comproveu la vostra contrsenya.</html>");
+                        errorLabel.setText("<html><div style='text-align: center;'>Contrasenya incorrecta." +
+                                "<br>Si us plau comproveu la vostra contrasenya.</div></html>");
                     }catch (Exception ex) {
                         ex.printStackTrace();
                     }
@@ -81,6 +82,8 @@ public class IniciarSessio {
 
     private void createUIComponents() {
         labelLogo = new JLabel(Utils.carregarImatge("resources/imatges/fonsKenken.png", 800, 800));
+        labelSeparador = new JLabel(Utils.carregarImatge("resources/imatges/separador_amb_or.png", 200, 20));
+
     }
 
     public JPanel getDefaultPanel() {

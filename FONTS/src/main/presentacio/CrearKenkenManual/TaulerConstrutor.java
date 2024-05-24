@@ -51,6 +51,10 @@ public class TaulerConstrutor extends JPanel {
         return posCaselles.size();
     }
 
+    public boolean esModificat() {
+        return (numCasellesAssignades > 0 || getNumCasellesSelecionades() > 0);
+    }
+
     public void afegirPosCasella (int x, int y) {
         posCaselles.add(new int[]{x, y});
     }
@@ -66,16 +70,22 @@ public class TaulerConstrutor extends JPanel {
 
     public void assignarCasellesRegio(String operacio, String resultat) {
         StringBuilder infoRegio = new StringBuilder();
-        infoRegio.append(traduirOperacio(operacio)).append(" ");
+        infoRegio.append(traduirOperacioAnum(operacio)).append(" ");
         infoRegio.append(resultat).append(" ");
         infoRegio.append(posCaselles.size());
 
         ordenarPosicionsCaselles();
+
+        int[] primeraPos = posCaselles.get(0);
+
         for (int[] pos : posCaselles) {
             CasellaConstructora casella = caselles[pos[0]][pos[1]];
             casella.marcaComRegio(dadesRegions.size());
             infoRegio.append(" ").append(pos[0]+1).append(" ").append(pos[1]+1);
         }
+
+        CasellaConstructora primeraCasella = caselles[primeraPos[0]][primeraPos[1]];
+        primeraCasella.addInfoRegio(resultat ,traduirOperacioAsimbol(operacio), mida);
 
         dadesRegions.add(infoRegio.toString().trim());
         imprimirDadesRegio();
@@ -87,23 +97,26 @@ public class TaulerConstrutor extends JPanel {
         imprimirDadesRegio();
         String infoRegio = dadesRegions.get(index);
         String[] parts = infoRegio.split(" ");
-        int numCaselles = Integer.parseInt(parts[2]);
 
-        for (int i = 0; i < numCaselles; i++) {
-            int x = Integer.parseInt(parts[3 + 2*i]) - 1;
-            int y = Integer.parseInt(parts[4 + 2*i]) - 1;
-            caselles[x][y].desmarcaComRegio();
-        }
-        //Actualitzar index de les regions
+        //Actualitzar index de les regions i desmarca les caselles de la regio  eliminada
         for (int i = 0; i < mida; i++) {
             for (int j = 0; j < mida; j++) {
-                if (caselles[i][j].getIndexRegio() > index) {
+                if (caselles[i][j].getIndexRegio() == index) {
+                    caselles[i][j].desmarcaComRegio();
+                }
+                else if (caselles[i][j].getIndexRegio() > index) {
                     caselles[i][j].decrementaIndexRegio();
                 }
             }
         }
-        dadesRegions.remove(index);
+        //Eliminar label de la informacio de la regio (resultat,operacio) que te la  primer casella
+        int x = Integer.parseInt(parts[3]) - 1;
+        int y = Integer.parseInt(parts[4]) - 1;
+        caselles[x][y].eliminarInfoRegio();
+
+        int numCaselles = Integer.parseInt(parts[2]);
         numCasellesAssignades -= numCaselles;
+        dadesRegions.remove(index);
         imprimirDadesRegio();
     }
 
@@ -138,19 +151,16 @@ public class TaulerConstrutor extends JPanel {
                     "exactament 2 caselles.<br>Si et plau, selecioni nomes dos caselles o canvia la operacio a SUMA o MULT</div></html>";
         }
 
-        //validarValorMinMax(operacio, Integer.parseInt(resultat));
-
+        //return validarValorMinMaxOperacio(operacio, Integer.parseInt(resultat));
         return null;
     }
 
-     String validarValorMinMax(String operacio, int resultat) {
+     String validarValorMinMaxOperacio(String operacio, int resultat) {
+        System.out.println("Opercio a validar: " + operacio + " Resultat: " + resultat);
         switch (operacio) {
             case "SUMA":
-
-
-                break;
+                return validarSuma(resultat);
             case "RESTA":
-
                 break;
             case "MULT":
 
@@ -168,10 +178,26 @@ public class TaulerConstrutor extends JPanel {
         return null;
     }
 
+private String validarSuma(int resultat) {
+        int N = getNumCasellesSelecionades();
+        int min = N *(N+1)/2; //modificar
+        int max = 0;
+
+        for (int i = mida; i > mida - N; i--) { //modifiacar
+            max += i;
+        }
+        System.out.println("Min: " + min + " Max: " + max);
+        if (resultat < min || resultat > max) {
+            System.out.println("Suma invalida");
+            return "<html><div style='text-align: center;'>El resultat de la suma de " + N +
+                    " caselles ha de ser <br> un valor entre " + min + " i " + max + "</div></html>";
+        }
+        System.out.println("Suma validada");
+        return null;
+    }
 
 
-
-    private String traduirOperacio(String operacio) {
+    private String traduirOperacioAnum(String operacio) {
         switch (operacio) {
             case "SUMA":
                 if(posCaselles.size() == 1) return "0";
@@ -187,8 +213,38 @@ public class TaulerConstrutor extends JPanel {
             case "MOD":
                 return "6";
             default:
-                return "-1";
+                return null;
         }
+    }
+    private String traduirOperacioAsimbol(String operacio) {
+        switch (operacio) {
+            case "SUMA":
+                if(posCaselles.size() == 1) return "";
+                return "+";
+            case "RESTA":
+                return "-";
+            case "MULT":
+                return "x";
+            case "DIV":
+                return "÷";
+            case "EXP":
+                return "^";
+            case "MOD":
+                return "%";
+            default:
+                return null;
+        }
+    }
+
+    public void resetTauler() {
+        for (int i = 0; i < mida; i++) {
+            for (int j = 0; j < mida; j++) {
+                caselles[i][j].configInicial();
+            }
+        }
+        numCasellesAssignades = 0;
+        dadesRegions.clear();
+        posCaselles.clear();
     }
 
     public void imprimirDadesRegio() {
@@ -198,5 +254,6 @@ public class TaulerConstrutor extends JPanel {
         }
         System.out.println(" ");
     }
+
 
 }

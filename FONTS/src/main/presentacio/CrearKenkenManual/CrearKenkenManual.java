@@ -2,7 +2,6 @@ package main.presentacio.CrearKenkenManual;
 
 import main.domini.controladors.CtrlKenkens;
 import main.presentacio.CtrlPresentacio;
-import main.presentacio.MissatgePopUp;
 import main.presentacio.Utils;
 
 import javax.swing.*;
@@ -12,7 +11,6 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class CrearKenkenManual {
@@ -29,9 +27,11 @@ public class CrearKenkenManual {
     private JButton sortirButton;
     private JButton aceptarButton;
     private JComboBox grauComboBox;
+    private JButton resetBoton;
+    private JPanel panelDret;
 
     private TaulerConstrutor TaulerKenken;
-    private boolean taulerModificat = false;
+    private boolean enModeEditor;
 
 
     public static CrearKenkenManual getInstance() {
@@ -49,14 +49,21 @@ public class CrearKenkenManual {
         sortirButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (taulerModificat) {
-                    MissatgePopUp missatgePopUp = CtrlPresentacio.getInstance().showPopUp("<html>Estas segur que vols sortir?<br>Si surts sense guardar es perdran els canvis</html>");
-                    if (!missatgePopUp.esCancelat()) {
-                        System.out.println("Sortint de crear kenken");
-                        CtrlPresentacio.getInstance().showMenuPrincipal();
+                if (enModeEditor) {
+                    if (TaulerKenken.esModificat()) {
+                        int dialogResult = JOptionPane.showConfirmDialog(sortirButton, "<html><div style='text-align: center;'>Estàs segur que vols sortir?" +
+                                "<br>Si surts sense guardar es perdran els canvis</div></html>", "Avís", JOptionPane.YES_NO_OPTION);
+                        if(dialogResult == JOptionPane.YES_OPTION) {
+                            System.out.println("Sortint de crear kenken");
+                            CtrlPresentacio.getInstance().showCrearKenKen();
+                        }
+                        else {
+                            System.out.println("Sortida mode editor cancelada");
+                        }
                     }
                     else {
-                        System.out.println("Sortida cancelada");
+                        System.out.println("Sortint del mode editor");
+                        CtrlPresentacio.getInstance().showCrearKenKen();
                     }
                 }
                 else {
@@ -69,11 +76,12 @@ public class CrearKenkenManual {
         aceptarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                taulerModificat = true;
+                enModeEditor = true;
                 aceptarButton.setVisible(false);
                 grauLabel.setVisible(false);
                 grauComboBox.setVisible(false);
                 guardarButton.setVisible(true);
+                resetBoton.setVisible(true);
                 int mida = Integer.parseInt((String) grauComboBox.getSelectedItem());
                 TaulerConstrutor.newInstance(mida);
                 TaulerKenken = TaulerConstrutor.getInstance();
@@ -88,19 +96,31 @@ public class CrearKenkenManual {
             public void actionPerformed(ActionEvent e) {
                 int mida = TaulerKenken.getMida();
                 if (TaulerKenken.getNumCasellesAssignades() != mida*mida) {
-                    JOptionPane.showMessageDialog(panelComplet, "Hi ha caselles sense regio assignada", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(guardarButton, "Hi ha caselles sense regio assignada", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
                     String contingutTauler = TaulerKenken.getContigutTauler();
                     System.out.println(contingutTauler);
-                    if (CtrlKenkens.getInstance().comprovarKenkenCreat(contingutTauler.toString())) {
-                        System.out.println("Kenken valid");
+                    if (CtrlKenkens.getInstance().esTaulerValid(contingutTauler)) {
+                        System.out.println("Tauler Kenken vàlid");
                         String idTauler = CtrlKenkens.getInstance().guardarTaulerBD(contingutTauler);
                         String missatge = "Tauler guardat amb id: " + idTauler  + " en la ubicacio data/taulers/mida" + mida + "/" + idTauler + ".txt";
-                        JOptionPane.showMessageDialog(panelComplet, missatge, "Informació", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(guardarButton, missatge, "Informació", JOptionPane.INFORMATION_MESSAGE);
                         System.out.println(missatge);
                         CtrlPresentacio.getInstance().showMenuPrincipal();
                     } else {
-                        JOptionPane.showMessageDialog(panelComplet, "El Kenken no es valid", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(guardarButton, "El Tauler Kenken no es vàlid", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+        });
+
+        resetBoton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (TaulerKenken.esModificat()) {
+                    int dialogResult = JOptionPane.showConfirmDialog(resetBoton, "Estas segur que vols reiniciar la creacio del Kenken?", "Comfirmacio", JOptionPane.YES_NO_OPTION);
+                    if (dialogResult == JOptionPane.YES_OPTION) {
+                        TaulerKenken.resetTauler();
                     }
                 }
             }
@@ -115,7 +135,6 @@ public class CrearKenkenManual {
             }
         });
     }
-
 
 
     public JPanel crearOperacioPanel() {
@@ -136,14 +155,14 @@ public class CrearKenkenManual {
         return operacioPanel;
     }
 
-    public void processarEntradaUsuari() {
+    public void processarEntradaUsuari(CasellaConstructora casellaPremuda) {
         JPanel operacioPanel = this.crearOperacioPanel();
         JPanel resultatPanel = this.crearResultatPanel();
         int opcio;
         String error = null;
 
         do {
-            opcio = this.mostrarDialog(operacioPanel, resultatPanel, error);
+            opcio = this.mostrarDialog(operacioPanel, resultatPanel, error, casellaPremuda);
 
             if (opcio == JOptionPane.OK_OPTION) {
                 String operacio = this.obtenerOperacioSeleccionada(operacioPanel);
@@ -179,7 +198,7 @@ public class CrearKenkenManual {
         return resultatPanel;
     }
 
-    public int mostrarDialog(JPanel operacioPanel, JPanel resultatPanel, String errorMessage) {
+    public int mostrarDialog(JPanel operacioPanel, JPanel resultatPanel, String errorMessage, CasellaConstructora casellaPremuda) {
         Object[] message = {
                 "Operació:", operacioPanel,
                 new Box.Filler(new Dimension(0, 10), new Dimension(0, 10), new Dimension(0, 10)),
@@ -187,7 +206,7 @@ public class CrearKenkenManual {
         };
 
         JOptionPane optionPane = new JOptionPane(message, JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
-        JDialog dialog = optionPane.createDialog("Introdueix la operació i el resultat");
+        JDialog dialog = optionPane.createDialog(casellaPremuda, "Introdueix la operació i el resultat");
         dialog.setSize(new Dimension(280, 240));
 
         if (errorMessage != null) {
@@ -229,7 +248,9 @@ public class CrearKenkenManual {
 
     public void configuracioInicial () {
         System.out.println("Entrant a la pantalla de crear kenken");
+        enModeEditor = false;
         guardarButton.setVisible(false);
+        resetBoton.setVisible(false);
         previewTauler(3);
     }
 

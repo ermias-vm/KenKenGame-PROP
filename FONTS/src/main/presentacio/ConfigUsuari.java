@@ -1,7 +1,6 @@
 package main.presentacio;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 
 public class ConfigUsuari {
@@ -9,7 +8,7 @@ public class ConfigUsuari {
 
     private JPanel panelComplet;
     private JLabel labelLogo;
-    private JPanel panel2;
+    private JPanel panelDreta;
     private JLabel canviarContrasenyaLabel;
     private JPasswordField passwordFieldContr;
     private JPasswordField passwordFieldConfContr;
@@ -121,15 +120,17 @@ public class ConfigUsuari {
 
                 if (contraActual.isEmpty() || contraActual.equals("Contrasenya actual") || contraNova.isEmpty() || contraNova.equals("Nova contrasenya") || contraNovaConf.isEmpty() || contraNovaConf.equals("Comfirmar nova contrasenya")) {
                     System.out.println("Contrasenya actual i/o nova contrasenya no valida");
-                    errorLabel.setText("<html>Contrasenya actual i/o <br>nova contrasenya no valida.<br>Si us plau comproveu les dades.</html>");
+                    errorLabel.setText("<html><div style='text-align: center;'>Contrasenya actual i/o <br>nova contrasenya no valida.<br>Si us plau comproveu les dades.</div></html>");
                 } else if (!contraNova.equals(contraNovaConf)) {
                     System.out.println("Contrasenyes no coincideixen");
-                    errorLabel.setText("<html>Contrasenyes no coincideixen.<br>Si us plau comproveu les dades.</html>");
+                    errorLabel.setText("<html><div style='text-align: center;'>Contrasenyes no coincideixen.<br>Si us plau comproveu les dades.</div></html>");
                 } else {
                     try {
-                        MissatgePopUp missatgePopUp = CtrlPresentacio.getInstance().showPopUp("<html>Estas segur que vols canviar<br>la contrasenya actual?</html>");
-                        if (!missatgePopUp.esCancelat()) {
+                        int dialogResult = JOptionPane.showConfirmDialog(guardarButton, "<html><div style='text-align: center;'>Estas segur que vols canviar" +
+                                "<br>la contrasenya actual?</div></html>", "Confirmació", JOptionPane.YES_NO_OPTION);
+                        if (dialogResult == JOptionPane.YES_OPTION) {
                             CtrlUsuariUI.getInstance().canviarContrasenya(contraActual, contraNova);
+                            JOptionPane.showMessageDialog(guardarButton,"Contrasenya canviada correctament","Informacó",JOptionPane.INFORMATION_MESSAGE);
                             System.out.println("Contrasenya canviada correctament");
                         }
                         else {
@@ -137,12 +138,12 @@ public class ConfigUsuari {
                         }
                     } catch (Exception ex) {
                         System.out.println("Contrasenya actual incorrecta");
-                        errorLabel.setText("<html>Contrasenya actual incorrecta.<br>Si us plau comproveu la vostra contrasenya.</html>");
+                        errorLabel.setText("<html><div style='text-align: center;'>Contrasenya actual incorrecta." +
+                                "<br>Si us plau comproveu la vostra contrasenya.</div></html>");
                     }
                 }
             }
         });
-
 
         tancarSessioButton.addActionListener(new ActionListener() {
             @Override

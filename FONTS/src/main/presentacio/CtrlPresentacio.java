@@ -19,7 +19,6 @@ public class CtrlPresentacio {
     private CrearKenKenParametres generarKenken;
     private CrearKenkenManual crearKenken;
     private ConfigUsuari configUsuari;
-    private MissatgePopUp missatgePopUp;
 
     private CtrlPresentacio() {
         CDomini= CtrlDomini.getInstance();
@@ -80,16 +79,6 @@ public class CtrlPresentacio {
         mainFrame.setVisible(true);
     }
 
-    public MissatgePopUp showPopUp(String message) {
-        JDialog dialog = new JDialog(mainFrame, "Missatge Comfirmacio", true);
-        MissatgePopUp missatgePopUp = new MissatgePopUp(message, dialog);
-        dialog.setContentPane(missatgePopUp.getDefaultPanel());
-        dialog.setSize(375, 175);
-        dialog.setResizable(false);
-        dialog.setLocationRelativeTo(mainFrame);
-        dialog.setVisible(true);
-        return missatgePopUp;
-    }
 
     public void initJugar() {
         //C.iniciarPartida();
