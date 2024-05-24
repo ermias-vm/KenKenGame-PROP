@@ -1,7 +1,5 @@
 package main.presentacio.Partida;
 
-import main.presentacio.ObservadorLlista;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -185,7 +183,7 @@ public abstract class ComponentLlistaPartides extends JLayeredPane {
      * @param ob Observador de la llista de partides.
      */
     public void addObservadorLlista(ObservadorLlista ob) {
-        observadorsLLista_.add(ob);
+            observadorsLLista_.add(ob);
     }
 
     /**
