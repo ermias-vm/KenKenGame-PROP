@@ -5,7 +5,7 @@ package main.presentacio.Partida;
  * En una pàgina s'ensenya la mida, data i temps de les (int) NOMBREPARTIDES partides guardades de l'usuari,
  * i es pot navegar entre pàgines.
  */
-public class VistaPartidesGuardades  extends  ComponentLlistaPartides{
+public class VistaPartidesGuardades  extends ComponentLlistaPartides {
     /**
      * Crea una vista de les partides guardades amb les partides guardades de l'usuari.
      * @param partidesGuardades Array de partides guardades de l'usuari.

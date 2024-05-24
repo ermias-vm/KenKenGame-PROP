@@ -1,6 +1,6 @@
 package main.presentacio.Ranking;
 
-import main.presentacio.ObservadorLlista;
+import main.presentacio.Partida.ObservadorLlista;
 
 import static main.presentacio.CtrlPresentacio.NOMBREPARTIDESLLISTA;
 import javax.swing.*;

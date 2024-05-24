@@ -3,7 +3,6 @@ package main.presentacio.Partida;
 import main.domini.controladors.ControladorPartida;
 import main.domini.excepcions.*;
 import main.presentacio.CtrlPresentacio;
-import main.presentacio.ObservadorLlista;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
