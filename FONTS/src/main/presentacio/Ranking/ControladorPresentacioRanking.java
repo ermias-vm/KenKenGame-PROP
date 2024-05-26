@@ -11,12 +11,12 @@ import static main.domini.controladors.ControladorRanking.MIDAMIN;
 public class ControladorPresentacioRanking implements ObservadorBuscador, ObservadorSelectorMida, ObservadorLlista {
     private int ultimaMida_;
     private VistaRankings vistaRankings_;
-    private ControladorRanking controladorRanking_;
+    private CtrlPresentacio controladorPresentacio_;
     private static ControladorPresentacioRanking instance_;
     private JPanel mainPanel_;
     private ControladorPresentacioRanking() {
         mainPanel_ = new JPanel();
-        controladorRanking_ = ControladorRanking.getInstance();
+        controladorPresentacio_ = CtrlPresentacio.getInstance();
     }
     public static ControladorPresentacioRanking getInstance() {
         if (instance_ == null) instance_ = new ControladorPresentacioRanking();
@@ -24,7 +24,7 @@ public class ControladorPresentacioRanking implements ObservadorBuscador, Observ
     }
     public void inicialitzaVistaRankings(){
         ultimaMida_ = MIDAMIN;
-        String[] informacioPartides = controladorRanking_.getRankingMida(MIDAMIN).toArray(new String[0]);
+        String[] informacioPartides = controladorPresentacio_.getRankingMida(MIDAMIN).toArray(new String[0]);
         vistaRankings_ = new VistaRankings(informacioPartides);
         vistaRankings_.addObservadorBuscador(this);
         vistaRankings_.addObservadorSelectorMida(this);
@@ -47,7 +47,7 @@ public class ControladorPresentacioRanking implements ObservadorBuscador, Observ
     @Override
     public void midaSeleccionada(String mida) {
         ultimaMida_ = Integer.parseInt(mida);
-        String[] informacioPartides = controladorRanking_.getRankingMida(Integer.parseInt(mida)).toArray(new String[0]);
+        String[] informacioPartides = controladorPresentacio_.getRankingMida(Integer.parseInt(mida)).toArray(new String[0]);
         vistaRankings_.actualitzaPartides(informacioPartides);
         mainPanel_.revalidate();
         mainPanel_.repaint();
@@ -56,10 +56,10 @@ public class ControladorPresentacioRanking implements ObservadorBuscador, Observ
     @Override
     public void busquedaUsuari(String nom) {
         if (nom.equals("")) {
-            String[] informacioPartides = controladorRanking_.getRankingMida(ultimaMida_).toArray(new String[0]);
+            String[] informacioPartides = controladorPresentacio_.getRankingMida(ultimaMida_).toArray(new String[0]);
             vistaRankings_.actualitzaPartides(informacioPartides);
         } else {
-            String[] informacioPartides = controladorRanking_.getRankingUsuari(nom).toArray(new String[0]);
+            String[] informacioPartides = controladorPresentacio_.getRankingUsuari(nom).toArray(new String[0]);
             if (informacioPartides.length == 0) {
                 JOptionPane.showMessageDialog(null, "No s'ha trobat cap partida amb aquest usuari", "Error", JOptionPane.ERROR_MESSAGE);
             }

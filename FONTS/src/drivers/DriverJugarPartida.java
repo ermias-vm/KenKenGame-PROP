@@ -47,7 +47,7 @@ public class DriverJugarPartida {
             switch (opcio) {
                 case 1:
                     try {
-                        String[] estat = controladorPartida.carregarUltimaPartidaGuardada(nomUsuari);
+                        String[] estat = controladorPartida.carregarUltimaPartidaGuardadaPersistencia(nomUsuari);
                         jugar(scanner, controladorPartida, estat, nomUsuari);
                     }
                     catch (ExcepcioCarregaPartida| ExcepcioNoPermisUsuari e) {
@@ -68,7 +68,7 @@ public class DriverJugarPartida {
                     ArrayList<String> identificadors_partides = new ArrayList<>();
                     if (controladorPartida.getPartidesGuardadesUsuari().length == 0) {
                         try {
-                            identificadors_partides = controladorPartida.carregarPartidesGuardadesUsuari(nomUsuari);
+                            identificadors_partides = controladorPartida.carregarPartidesGuardadesUsuariPersistencia(nomUsuari);
                         } catch (ExcepcioCarregaPartida e) {
                             System.out.println(e.getMessage());
                             break;
@@ -133,7 +133,7 @@ public class DriverJugarPartida {
                         String identificadorTauler;
                         do {
                             identificadorTauler = controladorTaulers.selecionaTaulerAleatori(mida);
-                            if (controladorPartida.haJugat(identificadorTauler, nomUsuari)){
+                            if (controladorPartida.haJugatPersistencia(identificadorTauler, nomUsuari)){
                                 jugat = false;
                             }
                         }
@@ -339,7 +339,7 @@ public class DriverJugarPartida {
                     break;
                 case 5:
                     try {
-                        boolean guardada = controladorPartida.guardarPartida(nomUsuari);
+                        boolean guardada = controladorPartida.guardarPartidaPersistencia(nomUsuari);
                         if (guardada) System.out.println("Partida guardada correctament.");
                         else System.out.println("No s'ha pogut guardar la partida, torna-ho a intentar.");
                     } catch (ExcepcioPartidaTancada | ExcepcioCarregaPartida | ExcepcioPartidaAcabada |

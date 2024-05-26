@@ -4,7 +4,6 @@ import main.domini.classes.Regio;
 import main.domini.excepcions.*;
 import main.persistencia.ControladorPersistenciaPartida;
 import main.domini.classes.Tauler;
-import main.persistencia.ControladorPersistenciaTauler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,30 +43,19 @@ public class ControladorPartida {
      */
     private final Stack<int[]> referMoviments_ = new Stack<>();
     /**
-     * Controlador de persistència de les partides. S'encarrega de guardar i carregar les partides.
-     * @see ControladorPersistenciaPartida
+     * Instància del controlador de domini.
      */
-    private ControladorPersistenciaPartida controladorPersistenciaPartida_;
-    /**
-     * Controlador de domini dels taulers de Kenken.
-     * @see CtrlKenkens
-     */
-    private CtrlKenkens controladorTauler_;
+    private CtrlDomini controladorDomini_;
+
     /**
      * Instància del controlador de partida.
      */
     private static ControladorPartida controladorPartida_;
     /**
-     * Instància del controlador de ranking.
-     */
-    private static ControladorRanking controladorRanking_;
-    /**
      * Constructora per defecte.
      */
     private ControladorPartida() {
-        controladorTauler_ = CtrlKenkens.getInstance();
-        controladorPersistenciaPartida_ = ControladorPersistenciaPartida.getInstance();
-        //controladorRanking_ = ControladorRanking.getInstance();
+        controladorDomini_ = CtrlDomini.getInstance();
         partidesGuardadesUsuari_ = new HashMap<>();
         partida_ = null;
     }
@@ -80,24 +68,6 @@ public class ControladorPartida {
         if (controladorPartida_ == null) controladorPartida_ = new ControladorPartida();
         return new ControladorPartida();
     }
-    /**
-     * Setter del controlador de taulers.
-     * @param controladorTauler Controlador de taulers de Kenken.
-     * @return true.
-     */
-    public boolean setControladorTauler(CtrlKenkens controladorTauler) {
-        controladorTauler_ = controladorTauler;
-        return true;
-    }
-    /**
-     * Setter del controlador de persistència de les partides.
-     * @param controladorPersistenciaPartida Controlador de persistència de les partides.
-     * @return true.
-     */
-    public boolean setControladorPersistenciaPartida(ControladorPersistenciaPartida controladorPersistenciaPartida) {
-        controladorPersistenciaPartida_ = controladorPersistenciaPartida;
-        return true;
-    }
 
     /**
      * Getter dels identificadors de les partides d'un usuari si s'han carregat a memòria i en té.
@@ -106,6 +76,11 @@ public class ControladorPartida {
     public String[] getPartidesGuardadesUsuari() {
         return partidesGuardadesUsuari_.keySet().toArray(new String[0]);
     }
+
+    /**
+     * Getter de l'estat de la partida en curs.
+     * @return L'estat dels valors de la partida com a matriu d'enters.
+     */
     public int[][] getValorsPartida(){
         return partida_.getValorsPartida();
     }
@@ -116,7 +91,7 @@ public class ControladorPartida {
      * @return Retorna true si l'usuari ha jugat aquest tauler, false si no.
      */
     public boolean haJugat(String identificadorTauler, String nomUsuari) {
-        return controladorPersistenciaPartida_.haJugat(identificadorTauler, nomUsuari);
+        return controladorDomini_.haJugatPersistencia(identificadorTauler, nomUsuari);
     }
     public int getMidaPartida(){
         return partida_.getTaulerPartida().getGrau();
@@ -132,9 +107,9 @@ public class ControladorPartida {
      * @throws ExcepcioNoPermisUsuari Si el nom d'usuari no coincideix amb el de la partida.
      */
     public String carregarUltimaPartidaGuardada(String nomUsuari) throws ExcepcioCarregaPartida, ExcepcioInicialitzacioPersistenciaPartida, ExcepcioPartidaEnCurs, ExcepcioNoPermisUsuari, ExcepcioCreacioPartida{
-        if (controladorPersistenciaPartida_ == null) throw new ExcepcioInicialitzacioPersistenciaPartida("No s'ha inicialitzat el controlador de persistència de les partides");
+        if (controladorDomini_ == null) throw new ExcepcioInicialitzacioPersistenciaPartida("No s'ha inicialitzat el controlador de persistència de les partides");
         if (partida_ != null) throw new ExcepcioPartidaEnCurs("S'està jugant una partida en aquest moment");
-        String partida = controladorPersistenciaPartida_.carregarUltimaPartidaGuardada(nomUsuari);
+        String partida = controladorDomini_.carregarUltimaPartidaGuardadaPersistencia(nomUsuari);
         if (partida.isEmpty()) throw new ExcepcioCarregaPartida("No hi ha cap partida guardada de l'usuari " + nomUsuari);
         partida_ = stringToPartida(partida, nomUsuari);
         String partidaText = partida_.generaPartidaText();
@@ -149,8 +124,8 @@ public class ControladorPartida {
      * @throws ExcepcioCarregaPartida Si no hi ha cap partida guardada de l'usuari.
      */
     public ArrayList<String> carregarPartidesGuardadesUsuari(String nomUsuari) throws ExcepcioCarregaPartida, ExcepcioInicialitzacioPersistenciaPartida {
-        if (controladorPersistenciaPartida_ == null) throw new ExcepcioInicialitzacioPersistenciaPartida("No s'ha inicialitzat el controlador de persistència de les partides");
-        ArrayList<String>partides = controladorPersistenciaPartida_.carregarPartidesGuardadesUsuari(nomUsuari);
+        if (controladorDomini_ == null) throw new ExcepcioInicialitzacioPersistenciaPartida("No s'ha inicialitzat el controlador de persistència de les partides");
+        ArrayList<String>partides = controladorDomini_.carregarPartidesGuardadesUsuariPersistencia(nomUsuari);
         ArrayList<String> identificadorsPartidesUsuari = new ArrayList<>();
         for (String partida : partides) {
             String[] linies = partida.split("\n");
@@ -192,8 +167,8 @@ public class ControladorPartida {
      */
     public String iniciaPartidaIdentificadorTauler(String identificadorTauler, String nomUsuari) throws ExcepcioCarregaTauler, ExcepcioPartidaEnCurs, ExcepcioInicialitzacioControladorTauler{
         if (partida_ != null) throw new ExcepcioPartidaEnCurs("S'està jugant una partida en aquest moment");
-        if (controladorTauler_ == null) throw new ExcepcioInicialitzacioControladorTauler("No s'ha inicialitzat el controlador de taulers");
-        Tauler tauler = controladorTauler_.llegirTauler(identificadorTauler);
+        if (controladorDomini_ == null) throw new ExcepcioInicialitzacioControladorTauler("No s'ha inicialitzat el controlador de taulers");
+        Tauler tauler = controladorDomini_.llegirTauler(identificadorTauler);
         if (tauler == null) throw new ExcepcioCarregaTauler("No s'ha pogut carregar el tauler amb identificador " + identificadorTauler);
         partida_ = new Partida(nomUsuari, tauler);
         if (haJugat(identificadorTauler, nomUsuari)) partida_.setGuardadaPartida();
@@ -213,14 +188,14 @@ public class ControladorPartida {
      */
     public String iniciaPartidaAleatoria(int mida, String nomUsuari) throws ExcepcioPartidaEnCurs, ExcepcioInicialitzacioControladorTauler {
         if (partida_ != null) throw new ExcepcioPartidaEnCurs("S'està jugant una partida en aquest moment");
-        if (controladorTauler_ == null) throw new ExcepcioInicialitzacioControladorTauler("No s'ha inicialitzat el controlador de taulers");
+        if (controladorDomini_ == null) throw new ExcepcioInicialitzacioControladorTauler("No s'ha inicialitzat el controlador de taulers");
         String identificadorTauler;
         do{
-            identificadorTauler = controladorTauler_.seleccionaTaulerAleatori(mida);
+            identificadorTauler = controladorDomini_.seleccionaTaulerAleatoriPersistencia(mida);
         }
         while (haJugat(identificadorTauler, nomUsuari) && identificadorTauler != null);
-        if (identificadorTauler == null) identificadorTauler = controladorTauler_.creaKenkenStub(mida);
-        Tauler tauler = controladorTauler_.llegirTauler(identificadorTauler);
+        if (identificadorTauler == null) identificadorTauler = controladorDomini_.creaKenkenStub(mida);
+        Tauler tauler = controladorDomini_.llegirTauler(identificadorTauler);
         partida_ = new Partida(nomUsuari, tauler);
         String partidaText = partida_.generaPartidaText();
         return partidaText;
@@ -312,7 +287,7 @@ public class ControladorPartida {
                 valorsIncorrectesRegio.add(new int[]{fila, columna});
             }
         }
-        int[][] solucioTotal = controladorTauler_.resoldreKenken(partida_.getTaulerPartida(), partida_.getValorsPartida());
+        int[][] solucioTotal = controladorDomini_.resoldreKenken(partida_.getTaulerPartida(), partida_.getValorsPartida());
         boolean posat = false;
         while (!posat){
             int fila = (int) (Math.random() * partida_.getTaulerPartida().getGrau());
@@ -340,7 +315,7 @@ public class ControladorPartida {
         String identificadorPartida = partida_.getIdentificadorPartida();
         String dadesPartida = partida_.guardaPartida();
         partidesGuardadesUsuari_.put(identificadorPartida, dadesPartida);
-        return controladorPersistenciaPartida_.guardarPartida(dadesPartida);
+        return controladorDomini_.guardarPartidaPersistencia(dadesPartida);
     }
     /**
      * Tanca i guarda la partida en curs del controlador. L'afegeix també al mapa de partides guardades de l'usuari.
@@ -357,7 +332,7 @@ public class ControladorPartida {
         String identificadorPartida = partida_.getIdentificadorPartida();
         String dadesPartida = partida_.tancaIGuardaPartida();
         partidesGuardadesUsuari_.put(identificadorPartida, dadesPartida);
-        boolean guardada = controladorPersistenciaPartida_.guardarPartida(dadesPartida);
+        boolean guardada = controladorDomini_.guardarPartidaPersistencia(dadesPartida);
         if (guardada) tancaPartida();
         return guardada;
     }
@@ -377,10 +352,10 @@ public class ControladorPartida {
         desferMoviments_.clear();
         String dataPartida = partida_.acabaPartida();
         String temps = dataPartida.split("\n")[3];
-        boolean guardadaCorrectament = controladorPersistenciaPartida_.arxivarPartida(dataPartida);
+        boolean guardadaCorrectament = controladorDomini_.arxivarPartidaPersistencia(dataPartida);
         if (guardadaCorrectament){
             tancaPartida();
-            if (!haviaEstatGuardada) controladorRanking_.afegirPartida(dataPartida);
+            if (!haviaEstatGuardada) controladorDomini_.afegirPartida(dataPartida);
         }
         return new String[]{String.valueOf(guardadaCorrectament), String.valueOf(haviaEstatGuardada), temps};
     }
@@ -417,7 +392,7 @@ public class ControladorPartida {
                 valorsPartida[i][j] = Integer.parseInt(valors[j]);
             }
         }
-        Tauler tauler = controladorTauler_.llegirTauler(identificadorTaulerPartida);
+        Tauler tauler = controladorDomini_.llegirTauler(identificadorTaulerPartida);
         if (tauler.getGrau() != midaPartida) throw new ExcepcioCarregaPartida("La mida de la partida guardada no coincideix amb la mda del seu tauler" );
         return new Partida(identificadorPartida, identificadorUsuariPartida, tauler, tempsPartida, valorsPartida);
     }
@@ -460,8 +435,8 @@ public class ControladorPartida {
         referMoviments_.clear();
         desferMoviments_.clear();
         partidesGuardadesUsuari_.clear();
-        controladorPersistenciaPartida_ = null;
-        controladorTauler_ = null;
+        controladorDomini_ = null;
+        controladorDomini_ = null;
         return true;
     }
 }

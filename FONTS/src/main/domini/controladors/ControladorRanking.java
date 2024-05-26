@@ -1,7 +1,6 @@
 package main.domini.controladors;
 
 import main.domini.classes.Ranking;
-import main.persistencia.ControladorPersistenciaPartida;
 
 import java.util.ArrayList;
 
@@ -23,9 +22,9 @@ public class ControladorRanking {
      */
     private Ranking[] rankingPerMida_;
     /**
-     * Instància del controlador de persistència de les partides.
+     * Instància del controlador de domini.
      */
-    private ControladorPersistenciaPartida controladorPersistenciaPartida_;
+    private CtrlDomini controladorDomini_;
     /**
      * Instància del controlador de ranking.
      */
@@ -38,7 +37,7 @@ public class ControladorRanking {
         for (int i = 0; i < MIDAMAX - MIDAMIN + 1; ++i) {
             rankingPerMida_[i] = new Ranking();
         }
-        controladorPersistenciaPartida_ = ControladorPersistenciaPartida.getInstance();
+        controladorDomini_ = CtrlDomini.getInstance();
         inicialitzarRanking();
     }
     /**
@@ -100,7 +99,7 @@ public class ControladorRanking {
      */
     private void inicialitzarRanking() {
         for (int i = 0; i < rankingPerMida_.length; ++i) {
-            ArrayList<String> partidesAcabades = controladorPersistenciaPartida_.carregaPartidesAcabadesMida(i + MIDAMIN);
+            ArrayList<String> partidesAcabades = controladorDomini_.carregaPartidesAcabadesMidaPersistencia(i + MIDAMIN);
             for (String partidaAcabada : partidesAcabades) {
                 rankingPerMida_[i].afegirPartida(partidaAcabada);
             }

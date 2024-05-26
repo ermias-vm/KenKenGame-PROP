@@ -1,9 +1,11 @@
 package main.presentacio;
 
 import main.domini.controladors.CtrlDomini;
+import main.domini.excepcions.*;
 import main.presentacio.CrearKenkenManual.CrearKenkenManual;
 
 import javax.swing.*;
+import java.util.ArrayList;
 
 public class CtrlPresentacio {
     public static final int NOMBREPARTIDESLLISTA = 10;
@@ -82,6 +84,96 @@ public class CtrlPresentacio {
 
     public void initJugar() {
         //C.iniciarPartida();
+    }
+    public String[] getPartidesGuardadesUsuari() {
+        return CDomini.getPartidesGuardadesUsuari();
+    }
+    public int[][] getValorsPartida() {
+        return CDomini.getValorsPartida();
+    }
+
+    public boolean haJugat(String identificadorTauler, String nomUsuari) {
+        return CDomini.haJugat(identificadorTauler, nomUsuari);
+    }
+
+    public int getMidaPartida() {
+        return CDomini.getMidaPartida();
+    }
+
+    public String carregarUltimaPartidaGuardada(String nomUsuari) throws ExcepcioCarregaPartida, ExcepcioInicialitzacioPersistenciaPartida, ExcepcioPartidaEnCurs, ExcepcioNoPermisUsuari, ExcepcioCreacioPartida, ExcepcioInicialitzacioPersistenciaPartida, ExcepcioCarregaPartida, ExcepcioNoPermisUsuari, ExcepcioCreacioPartida, ExcepcioPartidaEnCurs {
+        return CDomini.carregarUltimaPartidaGuardada(nomUsuari);
+    }
+
+    public ArrayList<String> carregarPartidesGuardadesUsuari(String nomUsuari) throws ExcepcioCarregaPartida, ExcepcioInicialitzacioPersistenciaPartida {
+        return CDomini.carregarPartidesGuardadesUsuari(nomUsuari);
+    }
+
+    public String iniciarPartidaGuardada(String identificadorPartida, String nomUsuari) throws ExcepcioCarregaPartida, ExcepcioPartidaEnCurs, ExcepcioNoPermisUsuari, ExcepcioCreacioPartida {
+        return CDomini.iniciarPartidaGuardada(identificadorPartida, nomUsuari);
+    }
+
+    public String iniciaPartidaIdentificadorTauler(String identificadorTauler, String nomUsuari) throws ExcepcioCarregaTauler, ExcepcioPartidaEnCurs, ExcepcioInicialitzacioControladorTauler {
+        return CDomini.iniciaPartidaIdentificadorTauler(identificadorTauler, nomUsuari);
+    }
+
+    public String iniciaPartidaAleatoria(int mida, String nomUsuari) throws ExcepcioPartidaEnCurs, ExcepcioInicialitzacioControladorTauler {
+        return CDomini.iniciaPartidaAleatoria(mida, nomUsuari);
+    }
+
+    public String introduirValor(int fila, int columna, int valor) throws ExcepcioCarregaPartida, ExcepcioPosicioIncorrecta, ExcepcioValorInvalid, ExcepcioPartidaTancada, ExcepcioPartidaAcabada {
+        return CDomini.introduirValor(fila, columna, valor);
+    }
+
+    public String desferMoviment() throws ExcepcioPartidaTancada, ExcepcioValorInvalid, ExcepcioPartidaAcabada, ExcepcioPosicioIncorrecta, ExcepcioDoUndo {
+        return CDomini.desferMoviment();
+    }
+    public String referMoviment() throws ExcepcioPartidaTancada, ExcepcioValorInvalid, ExcepcioPartidaAcabada, ExcepcioPosicioIncorrecta, ExcepcioDoUndo {
+        return CDomini.referMoviment();
+    }
+
+    public ArrayList<int[]> donaPista() throws ExcepcioCarregaPartida, ExcepcioPartidaTancada, ExcepcioValorInvalid, ExcepcioPartidaAcabada, ExcepcioPosicioIncorrecta, ExcepcioCasellaNoExisteix, ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioCasellaNoModificable {
+        return CDomini.donaPista();
+    }
+
+    public boolean guardarPartida(String nomUsuari) throws ExcepcioCarregaPartida, ExcepcioPartidaTancada, ExcepcioPartidaAcabada, ExcepcioNoPermisUsuari {
+        return CDomini.guardarPartida(nomUsuari);
+    }
+
+    public boolean tancarIguardarPartida(String nomUsuari) throws ExcepcioCarregaPartida, ExcepcioPartidaTancada, ExcepcioPartidaAcabada, ExcepcioNoPermisUsuari {
+        return CDomini.tancarIguardarPartida(nomUsuari);
+    }
+
+    public String[] acabarPartida(String nomUsuari) throws ExcepcioCarregaPartida, ExcepcioPartidaTancada, ExcepcioPartidaMalament, ExcepcioPartidaAcabada, ExcepcioCasellaNoExisteix, ExcepcioNoPermisUsuari {
+        return CDomini.acabarPartida(nomUsuari);
+    }
+
+    public boolean tancaPartida() {
+        return CDomini.tancaPartida();
+    }
+
+    public ArrayList<Boolean>[][] getAdjacentsPartida() {
+        return CDomini.getAdjacentsPartida();
+    }
+
+    public boolean tancaControlador() {
+        return CDomini.tancaControlador();
+    }
+
+    //ControladorRanking
+    public boolean afegirPartida(String partidaAcabada) {
+        return CDomini.afegirPartida(partidaAcabada);
+    }
+
+    public ArrayList<String> getRankingN(int mida, int index, int n) {
+        return CDomini.getRankingN(mida, index, n);
+    }
+
+    public ArrayList<String> getRankingMida(int mida) {
+        return CDomini.getRankingMida(mida);
+    }
+
+    public ArrayList<String> getRankingUsuari(String identificadorUsuari) {
+        return CDomini.getRankingUsuari(identificadorUsuari);
     }
 }
 

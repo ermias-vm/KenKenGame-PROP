@@ -25,9 +25,9 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
      */
     public static final String COLOR_BE = "40, 250, 85";
     /**
-     * Controlador de la partida
+     * Controlador de la presentacio
      */
-    private static ControladorPartida controladorPartida_;
+    private CtrlPresentacio controladorPresentacio_;
     /**
      * Vista de la partida
      */
@@ -53,7 +53,7 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
      * Constructora per defecte
      */
     private ControladorPresentacioPartida() {
-        controladorPartida_ = ControladorPartida.getInstance();
+        controladorPresentacio_ = CtrlPresentacio.getInstance();
         mainPanel_ = new JPanel();
     }
 
@@ -90,7 +90,7 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
     @Override
     public void notificarCanviValor(String valor, int fila, int columna) {
         try{
-            String estatPartida = controladorPartida_.introduirValor(fila, columna, Integer.parseInt(valor));
+            String estatPartida = controladorPresentacio_.introduirValor(fila, columna, Integer.parseInt(valor));
             vistaPartida_.actualitzaValors(valorsStringToInt(estatPartida));
             mainPanel_.removeAll();
             mainPanel_.add(vistaPartida_);
@@ -109,7 +109,7 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
     @Override
     public void notificarUndo() {
         try {
-            String valors = controladorPartida_.desferMoviment();
+            String valors = controladorPresentacio_.desferMoviment();
             vistaPartida_.actualitzaValors(valorsStringToInt(valors));
             mainPanel_.removeAll();
             mainPanel_.add(vistaPartida_);
@@ -128,7 +128,7 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
     @Override
     public void notificarRedo() {
         try {
-            String valors = controladorPartida_.referMoviment();
+            String valors = controladorPresentacio_.referMoviment();
             vistaPartida_.actualitzaValors(valorsStringToInt(valors));
             mainPanel_.removeAll();
             mainPanel_.add(vistaPartida_);
@@ -148,9 +148,9 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
     @Override
     public void notificarPista() {
         try {
-            ArrayList<int[]> posicionsIncorrectes  = controladorPartida_.donaPista();
+            ArrayList<int[]> posicionsIncorrectes  = controladorPresentacio_.donaPista();
             if (!posicionsIncorrectes.isEmpty()) vistaPartida_.actualitzaPosicionsIncorrectes(posicionsIncorrectes);
-            else vistaPartida_.actualitzaValors(controladorPartida_.getValorsPartida());
+            else vistaPartida_.actualitzaValors(controladorPresentacio_.getValorsPartida());
             mainPanel_.removeAll();
             mainPanel_.add(vistaPartida_);
             mainPanel_.revalidate();
@@ -169,7 +169,7 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
     @Override
     public void notificarAcabar() {
         try {
-            String[] partidaAcabada  = controladorPartida_.acabarPartida(vistaPartida_.getIdentificadorUsuari());
+            String[] partidaAcabada  = controladorPresentacio_.acabarPartida(vistaPartida_.getIdentificadorUsuari());
             if (partidaAcabada[0].equals("true")) {
                 vistaPartida_.mostrarMissatgeMenu("Partida guardada correctament", true);
             } else {
@@ -204,7 +204,7 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
     @Override
     public void notificarGuardar() {
         try {
-            boolean guardada = controladorPartida_.guardarPartida(vistaPartida_.getIdentificadorUsuari());
+            boolean guardada = controladorPresentacio_.guardarPartida(vistaPartida_.getIdentificadorUsuari());
             if (guardada) vistaPartida_.mostrarMissatgeMenu("Partida guardada correctament", true);
             else vistaPartida_.mostrarMissatgeMenu("La partida no ha estat guardada correctament", false);
         } catch (ExcepcioPartidaTancada | ExcepcioPartidaAcabada | ExcepcioCarregaPartida |
@@ -220,7 +220,7 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
     @Override
     public void notificarTancaIguarda() {
         try {
-            boolean guardada = controladorPartida_.tancarIguardarPartida(vistaPartida_.getIdentificadorUsuari());
+            boolean guardada = controladorPresentacio_.tancarIguardarPartida(vistaPartida_.getIdentificadorUsuari());
             if (guardada) vistaPartida_.mostrarMissatgeMenu("Partida guardada correctament", true);
             else vistaPartida_.mostrarMissatgeMenu("La partida no ha estat guardada correctament", false);
             int delay = 1500;
@@ -260,7 +260,7 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
     public void jugarIntroduirIdentificadorTauler() {
         String identificadorTauler = JOptionPane.showInputDialog(mainPanel_, "Introdueix l'identificador del tauler");
         try {
-            controladorPartida_.iniciaPartidaIdentificadorTauler(identificadorTauler, vistaMenuJugarPartida_.getUsuari());
+            controladorPresentacio_.iniciaPartidaIdentificadorTauler(identificadorTauler, vistaMenuJugarPartida_.getUsuari());
             inicialitzaVistaPartida();
         } catch (ExcepcioCarregaTauler | ExcepcioPartidaEnCurs | ExcepcioInicialitzacioControladorTauler e) {
             JOptionPane.showMessageDialog(mainPanel_, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -289,7 +289,7 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
             }
         }while (midaTauler > 9 || midaTauler < 3);
         try{
-            controladorPartida_.iniciaPartidaAleatoria(midaTauler, vistaMenuJugarPartida_.getUsuari());
+            controladorPresentacio_.iniciaPartidaAleatoria(midaTauler, vistaMenuJugarPartida_.getUsuari());
             inicialitzaVistaPartida();
         } catch (ExcepcioInicialitzacioControladorTauler | ExcepcioPartidaEnCurs e) {
             JOptionPane.showMessageDialog(mainPanel_, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -303,7 +303,7 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
     @Override
     public void jugarUltimaPartidaGuardada() {
         try {
-            controladorPartida_.carregarUltimaPartidaGuardada(vistaMenuJugarPartida_.getUsuari());
+            controladorPresentacio_.carregarUltimaPartidaGuardada(vistaMenuJugarPartida_.getUsuari());
             inicialitzaVistaPartida();
         } catch (ExcepcioPartidaEnCurs | ExcepcioCarregaPartida|ExcepcioInicialitzacioPersistenciaPartida | ExcepcioNoPermisUsuari | ExcepcioCreacioPartida e) {
             JOptionPane.showMessageDialog(mainPanel_, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -317,7 +317,7 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
     @Override
     public void jugarPartidaGuardada() {
         try {
-            ArrayList<String> partidesGuardades = controladorPartida_.carregarPartidesGuardadesUsuari(vistaMenuJugarPartida_.getUsuari());
+            ArrayList<String> partidesGuardades = controladorPresentacio_.carregarPartidesGuardadesUsuari(vistaMenuJugarPartida_.getUsuari());
             vistaPartidesGuardades_ = new VistaPartidesGuardades(partidesGuardades.toArray(new String[0]),NOMBREPARTIDESLLISTA);
             vistaPartidesGuardades_.addObservadorLlista(this);
             mainPanel_.removeAll();
@@ -349,7 +349,7 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
     public void clickatLlista(String partidaGuardada) {
         String identificadorPartida = partidaGuardada.split("\n")[0];
         try {
-            controladorPartida_.iniciarPartidaGuardada(identificadorPartida, vistaMenuJugarPartida_.getUsuari());
+            controladorPresentacio_.iniciarPartidaGuardada(identificadorPartida, vistaMenuJugarPartida_.getUsuari());
             inicialitzaVistaPartida();
         } catch (ExcepcioCarregaPartida | ExcepcioNoPermisUsuari | ExcepcioCreacioPartida | ExcepcioPartidaEnCurs e) {
             JOptionPane.showMessageDialog(mainPanel_, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -360,9 +360,9 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
      * Inicialitza la vista de la partida amb les dades de la partida actual.
      */
     private void inicialitzaVistaPartida() {
-        vistaPartida_ = new VistaPartida(controladorPartida_.getMidaPartida(),controladorPartida_.getAdjacentsPartida() ,vistaMenuJugarPartida_.getUsuari(), controladorPartida_.getValorsPartida());
-        for (int i = 0; i < controladorPartida_.getMidaPartida(); i++) {
-            for (int j = 0; j < controladorPartida_.getMidaPartida(); j++) {
+        vistaPartida_ = new VistaPartida(controladorPresentacio_.getMidaPartida(),controladorPresentacio_.getAdjacentsPartida() ,vistaMenuJugarPartida_.getUsuari(), controladorPresentacio_.getValorsPartida());
+        for (int i = 0; i < controladorPresentacio_.getMidaPartida(); i++) {
+            for (int j = 0; j < controladorPresentacio_.getMidaPartida(); j++) {
                 vistaPartida_.addObserverCasella(this, i, j);
             }
         }
