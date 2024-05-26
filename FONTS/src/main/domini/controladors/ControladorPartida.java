@@ -225,27 +225,6 @@ public class ControladorPartida {
         String partidaText = partida_.generaPartidaText();
         return partidaText;
     }
-/*
-    /**
-     * Comença una partida amb les dades del tauler introduit.
-     * @param dadesTauler Dades del tauler amb el qual es vol començar la partida.
-     * @param nomUsuari Nom de l'usuari que vol començar la partida.
-     * @return Retorna un vector de String amb l'estat de la partida a l'índex [0] i les dades del tauler a l'índex [1].
-     * @throws ExcepcioCarregaTauler si no s'ha pogut crear el tauler amb les dades donades.
-     * @throws ExcepcioPartidaEnCurs si ja s'està jugant una partida.
-     */
-    /*
-    public String[] iniciaPartidaDadesTauler(String dadesTauler, String nomUsuari) throws ExcepcioCarregaTauler, ExcepcioPartidaEnCurs, ExcepcioInicialitzacioControladorTauler, ExcepcioOperacioNoExisteix, ExcepcioPosicioIncorrecta {
-        if (partida_ != null) throw new ExcepcioPartidaEnCurs("S'està jugant una partida en aquest moment");
-        if (controladorTauler_ == null) throw new ExcepcioInicialitzacioControladorTauler("No s'ha inicialitzat el controlador de taulers");
-        Tauler tauler = controladorTauler_.creaKenkenStub(dadesTauler);
-        if (tauler == null) throw new ExcepcioCarregaTauler("No s'ha pogut crear el tauler amb les dades donades");
-        partida_ = new Partida(nomUsuari, tauler);
-        String partidaText = partida_.generaPartidaText();
-        //String taulerText = partida_.getTaulerPartida().generaTaulerText();
-        return new String[]{partidaText, taulerText};
-    }
-    */
     /**
      * Canvia l'estat de la partida, és a dir un dels seus valors.
      * @param fila Fila de la casella a canviar.

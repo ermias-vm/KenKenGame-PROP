@@ -13,7 +13,7 @@ public class CtrlDomini {
     private static CtrlUsuari CUsuari;
     private static ControladorPartida CPartida;
     private static CtrlKenkens CKenkens;
-    //private static CtrlRanking CRanking;
+    private static ControladorRanking CRanking;
     private static ControladorPersistencia CPersistencia;
 
     private CtrlDomini() {
@@ -21,7 +21,7 @@ public class CtrlDomini {
         CUsuari = CtrlUsuari.getInstance();
         CPartida = ControladorPartida.getInstance();
         CKenkens = CtrlKenkens.getInstance();
-        //CRanking = CtrlRanking.getInstance();  ----Falta afegir
+        CRanking = ControladorRanking.getInstance();
 
     }
 

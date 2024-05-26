@@ -183,7 +183,7 @@ public class ControladorPersistenciaPartida {
     }
     /**
      * Carrega totes les partides acabades d'una mida. La mida és vàlida.
-     * La informació de les partides acabades es troba al fitxer "data/partides/PartidesAcabadesMida%d.txt" on %d és el mida.<br>
+     * La informació de les partides acabades es troba al fitxer "data/partides/PartidesAcabadesMida%d.txt" on %d és la mida.<br>
      * Utilitza el format descrit a {@link #arxivarPartida(String)} per llegir la informació de la partida de memòria.<br>
      * Utilitza el format descrit a {@link main.domini.classes.Partida#acabaPartida()} per retornar la informació.<br>
      * @param mida Mida de les partides que es volen carregar.

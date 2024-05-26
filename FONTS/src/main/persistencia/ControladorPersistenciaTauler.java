@@ -121,7 +121,22 @@ public class ControladorPersistenciaTauler {
         }
         return fitxer;
     }
-
+    /**
+     * Selecciona un tauler aleatori de la mida especificada.
+     * @param mida Mida del tauler.
+     * @return Nom del fitxer del tauler seleccionat o string buida si no hi ha.
+     */
+    public String seleccionaTaulerAleatori(int mida) {
+        String carpeta = "data/taulers/mida"+mida;
+        File fitxerCarpeta = new File(carpeta);
+        File[] llistaFitxers = fitxerCarpeta.listFiles();
+        if(llistaFitxers != null) {
+            int nombreFitxers = llistaFitxers.length;
+            int index = (int) (Math.random() * nombreFitxers);
+            return llistaFitxers[index].getName();
+        }
+        return "";
+    }
     /**
      * Genera un sufix per a l'identificador del fitxer del tauler a partir de les dades del tauler.
      * Format:
@@ -145,21 +160,5 @@ public class ControladorPersistenciaTauler {
         }
         sufix.deleteCharAt(sufix.length() - 1);
         return sufix.toString();
-    }
-    /**
-     * Selecciona un tauler aleatori de la mida especificada.
-     * @param mida Mida del tauler.
-     * @return Nom del fitxer del tauler seleccionat o string buida si no hi ha.
-     */
-    public String seleccionaTaulerAleatori(int mida) {
-        String carpeta = "data/taulers/mida"+mida;
-        File fitxerCarpeta = new File(carpeta);
-        File[] llistaFitxers = fitxerCarpeta.listFiles();
-        if(llistaFitxers != null) {
-            int nombreFitxers = llistaFitxers.length;
-            int index = (int) (Math.random() * nombreFitxers);
-            return llistaFitxers[index].getName();
-        }
-        return "";
     }
 }
