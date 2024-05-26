@@ -40,13 +40,15 @@ public class CtrlDomini {
     //////////////// FUNCIONS DE USUARI ////////////////
 
     public void iniciarSessio(String nomUsuari, String contrasenya) throws ExcepcioContrasenyaIncorrecta, IOException, ExcepcioUsuariNoExisteix {
-
+        CUsuari.iniciarSessio(nomUsuari, contrasenya);
     }
 
     public void registrarUsuari(String nomUsuari, String contrasenya) throws ExcepcioUsuariJaExisteix, IOException {
+        CUsuari.registrarse(nomUsuari, contrasenya);
     }
 
     public void canviarContrasenya(String contrasenyaActual, String contrasenyaNova) throws ExcepcioContrasenyaIncorrecta, IOException {
+        CUsuari.canviarContrasenya(contrasenyaActual, contrasenyaNova);
     }
 
     public void setUsuariActual(Usuari usuari) {
