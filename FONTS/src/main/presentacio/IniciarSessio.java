@@ -24,9 +24,6 @@ public class IniciarSessio {
     private JLabel labelSeparador;
     private JLabel errorLabel;
 
-    //private CtrlPresentacio CPre = CtrlPresentacio.getInstance();
-    private CtrlUsuariUI CUui = CtrlUsuariUI.getInstance();
-
     public IniciarSessio() {
         System.out.println("Entrant a la pantalla d'iniciar sessio");
         createUIComponents();
@@ -43,7 +40,7 @@ public class IniciarSessio {
                             "<br>Si us plau comproveu les dades.</div></html>");
                 } else {
                     try {
-                        CUui.iniciarSessio(usuari, contrasenya);
+                        CtrlPresentacio.getInstance().iniciarSessio(usuari, contrasenya);
                         System.out.println("Sessio iniciada correctament");
                         System.out.println("Sortint de iniciar sessio");
                         CtrlPresentacio.getInstance().showMenuPrincipal();

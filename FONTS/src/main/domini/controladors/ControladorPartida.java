@@ -219,7 +219,7 @@ public class ControladorPartida {
             identificadorTauler = controladorTauler_.seleccionaTaulerAleatori(mida);
         }
         while (haJugat(identificadorTauler, nomUsuari) && identificadorTauler != null);
-        if (identificadorTauler == null) identificadorTauler = controladorTauler_.creaKenkenStub(mida);
+        //if (identificadorTauler == null) identificadorTauler = controladorTauler_.creaKenkenStub(mida);
         Tauler tauler = controladorTauler_.llegirTauler(identificadorTauler);
         partida_ = new Partida(nomUsuari, tauler);
         String partidaText = partida_.generaPartidaText();

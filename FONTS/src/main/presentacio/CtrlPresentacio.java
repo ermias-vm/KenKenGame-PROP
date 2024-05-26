@@ -1,16 +1,20 @@
 package main.presentacio;
 
+import main.domini.classes.Usuari;
 import main.domini.controladors.CtrlDomini;
+import main.domini.excepcions.ExcepcioContrasenyaIncorrecta;
+import main.domini.excepcions.ExcepcioUsuariJaExisteix;
+import main.domini.excepcions.ExcepcioUsuariNoExisteix;
 import main.presentacio.CrearKenkenManual.CrearKenkenManual;
 
 import javax.swing.*;
+import java.io.IOException;
 
 public class CtrlPresentacio {
     public static final int NOMBREPARTIDESLLISTA = 10;
 
     private static CtrlPresentacio CPresentacio;
     private static CtrlDomini CDomini;
-    private static CtrlUsuariUI CUsuariUI;
     private JFrame mainFrame = new JFrame();
 
     private IniciarSessio iniSessio;
@@ -29,14 +33,16 @@ public class CtrlPresentacio {
         return CPresentacio;
     }
 
+            ///////// FUNCIONS DE INTERFICIE GRAFICA /////////
+
     public void run() {
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(1200, 800);
         mainFrame.setResizable(false);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
-        //showIniciarSessio();
-        showCrearKenKen();
+        showIniciarSessio();
+        //showCrearKenKen();
     }
 
     public void showIniciarSessio() {
@@ -79,10 +85,37 @@ public class CtrlPresentacio {
         mainFrame.setVisible(true);
     }
 
-
     public void initJugar() {
         //C.iniciarPartida();
     }
+
+            ///////// FUNCIONS QUE CRIDEN AL DOMINI /////////
+
+
+            /// FUNCINOS USUARI ///
+
+    public void iniciarSessio(String nomUsuari, String contrasenya) throws ExcepcioContrasenyaIncorrecta, IOException, ExcepcioUsuariNoExisteix {
+        CDomini.iniciarSessio(nomUsuari, contrasenya);
+    }
+
+    public void registrarUsuari(String nomUsuari, String contrasenya) throws ExcepcioUsuariJaExisteix, IOException {
+        CDomini.registrarUsuari(nomUsuari, contrasenya);
+    }
+
+    public void canviarContrasenya(String contrasenyaActual, String contrasenyaNova) throws ExcepcioContrasenyaIncorrecta, IOException {
+        CDomini.canviarContrasenya(contrasenyaActual, contrasenyaNova);
+    }
+
+    public Usuari getUsuariActual() {
+        return CDomini.getUsuariActual();
+    }
+
+    public void tancarSessio() {
+        CDomini.tancarSessio();
+    }
+
+
+
 }
 
 

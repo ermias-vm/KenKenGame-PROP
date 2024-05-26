@@ -25,8 +25,6 @@ public class Registrarse {
     private JLabel labelSeparador;
     private JLabel errorLabel;
 
-    private CtrlUsuariUI CUui = CtrlUsuariUI.getInstance();
-
     public Registrarse() {
         System.out.println("Entrant a la pantalla de registrar-se");
         createUIComponents();
@@ -46,7 +44,7 @@ public class Registrarse {
                             "<br>Si us plau comproveu les dades.</div></html>");
                 } else {
                     try {
-                        CUui.registrarUsuari(usuari, contrasenya);
+                        CtrlPresentacio.getInstance().registrarUsuari(usuari, contrasenya);
                         JOptionPane.showMessageDialog(buttonRegistrar, "Usuari registrat correctament", "Informació", JOptionPane.INFORMATION_MESSAGE);
                         System.out.println("Usuari registrat correctament");
                         System.out.println("Sortint de registrar usuari ");

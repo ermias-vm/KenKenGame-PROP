@@ -8,26 +8,57 @@ import main.domini.classes.operacions.*;
 import main.domini.classes.Casella;
 import main.domini.classes.Regio;
 import main.persistencia.ControladorPersistenciaTauler;
-
 import java.util.ArrayList;
 
+/**
+ * Controlador de Kenkens que gestiona les operacions relacionades amb els jocs de Kenken.
+ * S'encarrega de llegir, guardar, resoldre i validar taulers de Kenken.
+ * @autor Ermias Valls Mayor
+ */
 public class CtrlKenkens {
+    /**
+     * Instància de ControladorPersistenciaTauler per a la persistència de dades de tauler.
+     */
     private static ControladorPersistenciaTauler ctrlTaulerData;
-    private static SolucionadorKenken AS = new SolucionadorKenken();
 
+    /**
+     * Instància de SolucionadorKenken per a la resolució de taulers de Kenken.
+     */
+    private static SolucionadorKenken Solucionador;
+
+    /**
+     * Instància singleton de CtrlKenkens.
+     */
     private static CtrlKenkens ctrlKenkens;
 
+    /**
+     * Constructor privat de la classe CtrlKenkens.
+     * Inicialitza l'instància de ControladorPersistenciaTauler.
+     */
     private CtrlKenkens() {
+        //MOD desde domini a persistencia
         ctrlTaulerData = ControladorPersistenciaTauler.getInstance();
+        Solucionador  = SolucionadorKenken.getInstance();
     }
 
+    /**
+     * Retorna la instància singleton de CtrlKenkens.
+     *
+     * @return Instància de CtrlKenkens.
+     */
     public static CtrlKenkens getInstance() {
         if (ctrlKenkens == null) ctrlKenkens = new CtrlKenkens();
         return ctrlKenkens;
     }
 
-    private Operacio getOperacio(int oper) {
-        switch (oper) {
+    /**
+     * Retorna l'operació corresponent al número d'operació proporcionat.
+     *
+     * @param operacio  Número d'operació.
+     * @return Operació corresponent.
+     */
+    private Operacio getOperacio(int operacio) {
+        switch (operacio) {
             case 1:
                 return new Suma();
             case 2:
@@ -45,15 +76,28 @@ public class CtrlKenkens {
         }
     }
 
+    /**
+     * Llegeix un tauler de la base de dades amb l'identificador proporcionat.
+     *
+     * @param id  Identificador del tauler.
+     * @return Tauler llegit.
+     */
     public Tauler llegirTauler(String id) {
+        //MOD desde domini a persistencia
         String contingutTauler = ctrlTaulerData.llegirTauler(id);
         return stringToTauler(contingutTauler, id);
 
     }
 
+    /**
+     * Converteix una cadena de text a un Tauler.
+     *
+     * @param contingutTauler  Contingut del tauler en format de text.
+     * @param id  Identificador del tauler.
+     * @return Classe Tauler.
+     */
     public Tauler stringToTauler(String contingutTauler, String id) {
         try {
-            //System.out.println(content); //imprimir prova
             String[] lines = contingutTauler.split("\n");
             String[] primeraLinea = lines[0].split(" ");
             int N = Integer.parseInt(primeraLinea[0]);
@@ -63,7 +107,6 @@ public class CtrlKenkens {
             //Llegir cada regio
             for (int i = 0; i < R; i++) {
                 String[] regioInfo = lines[i+1].split(" ");
-                //System.out.println(Arrays.toString(regioInfo));
                 int oper = Integer.parseInt(regioInfo[0]);
                 int result = Integer.parseInt(regioInfo[1]);
                 int elements = Integer.parseInt(regioInfo[2]);
@@ -74,7 +117,6 @@ public class CtrlKenkens {
                     int x = Integer.parseInt(regioInfo[j]);
                     int y = Integer.parseInt(regioInfo[j+1]);
                     Casella casella = new Casella(x, y);
-                    casella.setPermutacions(elements);
                     j += 2;
                     if (j < regioInfo.length && regioInfo[j].startsWith("[")) {
                         String valorString = regioInfo[j].replaceAll("[\\[\\]]", "");
@@ -87,7 +129,6 @@ public class CtrlKenkens {
                 }
 
                 Operacio operacio = getOperacio(oper);
-                //System.out.print(operacio.getNumOperacio());
                 Regio rj = new Regio(caselles, operacio, result);
                 T.afegirRegioJoc(rj);
             }
@@ -99,6 +140,12 @@ public class CtrlKenkens {
         }
     }
 
+    /**
+     * Converteix un tauler a una cadena de text.
+     *
+     * @param T  Tauler a convertir.
+     * @return Tauler convertit en format de text.
+     */
     public String taulerToString(Tauler T) {
         StringBuilder sb = new StringBuilder();
         sb.append(T.getGrau()).append(" ").append(T.getRegions().size()).append("\n");
@@ -114,16 +161,25 @@ public class CtrlKenkens {
         }
         return sb.toString();
     }
-
+    /**
+     * Selecciona un tauler aleatori de la mida proporcionada.
+     *
+     * @param mida  Mida del tauler.
+     * @return Identificador del tauler seleccionat.
+     */
     public String seleccionaTaulerAleatori(int mida) {
         //Sha de fer desde Domini
         return ControladorPersistenciaTauler.getInstance().seleccionaTaulerAleatori(mida);
     }
 
-    public String creaKenkenStub(int mida) {
-        return "";
-    }
 
+    /**
+     * Resol un tauler de Kenken amb els valors de partida proporcionats i retorna la solució.
+     *
+     * @param T  Tauler de Kenken a resoldre.
+     * @param valorsPartida  Valors de partida.
+     * @return Matriu de valors de la solució, o null si no hi ha solució.
+     */
     public int[][] resoldreKenken(Tauler T, int[][] valorsPartida) throws ExcepcioCasellaNoExisteix, ExcepcioNoDivisor, ExcepcioValorInvalid, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioCasellaNoModificable {
         for (int i = 0; i < valorsPartida.length; i++) {
             for (int j = 0; j < valorsPartida[i].length; j++) {
@@ -133,7 +189,7 @@ public class CtrlKenkens {
                 T.setValor(x, y, valor);
             }
         }
-        AS.solucionarKenken(T);
+        Solucionador.solucionarKenken(T);
         if (T.teSolucio()) {
             int[][] valorsSolucio = new int[valorsPartida.length][valorsPartida[0].length];
             for (int i = 0; i < valorsPartida.length; i++) {
@@ -148,17 +204,29 @@ public class CtrlKenkens {
         return null;
     }
 
-
+    /**
+     * Guarda un tauler a la base de dades.
+     *
+     * @param contigutTauler  Contingut del tauler en format de text.
+     * @return Identificador del tauler guardat.
+     */
     public String guardarTaulerBD(String contigutTauler) {
+        //MODificar desde domini
         String idTauler = ControladorPersistenciaTauler.getInstance().generaIdentificadorIGuardaTauler(contigutTauler);
         return idTauler;
     }
 
+    /**
+     * Comprova si un tauler és vàlid.
+     *
+     * @param contingutTauler  Contingut del tauler en format de text.
+     * @return Cert si el tauler és vàlid, fals altrament.
+     */
     public boolean esTaulerValid(String contingutTauler) {
         try {
             System.out.println(contingutTauler);
             Tauler T = stringToTauler(contingutTauler, "temporal");
-            AS.solucionarKenken(T);
+            Solucionador.solucionarKenken(T);
             if (T.teSolucio()) {
                 System.out.println("Tauler resolt:");
                 mostrarTauler(T);
@@ -174,7 +242,6 @@ public class CtrlKenkens {
     }
 
 
-
     ///////////////////////////////  FUNCIONS DIRVERS  ///////////////////////////////////
 
     public void resoldreKenken(String idTauler, boolean guardarBD) throws Exception {
@@ -184,7 +251,7 @@ public class CtrlKenkens {
         mostrarTauler(T);
 
         long startTime = System.currentTimeMillis();
-        AS.solucionarKenken(T);
+        Solucionador.solucionarKenken(T);
         long endTime = System.currentTimeMillis();
         long duration = endTime - startTime;
         System.out.println("Temps de resoldre: " + duration + " ms." + "\n");

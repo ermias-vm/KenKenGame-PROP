@@ -1,10 +1,38 @@
 package main.domini.classes;
 
 import main.domini.excepcions.*;
+import main.persistencia.CtrlUsuariData;
 
-import java.util.ArrayList;
 
+/**
+ * Classe que representa un solucionador de Kenken.
+ * Utilitza un algoritme de backtracking per a la resolució del tauler de joc.
+ *
+ *   @author Ermias Valls Mayor
+ */
 public class SolucionadorKenken {
+    /**
+     * Instància singleton de SolucionadorKenken.
+     */
+    private static SolucionadorKenken Solucionador;
+
+    /**
+     * Constructor privat de la classe SolucionadorKenken.
+     * Evita que es pugui instanciar la classe directament.
+     */
+    private SolucionadorKenken() {
+    }
+
+    /**
+     * Retorna la instància singleton de SolucionadorKenken.
+     * Si encara no s'ha creat, la crea.
+     *
+     * @return Instància de SolucionadorKenken.
+     */
+    public static SolucionadorKenken getInstance() {
+        if (Solucionador == null) Solucionador = new SolucionadorKenken();
+        return Solucionador;
+    }
 
     /**
      * Mètode recursiu per a la resolució del tauler de joc.
@@ -48,6 +76,11 @@ public class SolucionadorKenken {
         }
     }
 
+    /**
+     * Optimització que estableix el valor de les caselles que pertanyen a una regió amb una única operació.
+     * @param T Tauler de joc a optimitzar.
+     * @throws ExcepcioCasellaNoModificable Si la casella no es pot modificar.
+     */
     private void optimitzacioNoOperacio(Tauler T) throws ExcepcioCasellaNoModificable {
         for (Regio r : T.getRegions()) {
             if (r.getMida() == 1) {
@@ -58,7 +91,11 @@ public class SolucionadorKenken {
         }
     }
 
-
+    /**
+     * Mètode que soluciona un tauler de Kenken.
+     * @param T Tauler de joc a solucionar.
+     * @throws Exception Si es produeix un error durant la solució.
+     */
     public void solucionarKenken(Tauler T) throws ExcepcioCasellaNoExisteix, ExcepcioNoDivisor, ExcepcioValorInvalid, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioCasellaNoModificable {
         optimitzacioNoOperacio(T);
         backtracking(T, 1, 1);

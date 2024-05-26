@@ -1,28 +1,63 @@
 package main.domini.classes;
 
 import main.domini.excepcions.*;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 
-
+/**
+ * Classe Tauler que representa un tauler de joc.
+ * Un tauler està format per un conjunt de caselles i regions.
+ *
+ * @author Ermias Valls Mayor
+ */
 public class Tauler {
+    /**
+     * Identificador únic del tauler.
+     */
     private String idTauler;
+
+    /**
+     * Grau del tauler, que indica la seva mida.
+     */
     private int grau;
+
+    /**
+     * Indica si s'ha trobat una solució per al tauler.
+     */
     private boolean trobat;
-    
+
+    /**
+     * Matriu de caselles que formen el tauler.
+     */
     private Casella[][] caselles;
+
+    /**
+     * Llista de regions que formen el tauler.
+     */
     private ArrayList<Regio> regions;
 
+    /**
+     * Constructor de la classe Tauler.
+     * Crea un nou tauler amb un identificador i un grau especificats.
+     * @param idTauler  Identificador del tauler.
+     * @param grau  Grau del tauler.
+     */
     public Tauler(String idTauler, int grau) {
         this.idTauler = idTauler;
         this.grau = grau;
         this.trobat = false;
-        
         this.caselles = new Casella[grau][grau];
         this.regions = new ArrayList<>();
     }
-    
+
+    /**
+     * Constructor de la classe Tauler.
+     * Crea un nou tauler amb un identificador, un grau, una matriu de caselles i una llista de regions especificats.
+     * @param idTauler  Identificador del tauler.
+     * @param grau  Grau del tauler.
+     * @param caselles  Matriu de caselles del tauler.
+     * @param regions  Llista de regions del tauler.
+     */
     public Tauler(String idTauler, int grau, Casella [][] caselles, ArrayList<Regio> regions) {
         this.idTauler = idTauler;
         this.grau = grau;
@@ -31,10 +66,8 @@ public class Tauler {
         this.regions = regions;
     }
 
-
     /**
      * Obté l'identificador del tauler.
-     *
      * @return Identificador del tauler.
      */
     public String getIdTauler() {
@@ -43,7 +76,6 @@ public class Tauler {
 
     /**
      * Obté el grau del tauler.
-     *
      * @return Grau del tauler.
      */
     public int getGrau() {
@@ -51,17 +83,28 @@ public class Tauler {
     }
 
     /**
-     * Comprova si el tauler té una solució.
+     * Indica si el tauler té una solució.
      * @return true si té solució, false en cas contrari
      */
     public boolean teSolucio() {
         return trobat;
     }
 
+    /**
+     * Estableix si s'ha trobat una solució per al tauler.
+     * @param trobat  Indica si s'ha trobat una solució.
+     */
     public void setTrobat(boolean trobat) {
         this.trobat = trobat;
     }
 
+    /**
+     * Afegeix una casella al tauler en una posició especificada.
+     * @param x  Coordenada x de la casella.
+     * @param y  Coordenada y de la casella.
+     * @param casella  Casella a afegir.
+     * @throws ExcepcioCasellaNoExisteix  Si la posició especificada no existeix en el tauler.
+     */
     public void afegirCasella(int x, int y, Casella casella) throws ExcepcioCasellaNoExisteix {
         if (x < 1 || x > grau || y < 1 || y > grau) {
             throw new ExcepcioCasellaNoExisteix(x, y);
@@ -69,15 +112,14 @@ public class Tauler {
         caselles[x-1][y-1] = casella;
     }
 
-
-    public void borrarCasella(int x, int y) throws ExcepcioCasellaNoExisteix {
-        if (x < 1 || x > grau || y < 1 || y > grau) {
-            throw new ExcepcioCasellaNoExisteix(x, y);
-        }
-        caselles[x-1][y-1] = null;
-    }
-
-
+    /**
+     * Retorna la casella situada a la posició (x, y) del tauler.
+     *
+     * @param x Coordenada x de la casella.
+     * @param y Coordenada y de la casella.
+     * @return Casella situada a la posició (x, y) del tauler.
+     * @throws ExcepcioCasellaNoExisteix Si la posició especificada no existeix en el tauler.
+     */
     public Casella getCasella(int x, int y) throws ExcepcioCasellaNoExisteix {
         if (x < 1 || x > this.grau || y < 1 || y > this.grau) {
             throw new ExcepcioCasellaNoExisteix(x, y);
@@ -148,10 +190,7 @@ public class Tauler {
     public boolean esBuida(int x, int y) throws ExcepcioCasellaNoExisteix {
         return getCasella(x, y).esBuida();
     }
-    
 
-
-    
     /**
      * Afegeix una regió de joc a la llista de regions.
      * @param regioJoc La regió de joc a afegir
@@ -244,6 +283,14 @@ public class Tauler {
         }
         return true;
     }
+
+    /**
+     * Retorna els valors de les caselles d'una regió donada la matriu de valors del tauler i les posicions de la regió.
+     *
+     * @param valorsTauler Matriu bidimensional d'enters que representa els valors del tauler.
+     * @param posicionsRegio Matriu bidimensional d'enters que representa les posicions de les caselles de la regió.
+     * @return Array d'enters amb els valors de les caselles de la regió.
+     */
     public int[] getValorsRegioMatriu(int [][] valorsTauler, int [][] posicionsRegio) {
         int [] valorsRegio = new int[posicionsRegio.length];
         for (int i = 0; i < posicionsRegio.length; ++i) {
@@ -252,6 +299,12 @@ public class Tauler {
         return valorsRegio;
     }
 
+    /**
+     * Retorna una llista de les regions incorrectes donada la matriu de valors del tauler.
+     *
+     * @param valorsTauler Matriu bidimensional d'enters que representa els valors del tauler.
+     * @return Llista de regions incorrectes.
+     */
     public ArrayList<Regio> getRegionsIncorrectes(int [][] valorsTauler){
         ArrayList<Regio> regionsIncorrectes = new ArrayList<>();
         for (Regio r : getRegions()) {
