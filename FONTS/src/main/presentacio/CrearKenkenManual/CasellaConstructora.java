@@ -1,57 +1,95 @@
 package main.presentacio.CrearKenkenManual;
 
 import javax.swing.*;
-import javax.swing.text.AbstractDocument;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.DocumentFilter;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Enumeration;
 
+/**
+ * Aquesta classe representa una casella en el joc de Kenken.
+ * Cada casella té una posició (posX, posY), un estat de selecció (seleccionada),
+ * un estat que indica si pertany a una regió (pertanyRegio) i un índex de regió (indexRegio).
+ * També té un JLabel (infoRegioLabel) que mostra informació sobre la regió a la que pertany la casella.
+ *
+ * @author Ermias Valls Mayor
+ */
 public class CasellaConstructora extends JPanel {
+    //PROPIETATS DE LA CLASSE
+    private static final Color COLOR_SELECCIONADA = new Color(150, 255, 238, 255);
+    private static final Color COLOR_REGIO = new Color(255, 255, 255,255);
+    private static final Color COLOR_DEFAULT = new Color(255, 255, 255,255);
+    private static final Color COLOR_VORA_REGIO = new Color(0, 0, 0, 255);
+    private static final Color COLOR_VORA_DEFAULT = new Color(220, 220, 220, 255);
 
-    int posX;
-    int posY;
-    private boolean seleccionada;
-    private boolean pertanyRegio;
-    private int indexRegio;
+    private static final int GRUIX_VORA_REGIO = 3;
+    private static final int GRUIX_VORA_DEFAULT = 1;
 
+    // Atributs de la casella
+    JLabel infoRegioLabel; // Etiqueta que mostra informació sobre la regió a la que pertany la casella
+    int posX; // Posició X de la casella
+    int posY; // Posició Y de la casella
+    private boolean seleccionada; // Indica si la casella està seleccionada
+    private boolean pertanyRegio; // Indica si la casella pertany a una regió
+    private int indexRegio; // Índex de la regió a la que pertany la casella
+
+    /**
+     * Constructor de la classe CasellaConstructora.
+     * Inicialitza la casella amb la posició donada i configura l'estat inicial de la casella.
+     * També afegeix un MouseListener a la casella per a gestionar els events de ratolí.
+     *
+     * @param posX Posició X de la casella
+     * @param posY Posició Y de la casella
+     */
     public CasellaConstructora(int posX, int posY) {
         super();
         this.posX = posX;
         this.posY = posY;
-        this.seleccionada = false;
-        this.pertanyRegio = false;
-        this.indexRegio = -1;
-
-        this.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        this.setBackground(Color.WHITE);
         this.setLayout(null);
+        configInicial();
         addMouseListener();
     }
 
+    /**
+     * Configura l'estat inicial de la casella.
+     * L'estat inicial és no seleccionada, no pertany a cap regió, i té l'índex de regió -1.
+     * També estableix el color de fons i la vora de la casella als valors per defecte.
+     */
+    public void configInicial() {
+        this.seleccionada = false;
+        this.pertanyRegio = false;
+        this.indexRegio = -1;
+        this.setBorder(BorderFactory.createLineBorder(COLOR_VORA_DEFAULT));
+        this.setBackground(COLOR_DEFAULT);
+    }
+
+    /**
+     * Afegeix un MouseListener a la casella.
+     * El MouseListener gestiona els clics del ratolí a la casella.
+     * Si es fa clic amb el botó esquerre del ratolí, la casella es selecciona o desselecciona.
+     * Si es fa clic amb el botó dret del ratolí i la casella encara no ha sigut assignada a cap regio, es processa
+     * l'entrada de l'usuari. Si ja ha sigut assignada es reseteja la configuracio de les caselles de la regio.
+     */
     private void addMouseListener() {
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                CasellaConstructora casella = (CasellaConstructora) e.getSource();
+                CasellaConstructora casellaPremuda = (CasellaConstructora) e.getSource();
                 //Si es fa click amb el boto esquerre del ratoli
-                if (SwingUtilities.isLeftMouseButton(e) && !casella.teRegioAssignada()) {
-                    casella.setSeleccionada();
+                if (SwingUtilities.isLeftMouseButton(e) && !casellaPremuda.teRegioAssignada()) {
+                    casellaPremuda.setSeleccionada();
                 }
                 //Si es fa click amb el boto dret del ratoli
                 else if (SwingUtilities.isRightMouseButton(e)) {
 
-                    if (!casella.teRegioAssignada() && casella.esSeleccionada()) {
-                        CrearKenkenManual.getInstance().processarEntradaUsuari();
+                    if (!casellaPremuda.teRegioAssignada() && casellaPremuda.esSeleccionada()) {
+                        CrearKenkenManual.getInstance().processarEntradaUsuari(casellaPremuda);
                     }
 
-                    else if (casella.teRegioAssignada()) {
-                        int confirm = JOptionPane.showConfirmDialog(null, "Estas segur que vols eliminar la regio?", "Confirmar eliminacio", JOptionPane.YES_NO_OPTION);
+                    else if (casellaPremuda.teRegioAssignada()) {
+                        int confirm = JOptionPane.showConfirmDialog(casellaPremuda, "Estas segur que vols eliminar la regio?", "Confirmar eliminacio", JOptionPane.YES_NO_OPTION);
                         if (confirm == JOptionPane.YES_OPTION) {
-                            TaulerConstrutor.getInstance().eliminarRegioAssignada(casella.getIndexRegio());
+                            TaulerConstrutor.getInstance().eliminarRegioAssignada(casellaPremuda.getIndexRegio());
                         }
                     }
                 }
@@ -59,46 +97,136 @@ public class CasellaConstructora extends JPanel {
         });
     }
 
-    public void setSeleccionada() {
-            if (this.seleccionada) {
-                this.seleccionada = false;
-                this.setBackground(new Color(255, 255, 255));
-                TaulerConstrutor.getInstance().eliminarPosCasella(posX, posY);
-
-            } else {
-                this.seleccionada = true;
-                this.setBackground(new Color(145, 252, 246));
-                TaulerConstrutor.getInstance().afegirPosCasella(posX, posY);
-            }
-    }
-
-    public void marcaComRegio(int index) {
-        this.pertanyRegio = true;
-        this.indexRegio = index;
-        System.out.println("Casella " + posX + " " + posY + " pertany a la regio " + index);
-        this.setBackground(new Color(104, 253, 104));
-    }
-
-    public void desmarcaComRegio() {
-        this.pertanyRegio = false;
-        this.seleccionada = false;
-        this.indexRegio = -1;
-        this.setBackground(new Color(255, 255, 255));
-    }
-
+    /**
+     * Retorna si la casella està seleccionada.
+     *
+     * @return true si la casella està seleccionada, false en cas contrari
+     */
     public boolean esSeleccionada() {
         return seleccionada;
     }
 
+    /**
+     * Retorna si la casella pertany a una regió.
+     *
+     * @return true si la casella pertany a una regió, false en cas contrari
+     */
     public boolean teRegioAssignada() {
         return pertanyRegio;
     }
 
+    /**
+     * Decrementa l'índex de la regió de la casella.
+     */
     public void decrementaIndexRegio() {
         this.indexRegio--;
     }
 
+    /**
+     * Retorna l'índex de la regió de la casella.
+     *
+     * @return l'índex de la regió de la casella
+     */
     public int getIndexRegio() {
         return this.indexRegio;
     }
+
+    /**
+     * Estableix l'estat de selecció de la casella.
+     * Si la casella està seleccionada, es desselecciona.
+     * Si la casella no està seleccionada i és adjacent a alguna de les caselles selecionades, es selecciona.
+     */
+    public void setSeleccionada() {
+        if (this.seleccionada) {
+            this.seleccionada = false;
+            this.setBackground(COLOR_DEFAULT);
+            TaulerConstrutor.getInstance().eliminarPosCasellaSelecionada(posX, posY);
+        } else {
+            if (TaulerConstrutor.getInstance().esAdjacent(posX, posY)) {
+                this.seleccionada = true;
+                this.setBackground(COLOR_SELECCIONADA);
+                TaulerConstrutor.getInstance().afegirPosCasellaSelecionada(posX, posY);
+            }
+        }
+    }
+
+    /**
+     * Marca la casella com a part d'una regió.
+     * Estableix l'índex de la regió de la casella i canvia el color de fons de la casella al color de la regio.
+     *
+     * @param index l'índex de la regió a la que pertany la casella
+     */
+    public void marcaComRegio(int index) {
+        this.pertanyRegio = true;
+        this.indexRegio = index;
+        this.setBackground(COLOR_REGIO);
+    }
+
+    /**
+     * Desmarca la casella com a part d'una regió.
+     * Restableix l'estat inicial de la casella.
+     */
+    public void desmarcaComRegio() {
+        configInicial();
+    }
+
+    /**
+     * Afegeix informació sobre la regió a la casella.
+     * Crea un JLabel amb l'operació i el resultat de la regió, i l'afegeix a la casella.
+     *
+     * @param operacio l'operació de la regió
+     * @param resultat el resultat de la regió
+     * @param midaTauler la mida del tauler
+     */
+    public void addInfoRegio(String operacio, String resultat, int midaTauler) {
+        infoRegioLabel = new JLabel();
+        int posIniX = 0;
+        int posIniY = this.getWidth()/10;
+        int ampladaLabel = (int)(this.getWidth());
+        int alturaLabel = (int)(this.getHeight() * 0.3);
+        infoRegioLabel.setBounds(posIniX, posIniY, ampladaLabel, alturaLabel);
+        infoRegioLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        infoRegioLabel.setVerticalAlignment(SwingConstants.CENTER);
+        // Ajusta la mida de la font en funció de la mida del tauler
+        int fontSizeResultat = (int) (75 / midaTauler);
+        int fontSizeOperacio = (int)(fontSizeResultat * 1.5);
+        String textInfoRegio = "<html><span style='font-size:" + fontSizeResultat + "px'>" + operacio +
+                "</span><span style='font-size:" + fontSizeOperacio+ "px'>" + resultat + "</span></html>";
+
+        infoRegioLabel.setText(textInfoRegio);
+        this.add(infoRegioLabel);
+    }
+
+    /**
+     * Estableix el color i gruix de les vores de la casella.
+     * Crea un MatteBorder per a cada vora de la casella, amb un gruix i un color que depenen de si la vora és una "vora regio".
+     * Després, estableix el borde de la casella com a un CompoundBorder dels quatre bordes creats.
+     *
+     * @param esVoraRegio un array de booleans que indica si cada vora és una "vora regio"
+     */
+    void pintarVores (boolean[] esVoraRegio) {
+        //esVoraRegio[amunt, esquerra, abaix, dreta]
+        int gruixAmunt = esVoraRegio[0] ? GRUIX_VORA_REGIO : GRUIX_VORA_DEFAULT;
+        int gruixEsquerra = esVoraRegio[1] ? GRUIX_VORA_REGIO : GRUIX_VORA_DEFAULT;
+        int gruixAbaix = esVoraRegio[2] ? GRUIX_VORA_REGIO : GRUIX_VORA_DEFAULT;
+        int gruixDreta = esVoraRegio[3] ? GRUIX_VORA_REGIO : GRUIX_VORA_DEFAULT;
+
+        MatteBorder bordeAmunt = new MatteBorder(gruixAmunt, 0, 0, 0, esVoraRegio[0] ? COLOR_VORA_REGIO : COLOR_VORA_DEFAULT);
+        MatteBorder bordeEsquerra = new MatteBorder(0, gruixEsquerra, 0, 0, esVoraRegio[1] ? COLOR_VORA_REGIO : COLOR_VORA_DEFAULT);
+        MatteBorder bordeAbaix = new MatteBorder(0, 0, gruixAbaix, 0, esVoraRegio[2] ? COLOR_VORA_REGIO : COLOR_VORA_DEFAULT);
+        MatteBorder bordeDreta = new MatteBorder(0, 0, 0, gruixDreta, esVoraRegio[3] ? COLOR_VORA_REGIO : COLOR_VORA_DEFAULT);
+
+        this.setBorder(BorderFactory.createCompoundBorder(bordeAmunt, BorderFactory.createCompoundBorder(bordeEsquerra, BorderFactory.createCompoundBorder(bordeAbaix, bordeDreta))));
+    }
+
+    /**
+     * Elimina la informació de la regió de la casella.
+     * Si la casella té un JLabel amb informació de la regió, l'elimina de la casella.
+     */
+    public void eliminarInfoRegio() {
+        if (infoRegioLabel != null) {
+            this.remove(infoRegioLabel);
+        }
+    }
+
 }

@@ -154,7 +154,7 @@ public class CtrlKenkens {
         return idTauler;
     }
 
-    public boolean comprovarKenkenCreat(String contingutTauler) {
+    public boolean esTaulerValid(String contingutTauler) {
         try {
             System.out.println(contingutTauler);
             Tauler T = stringToTauler(contingutTauler, "temporal");
