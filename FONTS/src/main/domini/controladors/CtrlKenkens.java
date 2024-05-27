@@ -7,7 +7,6 @@ import main.domini.interficies.Operacio;
 import main.domini.classes.operacions.*;
 import main.domini.classes.Casella;
 import main.domini.classes.Regio;
-import main.persistencia.ControladorPersistenciaTauler;
 import java.util.ArrayList;
 
 /**
@@ -16,10 +15,7 @@ import java.util.ArrayList;
  * @autor Ermias Valls Mayor
  */
 public class CtrlKenkens {
-    /**
-     * Instancia del controlador de domini.
-     */
-    private CtrlDomini ctrlDomini;
+
     /**
      * Instància de SolucionadorKenken per a la resolució de taulers de Kenken.
      */
@@ -35,8 +31,6 @@ public class CtrlKenkens {
      * Inicialitza l'instància de CtrlDomini.
      */
     private CtrlKenkens() {
-        //MOD desde domini a persistencia
-        ctrlDomini = CtrlDomini.getInstance();
         Solucionador  = SolucionadorKenken.getInstance();
     }
 
@@ -82,8 +76,8 @@ public class CtrlKenkens {
      * @return Tauler llegit.
      */
     public Tauler llegirTauler(String id) throws ExcepcioTaulerNoExisteix {
-        //MOD desde domini a persistencia
-        String contingutTauler = ctrlDomini.llegirTaulerPersistencia(id);
+
+        String contingutTauler = CtrlDomini.getInstance().llegirTaulerPersistencia(id);
         return stringToTauler(contingutTauler, id);
 
     }
@@ -168,7 +162,7 @@ public class CtrlKenkens {
      */
     public String seleccionaTaulerAleatori(int mida) {
         //Sha de fer desde Domini
-        return ctrlDomini.seleccionaTaulerAleatoriPersistencia(mida);
+        return CtrlDomini.getInstance().seleccionaTaulerAleatoriPersistencia(mida);
     }
 
 
@@ -210,8 +204,7 @@ public class CtrlKenkens {
      * @return Identificador del tauler guardat.
      */
     public String guardarTaulerBD(String contigutTauler) {
-        //MODificar desde domini
-        String idTauler = ControladorPersistenciaTauler.getInstance().generaIdentificadorIGuardaTauler(contigutTauler);
+        String idTauler = CtrlDomini.getInstance().generaIdentificadorIGuardaTaulerPersistencia(contigutTauler);
         return idTauler;
     }
 

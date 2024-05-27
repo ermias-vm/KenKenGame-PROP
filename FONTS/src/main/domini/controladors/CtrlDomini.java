@@ -341,7 +341,10 @@ public class CtrlDomini {
     public void mostrarTauler(Tauler T) throws Exception {
         CKenkens.mostrarTauler(T);
     }
+
+
     //Persistencia
+
     //Controlador de persistencia de Partides
     /**
      * {@link ControladorPersistencia#carregarUltimaPartidaGuardada(String)}

@@ -46,7 +46,10 @@ public class ControladorPersistencia {
         if (controladorPersistencia_ == null) controladorPersistencia_ = new ControladorPersistencia();
         return controladorPersistencia_;
     }
+
+
     //Controlador de persistencia de Partides
+
     /**
      * Carrega l'última partida guardada per un usuari. L'usuari existeix.
      * La informació de la partida guardada es troba al fitxer "data/partides/PartidesGuardades.txt" i està ordenada per última guardada.<br>
@@ -136,7 +139,9 @@ public class ControladorPersistencia {
         return controladorPersistenciaPartida_.haJugat(identificadorTauler, nomUsuari);
     }
 
+
     // Controlador de persistencia de taulers
+
     /**
      * Llegeix un tauler del disc.
      * @param identificadorTauler Identificador del tauler.
@@ -162,13 +167,38 @@ public class ControladorPersistencia {
     public String seleccionaTaulerAleatori(int mida) {
         return controladorPersistenciaTauler_.seleccionaTaulerAleatori(mida);
     }
+
+
     // Controlador de persistencia d'usuaris
+
+    /**
+     * Retorna un JsonReader per a les dades de l'usuari amb el nom d'usuari proporcionat.
+     *
+     * @param nomUsuari  Nom d'usuari.
+     * @return JsonReader per a les dades de l'usuari.
+     * @throws FileNotFoundException  Si no es troba el fitxer de dades de l'usuari.
+     */
     public JsonReader getUsuari(String nomUsuari) throws FileNotFoundException {
         return controladorPersistenciaUsuari_.getUsuari(nomUsuari);
     }
+
+    /**
+     * Comprova si existeix un usuari amb el nom d'usuari proporcionat.
+     *
+     * @param nomUsuari  Nom d'usuari.
+     * @return Cert si l'usuari existeix, fals altrament.
+     */
     public boolean existeixUsuari(String nomUsuari) {
         return controladorPersistenciaUsuari_.existeixUsuari(nomUsuari);
     }
+
+    /**
+     * Guarda les dades de l'usuari en format JSON en un fitxer.
+     *
+     * @param nomUsuari  Nom d'usuari.
+     * @param dadesUsuariJson  Dades de l'usuari en format JSON.
+     * @throws IOException  Si hi ha un error d'entrada/sortida.
+     */
     public void guardarUsuari(String nomUsuari, String dadesUsuariJson) throws IOException {
         controladorPersistenciaUsuari_.guardarUsuari(nomUsuari, dadesUsuariJson);
     }
