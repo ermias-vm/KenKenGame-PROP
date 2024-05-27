@@ -15,66 +15,129 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
 /**
- * Controlador de domini que gestiona les operacions principals del joc Kenken.
+ * La classe CtrlDomini és el controlador principal del domini de l'aplicació Kenken.
+ * Aquesta classe és responsable de gestionar les operacions principals del joc, incloent la gestió d'usuaris,
+ * partides, rankings i Kenkens.
+ *
  * @author Ermias Valls Mayor
  */
 public class CtrlDomini {
 
+    /**
+     * Instància única de la classe CtrlDomini, utilitzada per implementar el patró Singleton.
+     */
     private static CtrlDomini CDomini;
+
+    /**
+     * Instància única de la classe CtrlUsuari, utilitzada per accedir a les funcionalitats relacionades amb els usuaris.
+     */
     private static CtrlUsuari CUsuari;
+
+    /**
+     * Instància única de la classe ControladorPartida, utilitzada per gestionar les partides del joc.
+     */
     private static ControladorPartida CPartida;
+
+    /**
+     * Instància única de la classe CtrlKenkens, utilitzada per gestionar els Kenkens del joc.
+     */
     private static CtrlKenkens CKenkens;
+
+    /**
+     * Instància única de la classe ControladorRanking, utilitzada per gestionar el ranking del joc.
+     */
     private static ControladorRanking CRanking;
+
+    /**
+     * Instància única de la classe ControladorPersistencia, utilitzada per gestionar la persistència de dades del joc.
+     */
     private static ControladorPersistencia CPersistencia;
 
+    /**
+     * Usuari actual de la sessió.
+     */
     private Usuari usuariActual;
 
+    /**
+     * Constructor privat de la classe CtrlDomini.
+     * Inicialitza les instàncies de ControladorPersistencia, CtrlUsuari, ControladorPartida, CtrlKenkens, ControladorRanking.
+     */
     private CtrlDomini() {
         CPersistencia = ControladorPersistencia.getInstance();
         CUsuari = CtrlUsuari.getInstance();
         CPartida = ControladorPartida.getInstance();
         CKenkens = CtrlKenkens.getInstance();
         CRanking = ControladorRanking.getInstance();
-
     }
 
-
+    /**
+     * Retorna la instància singleton de CtrlDomini.
+     *
+     * @return Instància de CtrlDomini.
+     */
     public static CtrlDomini getInstance() {
         if (CDomini == null) CDomini = new CtrlDomini();
         return CDomini;
     }
 
-    //////////////// FUNCIONS DE USUARI ////////////////
+            /// FUNCINOS USUARI ///
 
+    /**
+     * {@link CtrlUsuari#iniciarSessio(String, String)}
+     */
     public void iniciarSessio(String nomUsuari, String contrasenya) throws ExcepcioContrasenyaIncorrecta, IOException, ExcepcioUsuariNoExisteix {
         CUsuari.iniciarSessio(nomUsuari, contrasenya);
     }
 
+    /**
+     * {@link CtrlUsuari#registrarUsuari(String, String)}
+     */
     public void registrarUsuari(String nomUsuari, String contrasenya) throws ExcepcioUsuariJaExisteix, IOException {
-        CUsuari.registrarse(nomUsuari, contrasenya);
+        CUsuari.registrarUsuari(nomUsuari, contrasenya);
     }
 
+    /**
+     * {@link CtrlUsuari#canviarContrasenya(String, String)}
+     */
     public void canviarContrasenya(String contrasenyaActual, String contrasenyaNova) throws ExcepcioContrasenyaIncorrecta, IOException {
         CUsuari.canviarContrasenya(contrasenyaActual, contrasenyaNova);
     }
 
+    /**
+     * Estableix l'usuari actual de la sessió.
+     * @param usuari L'objecte Usuari que es vol establir com a usuari actual.
+     */
     public void setUsuariActual(Usuari usuari) {
         usuariActual = usuari;
     }
 
+    /**
+     * Obté l'usuari actual de la sessió.
+     * @return L'objecte Usuari que representa l'usuari actual de la sessió.
+     */
     public Usuari getUsuariActual() {
         return usuariActual;
     }
+
+    /**
+     * Obté el nom de l'usuari actual de la sessió.
+     * @return Una cadena de text que representa el nom de l'usuari actual.
+     */
     public String getNomUsuariActual() {
         return usuariActual.getNomUsuari();
     }
+
+    /**
+     * Tanca la sessió actual, establint l'usuari actual a null.
+     */
     public void tancarSessio() {
         usuariActual = null;
     }
 
-    // ControladorPartida
+
+            /// FUNCIONS PARTIDA ///
+
     /**
      * {@link ControladorPartida#getPartidesGuardadesUsuari()}
      */
@@ -187,7 +250,9 @@ public class CtrlDomini {
         return CPartida.getAdjacentsPartida();
     }
 
-    //ControladorRanking
+
+            /// FUNCIONS RANKING ///
+
     /**
      * {@link ControladorRanking#afegirPartida(String)}
      */
@@ -212,7 +277,10 @@ public class CtrlDomini {
     public ArrayList<String> getRankingUsuari(String identificadorUsuari) {
         return CRanking.getRankingUsuari(identificadorUsuari);
     }
-    //CtrlKenkens
+
+
+        /// FUNCIONS KENKENS ///
+
     /**
      * {@link CtrlKenkens#llegirTauler(String)}
      */

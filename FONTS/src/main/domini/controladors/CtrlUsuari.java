@@ -4,14 +4,15 @@ import main.domini.classes.Usuari;
 import main.domini.excepcions.ExcepcioContrasenyaIncorrecta;
 import main.domini.excepcions.ExcepcioUsuariJaExisteix;
 import main.domini.excepcions.ExcepcioUsuariNoExisteix;
-import main.persistencia.CtrlUsuariData;
 import java.io.IOException;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
 /**
- * Controlador d'usuari que gestiona les operacions relacionades amb els usuaris.
- * 
+ * La classe CtrlUsuari és el controlador que gestiona les operacions relacionades amb els usuaris.
+ * Aquesta classe és responsable de gestionar les tasques com iniciar sessió, registrar-se i canviar la contrasenya.
+ *
+ *
  * @autor Ermias Valls Mayor
  */
 public class CtrlUsuari {
@@ -24,17 +25,13 @@ public class CtrlUsuari {
      * Instància de Gson per a la serialització i deserialització de dades d'usuari.
      */
     private Gson gson;
-    /**
-     * Instància de ctrlDomini.
-     */
-    private CtrlDomini ctrlDomini;
+
     /**
      * Constructor privat de la classe CtrlUsuari.
      * Inicialitza l'instància de CtrlUsuariData i Gson.
      */
     private CtrlUsuari() {
         this.gson = new Gson();
-        this.ctrlDomini = CtrlDomini.getInstance();
     }
 
     /**
@@ -58,52 +55,51 @@ public class CtrlUsuari {
      */
     public void iniciarSessio(String nomUsuari, String contrasenya) throws IOException, ExcepcioContrasenyaIncorrecta, ExcepcioUsuariNoExisteix {
         //MODificar a CtrlPersistencia
-        if (!ctrlDomini.existeixUsuariPersistencia(nomUsuari)) {
+        if (!CtrlDomini.getInstance().existeixUsuariPersistencia(nomUsuari)) {
             throw new ExcepcioUsuariNoExisteix(nomUsuari);
         }
-        JsonReader reader = ctrlDomini.getUsuariPersistencia(nomUsuari);
+        JsonReader reader = CtrlDomini.getInstance().getUsuariPersistencia(nomUsuari);
         Usuari usuari = gson.fromJson(reader, Usuari.class);
         if (!usuari.esContrasenyaCorrecta(contrasenya)) {
             throw new ExcepcioContrasenyaIncorrecta();
         }
-        ctrlDomini.setUsuariActual(usuari);
+        CtrlDomini.getInstance().setUsuariActual(usuari);
     }
 
     /**
      * Registra un nou usuari amb el nom d'usuari i contrasenya proporcionats.
-     * 
+     *
      * @param nomUsuari  Nom d'usuari.
      * @param contrasenya  Contrasenya de l'usuari.
      * @throws ExcepcioUsuariJaExisteix  Si l'usuari ja existeix.
      * @throws IOException  Si hi ha un error d'entrada/sortida.
      */
-    public void registrarse(String nomUsuari, String contrasenya) throws ExcepcioUsuariJaExisteix, IOException {
-        if (ctrlDomini.existeixUsuariPersistencia(nomUsuari)) {
+    public void registrarUsuari(String nomUsuari, String contrasenya) throws ExcepcioUsuariJaExisteix, IOException {
+        if (CtrlDomini.getInstance().existeixUsuariPersistencia(nomUsuari)) {
             throw new ExcepcioUsuariJaExisteix(nomUsuari);
         }
         Usuari usuari = new Usuari(nomUsuari, contrasenya);
         String dadesUsuariJson = gson.toJson(usuari);
-        ctrlDomini.guardarUsuariPersistencia(nomUsuari, dadesUsuariJson);
-        ctrlDomini.setUsuariActual(usuari);
+        CtrlDomini.getInstance().guardarUsuariPersistencia(nomUsuari, dadesUsuariJson);
+        CtrlDomini.getInstance().setUsuariActual(usuari);
     }
 
     /**
      * Canvia la contrasenya de l'usuari actual.
-     * 
+     *
      * @param ctrActual  Contrasenya actual de l'usuari.
      * @param ctrNova  Nova contrasenya per a l'usuari.
      * @throws ExcepcioContrasenyaIncorrecta  Si la contrasenya actual no és correcta.
      * @throws IOException  Si hi ha un error d'entrada/sortida.
      */
     public void canviarContrasenya(String ctrActual, String ctrNova) throws ExcepcioContrasenyaIncorrecta, IOException {
-        Usuari usuari = ctrlDomini.getInstance().getUsuariActual();
+        Usuari usuari = CtrlDomini.getInstance().getInstance().getUsuariActual();
         if (!usuari.esContrasenyaCorrecta(ctrActual)) {
             throw new ExcepcioContrasenyaIncorrecta();
         }
         usuari.setContrasenya(ctrNova);
         String dadesUsuariJson = gson.toJson(usuari);
-        ctrlDomini.guardarUsuariPersistencia(usuari.getNomUsuari(), dadesUsuariJson);
+        CtrlDomini.getInstance().guardarUsuariPersistencia(usuari.getNomUsuari(), dadesUsuariJson);
     }
-
 
 }
