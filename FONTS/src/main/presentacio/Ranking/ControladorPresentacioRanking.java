@@ -5,9 +5,8 @@ import main.presentacio.CtrlPresentacio;
 import main.presentacio.Partida.ObservadorLlista;
 
 import javax.swing.*;
-
-import static main.domini.controladors.ControladorRanking.MIDAMIN;
-
+import static main.presentacio.CtrlPresentacio.MIDAMAX;
+import static main.presentacio.CtrlPresentacio.MIDAMIN;
 /**
  * Controlador de la vista de rankings. S'encarrega de gestionar les interaccions de l'usuari amb la vista de rankings,
  * així com de gestionar les crides a la capa de domini per obtenir la informació necessària.

@@ -186,7 +186,7 @@ public class ControladorPartida {
      * @throws ExcepcioPartidaEnCurs si ja s'està jugant una partida.
      * @throws ExcepcioInicialitzacioControladorTauler si no s'ha inicialitzat el controlador de taulers.
      */
-    public String iniciaPartidaAleatoria(int mida, String nomUsuari) throws ExcepcioPartidaEnCurs, ExcepcioInicialitzacioControladorTauler {
+    public String iniciaPartidaAleatoria(int mida, String nomUsuari) throws ExcepcioPartidaEnCurs, ExcepcioInicialitzacioControladorTauler, ExcepcioNoPartidaAleatoria {
         if (partida_ != null) throw new ExcepcioPartidaEnCurs("S'està jugant una partida en aquest moment");
         if (controladorDomini_ == null) throw new ExcepcioInicialitzacioControladorTauler("No s'ha inicialitzat el controlador de taulers");
         String identificadorTauler;
@@ -194,7 +194,7 @@ public class ControladorPartida {
             identificadorTauler = controladorDomini_.seleccionaTaulerAleatoriPersistencia(mida);
         }
         while (haJugat(identificadorTauler, nomUsuari) && identificadorTauler != null);
-        //if (identificadorTauler == null) identificadorTauler = controladorDomini_.creaKenkenStub(mida);
+        if (identificadorTauler == null) throw new ExcepcioNoPartidaAleatoria();
         Tauler tauler = controladorDomini_.llegirTauler(identificadorTauler);
         partida_ = new Partida(nomUsuari, tauler);
         String partidaText = partida_.generaPartidaText();

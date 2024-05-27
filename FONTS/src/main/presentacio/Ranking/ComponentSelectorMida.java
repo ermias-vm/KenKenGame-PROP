@@ -1,7 +1,7 @@
 package main.presentacio.Ranking;
 
-import static main.domini.controladors.ControladorRanking.MIDAMIN;
-import static main.domini.controladors.ControladorRanking.MIDAMAX;
+import static main.presentacio.CtrlPresentacio.MIDAMAX;
+import static main.presentacio.CtrlPresentacio.MIDAMIN;
 
 import javax.swing.*;
 import java.util.ArrayList;

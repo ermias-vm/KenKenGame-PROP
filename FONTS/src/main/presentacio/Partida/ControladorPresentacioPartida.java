@@ -1,6 +1,5 @@
 package main.presentacio.Partida;
 
-import main.domini.controladors.ControladorPartida;
 import main.domini.excepcions.*;
 import main.presentacio.CtrlPresentacio;
 
@@ -9,6 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import static main.presentacio.CtrlPresentacio.NOMBREPARTIDESLLISTA;
+import static main.presentacio.CtrlPresentacio.MIDAMAX;
+import static main.presentacio.CtrlPresentacio.MIDAMIN;
+;
 
 /**
  * Controlador de la presentació de la partida
@@ -284,15 +286,16 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
             catch (NumberFormatException e) {
                 return;
             }
-            if (midaTauler > 9 || midaTauler < 3) {
-                JOptionPane.showMessageDialog(mainPanel_, "La mida del tauler ha de ser entre 3 i 9", "Error", JOptionPane.ERROR_MESSAGE);
+            if (midaTauler > MIDAMAX || midaTauler < MIDAMIN) {
+                JOptionPane.showMessageDialog(mainPanel_, "La mida del tauler ha de ser entre" +MIDAMIN +" i " +MIDAMAX , "Error", JOptionPane.ERROR_MESSAGE);
             }
-        }while (midaTauler > 9 || midaTauler < 3);
+        }while (midaTauler > MIDAMAX || midaTauler < MIDAMIN);
         try{
             controladorPresentacio_.iniciaPartidaAleatoria(midaTauler, vistaMenuJugarPartida_.getUsuari());
             inicialitzaVistaPartida();
         } catch (ExcepcioInicialitzacioControladorTauler | ExcepcioPartidaEnCurs e) {
             JOptionPane.showMessageDialog(mainPanel_, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (ExcepcioNoPartidaAleatoria e) {
         }
     }
 

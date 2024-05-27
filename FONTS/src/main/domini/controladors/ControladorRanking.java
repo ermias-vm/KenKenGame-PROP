@@ -1,21 +1,14 @@
 package main.domini.controladors;
 
 import main.domini.classes.Ranking;
-
+import static main.presentacio.CtrlPresentacio.MIDAMAX;
+import static main.presentacio.CtrlPresentacio.MIDAMIN;
 import java.util.ArrayList;
 
 /**
  * {@code ControladorRanking} és el controlador de domini encarregat de gestionar el ranking de les partides acabades.
  */
 public class ControladorRanking {
-    /**
-     * Mida mínima del tauler de les partides.
-     */
-    public static final int MIDAMIN = 3;
-    /**
-     * Mida màxima del tauler de les partides.
-     */
-    public static final int MIDAMAX = 9;
     /**
      * Rankings de les partides acabades per mida.
      * Cada posició i representa el ranking de les partides acabades de mida i + MIDAMIN.

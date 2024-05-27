@@ -17,10 +17,9 @@ import java.util.ArrayList;
  */
 public class CtrlKenkens {
     /**
-     * Instància de ControladorPersistenciaTauler per a la persistència de dades de tauler.
+     * Instancia del controlador de domini.
      */
-    private static ControladorPersistenciaTauler ctrlTaulerData;
-
+    private CtrlDomini ctrlDomini;
     /**
      * Instància de SolucionadorKenken per a la resolució de taulers de Kenken.
      */
@@ -33,11 +32,11 @@ public class CtrlKenkens {
 
     /**
      * Constructor privat de la classe CtrlKenkens.
-     * Inicialitza l'instància de ControladorPersistenciaTauler.
+     * Inicialitza l'instància de CtrlDomini.
      */
     private CtrlKenkens() {
         //MOD desde domini a persistencia
-        ctrlTaulerData = ControladorPersistenciaTauler.getInstance();
+        ctrlDomini = CtrlDomini.getInstance();
         Solucionador  = SolucionadorKenken.getInstance();
     }
 
@@ -84,7 +83,7 @@ public class CtrlKenkens {
      */
     public Tauler llegirTauler(String id) {
         //MOD desde domini a persistencia
-        String contingutTauler = ctrlTaulerData.llegirTauler(id);
+        String contingutTauler = ctrlDomini.llegirTaulerPersistencia(id);
         return stringToTauler(contingutTauler, id);
 
     }
@@ -169,7 +168,7 @@ public class CtrlKenkens {
      */
     public String seleccionaTaulerAleatori(int mida) {
         //Sha de fer desde Domini
-        return ControladorPersistenciaTauler.getInstance().seleccionaTaulerAleatori(mida);
+        return ctrlDomini.seleccionaTaulerAleatoriPersistencia(mida);
     }
 
 

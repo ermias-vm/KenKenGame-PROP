@@ -24,13 +24,17 @@ public class CtrlUsuari {
      * Instància de Gson per a la serialització i deserialització de dades d'usuari.
      */
     private Gson gson;
-
+    /**
+     * Instància de ctrlDomini.
+     */
+    private CtrlDomini ctrlDomini;
     /**
      * Constructor privat de la classe CtrlUsuari.
      * Inicialitza l'instància de CtrlUsuariData i Gson.
      */
     private CtrlUsuari() {
         this.gson = new Gson();
+        this.ctrlDomini = CtrlDomini.getInstance();
     }
 
     /**
@@ -54,15 +58,15 @@ public class CtrlUsuari {
      */
     public void iniciarSessio(String nomUsuari, String contrasenya) throws IOException, ExcepcioContrasenyaIncorrecta, ExcepcioUsuariNoExisteix {
         //MODificar a CtrlPersistencia
-        if (!CtrlUsuariData.getInstance().existeixUsuari(nomUsuari)) {
+        if (!ctrlDomini.existeixUsuariPersistencia(nomUsuari)) {
             throw new ExcepcioUsuariNoExisteix(nomUsuari);
         }
-        JsonReader reader = CtrlUsuariData.getInstance().getUsuari(nomUsuari);
+        JsonReader reader = ctrlDomini.getUsuariPersistencia(nomUsuari);
         Usuari usuari = gson.fromJson(reader, Usuari.class);
         if (!usuari.esContrasenyaCorrecta(contrasenya)) {
             throw new ExcepcioContrasenyaIncorrecta();
         }
-        CtrlDomini.getInstance().setUsuariActual(usuari);
+        ctrlDomini.setUsuariActual(usuari);
     }
 
     /**
@@ -74,13 +78,13 @@ public class CtrlUsuari {
      * @throws IOException  Si hi ha un error d'entrada/sortida.
      */
     public void registrarse(String nomUsuari, String contrasenya) throws ExcepcioUsuariJaExisteix, IOException {
-        if (CtrlUsuariData.getInstance().existeixUsuari(nomUsuari)) {
+        if (ctrlDomini.existeixUsuariPersistencia(nomUsuari)) {
             throw new ExcepcioUsuariJaExisteix(nomUsuari);
         }
         Usuari usuari = new Usuari(nomUsuari, contrasenya);
         String dadesUsuariJson = gson.toJson(usuari);
-        CtrlUsuariData.getInstance().guardarUsuari(nomUsuari, dadesUsuariJson);
-        CtrlDomini.getInstance().setUsuariActual(usuari);
+        ctrlDomini.guardarUsuariPersistencia(nomUsuari, dadesUsuariJson);
+        ctrlDomini.setUsuariActual(usuari);
     }
 
     /**
@@ -92,13 +96,13 @@ public class CtrlUsuari {
      * @throws IOException  Si hi ha un error d'entrada/sortida.
      */
     public void canviarContrasenya(String ctrActual, String ctrNova) throws ExcepcioContrasenyaIncorrecta, IOException {
-        Usuari usuari = CtrlDomini.getInstance().getUsuariActual();
+        Usuari usuari = ctrlDomini.getInstance().getUsuariActual();
         if (!usuari.esContrasenyaCorrecta(ctrActual)) {
             throw new ExcepcioContrasenyaIncorrecta();
         }
         usuari.setContrasenya(ctrNova);
         String dadesUsuariJson = gson.toJson(usuari);
-        CtrlUsuariData.getInstance().guardarUsuari(usuari.getNomUsuari(), dadesUsuariJson);
+        ctrlDomini.guardarUsuariPersistencia(usuari.getNomUsuari(), dadesUsuariJson);
     }
 
 
