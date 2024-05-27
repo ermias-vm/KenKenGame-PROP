@@ -4,6 +4,9 @@ package main.persistencia;
 import java.io.*;
 import java.util.HashMap;
 
+import static main.presentacio.CtrlPresentacio.MIDAMAX;
+import static main.presentacio.CtrlPresentacio.MIDAMIN;
+
 public class ControladorPersistenciaTauler {
     /**
      * Instància del controlador de persistència de taulers.
@@ -13,6 +16,7 @@ public class ControladorPersistenciaTauler {
      * Constructora de la classe.
      */
     public ControladorPersistenciaTauler() {
+        inicialitzaDiccionariTaulers();
     }
     /**
      * Retorna la instància del controlador de persistència de taulers.
@@ -160,5 +164,51 @@ public class ControladorPersistenciaTauler {
         }
         sufix.deleteCharAt(sufix.length() - 1);
         return sufix.toString();
+    }
+    /**
+     * Esborra un tauler del disc.
+     * @param identificadorTauler Identificador del tauler.
+     */
+    private void esborraTauler(String identificadorTauler) {
+        int mida = Integer.parseInt(identificadorTauler.split("-")[1]);
+        String carpeta = "data/taulers/mida"+mida;
+        File fitxer = new File(carpeta + "/" + identificadorTauler + ".txt");
+        if (!fitxer.delete()) {
+            throw new RuntimeException("No s'ha pogut esborrar el tauler.");
+        }
+    }
+    /**
+     * Inicialitza el diccionari de taulers.
+     */
+    private void inicialitzaDiccionariTaulers() {
+        HashMap<String, String[]> taulersPerSufix = new HashMap<>();
+        for (int i= MIDAMIN; i <= MIDAMAX; i++) {
+            String carpeta = "data/taulers/mida"+i;
+            File fitxerCarpeta = new File(carpeta);
+            File[] llistaFitxers = fitxerCarpeta.listFiles();
+            if (llistaFitxers == null) continue;
+            for (File fitxer : llistaFitxers) {
+                String contingut = llegirTauler(fitxer.getName().replace(".txt", ""));
+                String sufix = generaSufixFitxer(contingut);
+                String[] identificadors = taulersPerSufix.get(sufix);
+                if (identificadors == null) {
+                    identificadors = new String[1];
+                    identificadors[0] = fitxer.getName().replace(".txt", "");
+                }
+                else {
+                    String[] identificadorsNou = new String[identificadors.length + 1];
+                    System.arraycopy(identificadors, 0, identificadorsNou, 0, identificadors.length);
+                    identificadorsNou[identificadors.length] = fitxer.getName().replace(".txt", "");
+                    identificadors = identificadorsNou;
+                }
+            }
+        }
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data/taulers/diccionariTaulers"));
+            oos.writeObject(taulersPerSufix);
+            oos.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

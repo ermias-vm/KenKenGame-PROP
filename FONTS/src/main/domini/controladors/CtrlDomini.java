@@ -294,12 +294,6 @@ public class CtrlDomini {
         return CPersistencia.carregarPartidesGuardadesUsuari(nomUsuari);
     }
     /**
-     * {@link ControladorPersistencia#carregarPartidesAcabadesUsuari(String)}
-     */
-    public ArrayList<String> carregarPartidesAcabadesUsuariPersistencia(String nomUsuari) {
-        return CPersistencia.carregarPartidesAcabadesUsuari(nomUsuari);
-    }
-    /**
      * {@link ControladorPersistencia#carregaPartidesAcabadesMida(int)}
      */
     public ArrayList<String> carregaPartidesAcabadesMidaPersistencia(int mida) {
