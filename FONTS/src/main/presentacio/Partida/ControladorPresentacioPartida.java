@@ -390,4 +390,12 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
         }
         return solucioTotal;
     }
+    /**
+     * Retorna el panell principal
+     * @return Panell principal
+     */
+    public JPanel getDefaultPanel() {
+        return mainPanel_;
+    }
+
 }
