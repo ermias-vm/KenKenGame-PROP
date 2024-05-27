@@ -81,7 +81,7 @@ public class CtrlKenkens {
      * @param id  Identificador del tauler.
      * @return Tauler llegit.
      */
-    public Tauler llegirTauler(String id) {
+    public Tauler llegirTauler(String id) throws ExcepcioTaulerNoExisteix {
         //MOD desde domini a persistencia
         String contingutTauler = ctrlDomini.llegirTaulerPersistencia(id);
         return stringToTauler(contingutTauler, id);

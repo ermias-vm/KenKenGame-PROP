@@ -1,6 +1,7 @@
 package main.persistencia;
 
 import com.google.gson.stream.JsonReader;
+import main.domini.excepcions.ExcepcioTaulerNoExisteix;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -141,7 +142,7 @@ public class ControladorPersistencia {
      * @param identificadorTauler Identificador del tauler.
      * @return Dades del tauler.
      */
-    public String llegirTauler(String identificadorTauler) {
+    public String llegirTauler(String identificadorTauler) throws ExcepcioTaulerNoExisteix {
         return controladorPersistenciaTauler_.llegirTauler(identificadorTauler);
     }
     /**

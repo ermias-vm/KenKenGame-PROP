@@ -168,12 +168,15 @@ public class ControladorPartida {
     public String iniciaPartidaIdentificadorTauler(String identificadorTauler, String nomUsuari) throws ExcepcioCarregaTauler, ExcepcioPartidaEnCurs, ExcepcioInicialitzacioControladorTauler{
         if (partida_ != null) throw new ExcepcioPartidaEnCurs("S'està jugant una partida en aquest moment");
         if (controladorDomini_ == null) throw new ExcepcioInicialitzacioControladorTauler("No s'ha inicialitzat el controlador de taulers");
-        Tauler tauler = controladorDomini_.llegirTauler(identificadorTauler);
-        if (tauler == null) throw new ExcepcioCarregaTauler("No s'ha pogut carregar el tauler amb identificador " + identificadorTauler);
-        partida_ = new Partida(nomUsuari, tauler);
-        if (haJugat(identificadorTauler, nomUsuari)) partida_.setGuardadaPartida();
-        String partidaText = partida_.generaPartidaText();
-        return partidaText;
+        try {
+            Tauler tauler = controladorDomini_.llegirTauler(identificadorTauler);
+            partida_ = new Partida(nomUsuari, tauler);
+            if (haJugat(identificadorTauler, nomUsuari)) partida_.setGuardadaPartida();
+            String partidaText = partida_.generaPartidaText();
+            return partidaText;
+        } catch (ExcepcioTaulerNoExisteix e) {
+            throw new ExcepcioCarregaTauler("No s'ha pogut carregar el tauler amb identificador " + identificadorTauler);
+        }
     }
 
     /**
@@ -195,10 +198,14 @@ public class ControladorPartida {
         }
         while (haJugat(identificadorTauler, nomUsuari) && identificadorTauler != null);
         if (identificadorTauler == null) throw new ExcepcioNoPartidaAleatoria();
-        Tauler tauler = controladorDomini_.llegirTauler(identificadorTauler);
-        partida_ = new Partida(nomUsuari, tauler);
-        String partidaText = partida_.generaPartidaText();
-        return partidaText;
+        try {
+            Tauler tauler = controladorDomini_.llegirTauler(identificadorTauler);
+            partida_ = new Partida(nomUsuari, tauler);
+            String partidaText = partida_.generaPartidaText();
+            return partidaText;
+        } catch (ExcepcioTaulerNoExisteix e) {
+            throw new RuntimeException(e);
+        }
     }
     /**
      * Canvia l'estat de la partida, és a dir un dels seus valors.
@@ -392,9 +399,15 @@ public class ControladorPartida {
                 valorsPartida[i][j] = Integer.parseInt(valors[j]);
             }
         }
-        Tauler tauler = controladorDomini_.llegirTauler(identificadorTaulerPartida);
-        if (tauler.getGrau() != midaPartida) throw new ExcepcioCarregaPartida("La mida de la partida guardada no coincideix amb la mda del seu tauler" );
-        return new Partida(identificadorPartida, identificadorUsuariPartida, tauler, tempsPartida, valorsPartida);
+        try {
+            Tauler tauler = controladorDomini_.llegirTauler(identificadorTaulerPartida);
+            if (tauler.getGrau() != midaPartida)
+                throw new ExcepcioCarregaPartida("La mida de la partida guardada no coincideix amb la mda del seu tauler");
+            return new Partida(identificadorPartida, identificadorUsuariPartida, tauler, tempsPartida, valorsPartida);
+        }
+        catch (ExcepcioTaulerNoExisteix e) {
+            throw new ExcepcioCarregaPartida("No s'ha pogut carregar el tauler de la partida guardada");
+        }
     }
 
     /**

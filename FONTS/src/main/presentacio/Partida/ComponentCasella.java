@@ -30,7 +30,7 @@ public class ComponentCasella extends JPanel implements ActionListener, KeyListe
      */
     private JButton boto_;
     /**
-     * {@code botoPremut_} és un booleà que indica si s'ha premut el boto de la casella.
+     * {@code botoPremut_} és un booleà que indica si s'ha premut el botó de la casella.
      */
     private boolean botoPremut_;
     /**
@@ -108,7 +108,7 @@ public class ComponentCasella extends JPanel implements ActionListener, KeyListe
     }
 
     /**
-     * Afegeix un observador a la casella.
+         * Afegeix un observador a la casella.
      * @param observer Observador a afegir.
      */
     public void addObserver(ObservadorCasella observer) {
@@ -140,6 +140,11 @@ public class ComponentCasella extends JPanel implements ActionListener, KeyListe
     public void setOperacio_(String operacio){
         operacio_.setText(operacio);
     }
+
+    /**
+     * Retorna la dimensió default de la casella.
+     * @return Dimensió default de la casella.
+     */
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(100, 100); // Set your preferred dimensions here
@@ -186,12 +191,12 @@ public class ComponentCasella extends JPanel implements ActionListener, KeyListe
     public void keyReleased(KeyEvent e) {
 
     }
- //Quan es prem el boto, es posa el botoPremut_ a true.
+
+    /**
+     * Quan es prem el boto, es posa el botoPremut_ a true.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         botoPremut_= true;
-    }
-
-    public void setIncorrecte() {
     }
 }

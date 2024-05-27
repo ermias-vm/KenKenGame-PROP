@@ -7,7 +7,6 @@ import java.util.HashSet;
 
 /**
  * Controlador de persistencia per a {@code Partida} que s'encarrega de gestionar la càrrega i el guardat de partides.
- * Es relaciona amb el controlador de partides de domini {@link ControladorPartida}.
  * Opera amb fitxers de text per a guardar les partides.<br>
  * El fitxer per guardar les partides guardades és "data/partides/PartidesGuardades.txt".<br>
  * Els fitxers per guardar les partides acabades són "data/partides/PartidesAcabadesGuardades.txt",<br>

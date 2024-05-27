@@ -186,12 +186,6 @@ public class CtrlDomini {
     public ArrayList<Boolean>[][] getAdjacentsPartida() {
         return CPartida.getAdjacentsPartida();
     }
-    /**
-     * {@link ControladorPartida#tancaControlador()}
-     */
-    public boolean tancaControlador() {
-        return CPartida.tancaControlador();
-    }
 
     //ControladorRanking
     /**
@@ -222,7 +216,7 @@ public class CtrlDomini {
     /**
      * {@link CtrlKenkens#llegirTauler(String)}
      */
-    public Tauler llegirTauler(String id) {
+    public Tauler llegirTauler(String id) throws ExcepcioTaulerNoExisteix {
         return CKenkens.llegirTauler(id);
     }
     /**
@@ -323,7 +317,7 @@ public class CtrlDomini {
     /**
      * {@link ControladorPersistencia#llegirTauler(String)}
      */
-    public String llegirTaulerPersistencia(String identificadorTauler) {
+    public String llegirTaulerPersistencia(String identificadorTauler) throws ExcepcioTaulerNoExisteix {
         return CPersistencia.llegirTauler(identificadorTauler);
     }
     /**

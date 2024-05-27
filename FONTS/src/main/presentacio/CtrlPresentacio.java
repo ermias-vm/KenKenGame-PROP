@@ -263,13 +263,6 @@ public class CtrlPresentacio {
     public ArrayList<Boolean>[][] getAdjacentsPartida() {
         return CDomini.getAdjacentsPartida();
     }
-    /**
-     * {@link ControladorPartida#tancaControlador()}
-     */
-    public boolean tancaControlador() {
-        return CDomini.tancaControlador();
-    }
-
     //ControladorRanking
     /**
      * {@link ControladorRanking#afegirPartida(String)}
@@ -299,7 +292,7 @@ public class CtrlPresentacio {
     /**
      * {@link CtrlKenkens#llegirTauler(String)}
      */
-    public Tauler llegirTauler(String id) {
+    public Tauler llegirTauler(String id) throws ExcepcioTaulerNoExisteix {
         return CDomini.llegirTauler(id);
     }
     /**

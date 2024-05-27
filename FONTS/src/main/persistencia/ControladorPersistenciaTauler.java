@@ -1,12 +1,18 @@
 package main.persistencia;
 
 
+import main.domini.excepcions.ExcepcioTaulerNoExisteix;
+
 import java.io.*;
 import java.util.HashMap;
 
 import static main.presentacio.CtrlPresentacio.MIDAMAX;
 import static main.presentacio.CtrlPresentacio.MIDAMIN;
 
+/**
+ * Controlador de persistència de taulers.
+ * S'encarrega de llegir i guardar taulers al disc. Opera sobre la carpeta "data/taulers".
+ */
 public class ControladorPersistenciaTauler {
     /**
      * Instància del controlador de persistència de taulers.
@@ -31,8 +37,9 @@ public class ControladorPersistenciaTauler {
      * Llegeix un tauler del disc.
      * @param identificadorTauler Identificador del tauler.
      * @return Dades del tauler.
+     * @throws ExcepcioTaulerNoExisteix Si el tauler no existeix.
      */
-    public String llegirTauler(String identificadorTauler) {
+    public String llegirTauler(String identificadorTauler) throws ExcepcioTaulerNoExisteix {
 
         int mida = Integer.parseInt(identificadorTauler.split("-")[1]);
         String carpeta = "data/taulers/mida"+mida;
@@ -45,7 +52,7 @@ public class ControladorPersistenciaTauler {
             }
             lector.close();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ExcepcioTaulerNoExisteix(identificadorTauler);
         }
         return dadesTauler.toString();
     }
@@ -79,9 +86,13 @@ public class ControladorPersistenciaTauler {
         String[] identificadors = taulersPerSufix.get(sufix);
         if (identificadors != null) {
             for (String identificador : identificadors) {
-                String dadesTaulerGuardat = llegirTauler(identificador);
-                if (dadesTaulerGuardat.equals(dadesTauler)) {
-                    return identificador;
+                try {
+                    String dadesTaulerGuardat = llegirTauler(identificador);
+                    if (dadesTaulerGuardat.equals(dadesTauler)) {
+                        return identificador;
+                    }
+                } catch (ExcepcioTaulerNoExisteix e) {
+                    throw new RuntimeException(e);
                 }
             }
         }
@@ -137,7 +148,7 @@ public class ControladorPersistenciaTauler {
         if(llistaFitxers != null) {
             int nombreFitxers = llistaFitxers.length;
             int index = (int) (Math.random() * nombreFitxers);
-            return llistaFitxers[index].getName();
+            return llistaFitxers[index].getName().replace(".txt", "");
         }
         return "";
     }
@@ -178,9 +189,11 @@ public class ControladorPersistenciaTauler {
         }
     }
     /**
-     * Inicialitza el diccionari de taulers.
+     * Inicialitza el diccionari de taulers a partir dels fitxers del disc.
+     * També actualitza l'últim identificador dels taulers.
      */
     private void inicialitzaDiccionariTaulers() {
+        int identificadorMax = 0;
         HashMap<String, String[]> taulersPerSufix = new HashMap<>();
         for (int i= MIDAMIN; i <= MIDAMAX; i++) {
             String carpeta = "data/taulers/mida"+i;
@@ -188,20 +201,35 @@ public class ControladorPersistenciaTauler {
             File[] llistaFitxers = fitxerCarpeta.listFiles();
             if (llistaFitxers == null) continue;
             for (File fitxer : llistaFitxers) {
-                String contingut = llegirTauler(fitxer.getName().replace(".txt", ""));
-                String sufix = generaSufixFitxer(contingut);
-                String[] identificadors = taulersPerSufix.get(sufix);
-                if (identificadors == null) {
-                    identificadors = new String[1];
-                    identificadors[0] = fitxer.getName().replace(".txt", "");
-                }
-                else {
-                    String[] identificadorsNou = new String[identificadors.length + 1];
-                    System.arraycopy(identificadors, 0, identificadorsNou, 0, identificadors.length);
-                    identificadorsNou[identificadors.length] = fitxer.getName().replace(".txt", "");
-                    identificadors = identificadorsNou;
+                try {
+                    String identificador = fitxer.getName().replace(".txt", "");
+                    int identificadorInt = Integer.parseInt(identificador.split("-")[0]);
+                    if (identificadorInt > identificadorMax) {
+                        identificadorMax = identificadorInt;
+                    }
+                    String contingut = llegirTauler(fitxer.getName().replace(".txt", ""));
+                    String sufix = generaSufixFitxer(contingut);
+                    String[] identificadors = taulersPerSufix.get(sufix);
+                    if (identificadors == null) {
+                        identificadors = new String[1];
+                        identificadors[0] = fitxer.getName().replace(".txt", "");
+                    } else {
+                        String[] identificadorsNou = new String[identificadors.length + 1];
+                        System.arraycopy(identificadors, 0, identificadorsNou, 0, identificadors.length);
+                        identificadorsNou[identificadors.length] = fitxer.getName().replace(".txt", "");
+                        identificadors = identificadorsNou;
+                    }
+                } catch (ExcepcioTaulerNoExisteix e) {
+                    throw new RuntimeException(e);
                 }
             }
+        }
+        try {
+            PrintWriter escriptor = new PrintWriter("data/taulers/ultimidentificador.txt");
+            escriptor.print(identificadorMax);
+            escriptor.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
         try {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data/taulers/diccionariTaulers"));
