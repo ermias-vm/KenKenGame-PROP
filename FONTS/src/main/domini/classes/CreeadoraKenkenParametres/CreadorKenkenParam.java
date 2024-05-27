@@ -1,5 +1,6 @@
 package main.domini.classes.CreeadoraKenkenParametres;
 
+import main.domini.controladors.CtrlDomini;
 import main.persistencia.ControladorPersistenciaTauler;
 
 import java.util.Arrays;
@@ -414,18 +415,10 @@ public class CreadorKenkenParam {
 
     /**
      * Funcio que recull les dades generades i ho posa en un .txt a la base de dades.
+     * @return retorna el nom del fitxer creat és a dir l'identificador del Tauler
      */
-    private void crearArxiuText(){
-        ControladorPersistenciaTauler controlador = new ControladorPersistenciaTauler();
-        String identificador = controlador.generaIdentificadorIGuardaTauler(resultat);
-        String Directori = "data/taulers/mida" + size + "/";
-        try{
-            Path filePath = Paths.get(Directori + identificador + ".txt");
-            Files.writeString(filePath, resultat);
-            System.out.println("Arxiu creat");
-        } catch (IOException e){
-            e.printStackTrace();
-        }
+    private String crearArxiuText(){
+        return CtrlDomini.getInstance().generaIdentificadorIGuardaTaulerPersistencia(resultat);
     }
 
     /**
@@ -439,8 +432,9 @@ public class CreadorKenkenParam {
      * @param divisio indica si el tauler ha de tenir alguna operacio divisio o no
      * @param modul indica si el tauler ha de tenir alguna operacio modul o no
      * @param exponenciacio indica si el tauler ha de tenir alguna operacio exponenciacio o no
+     * @return retorna l'identificador del tauler generat
      */
-    public static void creadora(int grau, boolean suma, boolean resta, boolean multiplicacio, boolean divisio, boolean modul, boolean exponenciacio){
+    public static String creadora(int grau, boolean suma, boolean resta, boolean multiplicacio, boolean divisio, boolean modul, boolean exponenciacio){
         int size = grau;
         int maxSize = Math.max(grau-3,3);
         CreadorKenkenParam generator = new CreadorKenkenParam(size, maxSize);
@@ -448,19 +442,7 @@ public class CreadorKenkenParam {
         generator.printSolution();
         generator.printBlockSolution();
         generator.crearOperaciones(suma, resta, multiplicacio, divisio, modul, exponenciacio);
-        generator.crearArxiuText();
+        return generator.crearArxiuText();
     }
 
-
-    // MAIN TEMPORAL PER ANAR PROVANT EL CODI
-    public static void main(String[] args) {
-        int grau = 9;
-        boolean suma = true;
-        boolean resta = true;
-        boolean multiplicacio = true;
-        boolean divisio = true;
-        boolean modul = true;
-        boolean exponenciacio = true;
-        creadora(grau, suma, resta, multiplicacio, divisio, modul, exponenciacio);
-    }
 }

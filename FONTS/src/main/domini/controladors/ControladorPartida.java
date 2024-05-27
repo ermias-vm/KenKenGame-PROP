@@ -396,6 +396,12 @@ public class ControladorPartida {
         if (tauler.getGrau() != midaPartida) throw new ExcepcioCarregaPartida("La mida de la partida guardada no coincideix amb la mda del seu tauler" );
         return new Partida(identificadorPartida, identificadorUsuariPartida, tauler, tempsPartida, valorsPartida);
     }
+
+    /**
+     * Comprova si hi ha valors repetits a les files i columnes del tauler.
+     * @param valors Matriu de valors del tauler.
+     * @return Retorna un vector d'enters amb les posicions de les caselles amb valors repetits.
+     */
     private ArrayList<int[]> comprovaRepetits(int[][] valors) {
         ArrayList<int[]> valorsRepetits = new ArrayList<>();
         int mida_ = valors.length;
@@ -426,17 +432,4 @@ public class ControladorPartida {
         return partida_.getTaulerPartida().getAdjacents();
     }
 
-    /**
-     * Tanca el controlador de la partida.
-     * @return true
-     */
-    public boolean tancaControlador(){
-        partida_ = null;
-        referMoviments_.clear();
-        desferMoviments_.clear();
-        partidesGuardadesUsuari_.clear();
-        controladorDomini_ = null;
-        controladorDomini_ = null;
-        return true;
-    }
 }

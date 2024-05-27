@@ -6,19 +6,41 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Controlador principal de persistència.
+ * Controla la persistència de les dades de la capa de domini, així com la interacció amb aquesta.
+ */
 public class ControladorPersistencia {
-
+    /**
+     * Instància única del controlador de persistència.
+     */
     private static ControladorPersistencia controladorPersistencia_;
+    /**
+     * Controlador de persistència de taulers.
+     */
     private static ControladorPersistenciaTauler controladorPersistenciaTauler_;
+    /**
+     * Controlador de persistència d'usuaris.
+     */
     private static CtrlUsuariData controladorPersistenciaUsuari_;
+    /**
+     * Controlador de persistència de partides.
+     */
     private static ControladorPersistenciaPartida controladorPersistenciaPartida_;
 
+    /**
+     * Crea una nova instància del controlador de persistència. Inicialitza els controladors de persistència de taulers, usuaris i partides.
+     */
     private ControladorPersistencia() {
         controladorPersistenciaTauler_ = ControladorPersistenciaTauler.getInstance();
         controladorPersistenciaUsuari_ = CtrlUsuariData.getInstance();
         controladorPersistenciaPartida_ = ControladorPersistenciaPartida.getInstance();
     }
 
+    /**
+     * Retorna la instància única del controlador de persistència.
+     * @return Instància única del controlador de persistència.
+     */
     public static ControladorPersistencia getInstance() {
         if (controladorPersistencia_ == null) controladorPersistencia_ = new ControladorPersistencia();
         return controladorPersistencia_;
