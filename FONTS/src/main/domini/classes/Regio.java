@@ -5,13 +5,44 @@ import main.domini.interficies.Operacio;
 import java.util.ArrayList;
 
 
-public class Regio {
+/**
+ * Classe Regio que representa una regió d'un tauler Kenken.
+ * Una regió està formada per un conjunt de caselles, una operació i un resultat.
+ * La mida de la regió és el nombre de caselles que la formen.
+ *
+ * @author Ermias Valls Mayor
+ */
 
-    private int mida;
+public class Regio {
+	/**
+	 * Mida de la regió. Indica el nombre de caselles que la formen.
+	 */
+	private int mida;
+
+	/**
+	 * Operació que s'ha de realitzar amb els valors de les caselles de la regió per obtenir el resultat.
+	 * La operacio pot der de : Suma, Resta, Multiplicacio, Divisio, Modul, Exponenciacio.
+	 * @see main.domini.interficies.Operacio
+	 */
 	private Operacio operacio;
+
+	/**
+	 * Resultat que s'ha d'obtenir en realitzar l'operació especificada amb els valors de les caselles de la regió.
+	 */
 	private int resultat;
+
+	/**
+	 * Llista de caselles que formen la regió.
+	 */
 	private ArrayList<Casella> caselles;
 
+	/**
+	 * Constructor de la classe Regio.
+	 * Crea una nova regió amb una mida, operació i resultat especificats.
+	 * @param tam  Mida de la regió.
+	 * @param operacio  Operació de la regió.
+	 * @param resultat  Resultat de la regió.
+	 */
 	public Regio(int tam, Operacio operacio, int resultat) {
 		try {
 			if (tam < 1) throw new ExcepcioMidaIncorrecte();
@@ -25,6 +56,13 @@ public class Regio {
 		}
 	}
 
+	/**
+	 * Constructor de la classe Regio.
+	 * Crea una nova regió amb un conjunt de caselles, operació i resultat especificats.
+	 * @param vCaselles  Conjunt de caselles de la regió.
+	 * @param operacio  Operació de la regió.
+	 * @param resultat  Resultat de la regió.
+	 */
 	public Regio(ArrayList<Casella> vCaselles, Operacio operacio, int resultat) {
 		try {
 			if (vCaselles.isEmpty()) throw new ExcepcioMidaIncorrecte();
@@ -39,32 +77,27 @@ public class Regio {
 		}
 	}
 
+	/**
+	 * Retorna les caselles de la regió.
+	 * @return Conjunt de caselles de la regió.
+	 */
 	public ArrayList<Casella> getCaselles() {
 		return this.caselles;
 	}
 
+	/**
+	 * Retorna la mida de la regió
+	 * @return Mida de la regió.
+	 */
     public int getMida() {
         return mida;
     }
-     
-    public int getNumcasellesPlenas() { 
-        int numCasellesPlenas = mida;
-        for (int i = 0; i < mida; ++i) {
-            if (caselles.get(i).esBuida()) numCasellesPlenas--;
-        }
-        return numCasellesPlenas;
-    }
-     
-    public boolean esBuida(int pos) {
-    	try {
-			if (pos < 0 || pos >= mida) throw new ExcepcionPosicioIncorrecta();
-			return (caselles.get(pos).esBuida());
-		} catch (ExcepcionPosicioIncorrecta e) {
-			System.out.println(e.getMessage());
-			return false;
-		}
-    }
-     
+
+	/**
+	 * Comprova si una casella de la regió està buida.
+	 * @param pos  Posició de la casella a comprovar.
+	 * @return true si la casella està buida, false en cas contrari.
+	 */
     public Casella getCasella(int pos) {
     	try {
 			if (pos < 0 || pos >= mida) throw new ExcepcionPosicioIncorrecta();
@@ -74,7 +107,12 @@ public class Regio {
 			return null;
 		}
     }
-     
+
+	/**
+	 * Retorna el valor d'una casella de la regió.
+	 * @param pos  Posició de la casella.
+	 * @return Valor de la casella.
+	 */
     public int getValor(int pos) {
     	try {
 			if (pos < 0 || pos >= mida) throw new ExcepcionPosicioIncorrecta();
@@ -84,7 +122,12 @@ public class Regio {
 			return -1;
 		}
     }
-     
+
+	/**
+	 * Estableix el valor d'una casella de la regió.
+	 * @param pos  Posició de la casella.
+	 * @param val  Valor a establir.
+	 */
     public void setValor(int pos, int val) {
     	try {
 			if (pos < 0 || pos >= mida) throw new ExcepcionPosicioIncorrecta();
@@ -178,7 +221,22 @@ public class Regio {
 		return true;
 	}
 
-
+	/**
+	 * Comprova si la regió és vàlida segons els valors proporcionats.
+	 *
+	 * @param valors  Array d'enters que representen els valors de les caselles de la regió.
+	 * @return Retorna true si la regió és vàlida, false en cas contrari.
+	 * @throws ExcepcioNoDivisor  Si es produeix un error de divisió per zero.
+	 * @throws ExcepcioMoltsValors  Si es proporcionen més valors dels que pot contenir la regió.
+	 * @throws ExcepcioDivisio_0  Si es produeix una divisió per zero.
+	 * @throws ExcepcioValorInvalid  Si es proporciona un valor invàlid.
+	 *
+	 * Aquesta funció primer comprova si els valors proporcionats són nuls, en aquest cas, obté els valors de les caselles de la regió.
+	 * Després, comprova si la regió està completa, si no ho està, retorna false.
+	 * Si la mida de la regió és 1, comprova si el resultat és igual al valor de la casella.
+	 * Si l'operació és commutativa (suma o multiplicació), es realitza l'operació amb tots els valors i es compara amb el resultat esperat.
+	 * Si l'operació no és commutativa (resta, divisió, mòdul, exponenciació), es realitza l'operació amb els dos primers valors en ambdues direccions i es compara amb el resultat esperat.
+	 */
 	public boolean esValida(int[] valors ) throws ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioValorInvalid {
 		if (valors == null) {
 			valors = getValorsCaselles();

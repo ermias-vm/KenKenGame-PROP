@@ -1,8 +1,14 @@
 package main.domini.controladors;
+import main.domini.classes.Usuari;
 
 import com.google.gson.stream.JsonReader;
 import main.domini.excepcions.*;
 import main.persistencia.ControladorPersistencia;
+import main.domini.excepcions.ExcepcioContrasenyaIncorrecta;
+import main.domini.excepcions.ExcepcioUsuariJaExisteix;
+import main.domini.excepcions.ExcepcioUsuariNoExisteix;
+
+import java.io.IOException;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -22,6 +28,8 @@ public class CtrlDomini {
     private static ControladorRanking CRanking;
     private static ControladorPersistencia CPersistencia;
 
+    private Usuari usuariActual;
+
     private CtrlDomini() {
         CPersistencia = ControladorPersistencia.getInstance();
         CUsuari = CtrlUsuari.getInstance();
@@ -35,6 +43,32 @@ public class CtrlDomini {
     public static CtrlDomini getInstance() {
         if (CDomini == null) CDomini = new CtrlDomini();
         return CDomini;
+    }
+
+    //////////////// FUNCIONS DE USUARI ////////////////
+
+    public void iniciarSessio(String nomUsuari, String contrasenya) throws ExcepcioContrasenyaIncorrecta, IOException, ExcepcioUsuariNoExisteix {
+        CUsuari.iniciarSessio(nomUsuari, contrasenya);
+    }
+
+    public void registrarUsuari(String nomUsuari, String contrasenya) throws ExcepcioUsuariJaExisteix, IOException {
+        CUsuari.registrarse(nomUsuari, contrasenya);
+    }
+
+    public void canviarContrasenya(String contrasenyaActual, String contrasenyaNova) throws ExcepcioContrasenyaIncorrecta, IOException {
+        CUsuari.canviarContrasenya(contrasenyaActual, contrasenyaNova);
+    }
+
+    public void setUsuariActual(Usuari usuari) {
+        usuariActual = usuari;
+    }
+
+    public Usuari getUsuariActual() {
+        return usuariActual;
+    }
+
+    public void tancarSessio() {
+        usuariActual = null;
     }
 
     //AFEGIR FUNCIONS DE CONTROLADORS DEL DOMINI

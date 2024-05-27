@@ -8,16 +8,28 @@ import main.domini.excepcions.ExcepcioCasellaJaTePosicioAssignada;
  * @author Ermias Valls Mayor
  */
 public class Casella {
-
+    /**
+     * Valor de la casella. Aquest valor pot ser qualsevol enter entre 0 i el grau del tauler.
+     * Un valor de 0 indica que la casella està buida.
+     */
     private int valor;
-    private int posX;
-    private int posY;
-    private boolean modificable;
-    private int permutacions;
 
     /**
-     * Constructor per defecte. Inicialitza la cel·la amb la posició (-1, -1).
+     * Coordenada x de la casella en el tauler. Aquest valor és un enter entre 1 i el grau del tauler.
      */
+    private int posX;
+
+    /**
+     * Coordenada y de la casella en el tauler. Aquest valor és un enter entre 1 i el grau del tauler.
+     */
+    private int posY;
+
+    /**
+     * Indica si la casella és modificable o no. Si és true, el valor de la casella pot ser canviat.
+     * Si és false, el valor de la casella no pot ser canviat.
+     */
+    private boolean modificable;
+
     public Casella(){
         this(-1,-1);
     }
@@ -32,14 +44,8 @@ public class Casella {
         this.posX = x;
         this.posY = y;
         this.modificable = true;
-        this.permutacions = 1;
     }
-    public void setPermutacions(int num) {
-        this.permutacions = num;
-    }
-    public int getPermutacions() {
-        return this.permutacions;
-    }
+
     /**
      * Estableix el valor de la cel·la.
      * @param num El valor a establir.

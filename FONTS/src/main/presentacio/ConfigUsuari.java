@@ -129,7 +129,7 @@ public class ConfigUsuari {
                         int dialogResult = JOptionPane.showConfirmDialog(guardarButton, "<html><div style='text-align: center;'>Estas segur que vols canviar" +
                                 "<br>la contrasenya actual?</div></html>", "Confirmació", JOptionPane.YES_NO_OPTION);
                         if (dialogResult == JOptionPane.YES_OPTION) {
-                            CtrlUsuariUI.getInstance().canviarContrasenya(contraActual, contraNova);
+                            CtrlPresentacio.getInstance().canviarContrasenya(contraActual, contraNova);
                             JOptionPane.showMessageDialog(guardarButton,"Contrasenya canviada correctament","Informacó",JOptionPane.INFORMATION_MESSAGE);
                             System.out.println("Contrasenya canviada correctament");
                         }
@@ -149,7 +149,7 @@ public class ConfigUsuari {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Tancant sessio");
-                CtrlUsuariUI.getInstance().tancarSessio();
+                CtrlPresentacio.getInstance().tancarSessio();
                 CtrlPresentacio.getInstance().showIniciarSessio();
 
             }

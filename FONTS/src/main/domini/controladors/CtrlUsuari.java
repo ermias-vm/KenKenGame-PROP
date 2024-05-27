@@ -9,11 +9,20 @@ import java.io.IOException;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
+/**
+ * Controlador d'usuari que gestiona les operacions relacionades amb els usuaris.
+ * 
+ * @autor Ermias Valls Mayor
+ */
 public class CtrlUsuari {
-
-    private Usuari usuariActual;
-    private static CtrlUsuariData CUD;
+    /**
+     * Instància singleton de CtrlUsuari.
+     */
     private static CtrlUsuari CU;
+
+    /**
+     * Instància de Gson per a la serialització i deserialització de dades d'usuari.
+     */
     private Gson gson;
 
     /**
@@ -21,7 +30,6 @@ public class CtrlUsuari {
      * Inicialitza l'instància de CtrlUsuariData i Gson.
      */
     private CtrlUsuari() {
-        CUD = CtrlUsuariData.getInstance();
         this.gson = new Gson();
     }
 
@@ -45,15 +53,16 @@ public class CtrlUsuari {
      * @throws ExcepcioUsuariNoExisteix  Si l'usuari no existeix.
      */
     public void iniciarSessio(String nomUsuari, String contrasenya) throws IOException, ExcepcioContrasenyaIncorrecta, ExcepcioUsuariNoExisteix {
-        if (!CUD.existeixUsuari(nomUsuari)) {
+        //MODificar a CtrlPersistencia
+        if (!CtrlUsuariData.getInstance().existeixUsuari(nomUsuari)) {
             throw new ExcepcioUsuariNoExisteix(nomUsuari);
         }
-        JsonReader reader = CUD.getUsuari(nomUsuari);
-        usuariActual = gson.fromJson(reader, Usuari.class);
-        if (!usuariActual.esContrasenyaCorrecta(contrasenya)) {
-            usuariActual = null;
+        JsonReader reader = CtrlUsuariData.getInstance().getUsuari(nomUsuari);
+        Usuari usuari = gson.fromJson(reader, Usuari.class);
+        if (!usuari.esContrasenyaCorrecta(contrasenya)) {
             throw new ExcepcioContrasenyaIncorrecta();
         }
+        CtrlDomini.getInstance().setUsuariActual(usuari);
     }
 
     /**
@@ -65,12 +74,13 @@ public class CtrlUsuari {
      * @throws IOException  Si hi ha un error d'entrada/sortida.
      */
     public void registrarse(String nomUsuari, String contrasenya) throws ExcepcioUsuariJaExisteix, IOException {
-        if (CUD.existeixUsuari(nomUsuari)) {
+        if (CtrlUsuariData.getInstance().existeixUsuari(nomUsuari)) {
             throw new ExcepcioUsuariJaExisteix(nomUsuari);
         }
-        usuariActual = new Usuari(nomUsuari, contrasenya);
-        String dadesUsuariJson = gson.toJson(usuariActual);
-        CUD.guardarUsuari(nomUsuari, dadesUsuariJson);
+        Usuari usuari = new Usuari(nomUsuari, contrasenya);
+        String dadesUsuariJson = gson.toJson(usuari);
+        CtrlUsuariData.getInstance().guardarUsuari(nomUsuari, dadesUsuariJson);
+        CtrlDomini.getInstance().setUsuariActual(usuari);
     }
 
     /**
@@ -82,28 +92,14 @@ public class CtrlUsuari {
      * @throws IOException  Si hi ha un error d'entrada/sortida.
      */
     public void canviarContrasenya(String ctrActual, String ctrNova) throws ExcepcioContrasenyaIncorrecta, IOException {
-        if (!usuariActual.esContrasenyaCorrecta(ctrActual)) {
+        Usuari usuari = CtrlDomini.getInstance().getUsuariActual();
+        if (!usuari.esContrasenyaCorrecta(ctrActual)) {
             throw new ExcepcioContrasenyaIncorrecta();
         }
-        usuariActual.setContrasenya(ctrNova);
-        String dadesUsuariJson = gson.toJson(usuariActual);
-        CUD.guardarUsuari(usuariActual.getNomUsuari(), dadesUsuariJson);
+        usuari.setContrasenya(ctrNova);
+        String dadesUsuariJson = gson.toJson(usuari);
+        CtrlUsuariData.getInstance().guardarUsuari(usuari.getNomUsuari(), dadesUsuariJson);
     }
 
-    /**
-     * Tanca la sessió de l'usuari actual.
-     */
-    public void tancarSessio() {
-        usuariActual = null;
-    }
-
-    /**
-     * Retorna l'usuari actual.
-     * 
-     * @return Usuari actual.
-     */
-    public Usuari getUsuariActual() {
-        return usuariActual;
-    }
 
 }

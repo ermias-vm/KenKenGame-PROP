@@ -10,11 +10,10 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class DriverUsuari {
-    private static CtrlUsuari CU;
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) throws Exception {
-        CU =  CtrlUsuari.getInstance();
+
         int opcio;
 
         do {
@@ -48,7 +47,7 @@ public class DriverUsuari {
         String nomUsuari = scanner.next();
         System.out.println("Introdueix la contrasenya:");
         String contrasenya = scanner.next();
-        CU.iniciarSessio(nomUsuari, contrasenya);
+        CtrlDomini.getInstance().iniciarSessio(nomUsuari, contrasenya);
     }
 
     private static void registrarse() throws ExcepcioUsuariJaExisteix, IOException {
@@ -56,7 +55,7 @@ public class DriverUsuari {
         String nomUsuari = scanner.next();
         System.out.println("Introdueix la contrasenya:");
         String contrasenya = scanner.next();
-        CU.registrarse(nomUsuari, contrasenya);
+        CtrlDomini.getInstance().registrarUsuari(nomUsuari, contrasenya);
     }
 
     private static void menuUsuari() throws ExcepcioContrasenyaIncorrecta, IOException {
@@ -76,7 +75,7 @@ public class DriverUsuari {
                     canviarContrasenya();
                     break;
                 case 5:
-                    CU.tancarSessio();
+                    CtrlDomini.getInstance().tancarSessio();
                     return;
                 case 0:
                     return;
@@ -98,6 +97,6 @@ public class DriverUsuari {
             System.out.println("La confirmació de la contrasenya no coincideix.");
             return;
         }
-        CU.canviarContrasenya(ctrActual, ctrNova);
+        CtrlDomini.getInstance().canviarContrasenya(ctrActual, ctrNova);
     }
 }
