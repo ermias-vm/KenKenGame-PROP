@@ -17,7 +17,6 @@ import java.util.Objects;
  * Classe CrearKenkenManual que permet a l'usuari crear un tauler Kenken de forma manual.
  * L'usuari pot seleccionar el grau del tauler, introduir les operacions i els resultats per a cada regió,
  * i guardar el tauler creat.
- *
  * Aquesta classe utilitza la classe TaulerConstrutor per a la creació del tauler.
  *
  * @author Ermias Valls Mayor
@@ -36,7 +35,7 @@ public class CrearKenkenManual {
     private JButton sortirButton;
     private JButton aceptarButton;
     private JComboBox grauComboBox;
-    private JButton resetBoton;
+    private JButton resetButton;
     private JPanel panelDret;
 
     private TaulerConstrutor TaulerKenken;
@@ -61,11 +60,26 @@ public class CrearKenkenManual {
 
     /**
      * Constructor de la classe CrearKenkenManual.
-     * Inicialitza els components de la interfície d'usuari i configura els listeners dels botons.
+     * Inicialitza els components de la interfície d'usuari i configura els listeners.
      */
     private CrearKenkenManual() {
         configInicial();
+        setupSortirButtonListener();
+        setupAcceptarButtonListener();
+        setupGuardarButtonListener();
+        setupResetButtonListener();
+        setupGrauComboBoxListener();
+    }
 
+    /**
+     * Configura l'escoltador d'esdeveniments per al botó de sortir.
+     * Quan l'usuari fa clic en aquest botó, es comprova si es troba en mode editor i si el tauler ha estat modificat.
+     * Si es compleixen aquestes condicions, es mostra un diàleg de confirmació per a que l'usuari confirmi que vol sortir sense guardar.
+     * Si l'usuari confirma, es mostra la pantalla de creació de Kenken.
+     * Si l'usuari cancel·la, no es realitza cap acció.
+     * Si l'usuari no es troba en mode editor, es mostra el menú principal.
+     */
+    public void setupSortirButtonListener(){
         sortirButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -93,6 +107,15 @@ public class CrearKenkenManual {
             }
         });
 
+    }
+
+    /**
+     * Configura l'escoltador d'esdeveniments per al botó d'acceptar.
+     * Quan l'usuari fa clic en aquest botó, es passa a mode editor, es oculten el botó d'acceptar, l'etiqueta de grau i el combobox de grau,
+     * es mostren el botó de guardar i el botó de reiniciar, es crea una nova instància de TaulerConstrutor amb la mida seleccionada en el combobox de grau,
+     * es buida el panell esquerre i s'afegeix el tauler al panell esquerre.
+     */
+    public void setupAcceptarButtonListener() {
         aceptarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -101,7 +124,7 @@ public class CrearKenkenManual {
                 grauLabel.setVisible(false);
                 grauComboBox.setVisible(false);
                 guardarButton.setVisible(true);
-                resetBoton.setVisible(true);
+                resetButton.setVisible(true);
                 int mida = Integer.parseInt((String) grauComboBox.getSelectedItem());
                 TaulerConstrutor.newInstance(mida);
                 TaulerKenken = TaulerConstrutor.getInstance();
@@ -110,12 +133,22 @@ public class CrearKenkenManual {
                 System.out.println("Creant tauler de mida " + mida);
             }
         });
-
+    }
+    /**
+     * Configura l'escoltador d'esdeveniments per al botó de guardar.
+     * Quan l'usuari fa clic en aquest botó, es comprova si totes les caselles del tauler tenen una regió assignada.
+     * Si no és així, es mostra un missatge d'error.
+     * Si totes les caselles tenen una regió assignada, es comprova si el tauler és vàlid.
+     * Si el tauler és vàlid, es guarda el tauler en la base de dades, es mostra un missatge d'informació amb l'identificador del tauler i la ubicació on s'ha guardat,
+     * i es mostra el menú principal.
+     * Si el tauler no és vàlid, es mostra un missatge d'error.
+     */
+    public void setupGuardarButtonListener() {
         guardarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int mida = TaulerKenken.getMida();
-                if (TaulerKenken.getNumCasellesAssignades() != mida*mida) {
+                if (TaulerKenken.getNumCasellesAssignades() != mida * mida) {
                     JOptionPane.showMessageDialog(guardarButton, "Hi ha caselles sense regio assignada", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
                     String contingutTauler = TaulerKenken.getContigutTauler();
@@ -123,7 +156,7 @@ public class CrearKenkenManual {
                     if (CtrlKenkens.getInstance().esTaulerValid(contingutTauler)) {
                         System.out.println("Tauler Kenken vàlid");
                         String idTauler = CtrlKenkens.getInstance().guardarTaulerBD(contingutTauler);
-                        String missatge = "Tauler guardat amb id: " + idTauler  + " en la ubicacio data/taulers/mida" + mida + "/" + idTauler + ".txt";
+                        String missatge = "Tauler guardat amb id: " + idTauler + " en la ubicacio data/taulers/mida" + mida + "/" + idTauler + ".txt";
                         JOptionPane.showMessageDialog(guardarButton, missatge, "Informació", JOptionPane.INFORMATION_MESSAGE);
                         System.out.println(missatge);
                         CtrlPresentacio.getInstance().showMenuPrincipal();
@@ -133,19 +166,33 @@ public class CrearKenkenManual {
                 }
             }
         });
+    }
 
-        resetBoton.addActionListener(new ActionListener() {
+    /**
+     * Configura l'escoltador d'esdeveniments per al botó de reiniciar.
+     * Quan l'usuari fa clic en aquest botó, es comprova si el tauler ha estat modificat.
+     * Si el tauler ha estat modificat, es mostra un diàleg de confirmació per a que l'usuari confirmi que vol reiniciar la creació del Kenken.
+     * Si l'usuari confirma, es reinicia el tauler.
+     */
+    public void setupResetButtonListener() {
+        resetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (TaulerKenken.esModificat()) {
-                    int dialogResult = JOptionPane.showConfirmDialog(resetBoton, "Estas segur que vols reiniciar la creacio del Kenken?", "Comfirmacio", JOptionPane.YES_NO_OPTION);
+                    int dialogResult = JOptionPane.showConfirmDialog(resetButton, "Estas segur que vols reiniciar la creacio del Kenken?", "Comfirmacio", JOptionPane.YES_NO_OPTION);
                     if (dialogResult == JOptionPane.YES_OPTION) {
                         TaulerKenken.resetTauler();
                     }
                 }
             }
         });
+    }
 
+    /**
+     * Configura l'escoltador d'esdeveniments per al combobox de grau.
+     * Quan l'usuari selecciona un element en aquest combobox, es buida el panell esquerre i es mostra una previsualització del tauler amb la mida seleccionada.
+     */
+    public void setupGrauComboBoxListener() {
         grauComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -314,7 +361,7 @@ public class CrearKenkenManual {
         System.out.println("Entrant a la pantalla de crear kenken");
         enModeEditor = false;
         guardarButton.setVisible(false);
-        resetBoton.setVisible(false);
+        resetButton.setVisible(false);
         previewTauler(3);
     }
 
