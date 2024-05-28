@@ -26,13 +26,13 @@ public class ControladorPersistenciaPartida {
     private final String[] fitxersPartidesAcabades_ =
             {
                     "data/partides/PartidesAcabadesGuardades.txt",
-                    "data/partides/PartidesAcabadesMida3.txt", //  Mida 3 = fitxersPartidesAcabades_[1]
-                    "data/partides/PartidesAcabadesMida4.txt", // Mida 4 = fitxersPartidesAcabades_[2]...
-                    "data/partides/PartidesAcabadesMida5.txt",
-                    "data/partides/PartidesAcabadesMida6.txt",
-                    "data/partides/PartidesAcabadesMida7.txt",
-                    "data/partides/PartidesAcabadesMida8.txt",
-                    "data/partides/PartidesAcabadesMida9.txt"
+                    "data/partides/PartidesAcabadesGrau3.txt", //  Mida 3 = fitxersPartidesAcabades_[1]
+                    "data/partides/PartidesAcabadesGrau4.txt", // Mida 4 = fitxersPartidesAcabades_[2]...
+                    "data/partides/PartidesAcabadesGrau5.txt",
+                    "data/partides/PartidesAcabadesGrau6.txt",
+                    "data/partides/PartidesAcabadesGrau7.txt",
+                    "data/partides/PartidesAcabadesGrau8.txt",
+                    "data/partides/PartidesAcabadesGrau9.txt"
             };      // Mida n = fitxersPartidesAcabades_[n-2]
     /**
      * Instància única de la classe.

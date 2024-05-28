@@ -15,6 +15,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+
 /**
  * La classe CtrlDomini és el controlador principal del domini de l'aplicació Kenken.
  * Aquesta classe és responsable de gestionar les operacions principals del joc, incloent la gestió d'usuaris,
@@ -67,8 +68,11 @@ public class CtrlDomini {
         CPersistencia = ControladorPersistencia.getInstance();
         CUsuari = CtrlUsuari.getInstance();
         CPartida = ControladorPartida.getInstance();
+        CPartida.setControladorDomini(this);
         CKenkens = CtrlKenkens.getInstance();
         CRanking = ControladorRanking.getInstance();
+        CRanking.setControladorDomini(this);
+
     }
 
     /**

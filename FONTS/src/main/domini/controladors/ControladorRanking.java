@@ -30,8 +30,6 @@ public class ControladorRanking {
         for (int i = 0; i < MIDAMAX - MIDAMIN + 1; ++i) {
             rankingPerMida_[i] = new Ranking();
         }
-        controladorDomini_ = CtrlDomini.getInstance();
-        inicialitzarRanking();
     }
     /**
      * Retorna la instància del controlador de ranking.
@@ -99,4 +97,12 @@ public class ControladorRanking {
         }
     }
 
+    /**
+     * Estableix el controlador de domini.
+     * @param ctrlDomini Controlador de domini.
+     */
+    public void setControladorDomini(CtrlDomini ctrlDomini) {
+        controladorDomini_ = ctrlDomini;
+        inicialitzarRanking();
+    }
 }

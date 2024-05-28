@@ -55,10 +55,11 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
      * Constructora per defecte
      */
     private ControladorPresentacioPartida() {
-        controladorPresentacio_ = CtrlPresentacio.getInstance();
         mainPanel_ = new JPanel();
     }
-
+    public void setControladorPresentacio(CtrlPresentacio controladorPresentacio) {
+        controladorPresentacio_ = controladorPresentacio;
+    }
     /**
      * Retorna la instància del controlador de la presentació de la partida
      * @return Instància del controlador de la presentació de la partida
@@ -261,6 +262,14 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
     @Override
     public void jugarIntroduirIdentificadorTauler() {
         String identificadorTauler = JOptionPane.showInputDialog(mainPanel_, "Introdueix l'identificador del tauler");
+        try {
+            controladorPresentacio_.iniciaPartidaIdentificadorTauler(identificadorTauler, vistaMenuJugarPartida_.getUsuari());
+            inicialitzaVistaPartida();
+        } catch (ExcepcioCarregaTauler | ExcepcioPartidaEnCurs | ExcepcioInicialitzacioControladorTauler e) {
+            JOptionPane.showMessageDialog(mainPanel_, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    public void jugarIdentificadorTauler(String identificadorTauler){
         try {
             controladorPresentacio_.iniciaPartidaIdentificadorTauler(identificadorTauler, vistaMenuJugarPartida_.getUsuari());
             inicialitzaVistaPartida();

@@ -55,7 +55,6 @@ public class ControladorPartida {
      * Constructora per defecte.
      */
     private ControladorPartida() {
-        controladorDomini_ = CtrlDomini.getInstance();
         partidesGuardadesUsuari_ = new HashMap<>();
         partida_ = null;
     }
@@ -67,6 +66,14 @@ public class ControladorPartida {
     public static ControladorPartida getInstance() {
         if (controladorPartida_ == null) controladorPartida_ = new ControladorPartida();
         return new ControladorPartida();
+    }
+
+    /**
+     * Setter del controlador de domini.
+     * @param controladorDomini Controlador de domini.
+     */
+    public void setControladorDomini(CtrlDomini controladorDomini) {
+        this.controladorDomini_ = controladorDomini;
     }
 
     /**

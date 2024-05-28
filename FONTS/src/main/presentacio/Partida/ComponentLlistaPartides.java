@@ -2,13 +2,15 @@ package main.presentacio.Partida;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 /**
  * {@code ComponentLlistaPartides} és la classe abstracta que representa una llista de NOMBREPARTIDES_ d'elements
  * on cada element és clickable i conte una informació concreta.
  */
-public abstract class ComponentLlistaPartides extends JLayeredPane {
+public abstract class ComponentLlistaPartides extends JPanel {
     /**
      * Nombre de partides que es mostren a la vegada.
      */
@@ -32,11 +34,11 @@ public abstract class ComponentLlistaPartides extends JLayeredPane {
     /**
      * Índex màxim de la pàgina.
      */
-    private int maxIndex_ = 0;
+    private int maxIndex_ ;
     /**
      * Botons de les partides.
      */
-    private JButton[] botonsPartida_;
+    private JPanel[] botonsPartida_;
     /**
      * Labels de les partides.
      */
@@ -57,59 +59,71 @@ public abstract class ComponentLlistaPartides extends JLayeredPane {
      * @param capcalera Array de Strings amb la capçalera de la informació de les partides.
      */
     public ComponentLlistaPartides(String[] informacioPartides, int NOMBREPARTIDES, String[] capcalera) {
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         NOMBREPARTIDES_ = NOMBREPARTIDES+1;
         informacioPartides_ = informacioPartides;
         INFOPERPARTIDA_ = capcalera.length;
         maxIndex_ = informacioPartides.length / NOMBREPARTIDES_;
-        if (informacioPartides.length % NOMBREPARTIDES_ == 0) maxIndex_ -= 1;
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         JLayeredPane layeredPane = new JLayeredPane();
+        layeredPane.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1;
+        gbc.weighty = 1;
+        gbc.fill = GridBagConstraints.BOTH;
         JPanel panelText = new JPanel();
         panelText.setLayout(new GridLayout(NOMBREPARTIDES_, INFOPERPARTIDA_));
-        JPanel panelButons = new JPanel();
-        panelButons.setLayout(new GridLayout(NOMBREPARTIDES_, 1));
-        panelButons.setBorder(BorderFactory.createTitledBorder("Partides Guardades"));
-        JButton[] botonsPartida = new JButton[NOMBREPARTIDES_];
+        JPanel panelBotons = new JPanel();
+        panelBotons.setLayout(new GridLayout(NOMBREPARTIDES_, 1));
+        panelText.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        JPanel[] botonsPartida = new JPanel[NOMBREPARTIDES_];
         JLabel[] labelsPartida = new JLabel[(NOMBREPARTIDES_) *INFOPERPARTIDA_];
         for (int i = 0; i < INFOPERPARTIDA_; ++i) {
-            labelsPartida[i] = new JLabel(capcalera[i]);
+            labelsPartida[i] = new JLabel(capcalera[i], SwingConstants.CENTER);
+            labelsPartida[i].setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.GRAY));
             panelText.add(labelsPartida[i]);
         }
-        botonsPartida[0] = new JButton();
-        botonsPartida[0].setVisible(false);
+        botonsPartida[0] = new JPanel();
+        botonsPartida[0].setOpaque(false);
+        panelBotons.add(botonsPartida[0]);
         for (int i = 1; i < NOMBREPARTIDES_; ++i) {
-            botonsPartida[i] = new JButton();
-            labelsPartida[i*3] = new JLabel();
-            labelsPartida[i*3 + 1] = new JLabel();
-            labelsPartida[i*3 + 2] = new JLabel();
-            if (i < informacioPartides.length) {
-                botonsPartida[i].setText("");
-                String[] midadatatemps = generaText(informacioPartides[i]);
-                labelsPartida[i*3].setText(midadatatemps[0]);
-                labelsPartida[i*3 + 1].setText(midadatatemps[1]);
-                labelsPartida[i*3 + 2].setText(midadatatemps[2]+" s");
+            botonsPartida[i] = new JPanel();
+            for (int j = 0; j < INFOPERPARTIDA_; ++j) {
+                labelsPartida[i*INFOPERPARTIDA_ + j] = new JLabel("", SwingConstants.CENTER);
+                labelsPartida[i*INFOPERPARTIDA_ + j].setOpaque(false);
             }
-            else botonsPartida[i].setVisible(false);
+            if (i <= informacioPartides.length) {
+                String[] informacio = generaText(informacioPartides[i-1]);
+                for (int j = 0; j < INFOPERPARTIDA_; ++j) {
+                    labelsPartida[i*INFOPERPARTIDA_ + j].setText(informacio[j]);
+                    labelsPartida[i*INFOPERPARTIDA_ + j].setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.GRAY));
+                }
+            }
             botonsPartida[i].setOpaque(false);
-            botonsPartida[i].setContentAreaFilled(false);
-            botonsPartida[i].addActionListener(e -> {
-                JButton sourceButton = (JButton) e.getSource();
-                int indexBoto = -1;
-                for (int j = 0; j < NOMBREPARTIDES_; ++j) {
-                    if (botonsPartida[j] == sourceButton) {
-                        indexBoto = j;
-                        break;
+            botonsPartida[i].addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    Object sourceButton = e.getSource();
+                    int indexBoto = -1;
+                    for (int j = 0; j < NOMBREPARTIDES_; ++j) {
+                        if (botonsPartida[j] == sourceButton) {
+                            indexBoto = j;
+                            break;
+                        }
+                    }
+                    int indexInformacio = indexActual_ * (NOMBREPARTIDES_ - 1) + indexBoto - 1;
+                    if (indexBoto != 0 && indexBoto != -1 && indexInformacio < informacioPartides_.length) {
+                        for (ObservadorLlista ob : observadorsLLista_)
+                            ob.clickatLlista(informacioPartides_[indexInformacio]);
                     }
                 }
-                for (ObservadorLlista ob : observadorsLLista_) ob.clickatLlista(informacioPartides_[indexActual_ * NOMBREPARTIDES_ + indexBoto]);
             });
-            panelButons.add(botonsPartida[i]);
-            panelText.add(labelsPartida[i*3]);
-            panelText.add(labelsPartida[i*3 + 1]);
-            panelText.add(labelsPartida[i*3 + 2]);
+            panelBotons.add(botonsPartida[i]);
+            for (int j = 0; j < INFOPERPARTIDA_; ++j) {
+                panelText.add(labelsPartida[i*INFOPERPARTIDA_ + j]);
+            }
         }
-        layeredPane.add(panelButons, JLayeredPane.DEFAULT_LAYER);
-        layeredPane.add(panelText, JLayeredPane.PALETTE_LAYER);
         botonsPartida_ = botonsPartida;
         labelsPartida_ = labelsPartida;
         JButton previousN = new JButton((NOMBREPARTIDES_-1) + " anteriors");
@@ -118,20 +132,26 @@ public abstract class ComponentLlistaPartides extends JLayeredPane {
         });
         previousN.setEnabled(false);
         previousN_ = previousN;
-        JButton nextN = new JButton(NOMBREPARTIDES_ + " següents");
+        JButton nextN = new JButton((NOMBREPARTIDES_ -1)+ " següents");
         nextN.addActionListener(e -> {
             nextN();
         });
+        if (maxIndex_ == 0) nextN.setEnabled(false);
         nextN_ = nextN;
         JButton tornar = new JButton("Tornar");
         tornar.addActionListener(e -> {
             for (ObservadorLlista ob : observadorsLLista_) ob.tornarMenu();
         });
+        layeredPane.add(panelBotons, gbc, JLayeredPane.PALETTE_LAYER);
+        layeredPane.add(panelText, gbc, JLayeredPane.DEFAULT_LAYER);
         this.add(layeredPane);
-        this.add(previousN);
-        this.add(nextN);
-        this.add(Box.createHorizontalGlue());
-        this.add(tornar);
+        JPanel bottom = new JPanel();
+        bottom.setLayout(new BoxLayout(bottom, BoxLayout.X_AXIS));
+        bottom.add(previousN);
+        bottom.add(nextN);
+        bottom.add(Box.createHorizontalGlue());
+        bottom.add(tornar);
+        this.add(bottom);
     }
 
     /**
@@ -142,17 +162,19 @@ public abstract class ComponentLlistaPartides extends JLayeredPane {
         if (indexActual_ == 0) previousN_.setEnabled(false);
         if (indexActual_ < maxIndex_) nextN_.setEnabled(true);
         for (int i = 1; i < NOMBREPARTIDES_; ++i) {
-            if (indexActual_ * NOMBREPARTIDES_ + i < informacioPartides_.length){
-                String [] midadatatemps = generaText(informacioPartides_[indexActual_ * NOMBREPARTIDES_ + i]);
-                labelsPartida_[i*3].setText(midadatatemps[0]);
-                labelsPartida_[i*3 + 1].setText(midadatatemps[1]);
-                labelsPartida_[i*3 + 2].setText(midadatatemps[2]+" s");
+            int indexInfo = indexActual_ * (NOMBREPARTIDES_-1) + i;
+            if (indexInfo < informacioPartides_.length){
+                String [] informacio = generaText(informacioPartides_[indexInfo-1]);
+                for (int j = 0; j < INFOPERPARTIDA_; ++j) {
+                    labelsPartida_[i*INFOPERPARTIDA_ + j].setText(informacio[j]);
+                    labelsPartida_[i*INFOPERPARTIDA_ + j].setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.GRAY));
+                }
             }
             else{
-                botonsPartida_[i].setVisible(false);
-                labelsPartida_[i*3].setText("");
-                labelsPartida_[i*3 + 1].setText("");
-                labelsPartida_[i*3 + 2].setText("");
+                for (int j = 0; j < INFOPERPARTIDA_; ++j){
+                    labelsPartida_[i*INFOPERPARTIDA_ + j].setText("");
+                    labelsPartida_[i*INFOPERPARTIDA_ + j].setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.GRAY));
+                }
             }
         }
     }
@@ -164,17 +186,19 @@ public abstract class ComponentLlistaPartides extends JLayeredPane {
         if (indexActual_ == maxIndex_) nextN_.setEnabled(false);
         if (indexActual_ > 0) previousN_.setEnabled(true);
         for (int i = 1; i < NOMBREPARTIDES_; ++i) {
-            if (indexActual_ * NOMBREPARTIDES_ + i < informacioPartides_.length){
-                String[] midadatatemps = generaText(informacioPartides_[indexActual_ * NOMBREPARTIDES_ + i]);
-                labelsPartida_[i*3].setText(midadatatemps[0]);
-                labelsPartida_[i*3 + 1].setText(midadatatemps[1]);
-                labelsPartida_[i*3 + 2].setText(midadatatemps[2]+" s");
+            int indexInfo = indexActual_ * (NOMBREPARTIDES_-1) + i;
+            if (indexInfo <= informacioPartides_.length){
+                String[] informacio = generaText(informacioPartides_[indexInfo-1]);
+                for (int j = 0; j < INFOPERPARTIDA_; ++j) {
+                    labelsPartida_[i*INFOPERPARTIDA_ + j].setText(informacio[j]);
+                    labelsPartida_[i*INFOPERPARTIDA_ + j].setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.GRAY));
+                }
             }
             else{
-                botonsPartida_[i].setVisible(false);
-                labelsPartida_[i*3].setText("");
-                labelsPartida_[i*3 + 1].setText("");
-                labelsPartida_[i*3 + 2].setText("");
+                for (int j = 0; j < INFOPERPARTIDA_; ++j){
+                    labelsPartida_[i*INFOPERPARTIDA_ + j].setText("");
+                    labelsPartida_[i*INFOPERPARTIDA_ + j].setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.GRAY));
+                }
             }
         }
     }

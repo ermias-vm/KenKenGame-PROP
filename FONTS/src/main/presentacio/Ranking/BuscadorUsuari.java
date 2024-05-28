@@ -1,6 +1,9 @@
 package main.presentacio.Ranking;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.util.ArrayList;
 
 /**
@@ -19,7 +22,7 @@ public class BuscadorUsuari extends JPanel {
     public BuscadorUsuari() {
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         JLabel labelUsuari = new JLabel("Usuari: ");
-        JTextField textBuscar = new JTextField();
+        JTextField textBuscar = new JTextField("en blanc -> tots els usuaris");
         JButton botoBuscar = new JButton("Buscar");
         botoBuscar.addActionListener(e -> {
             String nom = textBuscar.getText();

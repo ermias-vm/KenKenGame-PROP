@@ -5,6 +5,8 @@ import main.presentacio.CtrlPresentacio;
 import main.presentacio.Partida.ObservadorLlista;
 
 import javax.swing.*;
+import java.awt.*;
+
 import static main.presentacio.CtrlPresentacio.MIDAMAX;
 import static main.presentacio.CtrlPresentacio.MIDAMIN;
 /**
@@ -37,8 +39,7 @@ public class ControladorPresentacioRanking implements ObservadorBuscador, Observ
      */
     private ControladorPresentacioRanking() {
         mainPanel_ = new JPanel();
-        controladorPresentacio_ = CtrlPresentacio.getInstance();
-        inicialitzaVistaRankings();
+
     }
     /**
      * Retorna l'única instància de la classe.
@@ -48,17 +49,22 @@ public class ControladorPresentacioRanking implements ObservadorBuscador, Observ
         if (instance_ == null) instance_ = new ControladorPresentacioRanking();
         return instance_;
     }
+    public void setControladorPresentacio(CtrlPresentacio controladorPresentacio) {
+        controladorPresentacio_ = controladorPresentacio;
+        inicialitzaVistaRankings();
+    }
     /**
      * Inicialitza la vista de rankings.
      */
     public void inicialitzaVistaRankings(){
         ultimaMida_ = MIDAMIN;
+        mainPanel_.setLayout(new BorderLayout());
         String[] informacioPartides = controladorPresentacio_.getRankingMida(MIDAMIN).toArray(new String[0]);
         vistaRankings_ = new VistaRankings(informacioPartides);
         vistaRankings_.addObservadorBuscador(this);
         vistaRankings_.addObservadorSelectorMida(this);
         vistaRankings_.addObservadorLlista(this);
-        mainPanel_.add(vistaRankings_);
+        mainPanel_.add(vistaRankings_, BorderLayout.CENTER);
         mainPanel_.revalidate();
         mainPanel_.repaint();
     }
@@ -69,7 +75,13 @@ public class ControladorPresentacioRanking implements ObservadorBuscador, Observ
      */
     @Override
     public void clickatLlista(String s) {
-
+        String[] parts = s.split(" ");
+        String identificadorTauler = parts[2];
+        String[] opcions = {"Sí", "No"};
+        int decisio = JOptionPane.showOptionDialog(null, "Vols carregar la partida amb identificador de tauler " + identificadorTauler + "?","Jugar Tauler", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcions, opcions[1]);
+        if (decisio == JOptionPane.YES_OPTION) {
+            controladorPresentacio_.jugarIdentificadorTauler(identificadorTauler);
+        }
     }
 
     /**

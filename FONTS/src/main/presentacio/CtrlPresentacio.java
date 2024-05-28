@@ -96,7 +96,9 @@ public class CtrlPresentacio {
     private CtrlPresentacio() {
         CDomini= CtrlDomini.getInstance();
         controladorPresentacioRanking_ = ControladorPresentacioRanking.getInstance();
+        controladorPresentacioRanking_.setControladorPresentacio(this);
         controladorPresentacioPartida_ = ControladorPresentacioPartida.getInstance();
+        controladorPresentacioPartida_.setControladorPresentacio(this);
     }
 
     public static CtrlPresentacio getInstance() {
@@ -164,12 +166,16 @@ public class CtrlPresentacio {
     }
 
     public void showRanking() {
-        controladorPresentacioRanking_.inicialitzaVistaRankings();
         mainFrame.setTitle("Ranking");
         mainFrame.setContentPane(controladorPresentacioRanking_.getDefaultPanel());
         mainFrame.setVisible(true);
     }
-
+    public void jugarIdentificadorTauler(String identificadorTauler) {
+        controladorPresentacioPartida_.jugarIdentificadorTauler(identificadorTauler);
+        mainFrame.setTitle("Jugar Partida");
+        mainFrame.setContentPane(controladorPresentacioPartida_.getDefaultPanel());
+        mainFrame.setVisible(true);
+    }
 
             /// FUNCINOS USUARI ///
     /**

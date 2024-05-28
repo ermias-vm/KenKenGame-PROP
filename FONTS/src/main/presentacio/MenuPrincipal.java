@@ -48,6 +48,13 @@ public class MenuPrincipal {
 
             }
         });
+        rankingButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CtrlPresentacio.getInstance().showRanking();
+
+            }
+        });
     }
 
     private void createUIComponents() {
