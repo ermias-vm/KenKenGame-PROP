@@ -37,7 +37,7 @@ public class PartidesRanking extends ComponentLlistaPartides {
         String dataFormat = String.valueOf(new StringBuilder( diaDividit[2]+"-"+diaDividit[1]+"-"+diaDividit[0]+ " " + horaDividida[0] + horaDividida[1] + ":" + horaDividida[2] + horaDividida[3]));
         String identificadorUsuari = parts[1];
         String identificadorTauler = parts[2];
-        String temps = parts[3];
+        String temps = parts[3]+ " s";
         return new String[]{identificadorUsuari, dataFormat,identificadorTauler, temps};
     }
 }

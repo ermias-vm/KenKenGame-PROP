@@ -69,7 +69,7 @@ public class CrearKenkenManual {
         configInicial();
         setupSortirButtonListener();
         setupAcceptarButtonListener();
-        setupGuardarButtonListener();
+        setupGuardarButtonListener(jugarDespres);
         setupResetButtonListener();
         setupGrauComboBoxListener();
     }
@@ -146,7 +146,7 @@ public class CrearKenkenManual {
      * i es mostra el menú principal.
      * Si el tauler no és vàlid, es mostra un missatge d'error.
      */
-    public void setupGuardarButtonListener() {
+    public void setupGuardarButtonListener(boolean jugarDespres) {
         guardarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
