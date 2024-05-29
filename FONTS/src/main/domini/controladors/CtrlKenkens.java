@@ -76,7 +76,6 @@ public class CtrlKenkens {
      * @return Tauler llegit.
      */
     public Tauler llegirTauler(String id) throws ExcepcioTaulerNoExisteix {
-
         String contingutTauler = CtrlDomini.getInstance().llegirTaulerPersistencia(id);
         return stringToTauler(contingutTauler, id);
 

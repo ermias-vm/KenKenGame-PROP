@@ -40,8 +40,11 @@ public class ControladorPersistenciaTauler {
      * @throws ExcepcioTaulerNoExisteix Si el tauler no existeix.
      */
     public String llegirTauler(String identificadorTauler) throws ExcepcioTaulerNoExisteix {
-
-        int mida = Integer.parseInt(identificadorTauler.split("-")[1]);
+        String[] identificador = identificadorTauler.split("-");
+        if (identificador.length != 2) {
+            throw new ExcepcioTaulerNoExisteix(identificadorTauler);
+        }
+        int mida = Integer.parseInt(identificador[1]);
         String carpeta = "data/taulers/mida"+mida;
         StringBuilder dadesTauler = new StringBuilder();
         try {

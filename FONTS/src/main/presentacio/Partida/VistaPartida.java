@@ -12,11 +12,11 @@ public class VistaPartida extends JPanel{
     private String identificadorUsuari_;
     private ComponentTauler componentTauler_;
     private MenuPartida menuPartida_;
-    VistaPartida(int mida, ArrayList<Boolean>[][] mapaAdjacents, String identificadorUsuari, int[][] tauler){
+    VistaPartida(int mida, ArrayList<Boolean>[][] mapaAdjacents, ArrayList<String> operacionsPartida, String identificadorUsuari, int[][] tauler){
         identificadorUsuari_ = identificadorUsuari;
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        ComponentTauler componentTauler = new ComponentTauler(mida, mapaAdjacents, tauler);
+        ComponentTauler componentTauler = new ComponentTauler(mida, mapaAdjacents, tauler, operacionsPartida);
         MenuPartida menuPartida = new MenuPartida();
 
         gbc.gridx = 0;

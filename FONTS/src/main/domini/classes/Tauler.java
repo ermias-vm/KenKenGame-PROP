@@ -1,6 +1,8 @@
 package main.domini.classes;
 
 import main.domini.excepcions.*;
+import main.domini.interficies.Operacio;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -358,5 +360,26 @@ public class Tauler {
             }
         }
         return adjacents;
+    }
+
+    public ArrayList<String> getOperacions() {
+        ArrayList<String> operacions = new ArrayList<>();
+        for (Regio r: regions) {
+            int[][] posicionsCaselles = r.getPosicionsCaselles();
+            int mesAmunt =  Integer.MAX_VALUE;
+            int mesEsquerra =  Integer.MAX_VALUE;
+            for (int i = 0; i < posicionsCaselles.length; i++){
+                int x = posicionsCaselles[i][0];
+                int y = posicionsCaselles[i][1];
+                if (x < mesEsquerra && y < mesAmunt){
+                    mesEsquerra = x;
+                    mesAmunt = y;
+                }
+            }
+            String operacio = r.getOperacio().getOperacioText();
+            String resultat = Integer.toString(r.getResultat());
+            operacions.add((mesEsquerra-1) + " " + (mesAmunt-1) + " " + operacio + " " + resultat);
+        }
+        return operacions;
     }
 }

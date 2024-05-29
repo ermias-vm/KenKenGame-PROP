@@ -24,7 +24,7 @@ public class CrearKenKenParametres extends JDialog {
     private JRadioButton radioButton7;
     //private JComboBox comboBoxOperacions;
 
-    public CrearKenKenParametres() {
+    public CrearKenKenParametres(boolean jugarDespres) {
         System.out.println("Entrant a la pantalla de generar kenken");
         CreaButton.addActionListener(new ActionListener() {
             @Override
@@ -36,32 +36,32 @@ public class CrearKenKenParametres extends JDialog {
                 boolean divisio = false;
                 boolean modul = false;
                 boolean exponenciacio = false;
-                if(radioButton1.isSelected()) {
+                if (radioButton1.isSelected()) {
                     suma = true;
-                }else if(radioButton2.isSelected()) {
-                    suma = true;
-                    resta = true;
-                }else if(radioButton3.isSelected()) {
-                    multiplicacio = true;
-                    divisio = true;
-                }else if(radioButton4.isSelected()) {
+                } else if (radioButton2.isSelected()) {
                     suma = true;
                     resta = true;
+                } else if (radioButton3.isSelected()) {
                     multiplicacio = true;
                     divisio = true;
-                }else if(radioButton5.isSelected()) {
+                } else if (radioButton4.isSelected()) {
+                    suma = true;
+                    resta = true;
+                    multiplicacio = true;
+                    divisio = true;
+                } else if (radioButton5.isSelected()) {
                     suma = true;
                     resta = true;
                     multiplicacio = true;
                     divisio = true;
                     modul = true;
-                }else if(radioButton6.isSelected()) {
+                } else if (radioButton6.isSelected()) {
                     suma = true;
                     resta = true;
                     multiplicacio = true;
                     divisio = true;
                     exponenciacio = true;
-                }else if(radioButton7.isSelected()) {
+                } else if (radioButton7.isSelected()) {
                     suma = true;
                     resta = true;
                     multiplicacio = true;
@@ -70,28 +70,23 @@ public class CrearKenKenParametres extends JDialog {
                     exponenciacio = true;
                 }
 
-                crearKenKen(grau, suma, resta, multiplicacio, divisio, modul, exponenciacio);
+                String identificador = crearKenKen(grau, suma, resta, multiplicacio, divisio, modul, exponenciacio);
+                if (jugarDespres) CtrlPresentacio.getInstance().jugarIdentificadorTauler(identificador);
             }
         });
+
 
         CancelaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Sortint de generar kenken");
-                CtrlPresentacio.getInstance().showMenuPrincipal();
+                if (jugarDespres) CtrlPresentacio.getInstance().initJugar();
+                else CtrlPresentacio.getInstance().showMenuPrincipal();
             }
         });
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Crear KenKen por Parámetros");
-        frame.setContentPane(new CrearKenKenParametres().panelComplet);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-    }
-
-    private void crearKenKen(int grau, boolean suma, boolean resta, boolean multiplicacio, boolean divisio, boolean modul, boolean exponenciacio) {
+    private String crearKenKen(int grau, boolean suma, boolean resta, boolean multiplicacio, boolean divisio, boolean modul, boolean exponenciacio) {
 
         int cont = 0;
         if(suma) cont++;
@@ -106,7 +101,7 @@ public class CrearKenKenParametres extends JDialog {
                     "Has de seleccionar alguna operació",
                     "Torna-ho a provar",
                     JOptionPane.ERROR_MESSAGE);
-            return;
+            return null;
         }
 
         //Aixo treu error si ha seleccionat massa operacions pel grau seleccionat
@@ -115,10 +110,8 @@ public class CrearKenKenParametres extends JDialog {
                     "Has seleccionat massa operacions per un grau tant petit",
                     "Torna-ho a provar",
                     JOptionPane.ERROR_MESSAGE);
-            return;
+            return null;
         }
-
-        CreadorKenkenParam.creadora(grau, suma, resta, multiplicacio, divisio, modul, exponenciacio);
         System.out.println("Creando KenKen con los siguientes parámetros:");
         System.out.println("Grado: " + grau);
         System.out.println("Operaciones:");
@@ -128,6 +121,7 @@ public class CrearKenKenParametres extends JDialog {
         System.out.println("División: " + divisio);
         System.out.println("Módulo: " + modul);
         System.out.println("Exponenciación: " + exponenciacio);
+        return CreadorKenkenParam.creadora(grau, suma, resta, multiplicacio, divisio, modul, exponenciacio);
     }
 
 

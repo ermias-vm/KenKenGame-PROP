@@ -253,6 +253,9 @@ public class CtrlDomini {
     public ArrayList<Boolean>[][] getAdjacentsPartida() {
         return CPartida.getAdjacentsPartida();
     }
+    public ArrayList<String> getOperacionsPartida() {
+        return CPartida.getOperacionsPartida();
+    }
 
 
             /// FUNCIONS RANKING ///

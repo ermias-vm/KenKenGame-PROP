@@ -452,4 +452,7 @@ public class ControladorPartida {
         return partida_.getTaulerPartida().getAdjacents();
     }
 
+    public ArrayList<String> getOperacionsPartida() {
+        return partida_.getTaulerPartida().getOperacions();
+    }
 }

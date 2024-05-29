@@ -48,7 +48,7 @@ public class CrearKenkenManual {
      * @return Una instància de CrearKenkenManual.
      */
     public static CrearKenkenManual getInstance() {
-        if (creardoraKenken == null) creardoraKenken = new CrearKenkenManual();
+        if (creardoraKenken == null) creardoraKenken = new CrearKenkenManual(false);
         return creardoraKenken;
     }
 
@@ -56,14 +56,17 @@ public class CrearKenkenManual {
      * Crea una nova instància de CrearKenkenManual.
      */
     public static void newInstance() {
-        creardoraKenken = new CrearKenkenManual();
+        creardoraKenken = new CrearKenkenManual(false);
+    }
+    public static void newInstance(Boolean jugarDespres) {
+        creardoraKenken = new CrearKenkenManual(jugarDespres);
     }
 
     /**
      * Constructor de la classe CrearKenkenManual.
      * Inicialitza els components de la interfície d'usuari i configura els listeners dels botons.
      */
-    private CrearKenkenManual() {
+    private CrearKenkenManual(Boolean jugarDespres) {
         configInicial();
 
         sortirButton.addActionListener(new ActionListener() {
@@ -123,10 +126,12 @@ public class CrearKenkenManual {
                     if (CtrlKenkens.getInstance().esTaulerValid(contingutTauler)) {
                         System.out.println("Tauler Kenken vàlid");
                         String idTauler = CtrlKenkens.getInstance().guardarTaulerBD(contingutTauler);
-                        String missatge = "Tauler guardat amb id: " + idTauler  + " en la ubicacio data/taulers/mida" + mida + "/" + idTauler + ".txt";
+                        String missatge = "Tauler guardat amb id: " + idTauler + " en la ubicacio data/taulers/mida" + mida + "/" + idTauler + ".txt";
                         JOptionPane.showMessageDialog(guardarButton, missatge, "Informació", JOptionPane.INFORMATION_MESSAGE);
                         System.out.println(missatge);
-                        CtrlPresentacio.getInstance().showMenuPrincipal();
+                        if (jugarDespres) {
+                            CtrlPresentacio.getInstance().jugarIdentificadorTauler(idTauler);
+                        } else CtrlPresentacio.getInstance().showMenuPrincipal();
                     } else {
                         JOptionPane.showMessageDialog(guardarButton, "El Tauler Kenken no es vàlid", "Error", JOptionPane.ERROR_MESSAGE);
                     }

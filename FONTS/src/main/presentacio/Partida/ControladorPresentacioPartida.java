@@ -4,6 +4,7 @@ import main.domini.excepcions.*;
 import main.presentacio.CtrlPresentacio;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -56,6 +57,7 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
      */
     private ControladorPresentacioPartida() {
         mainPanel_ = new JPanel();
+        mainPanel_.setLayout(new BorderLayout());
     }
     public void setControladorPresentacio(CtrlPresentacio controladorPresentacio) {
         controladorPresentacio_ = controladorPresentacio;
@@ -78,7 +80,7 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
         vistaMenuJugarPartida_.setUsuari(usuari);
         vistaMenuJugarPartida_.addObservadorBoto(this);
         mainPanel_.removeAll();
-        mainPanel_.add(vistaMenuJugarPartida_);
+        mainPanel_.add(vistaMenuJugarPartida_, BorderLayout.CENTER);
         mainPanel_.revalidate();
         mainPanel_.repaint();
     }
@@ -96,7 +98,7 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
             String estatPartida = controladorPresentacio_.introduirValor(fila, columna, Integer.parseInt(valor));
             vistaPartida_.actualitzaValors(valorsStringToInt(estatPartida));
             mainPanel_.removeAll();
-            mainPanel_.add(vistaPartida_);
+            mainPanel_.add(vistaPartida_, BorderLayout.CENTER);
             mainPanel_.revalidate();
             mainPanel_.repaint();
         } catch (ExcepcioValorInvalid | ExcepcioPartidaTancada | ExcepcioPartidaAcabada |
@@ -115,7 +117,7 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
             String valors = controladorPresentacio_.desferMoviment();
             vistaPartida_.actualitzaValors(valorsStringToInt(valors));
             mainPanel_.removeAll();
-            mainPanel_.add(vistaPartida_);
+            mainPanel_.add(vistaPartida_, BorderLayout.CENTER);
             mainPanel_.revalidate();
             mainPanel_.repaint();
         } catch (ExcepcioPartidaTancada | ExcepcioValorInvalid | ExcepcioPartidaAcabada | ExcepcioPosicioIncorrecta e) {
@@ -134,7 +136,7 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
             String valors = controladorPresentacio_.referMoviment();
             vistaPartida_.actualitzaValors(valorsStringToInt(valors));
             mainPanel_.removeAll();
-            mainPanel_.add(vistaPartida_);
+            mainPanel_.add(vistaPartida_, BorderLayout.CENTER);
             mainPanel_.revalidate();
             mainPanel_.repaint();
         } catch (ExcepcioPartidaTancada | ExcepcioValorInvalid | ExcepcioPartidaAcabada | ExcepcioPosicioIncorrecta e) {
@@ -155,7 +157,7 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
             if (!posicionsIncorrectes.isEmpty()) vistaPartida_.actualitzaPosicionsIncorrectes(posicionsIncorrectes);
             else vistaPartida_.actualitzaValors(controladorPresentacio_.getValorsPartida());
             mainPanel_.removeAll();
-            mainPanel_.add(vistaPartida_);
+            mainPanel_.add(vistaPartida_, BorderLayout.CENTER);
             mainPanel_.revalidate();
             mainPanel_.repaint();
         } catch (ExcepcioCasellaNoExisteix | ExcepcioNoDivisor | ExcepcioCarregaPartida | ExcepcioMoltsValors |
@@ -252,7 +254,7 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
      */
     @Override
     public void jugarIntroduirTaulerManualment() {
-
+        controladorPresentacio_.showCrearKenKenJugarDespres();
     }
 
     /**
@@ -262,6 +264,7 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
     @Override
     public void jugarIntroduirIdentificadorTauler() {
         String identificadorTauler = JOptionPane.showInputDialog(mainPanel_, "Introdueix l'identificador del tauler");
+        if (identificadorTauler == null) return;
         try {
             controladorPresentacio_.iniciaPartidaIdentificadorTauler(identificadorTauler, vistaMenuJugarPartida_.getUsuari());
             inicialitzaVistaPartida();
@@ -285,27 +288,7 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
     // S'haurà de modificar per posar les operacions.
     @Override
     public void jugarPartidaAleatoria() {
-        int midaTauler;
-        do{
-            String midaTaulerDeciso = JOptionPane.showInputDialog(mainPanel_, "Introdueix la mida del tauler que vols jugar");
-            if (midaTaulerDeciso == null) return;
-            try {
-                midaTauler = Integer.parseInt(midaTaulerDeciso);
-            }
-            catch (NumberFormatException e) {
-                return;
-            }
-            if (midaTauler > MIDAMAX || midaTauler < MIDAMIN) {
-                JOptionPane.showMessageDialog(mainPanel_, "La mida del tauler ha de ser entre" +MIDAMIN +" i " +MIDAMAX , "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }while (midaTauler > MIDAMAX || midaTauler < MIDAMIN);
-        try{
-            controladorPresentacio_.iniciaPartidaAleatoria(midaTauler, vistaMenuJugarPartida_.getUsuari());
-            inicialitzaVistaPartida();
-        } catch (ExcepcioInicialitzacioControladorTauler | ExcepcioPartidaEnCurs e) {
-            JOptionPane.showMessageDialog(mainPanel_, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ExcepcioNoPartidaAleatoria e) {
-        }
+        controladorPresentacio_.showGenerarKenKenJugarDespres();
     }
 
     /**
@@ -372,7 +355,7 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
      * Inicialitza la vista de la partida amb les dades de la partida actual.
      */
     private void inicialitzaVistaPartida() {
-        vistaPartida_ = new VistaPartida(controladorPresentacio_.getMidaPartida(),controladorPresentacio_.getAdjacentsPartida() ,vistaMenuJugarPartida_.getUsuari(), controladorPresentacio_.getValorsPartida());
+        vistaPartida_ = new VistaPartida(controladorPresentacio_.getMidaPartida(),controladorPresentacio_.getAdjacentsPartida(),controladorPresentacio_.getOperacionsPartida() ,vistaMenuJugarPartida_.getUsuari(), controladorPresentacio_.getValorsPartida());
         for (int i = 0; i < controladorPresentacio_.getMidaPartida(); i++) {
             for (int j = 0; j < controladorPresentacio_.getMidaPartida(); j++) {
                 vistaPartida_.addObserverCasella(this, i, j);

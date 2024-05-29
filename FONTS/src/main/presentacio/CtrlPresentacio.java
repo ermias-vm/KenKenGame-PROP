@@ -144,7 +144,13 @@ public class CtrlPresentacio {
         mainFrame.setVisible(true);
     }
     public void showGenerarKenKen() {
-        generarKenken = new CrearKenKenParametres();
+        generarKenken = new CrearKenKenParametres(false);
+        mainFrame.setTitle("Generador Kenken");
+        mainFrame.setContentPane(generarKenken.getDefaultPanel());
+        mainFrame.setVisible(true);
+    }
+    public void showGenerarKenKenJugarDespres() {
+        generarKenken = new CrearKenKenParametres(true);
         mainFrame.setTitle("Generador Kenken");
         mainFrame.setContentPane(generarKenken.getDefaultPanel());
         mainFrame.setVisible(true);
@@ -156,7 +162,13 @@ public class CtrlPresentacio {
         mainFrame.setContentPane(crearKenken.getDefaultPanel());
         mainFrame.setVisible(true);
     }
-
+    public void showCrearKenKenJugarDespres() {
+        CrearKenkenManual.newInstance(true);
+        crearKenken = CrearKenkenManual.getInstance();
+        mainFrame.setTitle("Creador Kenken");
+        mainFrame.setContentPane(crearKenken.getDefaultPanel());
+        mainFrame.setVisible(true);
+    }
 
     public void initJugar() {
         controladorPresentacioPartida_.inicialitzaMenuJugarPartida(CDomini.getNomUsuariActual());
@@ -340,7 +352,9 @@ public class CtrlPresentacio {
     public ArrayList<Boolean>[][] getAdjacentsPartida() {
         return CDomini.getAdjacentsPartida();
     }
-
+    public ArrayList<String> getOperacionsPartida(){
+        return CDomini.getOperacionsPartida();
+    }
 
             /// FUNCIONS RANKING ///
     /**

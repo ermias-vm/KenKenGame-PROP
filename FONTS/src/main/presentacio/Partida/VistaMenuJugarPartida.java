@@ -35,10 +35,10 @@ public class VistaMenuJugarPartida extends JPanel {
         menu.setLayout(new GridBagLayout());
 
         GridBagConstraints botoConstraints = new GridBagConstraints();
-        botoConstraints.insets = new Insets(10, 0, 10, 0);
+        botoConstraints.insets = new Insets(20, 0, 10, 0);
         botoConstraints.gridx = 1;
         botoConstraints.gridy = GridBagConstraints.RELATIVE; // this will set the gridy value to the next available row
-        botoConstraints.weightx = 0.66;
+        botoConstraints.weightx = 0.0;
         botoConstraints.weighty = 1;
         botoConstraints.fill = GridBagConstraints.BOTH;
 
@@ -54,24 +54,29 @@ public class VistaMenuJugarPartida extends JPanel {
         panelBuitDreta.gridy = GridBagConstraints.RELATIVE;
         panelBuitDreta.weightx = 0.17;
         panelBuitDreta.weighty = 1;
-        panelBuitDreta.fill = GridBagConstraints.BOTH;
-        JButton introduirTaulerManualment = new JButton("Introduir Tauler Manualment");
+        panelBuitDreta.fill = GridBagConstraints.NONE;
+        JButton introduirTaulerManualment = new JButton("INTRODUIR TAULER MANUALMENT");
+        introduirTaulerManualment.setFont(new Font("Arial", Font.PLAIN, 40));
         introduirTaulerManualment.addActionListener(e -> {
             for (ObservadorBoto ob : observadorsBoto_) ob.jugarIntroduirTaulerManualment();
         });
-        JButton introduirIdentificadorTauler = new JButton("Introduir Identificador Tauler");
+        JButton introduirIdentificadorTauler = new JButton("INTRODUIR IDENTIFICADOR TAULER");
+        introduirIdentificadorTauler.setFont(new Font("Arial", Font.PLAIN, 40));
         introduirIdentificadorTauler.addActionListener(e -> {
             for (ObservadorBoto ob : observadorsBoto_) ob.jugarIntroduirIdentificadorTauler();
         });
-        JButton partidaAleatoria = new JButton("Partida Aleatoria");
+        JButton partidaAleatoria = new JButton("PARTIDA ALEATORIA");
+        partidaAleatoria.setFont(new Font("Arial", Font.PLAIN, 40));
         partidaAleatoria.addActionListener(e -> {
             for (ObservadorBoto ob : observadorsBoto_) ob.jugarPartidaAleatoria();
         });
-        JButton ultimaPartidaGuardada = new JButton("Ultima Partida Guardada");
+        JButton ultimaPartidaGuardada = new JButton("ULTIMA PARTIDA GUARDADA");
+        ultimaPartidaGuardada.setFont(new Font("Arial", Font.PLAIN, 40));
         ultimaPartidaGuardada.addActionListener(e -> {
             for (ObservadorBoto ob : observadorsBoto_) ob.jugarUltimaPartidaGuardada();
         });
-        JButton partidaGuardada = new JButton("Partida Guardada");
+        JButton partidaGuardada = new JButton("PARTIDA GUARDADA");
+        partidaGuardada.setFont(new Font("Arial", Font.PLAIN, 40));
         partidaGuardada.addActionListener(e -> {
             for (ObservadorBoto ob : observadorsBoto_) ob.jugarPartidaGuardada();
         });
@@ -84,7 +89,7 @@ public class VistaMenuJugarPartida extends JPanel {
         menu.add(new JPanel(), panelBuitDreta);
 
         menu.add(introduirTaulerManualment, botoConstraints);
-
+        botoConstraints.insets = new Insets(10, 0, 10, 0);
         menu.add(introduirIdentificadorTauler, botoConstraints);
 
         menu.add(partidaAleatoria, botoConstraints);
@@ -93,7 +98,6 @@ public class VistaMenuJugarPartida extends JPanel {
 
 
         menu.add(partidaGuardada, botoConstraints);
-
 
         this.add(menu, BorderLayout.CENTER);
         JPanel tornarPanel = new JPanel();

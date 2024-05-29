@@ -137,7 +137,7 @@ public class ComponentCasella extends JPanel implements ActionListener, KeyListe
      * Posa l'operació de la casella a operacio.
      * @param operacio Operació a posar a la casella. Format: "simbolOperacio resultat".
      */
-    public void setOperacio_(String operacio){
+    public void setOperacio(String operacio){
         operacio_.setText(operacio);
     }
 
