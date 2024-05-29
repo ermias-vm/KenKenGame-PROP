@@ -15,31 +15,58 @@ import java.util.ArrayList;
  */
 public class TaulerConstrutor extends JPanel {
 
-    // Constants per a les operacions i modes
+    /**
+     * Constants per a les operacions i modes.
+     * SUM representa l'operació de suma.
+     * MULT representa l'operació de multiplicació.
+     * CREIXENTMENT representa mode obtenció valors creixentment.
+     * DECREIXENTMENT representa mode obtenció decreixentment.
+     */
     private static final int SUM = 0;
     private static final int MULT = 1;
     private static final int CREIXENTMENT = 0;
     private static final int DECREIXENTMENT = 1;
 
-    // Instància única de TaulerConstrutor (Singleton)
+    /**
+     * Instància única de TaulerConstrutor (Singleton).
+     * Aquesta instància es crea una sola vegada i es reutilitza en tot el programa.
+     */
     private static TaulerConstrutor taulerConstrutor;
 
-    // Mida del tauler
+    /**
+     * Mida del tauler.
+     * Aquest valor representa el nombre de files i columnes del tauler.
+     */
     private final int mida;
 
-    // Número de caselles assignades
+    /**
+     * Número de caselles assignades.
+     * Aquest valor representa el nombre total de caselles que han estat assignades a una regió.
+     */
     private int numCasellesAssignades;
 
-    // Matriu de caselles
+    /**
+     * Matriu de caselles.
+     * Aquesta matriu conté les caselles que formen el tauler.
+     */
     private CasellaConstructora[][] caselles;
 
-    // Llista de dades de les regions
+    /**
+     * Llista de dades de les regions.
+     * Aquesta llista conté les dades de cada regió del tauler, incloent l'operació i el resultat.
+     */
     private ArrayList<String> dadesRegions = new ArrayList<>();
 
-    // Llista de posicions de les caselles seleccionades
+    /**
+     * Llista de posicions de les caselles seleccionades.
+     * Aquesta llista conté les posicions de les caselles que l'usuari ha seleccionat per a formar una regió.
+     */
     private ArrayList<int[]> posCasellesSeleccionades = new ArrayList<>();
 
-    // Matriu de booleans que indica si un valor ha estat usat en una fila
+    /**
+     * Matriu de booleans que indica si un valor ha estat usat en una fila.
+     * Aquesta matriu es fa servir per a comprovar si un valor ja ha estat usat en una fila específica quan es calcula el resultat mínim o màxim d'una operació.
+     */
     private boolean[][] valorsUsatsFila;
 
     /**

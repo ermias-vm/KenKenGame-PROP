@@ -1,37 +1,37 @@
-package test.operacions;
+package domini.classes.operacions;
 
-import main.domini.classes.operacions.Modul;
+import main.domini.classes.operacions.Exponenciacio;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class ModulTest {
+public class ExponenciacioTest {
 
-    private Modul modul;
+    private Exponenciacio exponenciacio;
 
     @Before
     public void setUp() throws Exception {
-        modul = new Modul();
+        exponenciacio = new Exponenciacio();
     }
 
     @After
     public void tearDown() throws Exception {
-        modul = null;
+        exponenciacio = null;
     }
 
     @Test
     public void opera2() {
-        int result = modul.opera2(10, 3);
-        assertEquals(1, result);
+        int result = exponenciacio.opera2(2, 3);
+        assertEquals(8, result);
     }
 
     @Test
     public void operaN() {
-        int[] valors = {10, 3};
-        int result = modul.operaN(valors);
-        assertEquals(1, result);
+        int[] valors = {2, 3};
+        int result = exponenciacio.operaN(valors);
+        assertEquals(8, result);
     }
 
     @Test
@@ -41,7 +41,7 @@ public class ModulTest {
 
     @Test
     public void getNumOperacio() {
-        int numOperacio = modul.getNumOperacio();
-        assertEquals(5, numOperacio);
+        int numOperacio = exponenciacio.getNumOperacio();
+        assertEquals(6, numOperacio);
     }
 }

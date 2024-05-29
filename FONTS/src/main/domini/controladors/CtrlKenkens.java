@@ -129,6 +129,8 @@ public class CtrlKenkens {
             throw new RuntimeException(e);
         } catch (ExcepcioCasellaNoModificable e) {
             throw new RuntimeException(e);
+        } catch (ExcepcioMidaIncorrecte e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -172,7 +174,7 @@ public class CtrlKenkens {
      * @param valorsPartida  Valors de partida.
      * @return Matriu de valors de la solució, o null si no hi ha solució.
      */
-    public int[][] resoldreKenken(Tauler T, int[][] valorsPartida) throws ExcepcioCasellaNoExisteix, ExcepcioNoDivisor, ExcepcioValorInvalid, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioCasellaNoModificable {
+    public int[][] resoldreKenken(Tauler T, int[][] valorsPartida) throws ExcepcioCasellaNoExisteix, ExcepcioNoDivisor, ExcepcioValorInvalid, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioCasellaNoModificable, ExcepcionPosicioIncorrecta {
         for (int i = 0; i < valorsPartida.length; i++) {
             for (int j = 0; j < valorsPartida[i].length; j++) {
                 int x = i + 1;

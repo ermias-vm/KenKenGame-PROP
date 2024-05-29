@@ -43,17 +43,12 @@ public class Regio {
 	 * @param operacio  Operació de la regió.
 	 * @param resultat  Resultat de la regió.
 	 */
-	public Regio(int tam, Operacio operacio, int resultat) {
-		try {
+	public Regio(int tam, Operacio operacio, int resultat) throws ExcepcioMidaIncorrecte {
 			if (tam < 1) throw new ExcepcioMidaIncorrecte();
 			mida = tam;
 			this.operacio = operacio;
 			this.resultat = resultat;
 			this.caselles = new ArrayList<Casella>();
-
-		} catch (ExcepcioMidaIncorrecte e) {
-			System.out.println(e.getMessage());
-		}
 	}
 
 	/**
@@ -63,18 +58,12 @@ public class Regio {
 	 * @param operacio  Operació de la regió.
 	 * @param resultat  Resultat de la regió.
 	 */
-	public Regio(ArrayList<Casella> vCaselles, Operacio operacio, int resultat) {
-		try {
+	public Regio(ArrayList<Casella> vCaselles, Operacio operacio, int resultat) throws ExcepcioMidaIncorrecte {
 			if (vCaselles.isEmpty()) throw new ExcepcioMidaIncorrecte();
-
 			this.caselles = vCaselles;
 			this.mida = vCaselles.size();
 			this.operacio = operacio;
 			this.resultat = resultat;
-
-		} catch (ExcepcioMidaIncorrecte e) {
-			System.out.println(e.getMessage());
-		}
 	}
 
 	/**
@@ -98,14 +87,9 @@ public class Regio {
 	 * @param pos  Posició de la casella a comprovar.
 	 * @return true si la casella està buida, false en cas contrari.
 	 */
-    public Casella getCasella(int pos) {
-    	try {
+    public Casella getCasella(int pos) throws ExcepcionPosicioIncorrecta {
 			if (pos < 0 || pos >= mida) throw new ExcepcionPosicioIncorrecta();
 			return (caselles.get(pos));
-		} catch (ExcepcionPosicioIncorrecta e) {
-			System.out.println(e.getMessage());
-			return null;
-		}
     }
 
 	/**
@@ -113,14 +97,9 @@ public class Regio {
 	 * @param pos  Posició de la casella.
 	 * @return Valor de la casella.
 	 */
-    public int getValor(int pos) {
-    	try {
+    public int getValor(int pos) throws ExcepcionPosicioIncorrecta {
 			if (pos < 0 || pos >= mida) throw new ExcepcionPosicioIncorrecta();
 			return (caselles.get(pos).getValor());
-		} catch (ExcepcionPosicioIncorrecta e) {
-			System.out.println(e.getMessage());
-			return -1;
-		}
     }
 
 	/**
@@ -128,17 +107,9 @@ public class Regio {
 	 * @param pos  Posició de la casella.
 	 * @param val  Valor a establir.
 	 */
-    public void setValor(int pos, int val) {
-    	try {
+    public void setValor(int pos, int val) throws ExcepcioCasellaNoModificable, ExcepcionPosicioIncorrecta {
 			if (pos < 0 || pos >= mida) throw new ExcepcionPosicioIncorrecta();
-			if (val < 1 || val > mida) throw new ExcepcionPosicioIncorrecta();
 			caselles.get(pos).setValor(val);
-		} catch (ExcepcionPosicioIncorrecta e) {
-			System.out.println(e.getMessage());
-		} catch (ExcepcioCasellaNoModificable e) {
-            throw new RuntimeException(e);
-        }
-
     }
 
 	/**
@@ -173,7 +144,7 @@ public class Regio {
 	 *
 	 * @param resultat  Resultat a establir.
 	 */
-	public void seResultat(int resultat) {
+	public void setResultat(int resultat) {
 		this.resultat = resultat;
 	}
 
@@ -204,6 +175,22 @@ public class Regio {
 			posicions[i][1] = caselles.get(i).getPosY();
 		}
 		return posicions;
+	}
+
+	/**
+	 * Afegeix una casella a la regió.
+	 * @param c  Casella a afegir.
+	 */
+	public void afegirCasella(Casella c) {
+		caselles.add(c);
+	}
+
+	/**
+	 * Afegeix una llista de caselles a la regió.
+	 * @param c  Llista de caselles a afegir.
+	 */
+	public void afegirCaselles(ArrayList<Casella> c) {
+		caselles.addAll(c);
 	}
 
 	/**
@@ -241,7 +228,9 @@ public class Regio {
 		if (valors == null) {
 			valors = getValorsCaselles();
 		}
+
 		if (!esCompleta()) return false;
+
 		//no operacio
 		if (getMida() == 1) return this.resultat == valors[0];
 

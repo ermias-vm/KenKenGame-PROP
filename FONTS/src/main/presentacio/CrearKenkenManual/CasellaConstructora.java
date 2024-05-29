@@ -15,7 +15,19 @@ import java.awt.event.MouseEvent;
  * @author Ermias Valls Mayor
  */
 public class CasellaConstructora extends JPanel {
-    //PROPIETATS DE LA CLASSE
+
+    /**
+     * Colors i gruixos utilitzats en la representació de la casella.
+     *
+     * COLOR_SELECCIONADA: Color utilitzat per a la casella quan està seleccionada.
+     * COLOR_REGIO: Color utilitzat per a la casella quan pertany a una regió.
+     * COLOR_DEFAULT: Color per defecte de la casella.
+     * COLOR_VORA_REGIO: Color de la vora de la casella quan pertany a una regió.
+     * COLOR_VORA_DEFAULT: Color per defecte de la vora de la casella.
+     *
+     * GRUIX_VORA_REGIO: Gruix de la vora de la casella quan pertany a una regió.
+     * GRUIX_VORA_DEFAULT: Gruix per defecte de la vora de la casella.
+     */
     private static final Color COLOR_SELECCIONADA = new Color(150, 255, 238, 255);
     private static final Color COLOR_REGIO = new Color(255, 255, 255,255);
     private static final Color COLOR_DEFAULT = new Color(255, 255, 255,255);
@@ -25,13 +37,35 @@ public class CasellaConstructora extends JPanel {
     private static final int GRUIX_VORA_REGIO = 3;
     private static final int GRUIX_VORA_DEFAULT = 1;
 
-    // Atributs de la casella
-    JLabel infoRegioLabel; // Etiqueta que mostra informació sobre la regió a la que pertany la casella
-    int posX; // Posició X de la casella
-    int posY; // Posició Y de la casella
-    private boolean seleccionada; // Indica si la casella està seleccionada
-    private boolean pertanyRegio; // Indica si la casella pertany a una regió
-    private int indexRegio; // Índex de la regió a la que pertany la casella
+    /**
+     * Etiqueta que mostra informació sobre la regió a la qual pertany la casella.
+     */
+    JLabel infoRegioLabel;
+
+    /**
+     * Posició X de la casella.
+     */
+    int posX;
+
+    /**
+     * Posició Y de la casella.
+     */
+    int posY;
+
+    /**
+     * Indica si la casella està seleccionada.
+     */
+    private boolean seleccionada;
+
+    /**
+     * Indica si la casella pertany a una regió.
+     */
+    private boolean pertanyRegio;
+
+    /**
+     * Índex de la regió a la qual pertany la casella.
+     */
+    private int indexRegio;
 
     /**
      * Constructor de la classe CasellaConstructora.
