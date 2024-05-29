@@ -13,6 +13,7 @@ import java.awt.event.KeyEvent;
  * La classe IniciarSessio de la capa presentació, gestiona l'inici de sessió dels usuaris.
  * Es una vista que permet que iniciar sessió al usuari.
  * Conté diversos components d'interfície d'usuari, com ara camps de text per a l'usuari i la contrasenya.
+ * @author Ermias Valls Mayor
  */
 public class IniciarSessio {
 

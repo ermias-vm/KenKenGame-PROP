@@ -9,7 +9,7 @@ import java.awt.event.KeyEvent;
 /**
  * Classe Registrarse de la capa presentació, gestiona el registre d'usuaris.
  * Es una vista que permet a l'usuari registrar-se al sistema.
- * @Autor Ermias Valls Mayor
+ * @author Ermias Valls Mayor
  */
 public class Registrarse {
     /**

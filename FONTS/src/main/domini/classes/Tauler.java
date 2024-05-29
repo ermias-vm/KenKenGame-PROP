@@ -221,7 +221,7 @@ public class Tauler {
      * @param y Coordenada y de la casella
      * @return Regió de joc que conté la casella, null si no es troba
      */
-    public Regio getRegio(int x, int y) {
+    public Regio getRegio(int x, int y) throws ExcepcionPosicioIncorrecta {
         for (Regio r : regions) {
             for (int j = 0; j < r.getMida(); ++j) {
                 if (r.getCasella(j).getPosX() == x && r.getCasella(j).getPosY() == y) {

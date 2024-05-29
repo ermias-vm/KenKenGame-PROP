@@ -7,4 +7,4 @@ main.domini.interficies
 main.persistencia
 main.stubs
 test
-test.operacions
+test.domini.classes.operacions

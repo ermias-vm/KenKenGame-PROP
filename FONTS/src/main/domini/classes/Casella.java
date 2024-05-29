@@ -30,8 +30,15 @@ public class Casella {
      */
     private boolean modificable;
 
-    public Casella(){
-        this(-1,-1);
+    /**
+     * Constructor per defecte.
+     * Inicialitza la casella sense assignar posició ni valor i la fa modificable.
+     */
+    public Casella() {
+        this.valor = 0;
+        this.posX = -1;
+        this.posY = -1;
+        this.modificable = true;
     }
 
     /**
@@ -45,6 +52,19 @@ public class Casella {
         this.posY = y;
         this.modificable = true;
     }
+
+    /**
+     * Constructor amb posició i valor. Inicialitza la cel·la amb la posició i valor proporcionats i modificable a true.
+     * @param x La posició x de la cel·la.
+     * @param y La posició y de la cel·la.
+     */
+    public Casella(int x, int y, int valor) {
+        this.valor = valor;
+        this.posX = x;
+        this.posY = y;
+        this.modificable = true;
+    }
+
 
     /**
      * Estableix el valor de la cel·la.
@@ -92,15 +112,10 @@ public class Casella {
      * @param x La posició x a establir.
      * @param y La posició y a establir.
      */
-    public void setPosXY(int x, int y) {
-        try {
-            if (this.posX != -1 && this.posY != -1) throw new ExcepcioCasellaJaTePosicioAssignada();
+    public void setPosXY(int x, int y) throws ExcepcioCasellaJaTePosicioAssignada {
+        if (this.posX != -1 && this.posY != -1) throw new ExcepcioCasellaJaTePosicioAssignada();
             this.posX = x;
             this.posY = y;
-        }
-        catch (ExcepcioCasellaJaTePosicioAssignada e) {
-            System.out.println(e.getMessage());
-        }
     }
 
     /**

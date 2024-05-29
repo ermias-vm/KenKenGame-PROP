@@ -41,7 +41,7 @@ public class SolucionadorKenken {
      * @param j Índex de la columna
      * @throws Exception Si es produeix un error durant la resolució
      */
-    private void backtracking(Tauler T, int i, int j) throws ExcepcioCasellaNoExisteix, ExcepcioNoDivisor, ExcepcioValorInvalid, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioCasellaNoModificable {
+    private void backtracking(Tauler T, int i, int j) throws ExcepcioCasellaNoExisteix, ExcepcioNoDivisor, ExcepcioValorInvalid, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioCasellaNoModificable, ExcepcionPosicioIncorrecta {
         //Cas base , te solucio
         if (i == T.getGrau()+1) {
             T.setTrobat(true);
@@ -96,7 +96,7 @@ public class SolucionadorKenken {
      * @param T Tauler de joc a solucionar.
      * @throws Exception Si es produeix un error durant la solució.
      */
-    public void solucionarKenken(Tauler T) throws ExcepcioCasellaNoExisteix, ExcepcioNoDivisor, ExcepcioValorInvalid, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioCasellaNoModificable {
+    public void solucionarKenken(Tauler T) throws ExcepcioCasellaNoExisteix, ExcepcioNoDivisor, ExcepcioValorInvalid, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioCasellaNoModificable, ExcepcionPosicioIncorrecta {
         optimitzacioNoOperacio(T);
         backtracking(T, 1, 1);
     }

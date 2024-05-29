@@ -282,7 +282,7 @@ public class ControladorPartida {
      * @throws ExcepcioMoltsValors Si el nombre de valors no es correspon amb la regió.
      * @throws ExcepcioDivisio_0 Si s'intenta dividir entre 0.
      */
-    public ArrayList<int[]> donaPista() throws ExcepcioCarregaPartida, ExcepcioPartidaTancada, ExcepcioValorInvalid, ExcepcioPartidaAcabada, ExcepcioPosicioIncorrecta, ExcepcioCasellaNoExisteix, ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioCasellaNoModificable {
+    public ArrayList<int[]> donaPista() throws ExcepcioCarregaPartida, ExcepcioPartidaTancada, ExcepcioValorInvalid, ExcepcioPartidaAcabada, ExcepcioPosicioIncorrecta, ExcepcioCasellaNoExisteix, ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioCasellaNoModificable, ExcepcionPosicioIncorrecta {
         if (partida_ == null) throw new ExcepcioCarregaPartida("No hi ha cap partida carregada");
         ArrayList<int[]> valorsRepetits = comprovaRepetits(partida_.getValorsPartida());
         if (!valorsRepetits.isEmpty()){
