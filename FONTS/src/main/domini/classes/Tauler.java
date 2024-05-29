@@ -1,8 +1,6 @@
 package main.domini.classes;
 
 import main.domini.excepcions.*;
-import main.domini.interficies.Operacio;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 

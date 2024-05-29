@@ -350,7 +350,7 @@ public class TaulerConstrutor extends JPanel {
      * Ordena creixentment les posicions de les caselles seleccionades.
      * Ordena la llista de caselles seleccionades primer per la coordenada x i després per la coordenada y.
      */
-    void ordenarPosicionsCaselles() {
+    public void ordenarPosicionsCaselles() {
         posCasellesSeleccionades.sort((o1, o2) -> {
             if (o1[0] == o2[0]) return o1[1] - o2[1];
             return o1[0] - o2[0];

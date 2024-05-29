@@ -37,6 +37,9 @@ public class CrearKenkenManual {
     private JComboBox grauComboBox;
     private JButton resetButton;
     private JPanel panelDret;
+    private JLabel labelSeparador;
+    private JButton importarTaulerButton;
+    private JPanel panelSortir;
 
     private TaulerConstrutor TaulerKenken;
     private boolean enModeEditor;
@@ -128,6 +131,8 @@ public class CrearKenkenManual {
                 grauComboBox.setVisible(false);
                 guardarButton.setVisible(true);
                 resetButton.setVisible(true);
+                labelSeparador.setVisible(false);
+                importarTaulerButton.setVisible(false);
                 int mida = Integer.parseInt((String) grauComboBox.getSelectedItem());
                 TaulerConstrutor.newInstance(mida);
                 TaulerKenken = TaulerConstrutor.getInstance();
@@ -359,7 +364,7 @@ public class CrearKenkenManual {
      * Configura l'estat inicial de la pantalla de creació de Kenken.
      * Inicialment previsualitza un tauler de mida 3.
      * En mode editor, mostra els botons de guardar i reiniciar.
-     * En mode creació, mostra el botó d'acceptar i el combobox per a seleccionar la mida del tauler.
+     * En mode creació, mostra el botó d'acceptar i el combobox per a seleccionar la mida del tauler, el boto de importar tauler i el boto de sortir.
      *
      */
     public void configInicial () {
@@ -367,6 +372,8 @@ public class CrearKenkenManual {
         enModeEditor = false;
         guardarButton.setVisible(false);
         resetButton.setVisible(false);
+        labelSeparador.setVisible(true);
+        importarTaulerButton.setVisible(true);
         previewTauler(3);
     }
 
@@ -386,6 +393,7 @@ public class CrearKenkenManual {
      */
     private void createUIComponents() {
         logoCreateLabel = new JLabel(Utils.carregarImatge("resources/imatges/logoKenkenCreador.png", 320, 320));
+        labelSeparador = new JLabel(Utils.carregarImatge("resources/imatges/separador_amb_or.png", 200, 20));
     }
 
 }

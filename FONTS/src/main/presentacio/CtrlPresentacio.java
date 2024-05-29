@@ -115,6 +115,7 @@ public class CtrlPresentacio {
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
         showIniciarSessio();
+        //showCrearKenKen();
     }
 
     public void showIniciarSessio() {

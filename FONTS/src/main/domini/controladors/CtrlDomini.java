@@ -8,11 +8,8 @@ import main.persistencia.ControladorPersistencia;
 import main.domini.excepcions.ExcepcioContrasenyaIncorrecta;
 import main.domini.excepcions.ExcepcioUsuariJaExisteix;
 import main.domini.excepcions.ExcepcioUsuariNoExisteix;
-
 import java.io.IOException;
-
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 
 
