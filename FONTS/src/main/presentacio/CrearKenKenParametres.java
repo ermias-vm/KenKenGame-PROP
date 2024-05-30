@@ -2,10 +2,10 @@ package main.presentacio;
 
 import main.domini.classes.CreeadoraKenkenParametres.CreadorKenkenParam;
 
+import javax.imageio.stream.ImageInputStream;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Objects;
 
 public class CrearKenKenParametres extends JDialog {
     //private JTextField textGrau;
@@ -21,11 +21,11 @@ public class CrearKenKenParametres extends JDialog {
     private JRadioButton radioButton4;
     private JRadioButton radioButton5;
     private JRadioButton radioButton6;
-    private JRadioButton radioButton7;
     //private JComboBox comboBoxOperacions;
 
     public CrearKenKenParametres(boolean jugarDespres) {
         System.out.println("Entrant a la pantalla de generar kenken");
+
         CreaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -46,22 +46,13 @@ public class CrearKenKenParametres extends JDialog {
                     divisio = true;
                 } else if (radioButton4.isSelected()) {
                     suma = true;
-                    resta = true;
                     multiplicacio = true;
-                    divisio = true;
                 } else if (radioButton5.isSelected()) {
                     suma = true;
                     resta = true;
                     multiplicacio = true;
                     divisio = true;
-                    modul = true;
                 } else if (radioButton6.isSelected()) {
-                    suma = true;
-                    resta = true;
-                    multiplicacio = true;
-                    divisio = true;
-                    exponenciacio = true;
-                } else if (radioButton7.isSelected()) {
                     suma = true;
                     resta = true;
                     multiplicacio = true;
@@ -127,7 +118,59 @@ public class CrearKenKenParametres extends JDialog {
 
     private void createUIComponents() {
         // TODO: place custom component creation code here
+
         labelLogo = new JLabel(Utils.carregarImatge("resources/imatges/fonsKenken.png", 800, 800));
+
+        //radioButton1.setIcon(new ImageIcon("resources/imatges/Suma.png"));
+        /*
+        radioButton1 = new JRadioButton(Utils.carregarImatge("resources/imatges/Suma.png",50,50));
+        radioButton2 = new JRadioButton(Utils.carregarImatge("resources/imatges/SumaResta.png",50,50));
+        radioButton3 = new JRadioButton(Utils.carregarImatge("resources/imatges/MultDiv.png",50,50));
+        radioButton4 = new JRadioButton(Utils.carregarImatge("resources/imatges/SumaMult.png",50,50));
+        radioButton5 = new JRadioButton(Utils.carregarImatge("resources/imatges/4Ops.png",50,50));
+        radioButton6 = new JRadioButton(Utils.carregarImatge("resources/imatges/TotesOps.png",50,50));
+
+        labelLogo = new JLabel(Utils.carregarImatge("resources/imatges/fonsKenken.png", 800, 800));
+        */
+
+        // Load icons for selected and unselected states
+        ImageIcon sumaIcon = Utils.carregarImatge("resources/imatges/Suma.png", 50, 50);
+        ImageIcon sumaSelectedIcon = Utils.carregarImatge("resources/imatges/SumaSel.png", 50, 50);
+
+        ImageIcon sumaRestaIcon = Utils.carregarImatge("resources/imatges/SumaResta.png", 50, 50);
+        ImageIcon sumaRestaSelectedIcon = Utils.carregarImatge("resources/imatges/SumaRestaSel.png", 50, 50);
+
+        ImageIcon multDivIcon = Utils.carregarImatge("resources/imatges/MultDiv.png", 50, 50);
+        ImageIcon multDivSelectedIcon = Utils.carregarImatge("resources/imatges/MultDivSel.png", 50, 50);
+
+        ImageIcon sumaMultIcon = Utils.carregarImatge("resources/imatges/SumaMult.png", 50, 50);
+        ImageIcon sumaMultSelectedIcon = Utils.carregarImatge("resources/imatges/SumaMultSel.png", 50, 50);
+
+        ImageIcon cuatroOpsIcon = Utils.carregarImatge("resources/imatges/4Ops.png", 50, 50);
+        ImageIcon cuatroOpsSelectedIcon = Utils.carregarImatge("resources/imatges/4OpsSel.png", 50, 50);
+
+        ImageIcon todasOpsIcon = Utils.carregarImatge("resources/imatges/TotesOps.png", 50, 50);
+        ImageIcon todasOpsSelectedIcon = Utils.carregarImatge("resources/imatges/TotesOpsSel.png", 50, 50);
+
+        // Initialize radio buttons with icons
+        radioButton1 = new JRadioButton(sumaIcon);
+        radioButton1.setSelectedIcon(sumaSelectedIcon);
+
+        radioButton2 = new JRadioButton(sumaRestaIcon);
+        radioButton2.setSelectedIcon(sumaRestaSelectedIcon);
+
+        radioButton3 = new JRadioButton(multDivIcon);
+        radioButton3.setSelectedIcon(multDivSelectedIcon);
+
+        radioButton4 = new JRadioButton(sumaMultIcon);
+        radioButton4.setSelectedIcon(sumaMultSelectedIcon);
+
+        radioButton5 = new JRadioButton(cuatroOpsIcon);
+        radioButton5.setSelectedIcon(cuatroOpsSelectedIcon);
+
+        radioButton6 = new JRadioButton(todasOpsIcon);
+        radioButton6.setSelectedIcon(todasOpsSelectedIcon);
+
     }
 
     public JPanel getDefaultPanel() {
