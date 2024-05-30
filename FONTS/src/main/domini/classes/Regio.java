@@ -66,6 +66,16 @@ public class Regio {
 			this.resultat = resultat;
 	}
 
+	public Regio(Regio r) {
+		this.mida = r.getMida();
+		this.operacio = r.getOperacio();
+		this.resultat = r.getResultat();
+		this.caselles = new ArrayList<Casella>();
+		for (Casella c : r.getCaselles()) {
+			this.caselles.add(new Casella(c));
+		}
+	}
+
 	/**
 	 * Retorna les caselles de la regió.
 	 * @return Conjunt de caselles de la regió.
@@ -230,7 +240,7 @@ public class Regio {
 		}
 
 		if (!esCompleta()) return false;
-
+		if (!esCompletaValors(valors)) return false;
 		//no operacio
 		if (getMida() == 1) return this.resultat == valors[0];
 
@@ -244,5 +254,12 @@ public class Regio {
 		int result2 = this.operacio.opera2(valors[1], valors[0]);
 		return resultat == result1 || resultat == result2;
 	}
-	
+
+	public boolean esCompletaValors(int[] valors) {
+		for (int i = 0; i < mida; i++) {
+			if (valors[i] == 0) return false;
+		}
+		return true;
+	}
+
 }

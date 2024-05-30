@@ -1,6 +1,8 @@
 package main.domini.classes;
 
 import main.domini.excepcions.*;
+import main.domini.interficies.Operacio;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -64,6 +66,27 @@ public class Tauler {
 
         this.caselles = caselles;
         this.regions = regions;
+    }
+
+    public Tauler(Tauler taulerPartida) {
+        this.idTauler = taulerPartida.getIdTauler();
+        this.grau = taulerPartida.getGrau();
+        this.trobat = taulerPartida.teSolucio();
+        this.caselles = new Casella[grau][grau];
+        this.regions = new ArrayList<>();
+        for (int i = 1; i <= grau; ++i) {
+            for (int j = 1; j <= grau; ++j) {
+                try {
+                    this.afegirCasella(i, j, new Casella(taulerPartida.getValor(i, j), i, j, taulerPartida.esModificable(i, j)));
+                } catch (ExcepcioCasellaNoExisteix excepcioCasellaNoExisteix) {
+                    excepcioCasellaNoExisteix.printStackTrace();
+                }
+            }
+        }
+        for (Regio r : taulerPartida.getRegions()) {
+            Regio regio = new Regio(r);
+            this.regions.add(regio);
+        }
     }
 
     /**
@@ -294,7 +317,7 @@ public class Tauler {
     public int[] getValorsRegioMatriu(int [][] valorsTauler, int [][] posicionsRegio) {
         int [] valorsRegio = new int[posicionsRegio.length];
         for (int i = 0; i < posicionsRegio.length; ++i) {
-            valorsRegio[i] = valorsTauler[posicionsRegio[i][0]][posicionsRegio[i][1]];
+            valorsRegio[i] = valorsTauler[posicionsRegio[i][0]-1][posicionsRegio[i][1]-1];
         }
         return valorsRegio;
     }

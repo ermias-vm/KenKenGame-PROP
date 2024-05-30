@@ -22,11 +22,11 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
     /**
      * Constant que conté el color d'alguna cosa incorrecta
      */
-    public static final String COLOR_ERROR = "243, 67, 65";
+    public static final String COLOR_ERROR = "243,67,65";
     /**
      * Constant que conté el color d'alguna cosa correcta
      */
-    public static final String COLOR_BE = "40, 250, 85";
+    public static final String COLOR_BE = "40,250,85";
     /**
      * Controlador de la presentacio
      */
@@ -379,7 +379,7 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
      * Inicialitza la vista de la partida amb les dades de la partida actual.
      */
     private void inicialitzaVistaPartida() {
-        vistaPartida_ = new VistaPartida(controladorPresentacio_.getMidaPartida(),controladorPresentacio_.getAdjacentsPartida(),controladorPresentacio_.getOperacionsPartida() ,vistaMenuJugarPartida_.getUsuari(), controladorPresentacio_.getValorsPartida());
+        vistaPartida_ = new VistaPartida(controladorPresentacio_.getMidaPartida(),controladorPresentacio_.getAdjacentsPartida(),controladorPresentacio_.getOperacionsPartida() ,vistaMenuJugarPartida_.getUsuari(), controladorPresentacio_.getValorsPartida(),controladorPresentacio_.getTempsPartida());
         vistaPartida_.addObserverCasella(this);
         vistaPartida_.addObserverMenuPartida(this);
         mainPanel_.removeAll();

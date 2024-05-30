@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import static main.presentacio.Partida.ControladorPresentacioPartida.COLOR_BE;
 import static main.presentacio.Partida.ControladorPresentacioPartida.COLOR_ERROR;
+import static main.presentacio.Utils.carregarImatge;
 
 /**
  * {code MenuPartida} és un panell que conté els botons i el rellotge de la partida.
@@ -65,41 +66,38 @@ public class MenuPartida extends JPanel {
     /**
      * Creadora de la classe. Crea cada component del panell i els afegeix al panell.
      */
-    public MenuPartida() {
-
+    public MenuPartida(int tempsInicial){
         this.setLayout(new BorderLayout());
+        JPanel panellGridBag = new JPanel();
+        panellGridBag.setLayout(new GridBagLayout());
+        panellGridBag.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 0.33;
+        gbc.weighty = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(20, 0, 0, 0);
+        timer_ = new ComponentTimer(tempsInicial);
+        panellGridBag.add(timer_, gbc);
 
-        JPanel panellSuperior = new JPanel();
-        panellSuperior.setLayout(new BoxLayout(panellSuperior, BoxLayout.X_AXIS));
-
-        JPanel panellCentral = new JPanel();
-        panellCentral.setLayout(new BoxLayout(panellCentral, BoxLayout.Y_AXIS));
-
-        JPanel panellInferior = new JPanel();
-        panellInferior.setLayout(new BoxLayout(panellInferior, BoxLayout.X_AXIS));
-
-        JLabel missatge = new JLabel();
-        missatge_ = missatge;
-        panellInferior.add(missatge);
-
-        panellInferior.add(Box.createHorizontalGlue());
-
-        timer_ = new ComponentTimer(0);
-        panellSuperior.add(timer_);
-
-        ImageIcon undo = new ImageIcon("/undo.png");
+        ImageIcon undo = carregarImatge("resources/imatges/undo.png", 50, 50);
         undoBoto_ = new JButton(undo);
         undoBoto_.addActionListener(e -> {
             for (ObservadorBoto ob : observadorsBoto_) ob.notificarUndo();
         });
-        panellSuperior.add(undoBoto_);
+        gbc.gridx = 1;
+        gbc.insets = new Insets(20, 10, 0, 10);
+        panellGridBag.add(undoBoto_, gbc);
 
-        ImageIcon redo = new ImageIcon("/redo.png");
+        ImageIcon redo = carregarImatge("resources/imatges/redo.png", 50, 50);
         redoBoto_ = new JButton(redo);
         redoBoto_.addActionListener(e -> {
             for (ObservadorBoto ob : observadorsBoto_) ob.notificarRedo();
         });
-        panellSuperior.add(redoBoto_);
+        gbc.gridx = 2;
+        gbc.insets = new Insets(20, 10, 0, 20);
+        panellGridBag.add(redoBoto_, gbc);
 
         pistaBoto_ = new JButton("Pista");
         pistaBoto_.addActionListener(e -> {
@@ -110,13 +108,20 @@ public class MenuPartida extends JPanel {
             }
             else for (ObservadorBoto ob : observadorsBoto_) ob.notificarPista();
         });
-        panellCentral.add(pistaBoto_);
-        panellCentral.add(Box.createVerticalGlue());
+        gbc.insets = new Insets(100, 20, 20, 20);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 3;
+        gbc.fill = GridBagConstraints.BOTH;
+        panellGridBag.add(pistaBoto_, gbc);
+
         acabaBoto_ = new JButton("Acabar");
         acabaBoto_.addActionListener(e -> {
             for (ObservadorBoto ob : observadorsBoto_) ob.notificarAcabar();
         });
-        panellCentral.add(acabaBoto_);
+        gbc.gridy = 2;
+        gbc.insets = new Insets(20, 20, 20, 20);
+        panellGridBag.add(acabaBoto_, gbc);
 
         guardaBoto_ = new JButton("Guardar");
         guardaBoto_.addActionListener(e -> {
@@ -127,7 +132,8 @@ public class MenuPartida extends JPanel {
             }
             else for (ObservadorBoto ob : observadorsBoto_) ob.notificarGuardar();
         });
-        panellCentral.add(guardaBoto_);
+        gbc.gridy = 3;
+        panellGridBag.add(guardaBoto_, gbc);
 
         tancaIguardaBoto_ = new JButton("Tancar i Guardar");
         tancaIguardaBoto_.addActionListener(e -> {
@@ -138,17 +144,29 @@ public class MenuPartida extends JPanel {
             }
             else for (ObservadorBoto ob : observadorsBoto_) ob.notificarTancaIguarda();
         });
-        panellCentral.add(tancaIguardaBoto_);
-
+        gbc.gridy = 4;
+        gbc.insets = new Insets(20, 20, 40, 20);
+        panellGridBag.add(tancaIguardaBoto_, gbc);
+        gbc.insets = new Insets(0, 0, 20, 0);
+        gbc.gridwidth = 2;
+        gbc.gridy = 5;
+        gbc.gridx = 0;
+        gbc.weightx = 0.8;
+        JLabel missatge = new JLabel();
+        missatge.setHorizontalAlignment(SwingConstants.CENTER);
+        missatge_ = missatge;
+        panellGridBag.add(missatge, gbc);
+        gbc.gridwidth = 1;
+        gbc.gridx = 2;
+        gbc.weightx = 0.0;
+        gbc.fill = GridBagConstraints.NONE;
         sortirBoto_ = new JButton("Sortir");
         sortirBoto_.addActionListener(e -> {
             int decisio = JOptionPane.showOptionDialog(null, "Si surts sense guardar es perdrà tot el progrès no guardat", null, JOptionPane.YES_NO_OPTION , JOptionPane.WARNING_MESSAGE, null, new Object[]{"Acceptar", "Cancel·lar"}, null);
             if (decisio == 0) for (ObservadorBoto ob : observadorsBoto_) ob.notificarSortir();
         });
-        panellInferior.add(sortirBoto_);
-        this.add(panellSuperior, BorderLayout.NORTH);
-        this.add(panellCentral, BorderLayout.CENTER);
-        this.add(panellInferior, BorderLayout.SOUTH);
+        panellGridBag.add(sortirBoto_, gbc);
+        this.add(panellGridBag, BorderLayout.CENTER);
     }
 
     /**

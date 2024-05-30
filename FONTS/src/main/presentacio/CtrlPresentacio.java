@@ -357,6 +357,7 @@ public class CtrlPresentacio {
     public ArrayList<String> getOperacionsPartida(){
         return CDomini.getOperacionsPartida();
     }
+    public float getTempsPartida(){ return CDomini.getTempsPartida(); }
 
             /// FUNCIONS RANKING ///
     /**

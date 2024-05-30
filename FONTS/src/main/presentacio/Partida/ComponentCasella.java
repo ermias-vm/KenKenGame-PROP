@@ -47,6 +47,8 @@ public class ComponentCasella extends JPanel implements  KeyListener{
      * {@code observers_} és la llista d'observadors de la casella.
      */
     private List<ObservadorCasella> observers_;
+    private JPanel operacioPanell_;
+    private JPanel casella_;
     private Color backgroundColor_;
 
     /**
@@ -98,6 +100,7 @@ public class ComponentCasella extends JPanel implements  KeyListener{
         gbc.weightx = 1;
         gbc.weighty = 0.25;
         gbc.fill = GridBagConstraints.BOTH;
+        operacioPanell_ = operacio;
         casella.add(operacio, gbc);
         gbc.gridx = 0;
         gbc.gridy = 2;
@@ -112,6 +115,7 @@ public class ComponentCasella extends JPanel implements  KeyListener{
         valor.setForeground(backgroundColor_);
         valor_ = valor;
         casella.add(valor_, gbc);
+        casella_ = casella;
         this.add(casella, BorderLayout.CENTER);
         setValor(String.valueOf(valorCasella));
         this.addKeyListener(this);
@@ -132,11 +136,11 @@ public class ComponentCasella extends JPanel implements  KeyListener{
      */
     private void pintaBoto() {
         if (!incorrecte_) {
-            this.setBackground(backgroundColor_);
+            valor_.setForeground(Color.BLACK);
         } else{
             String colorError = COLOR_ERROR;
             String[] parts = colorError.split(",");
-            this.setBackground(new Color(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2]), 175));
+            valor_.setForeground(new Color(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2])));
         }
         this.repaint();
     }

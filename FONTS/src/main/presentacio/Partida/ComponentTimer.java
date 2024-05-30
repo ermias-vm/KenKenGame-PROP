@@ -23,7 +23,11 @@ public class ComponentTimer extends JPanel {
      */
     public ComponentTimer(int seconds) {
         this.seconds_ = seconds;
+        String tempsInicial = String.format("%02d:%02d", seconds / 60, seconds % 60);
         timerLabel = new JLabel();
+        timerLabel.setText(tempsInicial);
+        timerLabel.setFont(timerLabel.getFont().deriveFont(20.0f));
+        timerLabel.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(timerLabel);
         Timer timer = new Timer(1000, new ActionListener() {
             @Override

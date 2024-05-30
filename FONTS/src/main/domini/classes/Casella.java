@@ -65,6 +65,20 @@ public class Casella {
         this.modificable = true;
     }
 
+    public Casella(int valor, int i, int j, boolean b) {
+        this.valor = valor;
+        this.posX = i;
+        this.posY = j;
+        this.modificable = b;
+    }
+
+    public Casella(Casella c) {
+        this.valor = c.getValor();
+        this.posX = c.getPosX();
+        this.posY = c.getPosY();
+        this.modificable = c.esModificable();
+    }
+
 
     /**
      * Estableix el valor de la cel·la.

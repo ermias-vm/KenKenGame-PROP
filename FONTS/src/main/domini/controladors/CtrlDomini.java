@@ -253,7 +253,9 @@ public class CtrlDomini {
     public ArrayList<String> getOperacionsPartida() {
         return CPartida.getOperacionsPartida();
     }
-
+    public float getTempsPartida() {
+        return CPartida.getTempsPartida();
+    }
 
             /// FUNCIONS RANKING ///
 

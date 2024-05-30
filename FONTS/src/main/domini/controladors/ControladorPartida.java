@@ -5,9 +5,7 @@ import main.domini.excepcions.*;
 import main.persistencia.ControladorPersistenciaPartida;
 import main.domini.classes.Tauler;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Controlador de la capa de domini que representa una partida i,
@@ -289,6 +287,18 @@ public class ControladorPartida {
             return valorsRepetits;
         }
         ArrayList<Regio> valorsIncorrectes = partida_.getTaulerPartida().getRegionsIncorrectes(partida_.getValorsPartida());
+        Regio[] regionsIncorrectes = valorsIncorrectes.toArray(new Regio[0]);
+        for (Regio r : regionsIncorrectes){
+            int[][] posicions = r.getPosicionsCaselles();
+            for ( int[] posicio : posicions){
+                int fila = posicio[0]-1;
+                int columna = posicio[1]-1;
+                if (partida_.getValorsPartida()[fila][columna] == 0){
+                    valorsIncorrectes.remove(r);
+                    break;
+                }
+            }
+        }
         if (!valorsIncorrectes.isEmpty()){
             int longitud = valorsIncorrectes.size();
             int index = (int) (Math.random() * longitud);
@@ -300,14 +310,16 @@ public class ControladorPartida {
                 int columna = posicions[i][1]-1;
                 valorsIncorrectesRegio.add(new int[]{fila, columna});
             }
+            return valorsIncorrectesRegio;
         }
         int[][] solucioTotal = controladorDomini_.resoldreKenken(partida_.getTaulerPartida(), partida_.getValorsPartida());
+        if (solucioTotal == null) throw new ExcepcioPartidaAcabada("La partida no té solució");
         boolean posat = false;
         while (!posat){
             int fila = (int) (Math.random() * partida_.getTaulerPartida().getGrau());
             int columna = (int) (Math.random() * partida_.getTaulerPartida().getGrau());
             if (partida_.getValorsPartida()[fila][columna] == 0){
-                partida_.setValorPartida(fila, columna, solucioTotal[fila][columna]);
+                introduirValor(fila, columna, solucioTotal[fila][columna]);
                 posat = true;
             }
         }
@@ -423,7 +435,7 @@ public class ControladorPartida {
      * @return Retorna un vector d'enters amb les posicions de les caselles amb valors repetits.
      */
     private ArrayList<int[]> comprovaRepetits(int[][] valors) {
-        ArrayList<int[]> valorsRepetits = new ArrayList<>();
+        HashSet<int[]> valorsRepetits = new HashSet<>();
         int mida_ = valors.length;
         boolean[][] valorsUtilitzatsFila = new boolean[mida_][mida_];
         boolean[][] valorsUtilitzatsColumna = new boolean[mida_][mida_];
@@ -432,16 +444,23 @@ public class ControladorPartida {
                 if (valors[i][j] != 0) {
                     if (valorsUtilitzatsFila[i][valors[i][j] - 1]) {
                         valorsRepetits.add(new int[]{i, j});
+                        for (int k = 0; k < mida_; k++) {
+                            if (valors[i][k] == valors[i][j]) valorsRepetits.add(new int[]{i, k});
+                        }
                     }
                     valorsUtilitzatsFila[i][valors[i][j] - 1] = true;
                     if (valorsUtilitzatsColumna[j][valors[i][j] - 1]) {
                         valorsRepetits.add(new int[]{i, j});
+                        for (int k = 0; k < mida_; k++) {
+                            if (valors[k][j] == valors[i][j]) valorsRepetits.add(new int[]{k, j});
+                        }
                     }
                     valorsUtilitzatsColumna[j][valors[i][j] - 1] = true;
+                    }
                 }
             }
-        }
-        return valorsRepetits;
+        ArrayList<int[]> valorsRepetitsLlista = new ArrayList<>(valorsRepetits);
+        return valorsRepetitsLlista;
     }
 
     /**
@@ -454,5 +473,8 @@ public class ControladorPartida {
 
     public ArrayList<String> getOperacionsPartida() {
         return partida_.getTaulerPartida().getOperacions();
+    }
+    public float getTempsPartida(){
+        return partida_.getTempsPartida();
     }
 }
