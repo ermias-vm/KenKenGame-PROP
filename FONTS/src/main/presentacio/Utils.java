@@ -9,6 +9,9 @@ import java.awt.*;
  * @autor Ermias Valls Mayor
  */
 public class Utils {
+    private static final Color COLOR_DE_FONS= new Color(11, 3, 138, 255);
+
+
 
     /**
      * Carrega una imatge des de la ruta especificada i la redimensiona a l'amplada i l'altura donades.
@@ -30,6 +33,11 @@ public class Utils {
             return null;
         }
     }
+
+    public static void assignarColorDeFons(JPanel panel) {
+        panel.setBackground(COLOR_DE_FONS);
+    }
+
 
 
 

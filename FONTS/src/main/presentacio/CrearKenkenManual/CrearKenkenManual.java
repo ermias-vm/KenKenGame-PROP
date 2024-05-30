@@ -11,6 +11,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.util.Objects;
 
 /**
@@ -75,7 +76,75 @@ public class CrearKenkenManual {
         setupGuardarButtonListener(jugarDespres);
         setupResetButtonListener();
         setupGrauComboBoxListener();
+        setupImportarTaulerButtonListener();
     }
+
+    private void setupImportarTaulerButtonListener() {
+        importarTaulerButton.addActionListener(e -> {
+            // Create a JPanel to hold all components
+            JPanel panel = new JPanel();
+            panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+            // Create a button to select a board from the device
+            JButton selecionaTaulerButton = new JButton("Selecciona tauler del dispositiu");
+            selecionaTaulerButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the button
+            selecionaTaulerButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    JFileChooser fileChooser = new JFileChooser(new File("data/taulers"));
+                    int returnValue = fileChooser.showOpenDialog(null);
+                    if (returnValue == JFileChooser.APPROVE_OPTION) {
+                        File selectedFile = fileChooser.getSelectedFile();
+                        // Handle the selected file
+                    }
+                }
+            });
+
+            // Create a label and a text area for manual board entry
+            JLabel manualmentLabel = new JLabel("Introduiex tauler manualment:");
+            manualmentLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the label
+            JTextArea manualEntryTextArea = new JTextArea(10, 10);
+
+            // Create Accept and Exit buttons
+            JButton aceptarButton = new JButton("Aceptar");
+            JButton salirButton = new JButton("Salir");
+            JPanel buttonPanel = new JPanel();
+            buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+            buttonPanel.add(aceptarButton);
+            buttonPanel.add(Box.createRigidArea(new Dimension(10, 0))); // Add space between buttons
+            buttonPanel.add(salirButton);
+            buttonPanel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the button panel
+
+            // Add components to the panel
+            panel.add(selecionaTaulerButton);
+            panel.add(Box.createRigidArea(new Dimension(0, 20))); // Add space between button and label
+            panel.add(manualmentLabel);
+            panel.add(Box.createRigidArea(new Dimension(0, 10))); // Add space between label and text area
+            panel.add(new JScrollPane(manualEntryTextArea));
+            panel.add(Box.createRigidArea(new Dimension(0, 20))); // Add space between text area and buttons
+            panel.add(buttonPanel);
+
+            // Create the JOptionPane
+            JOptionPane optionPane = new JOptionPane(panel, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, new Object[]{}, null);
+
+            // Create the JDialog and set its location and size to match the main panel
+            JDialog dialog = optionPane.createDialog("Importar Tauler");
+            Dimension mainPanelSize = panelComplet.getSize();
+            dialog.setSize(mainPanelSize.width / 3, mainPanelSize.height); // Set the dialog width to 1/3 of the main panel width and height to match the main panel height
+            Point mainPanelLocation = panelComplet.getLocationOnScreen();
+            int x = mainPanelLocation.x + mainPanelSize.width - dialog.getSize().width; // Set the dialog location to match the right side of the main panel
+            dialog.setLocation(x, mainPanelLocation.y); // Set the dialog location to match the main panel
+
+            // Show the JDialog
+            dialog.setVisible(true);
+        });
+    }
+
+
+
+
+
+
 
     /**
      * Configura l'escoltador d'esdeveniments per al botó de sortir.
@@ -86,30 +155,27 @@ public class CrearKenkenManual {
      * Si l'usuari no es troba en mode editor, es mostra el menú principal.
      */
     public void setupSortirButtonListener(){
-        sortirButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (enModeEditor) {
-                    if (TaulerKenken.esModificat()) {
-                        int dialogResult = JOptionPane.showConfirmDialog(sortirButton, "<html><div style='text-align: center;'>Estàs segur que vols sortir?" +
-                                "<br>Si surts sense guardar es perdran els canvis</div></html>", "Avís", JOptionPane.YES_NO_OPTION);
-                        if(dialogResult == JOptionPane.YES_OPTION) {
-                            System.out.println("Sortint de crear kenken");
-                            CtrlPresentacio.getInstance().showCrearKenKen();
-                        }
-                        else {
-                            System.out.println("Sortida mode editor cancelada");
-                        }
+        sortirButton.addActionListener(e -> {
+            if (enModeEditor) {
+                if (TaulerKenken.esModificat()) {
+                    int dialogResult = JOptionPane.showConfirmDialog(sortirButton, "<html><div style='text-align: center;'>Estàs segur que vols sortir?" +
+                            "<br>Si surts sense guardar es perdran els canvis</div></html>", "Avís", JOptionPane.YES_NO_OPTION);
+                    if(dialogResult == JOptionPane.YES_OPTION) {
+                        System.out.println("Sortint de crear kenken");
+                        CtrlPresentacio.getInstance().showCrearKenKen();
                     }
                     else {
-                        System.out.println("Sortint del mode editor");
-                        CtrlPresentacio.getInstance().showCrearKenKen();
+                        System.out.println("Sortida mode editor cancelada");
                     }
                 }
                 else {
-                    System.out.println("Sortint de crear kenken");
-                    CtrlPresentacio.getInstance().showMenuPrincipal();
+                    System.out.println("Sortint del mode editor");
+                    CtrlPresentacio.getInstance().showCrearKenKen();
                 }
+            }
+            else {
+                System.out.println("Sortint de crear kenken");
+                CtrlPresentacio.getInstance().showMenuPrincipal();
             }
         });
 
@@ -392,8 +458,9 @@ public class CrearKenkenManual {
      * Aquest metode es crida automaticament duratn la inicialització de la interficie d'usuari.
      */
     private void createUIComponents() {
+
         logoCreateLabel = new JLabel(Utils.carregarImatge("resources/imatges/logoKenkenCreador.png", 320, 320));
-        labelSeparador = new JLabel(Utils.carregarImatge("resources/imatges/separador_amb_or.png", 200, 20));
+        labelSeparador = new JLabel(Utils.carregarImatge("resources/imatges/separador_amb_or.png", 300, 30));
     }
 
 }
