@@ -418,7 +418,14 @@ public class Tauler {
         return operacions;
     }
 
+    /**
+     *
+     * Restaura la modificabilitat de les caselles del tauler.
+     * Totes les caselles del tauler es tornen a fer modificables.
+     *
+     */
     public void restaurarModificabilitat() throws ExcepcioCasellaNoExisteix {
+        this.trobat = false;
         for (int i = 1; i <= grau; ++i) {
             for (int j = 1; j <= grau; ++j)  getCasella(i, j).setModificable();
         }

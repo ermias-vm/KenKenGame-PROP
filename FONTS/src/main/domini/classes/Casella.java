@@ -13,7 +13,6 @@ public class Casella {
      * Un valor de 0 indica que la casella està buida.
      */
     private int valor;
-
     /**
      * Coordenada x de la casella en el tauler. Aquest valor és un enter entre 1 i el grau del tauler.
      */

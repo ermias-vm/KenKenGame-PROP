@@ -48,6 +48,7 @@ public class CrearKenkenManual {
 
     private TaulerConstrutor TaulerKenken;
     private boolean enModeEditor;
+    private String contingutTauler;
 
     /**
      * Retorna una instància de CrearKenkenManual. Si no existeix, la crea.
@@ -118,9 +119,9 @@ public class CrearKenkenManual {
             File arxiuSeleccionat = selectorArxius.getSelectedFile();
             try {
                 // Llegeix el contingut del fitxer
-                String contingut = new String(Files.readAllBytes(arxiuSeleccionat.toPath()));
+                contingutTauler = new String(Files.readAllBytes(arxiuSeleccionat.toPath()));
                 // Mostra el contingut del fitxer en el JTextArea
-                areaTextIntroduccioTauler.setText(contingut);
+                areaTextIntroduccioTauler.setText(contingutTauler);
             } catch (IOException e) {
                 e.printStackTrace();
             }
