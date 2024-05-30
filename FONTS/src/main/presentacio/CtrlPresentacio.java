@@ -184,6 +184,7 @@ public class CtrlPresentacio {
         mainFrame.setVisible(true);
     }
     public void jugarIdentificadorTauler(String identificadorTauler) {
+        controladorPresentacioPartida_.inicialitzaMenuJugarPartida(CDomini.getNomUsuariActual());
         controladorPresentacioPartida_.jugarIdentificadorTauler(identificadorTauler);
         mainFrame.setTitle("Jugar Partida");
         mainFrame.setContentPane(controladorPresentacioPartida_.getDefaultPanel());

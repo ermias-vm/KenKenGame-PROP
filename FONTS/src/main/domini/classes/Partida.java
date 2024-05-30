@@ -214,7 +214,7 @@ public class Partida {
         if (fila < 0 || fila >= midaPartida_ || columna < 0 || columna >= midaPartida_) {
             throw new ExcepcioPosicioIncorrecta();
         }
-        if (1 <= valor && valor <= midaPartida_) {
+        if (0 <= valor && valor <= midaPartida_) {
             valorsPartida_[fila][columna] = valor;
             return true;
         }

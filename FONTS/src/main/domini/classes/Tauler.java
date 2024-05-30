@@ -329,32 +329,43 @@ public class Tauler {
         ArrayList<Boolean>[][] adjacents = new ArrayList[grau][grau];
         for (int i = 0; i < grau; i++) {
             for (int j = 0; j < grau; j++) {
-                adjacents[i][j] = new ArrayList<>(4);
+                adjacents[i][j] = new ArrayList<>();
             }
         }
         for (Regio r: regions) {
             int[][] posicionsCaselles = r.getPosicionsCaselles();
-            HashSet<Integer[]> casellesRegio = new HashSet<>();
+            HashSet<ArrayList<Integer>> casellesRegio = new HashSet<>();
             for (int i = 0; i < posicionsCaselles.length; i++){
                 int x = posicionsCaselles[i][0];
                 int y = posicionsCaselles[i][1];
-                casellesRegio.add(new Integer[]{x, y});
+                ArrayList<Integer> casella = new ArrayList<>();
+                casella.add(x);
+                casella.add(y);
+                casellesRegio.add(casella);
             }
             for (int i = 0; i < posicionsCaselles.length; i++){
                 int x = posicionsCaselles[i][0];
                 int y = posicionsCaselles[i][1];
-                Integer[] top = new Integer[]{x, y-1};
-                if (!casellesRegio.contains(top)) adjacents[x-1][y-1].set(0, false);
-                else adjacents[x-1][y-1].set(0, true);
-                Integer[] left = new Integer[]{x-1, y};
-                if (!casellesRegio.contains(left)) adjacents[x-1][y-1].set(1, false);
-                else adjacents[x-1][y-1].set(1, true);
-                Integer[] bottom = new Integer[]{x, y+1};
-                if (!casellesRegio.contains(bottom)) adjacents[x-1][y-1].set(2, false);
-                else adjacents[x-1][y-1].set(2, true);
-                Integer[] right = new Integer[]{x+1, y};
-                if (!casellesRegio.contains(right)) adjacents[x-1][y-1].set(3, false);
-                else adjacents[x-1][y-1].set(3, true);
+                ArrayList<Integer> top = new ArrayList<>();
+                top.add(x-1);
+                top.add(y);
+                if (!casellesRegio.contains(top)) adjacents[x-1][y-1].add(false);
+                else adjacents[x-1][y-1].add(true);
+                ArrayList<Integer> left = new ArrayList<>();
+                left.add(x);
+                left.add(y-1);
+                if (!casellesRegio.contains(left)) adjacents[x-1][y-1].add(false);
+                else adjacents[x-1][y-1].add(true);
+                ArrayList<Integer> bottom = new ArrayList<>();
+                bottom.add(x+1);
+                bottom.add(y);
+                if (!casellesRegio.contains(bottom)) adjacents[x-1][y-1].add(false);
+                else adjacents[x-1][y-1].add(true);
+                ArrayList<Integer> right = new ArrayList<>();
+                right.add(x);
+                right.add(y+1);
+                if (!casellesRegio.contains(right)) adjacents[x-1][y-1].add(false);
+                else adjacents[x-1][y-1].add(true);
             }
         }
         return adjacents;
@@ -374,9 +385,12 @@ public class Tauler {
                     mesAmunt = y;
                 }
             }
-            String operacio = r.getOperacio().getOperacioText();
+            Operacio operacio = r.getOperacio();
+            String operacioText;
+            if (operacio == null) operacioText = "null";
+            else  operacioText = operacio.getOperacioText();
             String resultat = Integer.toString(r.getResultat());
-            operacions.add((mesEsquerra-1) + " " + (mesAmunt-1) + " " + operacio + " " + resultat);
+            operacions.add((mesEsquerra-1) + " " + (mesAmunt-1) + " " + operacioText + " " + resultat);
         }
         return operacions;
     }

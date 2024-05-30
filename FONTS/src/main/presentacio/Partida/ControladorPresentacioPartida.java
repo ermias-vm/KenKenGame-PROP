@@ -95,8 +95,7 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
     @Override
     public void notificarCanviValor(String valor, int fila, int columna) {
         try{
-            String estatPartida = controladorPresentacio_.introduirValor(fila, columna, Integer.parseInt(valor));
-            vistaPartida_.actualitzaValors(valorsStringToInt(estatPartida));
+            controladorPresentacio_.introduirValor(fila, columna, Integer.parseInt(valor));
             mainPanel_.removeAll();
             mainPanel_.add(vistaPartida_, BorderLayout.CENTER);
             mainPanel_.revalidate();
@@ -107,6 +106,11 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
         }
     }
 
+    @Override
+    public void notificarRequestFocus(int fila, int columna) {
+        vistaPartida_.setFocus(fila, columna);
+    }
+
     /**
      * Mètode que s'executa quan es notifica que s'ha fet click al botó de undo de la partida.
      * Desfà l'últim moviment i actualitza la vista.
@@ -115,14 +119,19 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
     public void notificarUndo() {
         try {
             String valors = controladorPresentacio_.desferMoviment();
-            vistaPartida_.actualitzaValors(valorsStringToInt(valors));
+            int[][] valorsInt = valorsStringToInt(valors);
+            for (int i = 0; i < valorsInt.length; i++) {
+                for (int j = 0; j < valorsInt[0].length; j++) {
+                    vistaPartida_.actualitzaValor(Integer.toString(valorsInt[i][j]), i, j);
+                }
+            }
             mainPanel_.removeAll();
             mainPanel_.add(vistaPartida_, BorderLayout.CENTER);
             mainPanel_.revalidate();
             mainPanel_.repaint();
-        } catch (ExcepcioPartidaTancada | ExcepcioValorInvalid | ExcepcioPartidaAcabada | ExcepcioPosicioIncorrecta e) {
+        } catch (ExcepcioPartidaTancada  | ExcepcioPartidaAcabada | ExcepcioPosicioIncorrecta e) {
             JOptionPane.showMessageDialog(mainPanel_, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ExcepcioDoUndo ignored) {
+        } catch (ExcepcioDoUndo|ExcepcioValorInvalid ignored) {
         }
     }
 
@@ -134,14 +143,19 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
     public void notificarRedo() {
         try {
             String valors = controladorPresentacio_.referMoviment();
-            vistaPartida_.actualitzaValors(valorsStringToInt(valors));
+            int[][] valorsInt = valorsStringToInt(valors);
+            for (int i = 0; i < valorsInt.length; i++) {
+                for (int j = 0; j < valorsInt[0].length; j++) {
+                    vistaPartida_.actualitzaValor(Integer.toString(valorsInt[i][j]), i, j);
+                }
+            }
             mainPanel_.removeAll();
             mainPanel_.add(vistaPartida_, BorderLayout.CENTER);
             mainPanel_.revalidate();
             mainPanel_.repaint();
-        } catch (ExcepcioPartidaTancada | ExcepcioValorInvalid | ExcepcioPartidaAcabada | ExcepcioPosicioIncorrecta e) {
+        } catch (ExcepcioPartidaTancada | ExcepcioPartidaAcabada | ExcepcioPosicioIncorrecta e) {
             JOptionPane.showMessageDialog(mainPanel_, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ExcepcioDoUndo ignored) {
+        } catch (ExcepcioDoUndo|ExcepcioValorInvalid ignored) {
         }
     }
 
@@ -155,7 +169,14 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
         try {
             ArrayList<int[]> posicionsIncorrectes  = controladorPresentacio_.donaPista();
             if (!posicionsIncorrectes.isEmpty()) vistaPartida_.actualitzaPosicionsIncorrectes(posicionsIncorrectes);
-            else vistaPartida_.actualitzaValors(controladorPresentacio_.getValorsPartida());
+            else{
+                int[][] valorsInt = controladorPresentacio_.getValorsPartida();
+                for (int i = 0; i < valorsInt.length; i++) {
+                    for (int j = 0; j < valorsInt[0].length; j++) {
+                        vistaPartida_.actualitzaValor(Integer.toString(valorsInt[i][j]), i, j);
+                    }
+                }
+            }
             mainPanel_.removeAll();
             mainPanel_.add(vistaPartida_, BorderLayout.CENTER);
             mainPanel_.revalidate();
@@ -248,6 +269,7 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
      */
     @Override
     public void notificarSortir() {
+        controladorPresentacio_.tancaPartida();
         CtrlPresentacio.getInstance().showMenuPrincipal();
     }
 
@@ -358,11 +380,7 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
      */
     private void inicialitzaVistaPartida() {
         vistaPartida_ = new VistaPartida(controladorPresentacio_.getMidaPartida(),controladorPresentacio_.getAdjacentsPartida(),controladorPresentacio_.getOperacionsPartida() ,vistaMenuJugarPartida_.getUsuari(), controladorPresentacio_.getValorsPartida());
-        for (int i = 0; i < controladorPresentacio_.getMidaPartida(); i++) {
-            for (int j = 0; j < controladorPresentacio_.getMidaPartida(); j++) {
-                vistaPartida_.addObserverCasella(this, i, j);
-            }
-        }
+        vistaPartida_.addObserverCasella(this);
         vistaPartida_.addObserverMenuPartida(this);
         mainPanel_.removeAll();
         mainPanel_.add(vistaPartida_);
@@ -394,5 +412,4 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
     public JPanel getDefaultPanel() {
         return mainPanel_;
     }
-
 }

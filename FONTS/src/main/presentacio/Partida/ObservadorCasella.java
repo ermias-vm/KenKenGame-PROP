@@ -11,4 +11,6 @@ public interface ObservadorCasella {
      * @param columna Columna de la casella.
      */
     void notificarCanviValor(String valor, int fila, int columna);
+
+    void notificarRequestFocus(int fila, int columna);
 }

@@ -266,7 +266,7 @@ public class ControladorPartida {
         int[] moviment = referMoviments_.pop();
         desferMoviments_.push(new int[]{moviment[0], moviment[1], partida_.getValorPartida(moviment[0], moviment[1])});
         partida_.setValorPartida(moviment[0], moviment[1], moviment[2]);
-        return  partida_.generaPartidaText();
+        return partida_.generaPartidaText();
     }
     /** Funció que canvia l'estat de la partida afegint un valor que portaria a una solució,
      * o indica si el que hi ha fins ara no pot portar a una solució.

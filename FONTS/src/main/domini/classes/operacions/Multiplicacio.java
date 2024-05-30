@@ -113,7 +113,7 @@ public class Multiplicacio implements Operacio {
 
     @Override
     public String getOperacioText() {
-        return "*";
+        return "x";
     }
 
     /**

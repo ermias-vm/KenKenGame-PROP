@@ -2,10 +2,7 @@ package main.presentacio.Partida;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -16,7 +13,8 @@ import static main.presentacio.Partida.ControladorPresentacioPartida.COLOR_ERROR
  * ComponentCasella és la classe que representa una casella del taulell del kenken en la interfície gràfica.
  * Conté un valor, una operació i un botó per a poder introduir un valor a la casella, així com les seves coordenades.
  */
-public class ComponentCasella extends JPanel implements ActionListener, KeyListener{
+public class ComponentCasella extends JPanel implements  KeyListener{
+
     /**
      * {@code valor_} és el JLabel que conté el valor de la casella en text.
      */
@@ -25,10 +23,6 @@ public class ComponentCasella extends JPanel implements ActionListener, KeyListe
      * {@code operacio_} és el JLabel que conté l'operació de la casella en text.
      */
     private JLabel operacio_;
-    /**
-     * {@code boto_} és el JButton que permet introduir un valor a la casella.
-     */
-    private JButton boto_;
     /**
      * {@code botoPremut_} és un booleà que indica si s'ha premut el botó de la casella.
      */
@@ -53,6 +47,7 @@ public class ComponentCasella extends JPanel implements ActionListener, KeyListe
      * {@code observers_} és la llista d'observadors de la casella.
      */
     private List<ObservadorCasella> observers_;
+    private Color backgroundColor_;
 
     /**
      * Creadora de la classe ComponentCasella.
@@ -61,26 +56,65 @@ public class ComponentCasella extends JPanel implements ActionListener, KeyListe
      * @param fila Fila de la casella
      * @param columna Columna de la casella
      */
-    public ComponentCasella(int mida, int fila, int columna, int valor) {
-       this.setLayout(null);
+    public ComponentCasella(int mida, int fila, int columna, int valorCasella) {
+        this.setLayout(new BorderLayout());
         mida_ = mida;
         fila_ = fila;
         columna_ = columna;
-        valor_ = new JLabel();
-        operacio_ = new JLabel();
-        boto_ = new JButton();
         observers_ = new ArrayList<>();
-        valor_.setBounds(25, 25, 50, 50);
-        operacio_.setBounds(0, 0, 25, 25);
-        boto_.setBounds(0, 0, 100, 100);
-        pintaBoto();
-        setValor(String.valueOf(valor));
-        boto_.addActionListener(this);
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("Casella clicada: " + fila_ + " " + columna_);
+                botoPremut_ = true;
+                for (ObservadorCasella observer : observers_){
+                    observer.notificarRequestFocus(fila_, columna_);
+                }
+            }
+        });
+        GridBagConstraints gbc = new GridBagConstraints();
+        JPanel casella = new JPanel();
+        casella.setLayout(new GridBagLayout());
+        JPanel operacio = new JPanel();
+        operacio.setLayout(new GridBagLayout());
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 0.3;
+        gbc.weighty = 0;
+        gbc.fill = GridBagConstraints.NONE;
+        JLabel operacioText = new JLabel();
+        operacio_ = operacioText;
+        operacio.add(operacioText, gbc);
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.weightx = 0.7;
+        gbc.weighty = 0;
+        gbc.fill = GridBagConstraints.BOTH;
+        JPanel panellBuit = new JPanel();
+        operacio.add(panellBuit, gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridheight = 2;
+        gbc.weightx = 1;
+        gbc.weighty = 0.25;
+        gbc.fill = GridBagConstraints.BOTH;
+        casella.add(operacio, gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridheight = 3;
+        gbc.weightx = 1;
+        gbc.weighty = 0.75;
+        gbc.fill = GridBagConstraints.BOTH;
+        JLabel valor = new JLabel();
+        valor.setHorizontalAlignment(JLabel.CENTER);
+        valor.setFont(new Font("Arial", Font.PLAIN, 20));
+        backgroundColor_ = casella.getBackground();
+        valor.setForeground(backgroundColor_);
+        valor_ = valor;
+        casella.add(valor_, gbc);
+        this.add(casella, BorderLayout.CENTER);
+        setValor(String.valueOf(valorCasella));
         this.addKeyListener(this);
-        this.setFocusable(true);
-        this.add(boto_);
-        this.add(valor_);
-        this.add(operacio_);
     }
 
     /**
@@ -97,14 +131,14 @@ public class ComponentCasella extends JPanel implements ActionListener, KeyListe
      * Pinta el botó de la casella en funció de si és incorrecte o no.
      */
     private void pintaBoto() {
-        if (!incorrecte_){
-            boto_.setOpaque(false);
-            boto_.setContentAreaFilled(false);
-            boto_.setBorderPainted(false);
-        } else {
-            boto_.setOpaque(true);
-            boto_.setBackground(Color.decode(COLOR_ERROR + "175"));
+        if (!incorrecte_) {
+            this.setBackground(backgroundColor_);
+        } else{
+            String colorError = COLOR_ERROR;
+            String[] parts = colorError.split(",");
+            this.setBackground(new Color(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2]), 175));
         }
+        this.repaint();
     }
 
     /**
@@ -125,11 +159,14 @@ public class ComponentCasella extends JPanel implements ActionListener, KeyListe
             int value = Integer.parseInt(valor);
             if (value >= 1 && value <= mida_) {
                 valor_.setText(valor);
+                valor_.setForeground(Color.BLACK);
             } else {
-                valor_.setText("");
+                valor_.setText("0");
+                valor_.setForeground(backgroundColor_);
             }
         } catch (NumberFormatException e) {
-            valor_.setText("");
+            valor_.setText("0");
+            valor_.setForeground(backgroundColor_);
         }
     }
 
@@ -160,10 +197,11 @@ public class ComponentCasella extends JPanel implements ActionListener, KeyListe
     public void keyTyped(KeyEvent e) {
         if (botoPremut_){
             String c = String.valueOf(e.getKeyChar());
+            System.out.println("Tecla premuda: " + c);
             if (permesa(c)){
                 setValor(c);
-                for (ObservadorCasella observer : observers_){
-                    observer.notificarCanviValor(c , fila_, columna_);
+                for (ObservadorCasella observer : observers_) {
+                    observer.notificarCanviValor(c, fila_, columna_);
                 }
             }
             botoPremut_ = false;
@@ -190,13 +228,5 @@ public class ComponentCasella extends JPanel implements ActionListener, KeyListe
     @Override
     public void keyReleased(KeyEvent e) {
 
-    }
-
-    /**
-     * Quan es prem el boto, es posa el botoPremut_ a true.
-     */
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        botoPremut_= true;
     }
 }

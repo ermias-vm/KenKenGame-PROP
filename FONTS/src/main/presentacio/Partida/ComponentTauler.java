@@ -6,6 +6,7 @@ import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * {@code ComponentTauler} és un JPanel que conté un tauler de caselles {@link ComponentCasella}.
@@ -24,9 +25,7 @@ public class ComponentTauler extends JPanel {
      * @param operacionsPartida
      */
     public ComponentTauler(int mida, ArrayList<Boolean>[][] mapaAdjacents, int[][] valorsTauler, ArrayList<String> operacionsPartida) {
-        super(new GridLayout(mida, mida));
-        Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
-        this.setBorder(border);
+        this.setLayout( new GridLayout(mida, mida));
         tauler = new ComponentCasella[mida][mida];
         for (int i = 0; i < mida; i++) {
             for (int j = 0; j < mida; j++) {
@@ -38,7 +37,9 @@ public class ComponentTauler extends JPanel {
             String[] parts = operacio.split(" ");
             int i = Integer.parseInt(parts[0]);
             int j = Integer.parseInt(parts[1]);
-            String operacioString = parts[2]+parts[3];
+            String operacioString;
+            if (Objects.equals(parts[2], "null")) operacioString = parts[3];
+            else operacioString = parts[3]  + parts[2];
             tauler[i][j].setOperacio(operacioString);
         }
         creaBordersRegions(mapaAdjacents);
@@ -51,11 +52,31 @@ public class ComponentTauler extends JPanel {
     private void creaBordersRegions(ArrayList<Boolean>[][] mapaAdjacents) {
         for (int i = 0; i < mapaAdjacents.length; i++) {
             for (int j = 0; j < mapaAdjacents[0].length; j++) {
-                Boolean top = mapaAdjacents[i][j].get(0);
-                Boolean left = mapaAdjacents[i][j].get(1);
-                Boolean bottom = mapaAdjacents[i][j].get(2);
-                Boolean right = mapaAdjacents[i][j].get(3);
-                Border border = new MatteBorder(top ? 0 : 5, left ? 0 : 5, bottom ? 0 : 5, right ? 0 : 5, Color.BLACK);
+                Boolean topRegio = mapaAdjacents[i][j].get(0);
+                Boolean leftRegio = mapaAdjacents[i][j].get(1);
+                Boolean bottomRegio = mapaAdjacents[i][j].get(2);
+                Boolean rightRegio = mapaAdjacents[i][j].get(3);
+                Boolean borderTop = i == 0;
+                Boolean borderLeft = j == 0;
+                Boolean borderBottom = i == mapaAdjacents.length - 1;
+                Boolean borderRight = j == mapaAdjacents[0].length - 1;
+                int top = 0;
+                if (!topRegio) top = 3;
+                if (borderTop) top = 6;
+                int left = 0;
+                if (!leftRegio) left = 3;
+                if (borderLeft) left = 6;
+                int bottom = 0;
+                if (!bottomRegio) bottom = 3;
+                if (borderBottom) bottom = 6;
+                int right = 0;
+                if (!rightRegio) right = 3;
+                if (borderRight) right = 6;
+                Color colorRegio = new Color(96, 96, 96, 255);
+                Border regions = new MatteBorder(top, left, bottom, right, colorRegio);
+                Color colorCasella = new Color(177, 177, 177, 189);
+                Border caselles = new MatteBorder(1, 1, 1, 1, colorCasella);
+                Border border = BorderFactory.createCompoundBorder(regions,caselles);
                 tauler[i][j].setBorder(border);
             }
         }
@@ -64,23 +85,23 @@ public class ComponentTauler extends JPanel {
     /**
      * Afegeix un observador a una casella del tauler.
      * @param observer Observador de la casella
-     * @param i Fila de la casella
-     * @param j Columna de la casella
      */
-    public void addObserver(ObservadorCasella observer , int i, int j) {
-        tauler[i][j].addObserver(observer);
+    public void addObserver(ObservadorCasella observer) {
+        for (int i = 0; i < tauler.length; i++) {
+            for (int j = 0; j < tauler[0].length; j++) {
+                tauler[i][j].addObserver(observer);
+            }
+        }
     }
 
     /**
      * Actualitza els valors de les caselles del tauler.
      * @param tauler Matriu de valors del tauler
      */
-    public void actualitzaValors(int[][] tauler) {
-        for (int i = 0; i < tauler.length; i++) {
-            for (int j = 0; j < tauler[0].length; j++) {
-                this.tauler[i][j].setValor(String.valueOf(tauler[i][j]));
-            }
-        }
+    public void actualitzaValor(String valor, int fila, int columna) {
+        this.tauler[fila][columna].setValor(valor);
+        this.revalidate();
+        this.repaint();
     }
 
     /**
@@ -92,5 +113,9 @@ public class ComponentTauler extends JPanel {
         for (int[] pos : posicionsIncorrectes) {
             tauler[pos[0]][pos[1]].setIncorrecte(true);
         }
+    }
+
+    public void setFocus(int fila, int columna) {
+        tauler[fila][columna].requestFocus();
     }
 }

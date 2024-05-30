@@ -56,19 +56,18 @@ public class VistaPartida extends JPanel{
     /**
      * Afegeix un observador a una casella del tauler.
      * @param observadorCasella Observador a afegir.
-     * @param i Fila de la casella.
-     * @param j Columna de la casella.
+
      */
-    public void addObserverCasella(ObservadorCasella observadorCasella, int i, int j){
-        componentTauler_.addObserver(observadorCasella, i, j);
+    public void addObserverCasella(ObservadorCasella observadorCasella){
+        componentTauler_.addObserver(observadorCasella);
     }
 
     /**
      * Actualitza els valors del tauler.
      * @param tauler Tauler amb els valors a actualitzar.
      */
-    public void actualitzaValors(int[][] tauler){
-        componentTauler_.actualitzaValors(tauler);
+    public void actualitzaValor(String valor, int fila, int columna){
+        componentTauler_.actualitzaValor(valor, fila, columna);
     }
 
     /**
@@ -85,5 +84,9 @@ public class VistaPartida extends JPanel{
      */
     public String getIdentificadorUsuari() {
         return identificadorUsuari_;
+    }
+
+    public void setFocus(int fila, int columna) {
+        componentTauler_.setFocus(fila, columna);
     }
 }
