@@ -180,7 +180,8 @@ public class CtrlKenkens {
                 int x = i + 1;
                 int y = j + 1;
                 int valor = valorsPartida[i][j];
-                T.setValor(x, y, valor);
+                T.setValorIbloquejar(x, y, valor);
+                //T.setValor(x, y, valor);
             }
         }
 

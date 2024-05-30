@@ -182,6 +182,12 @@ public class Tauler {
         getCasella(x, y).setValor(num);
     }
 
+    public void setValorIbloquejar(int x, int y, int num) throws ExcepcioCasellaNoExisteix, ExcepcioCasellaNoModificable {
+        getCasella(x, y).setValor(num);
+        getCasella(x, y).setImmodificable();
+    }
+
+
     /**
      * Borra el valor de la casella a la posició (x, y) del tauler.
      *
