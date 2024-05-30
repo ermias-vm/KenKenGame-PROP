@@ -113,7 +113,7 @@ public class CtrlKenkens {
                     if (j < regioInfo.length && regioInfo[j].startsWith("[")) {
                         String valorString = regioInfo[j].replaceAll("[\\[\\]]", "");
                         casella.setValor(Integer.parseInt(valorString));
-                        if (elements > 1) casella.setInmodificable();
+                        if (elements > 1) casella.setImmodificable();
                         ++j;
                     }
                     caselles.add(casella);

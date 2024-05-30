@@ -417,4 +417,11 @@ public class Tauler {
         }
         return operacions;
     }
+
+    public void restaurarModificabilitat() throws ExcepcioCasellaNoExisteix {
+        for (int i = 1; i <= grau; ++i) {
+            for (int j = 1; j <= grau; ++j)  getCasella(i, j).setModificable();
+        }
+    }
+
 }

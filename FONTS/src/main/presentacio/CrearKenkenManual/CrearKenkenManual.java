@@ -5,6 +5,7 @@ import main.presentacio.CtrlPresentacio;
 import main.presentacio.Utils;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
@@ -12,6 +13,8 @@ import javax.swing.text.DocumentFilter;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Objects;
 
 /**
@@ -41,6 +44,7 @@ public class CrearKenkenManual {
     private JLabel labelSeparador;
     private JButton importarTaulerButton;
     private JPanel panelSortir;
+    private JTextArea areaTextIntroduccioTauler;
 
     private TaulerConstrutor TaulerKenken;
     private boolean enModeEditor;
@@ -81,68 +85,95 @@ public class CrearKenkenManual {
 
     private void setupImportarTaulerButtonListener() {
         importarTaulerButton.addActionListener(e -> {
-            // Create a JPanel to hold all components
-            JPanel panel = new JPanel();
-            panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+            JPanel panelImportarTaulers = crearPanelImportarTaulers();
+            JButton botoSeleccionaTauler = crearBotoSeleccionaTauler();
+            JLabel etiquetaIntroduccioTauler = crearEtiquetaIntroduccioTauler();
+            areaTextIntroduccioTauler = crearAreaTextIntroduccioTauler();
+            JPanel panelBotons = crearPanelBotons();
 
-            // Create a button to select a board from the device
-            JButton selecionaTaulerButton = new JButton("Selecciona tauler del dispositiu");
-            selecionaTaulerButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the button
-            selecionaTaulerButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    JFileChooser fileChooser = new JFileChooser(new File("data/taulers"));
-                    int returnValue = fileChooser.showOpenDialog(null);
-                    if (returnValue == JFileChooser.APPROVE_OPTION) {
-                        File selectedFile = fileChooser.getSelectedFile();
-                        // Handle the selected file
-                    }
-                }
-            });
-
-            // Create a label and a text area for manual board entry
-            JLabel manualmentLabel = new JLabel("Introduiex tauler manualment:");
-            manualmentLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the label
-            JTextArea manualEntryTextArea = new JTextArea(10, 10);
-
-            // Create Accept and Exit buttons
-            JButton aceptarButton = new JButton("Aceptar");
-            JButton salirButton = new JButton("Salir");
-            JPanel buttonPanel = new JPanel();
-            buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
-            buttonPanel.add(aceptarButton);
-            buttonPanel.add(Box.createRigidArea(new Dimension(10, 0))); // Add space between buttons
-            buttonPanel.add(salirButton);
-            buttonPanel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the button panel
-
-            // Add components to the panel
-            panel.add(selecionaTaulerButton);
-            panel.add(Box.createRigidArea(new Dimension(0, 20))); // Add space between button and label
-            panel.add(manualmentLabel);
-            panel.add(Box.createRigidArea(new Dimension(0, 10))); // Add space between label and text area
-            panel.add(new JScrollPane(manualEntryTextArea));
-            panel.add(Box.createRigidArea(new Dimension(0, 20))); // Add space between text area and buttons
-            panel.add(buttonPanel);
-
-            // Create the JOptionPane
-            JOptionPane optionPane = new JOptionPane(panel, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, new Object[]{}, null);
-
-            // Create the JDialog and set its location and size to match the main panel
-            JDialog dialog = optionPane.createDialog("Importar Tauler");
-            Dimension mainPanelSize = panelComplet.getSize();
-            dialog.setSize(mainPanelSize.width / 3, mainPanelSize.height); // Set the dialog width to 1/3 of the main panel width and height to match the main panel height
-            Point mainPanelLocation = panelComplet.getLocationOnScreen();
-            int x = mainPanelLocation.x + mainPanelSize.width - dialog.getSize().width; // Set the dialog location to match the right side of the main panel
-            dialog.setLocation(x, mainPanelLocation.y); // Set the dialog location to match the main panel
-
-            // Show the JDialog
-            dialog.setVisible(true);
+            afegirComponentsAPanel(panelImportarTaulers, botoSeleccionaTauler, etiquetaIntroduccioTauler, areaTextIntroduccioTauler, panelBotons);
+            mostrarDialog(panelImportarTaulers);
         });
+    }
+
+    //////
+
+    private JPanel crearPanelImportarTaulers() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        return panel;
+    }
+
+    private JButton crearBotoSeleccionaTauler() {
+        JButton botoSeleccionaTauler = new JButton("Selecciona tauler del dispositiu");
+        botoSeleccionaTauler.setAlignmentX(Component.CENTER_ALIGNMENT);
+        botoSeleccionaTauler.addActionListener(e -> seleccionarTauler());
+        return botoSeleccionaTauler;
+    }
+
+    private void seleccionarTauler() {
+        JFileChooser selectorArxius = new JFileChooser(new File("data/taulers"));
+        int valorRetornat = selectorArxius.showOpenDialog(null);
+        if (valorRetornat == JFileChooser.APPROVE_OPTION) {
+            File arxiuSeleccionat = selectorArxius.getSelectedFile();
+            try {
+                // Llegeix el contingut del fitxer
+                String contingut = new String(Files.readAllBytes(arxiuSeleccionat.toPath()));
+                // Mostra el contingut del fitxer en el JTextArea
+                areaTextIntroduccioTauler.setText(contingut);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 
 
+    private JLabel crearEtiquetaIntroduccioTauler() {
+        JLabel etiquetaIntroduccioTauler = new JLabel("Introdueix tauler manualment:");
+        etiquetaIntroduccioTauler.setAlignmentX(Component.CENTER_ALIGNMENT);
+        return etiquetaIntroduccioTauler;
+    }
 
+    private JTextArea crearAreaTextIntroduccioTauler() {
+        return new JTextArea(10, 10);
+    }
+
+    private JPanel crearPanelBotons() {
+        JButton botoAcceptar = new JButton("Acceptar");
+        JButton botoSortir = new JButton("Sortir");
+        JPanel panelBotons = new JPanel();
+        panelBotons.setLayout(new BoxLayout(panelBotons, BoxLayout.X_AXIS));
+        panelBotons.add(botoAcceptar);
+        panelBotons.add(Box.createRigidArea(new Dimension(10, 0)));
+        panelBotons.add(botoSortir);
+        panelBotons.setAlignmentX(Component.CENTER_ALIGNMENT);
+        return panelBotons;
+    }
+
+    private void afegirComponentsAPanel(JPanel panel, JButton botoSeleccionaTauler, JLabel etiquetaIntroduccioTauler, JTextArea areaTextIntroduccioTauler, JPanel panelBotons) {
+        panel.add(botoSeleccionaTauler);
+        panel.add(Box.createRigidArea(new Dimension(0, 20)));
+        panel.add(etiquetaIntroduccioTauler);
+        panel.add(Box.createRigidArea(new Dimension(0, 10)));
+        panel.add(new JScrollPane(areaTextIntroduccioTauler));
+        panel.add(Box.createRigidArea(new Dimension(0, 20)));
+        panel.add(panelBotons);
+    }
+
+    private void mostrarDialog(JPanel panel) {
+        JOptionPane optionPane = new JOptionPane(panel, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, new Object[]{}, null);
+        JDialog dialog = optionPane.createDialog("Importar Tauler");
+        Dimension midaPanelPrincipal = panelComplet.getSize();
+        dialog.setSize(midaPanelPrincipal.width / 3, midaPanelPrincipal.height);
+        Point ubicacioPanelPrincipal = panelComplet.getLocationOnScreen();
+        int x = ubicacioPanelPrincipal.x + midaPanelPrincipal.width - dialog.getSize().width;
+        dialog.setLocation(x, ubicacioPanelPrincipal.y);
+        dialog.setVisible(true);
+    }
+
+
+//////////////////
 
 
 

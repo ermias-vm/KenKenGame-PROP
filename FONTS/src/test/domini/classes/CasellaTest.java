@@ -75,7 +75,7 @@ public class CasellaTest {
      */
     @Test(expected = ExcepcioCasellaNoModificable.class)
     public void testSetValorCasellaInmodificable() throws ExcepcioCasellaNoModificable {
-        casella.setInmodificable();
+        casella.setImmodificable();
         casella.setValor(2);  // Això hauria de llançar una ExcepcioCasellaNoModificable
     }
 
@@ -154,7 +154,7 @@ public class CasellaTest {
      */
     @Test
     public void testSetInmodificable() {
-        casella.setInmodificable();
+        casella.setImmodificable();
         assertFalse(casella.esModificable());
     }
 
@@ -165,7 +165,7 @@ public class CasellaTest {
     @Test
     public void testEsModificable() {
         assertTrue(casella.esModificable());
-        casella.setInmodificable();
+        casella.setImmodificable();
         assertFalse(casella.esModificable());
     }
 

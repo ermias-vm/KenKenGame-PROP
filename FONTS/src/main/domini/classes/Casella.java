@@ -135,8 +135,15 @@ public class Casella {
     /**
      * Estableix la cel·la com a no modificable.
      */
-    public void  setInmodificable () {
+    public void  setImmodificable () {
         this.modificable = false;
+    }
+
+    /**
+     * Estableix la cel·la com a modificable.
+     */
+    public void setModificable() {
+        this.modificable = true;
     }
 
     /**

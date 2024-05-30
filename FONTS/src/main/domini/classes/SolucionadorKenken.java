@@ -86,7 +86,7 @@ public class SolucionadorKenken {
             if (r.getMida() == 1) {
                 Casella c = r.getCaselles().get(0);
                 c.setValor(r.getResultat());
-                c.setInmodificable();
+                c.setImmodificable();
             }
         }
     }
@@ -99,5 +99,6 @@ public class SolucionadorKenken {
     public void solucionarKenken(Tauler T) throws ExcepcioCasellaNoExisteix, ExcepcioNoDivisor, ExcepcioValorInvalid, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioCasellaNoModificable, ExcepcionPosicioIncorrecta {
         optimitzacioNoOperacio(T);
         backtracking(T, 1, 1);
+        T.restaurarModificabilitat();
     }
 }
