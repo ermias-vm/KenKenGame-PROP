@@ -184,7 +184,9 @@ public class Tauler {
 
     public void setValorIbloquejar(int x, int y, int num) throws ExcepcioCasellaNoExisteix, ExcepcioCasellaNoModificable {
         getCasella(x, y).setValor(num);
-        getCasella(x, y).setImmodificable();
+        if (num != 0){
+            getCasella(x, y).setImmodificable();
+        }
     }
 
 
@@ -299,17 +301,25 @@ public class Tauler {
      * Si un valor és 0, es considera que no té valor i per tant es considera vàlid.
      */
     public boolean corretgeix(int[][] valors) throws ExcepcioCasellaNoExisteix {
-        for (int i = 1; i <= getGrau(); ++i) {
-            for (int j = 1; j <= getGrau(); ++j) {
-                if (valors[i-1][j-1] != 0) {
-                    if (!esFilaValida(i, valors[i-1][j-1]) || !esColumValida(j, valors[i-1][j-1])) {
-                        return false;
+        int mida_ = valors.length;
+        boolean[][] valorsUtilitzatsFila = new boolean[mida_][mida_];
+        boolean[][] valorsUtilitzatsColumna = new boolean[mida_][mida_];
+        for (int i = 0; i < mida_; i++) {
+            for (int j = 0; j < mida_; j++) {
+                if (valors[i][j] != 0) {
+                    if (valorsUtilitzatsFila[i][valors[i][j] - 1]) {
+                    return false;
                     }
+                    valorsUtilitzatsFila[i][valors[i][j] - 1] = true;
+                    if (valorsUtilitzatsColumna[j][valors[i][j] - 1]) {
+                    return false;
+                    }
+                    valorsUtilitzatsColumna[j][valors[i][j] - 1] = true;
                 }
             }
-            ArrayList<Regio> regionsIncorrectes = getRegionsIncorrectes(valors);
-            if (!regionsIncorrectes.isEmpty()) return false;
         }
+        ArrayList<Regio> regionsIncorrectes = getRegionsIncorrectes(valors);
+        if (!regionsIncorrectes.isEmpty()) return false;
         return true;
     }
 
@@ -340,7 +350,7 @@ public class Tauler {
             int [][] posicionsRegio = r.getPosicionsCaselles();
             int [] valorsRegio  =  getValorsRegioMatriu(valorsTauler, posicionsRegio);
             try {
-                if (!r.esValida(valorsRegio)) {
+                if (!r.esValidaValors(valorsRegio)) {
                     regionsIncorrectes.add(r);
                 }
             } catch (ExcepcioNoDivisor | ExcepcioMoltsValors | ExcepcioDivisio_0 | ExcepcioValorInvalid e) {
@@ -431,7 +441,6 @@ public class Tauler {
      *
      */
     public void restaurarModificabilitat() throws ExcepcioCasellaNoExisteix {
-        this.trobat = false;
         for (int i = 1; i <= grau; ++i) {
             for (int j = 1; j <= grau; ++j)  getCasella(i, j).setModificable();
         }

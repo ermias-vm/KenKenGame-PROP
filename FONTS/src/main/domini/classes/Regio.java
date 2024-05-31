@@ -261,5 +261,36 @@ public class Regio {
 		}
 		return true;
 	}
+	/**
+	 * Comprova si la regió és vàlida segons els valors proporcionats.
+	 *
+	 * @param valors  Array d'enters que representen els valors de les caselles de la regió.
+	 * @return Retorna true si la regió és vàlida, false en cas contrari.
+	 * @throws ExcepcioNoDivisor  Si es produeix un error de divisió per zero.
+	 * @throws ExcepcioMoltsValors  Si es proporcionen més valors dels que pot contenir la regió.
+	 * @throws ExcepcioDivisio_0  Si es produeix una divisió per zero.
+	 * @throws ExcepcioValorInvalid  Si es proporciona un valor invàlid.
+	 *
+	 * Aquesta funció primer comprova si els valors proporcionats són nuls, en aquest cas, obté els valors de les caselles de la regió.
+	 * Després, comprova si la regió està completa, si no ho està, retorna false.
+	 * Si la mida de la regió és 1, comprova si el resultat és igual al valor de la casella.
+	 * Si l'operació és commutativa (suma o multiplicació), es realitza l'operació amb tots els valors i es compara amb el resultat esperat.
+	 * Si l'operació no és commutativa (resta, divisió, mòdul, exponenciació), es realitza l'operació amb els dos primers valors en ambdues direccions i es compara amb el resultat esperat.
+	 */
+	public boolean esValidaValors(int[] valors ) throws ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioValorInvalid {
+		if (!esCompletaValors(valors)) return false;
+		//no operacio
+		if (getMida() == 1) return this.resultat == valors[0];
+
+		//operacions on:  2 >= midaRegio <= N : suma , multiplicacio
+		if (operacio.esCommutativa()) {
+			int result = operacio.operaN(valors);
+			return result == this.resultat;
+		}
+		//operacions on: midaRegio = 2 : resta, divisió, mòdul, exponenciació
+		int result1 = this.operacio.opera2(valors[0], valors[1]);
+		int result2 = this.operacio.opera2(valors[1], valors[0]);
+		return resultat == result1 || resultat == result2;
+	}
 
 }

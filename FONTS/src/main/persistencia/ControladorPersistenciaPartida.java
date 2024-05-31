@@ -245,7 +245,7 @@ public class ControladorPersistenciaPartida {
      * Arxiva una partida acabada.
      * La partida arxivada es guarda al final del fitxer de partides acabades.
      * La informació de la partida es guarda al fitxer "data/partides/PartidesAcabadesGuardades.txt" si havia estat guardada.
-     * O al fitxer "data/partides/PartidesAcabadesMida%d.txt" on %d és la mida de la partida.
+     * O al fitxer "data/partides/PartidesAcabadesGrau%d.txt" on %d és la mida de la partida.
      * S'elimina la partida arxivada del fitxer de partides guardades.<br>
      * Utilitza el format descrit a {@link main.domini.classes.Partida#acabaPartida()} per a llegir la partida.
      * Però la guarda al fitxer com a (sense comptar les línies amb / ni |):<br>
@@ -277,7 +277,7 @@ public class ControladorPersistenciaPartida {
             if (guardada) {
                 fitxerDestinacio = "data/partides/PartidesAcabadesGuardades.txt";
             } else {
-                fitxerDestinacio = "data/partides/PartidesAcabadesMida" + mida + ".txt";
+                fitxerDestinacio = "data/partides/PartidesAcabadesGrau" + mida + ".txt";
             }
             BufferedWriter escriptor = new BufferedWriter(new FileWriter(fitxerDestinacio, true));
             escriptor.write(formatGuardar.toString());

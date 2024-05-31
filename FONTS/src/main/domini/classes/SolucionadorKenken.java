@@ -85,8 +85,10 @@ public class SolucionadorKenken {
         for (Regio r : T.getRegions()) {
             if (r.getMida() == 1) {
                 Casella c = r.getCaselles().get(0);
-                c.setValor(r.getResultat());
-                c.setImmodificable();
+                if (c.getValor() == 0){
+                    c.setValor(r.getResultat());
+                    c.setImmodificable();
+                }
             }
         }
     }

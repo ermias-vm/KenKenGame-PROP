@@ -139,7 +139,7 @@ public class ControladorPartida {
             identificadorsPartidesUsuari.add(clau);
         }
         if (partidesGuardadesUsuari_.isEmpty()) throw new ExcepcioCarregaPartida("No hi ha cap partida guardada per aquest usuari");
-        return identificadorsPartidesUsuari;
+        return partides;
     }
     /**
      * Carrega una partida guardada de l'usuari segons un identificador. Comença la partida amb les dades guardades.
@@ -313,6 +313,19 @@ public class ControladorPartida {
             return valorsIncorrectesRegio;
         }
         int[][] solucioTotal = controladorDomini_.resoldreKenken(partida_.getTaulerPartida(), partida_.getValorsPartida());
+        boolean acabada = true;
+        for (int i = 0; i < partida_.getTaulerPartida().getGrau(); ++i){
+            for (int j = 0; j < partida_.getTaulerPartida().getGrau(); ++j){
+                if (partida_.getValorsPartida()[i][j] != solucioTotal[i][j]){
+                    acabada = false;
+                    break;
+                }
+            }
+        }
+        if (acabada){
+            partida_.setGuardadaPartida();
+            return new ArrayList<>();
+        }
         if (solucioTotal == null) throw new ExcepcioPartidaAcabada("La partida no té solució");
         boolean posat = false;
         while (!posat){
@@ -373,10 +386,10 @@ public class ControladorPartida {
     public String[] acabarPartida(String nomUsuari) throws ExcepcioCarregaPartida, ExcepcioPartidaTancada, ExcepcioPartidaMalament, ExcepcioPartidaAcabada, ExcepcioCasellaNoExisteix, ExcepcioNoPermisUsuari {
         if (partida_ == null) throw new ExcepcioCarregaPartida("No hi ha cap partida carregada");
         if (!partida_.getUsuariPartida().equals(nomUsuari)) throw new ExcepcioNoPermisUsuari("El nom d'usuari no coincideix amb el de la partida");
+        String dataPartida = partida_.acabaPartida();
         boolean haviaEstatGuardada = partida_.getGuardadaPartida();
         referMoviments_.clear();
         desferMoviments_.clear();
-        String dataPartida = partida_.acabaPartida();
         String temps = dataPartida.split("\n")[3];
         boolean guardadaCorrectament = controladorDomini_.arxivarPartidaPersistencia(dataPartida);
         if (guardadaCorrectament){

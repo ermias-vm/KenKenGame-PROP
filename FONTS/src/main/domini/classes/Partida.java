@@ -248,14 +248,16 @@ public class Partida {
      * @throws ExcepcioPartidaTancada si la partida està tancada.
      * @throws ExcepcioPartidaMalament si la partida no està correctament resolta.
      */
-    public String acabaPartida() throws ExcepcioPartidaAcabada, ExcepcioPartidaTancada, ExcepcioCasellaNoExisteix {
+    public String acabaPartida() throws ExcepcioPartidaAcabada, ExcepcioPartidaTancada, ExcepcioCasellaNoExisteix, ExcepcioPartidaMalament {
         if (acabadaPartida_) {
             throw new ExcepcioPartidaAcabada();
         }
         if (tancadaPartida_) {
             throw new ExcepcioPartidaTancada();
         }
-        taulerPartida_.corretgeix(valorsPartida_);
+        if (!taulerPartida_.corretgeix(valorsPartida_)){
+            throw new ExcepcioPartidaMalament();
+        }
         this.acabadaPartida_ = true;
         String textPartidaAcabada = this.identificadorPartida_ + '\n' + this.identificadorUsuariPartida_ + '\n' + this.getIdentificadorTaulerPartida() + '\n' + this.calculaTemps() + '\n' + this.midaPartida_ + '\n' + this.guardadaPartida_;
         return textPartidaAcabada;
@@ -275,7 +277,6 @@ public class Partida {
         }
         this.tancadaPartida_ = true;
         this.guardadaPartida_ = true;
-        this.tempsPartida_ = this.calculaTemps();
         return generaPartidaGuardadaText();
     }
     /**
@@ -334,7 +335,7 @@ public class Partida {
         StringBuilder textPartidaGuardada = new StringBuilder();
         textPartidaGuardada.append(this.identificadorPartida_).append('\n')
                 .append(this.getIdentificadorTaulerPartida()).append('\n')
-                .append(tempsPartida_).append('\n')
+                .append(calculaTemps()).append('\n')
                 .append(this.midaPartida_).append('\n');
         for (int i = 0; i < this.midaPartida_; i++) {
             for (int j = 0; j < this.midaPartida_; j++) {

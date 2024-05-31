@@ -114,8 +114,8 @@ public class CtrlPresentacio {
         mainFrame.setResizable(false);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
-        //showIniciarSessio();
-        showCrearKenKen();
+        showIniciarSessio();
+        //showCrearKenKen();
     }
 
     public void showIniciarSessio() {
@@ -180,6 +180,7 @@ public class CtrlPresentacio {
 
     public void showRanking() {
         mainFrame.setTitle("Ranking");
+        controladorPresentacioRanking_.actualitzaRanking();
         mainFrame.setContentPane(controladorPresentacioRanking_.getDefaultPanel());
         mainFrame.setVisible(true);
     }

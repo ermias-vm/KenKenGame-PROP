@@ -118,4 +118,12 @@ public class ComponentTauler extends JPanel {
     public void setFocus(int fila, int columna) {
         tauler[fila][columna].requestFocus();
     }
+
+    public void setAllCorrectes() {
+        for (int i = 0; i < tauler.length; i++) {
+            for (int j = 0; j < tauler[0].length; j++) {
+                tauler[i][j].setIncorrecte(false);
+            }
+        }
+    }
 }

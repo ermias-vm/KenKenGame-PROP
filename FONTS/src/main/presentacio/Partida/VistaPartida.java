@@ -89,4 +89,8 @@ public class VistaPartida extends JPanel{
     public void setFocus(int fila, int columna) {
         componentTauler_.setFocus(fila, columna);
     }
+
+    public void setAllCorrectes() {
+        componentTauler_.setAllCorrectes();
+    }
 }

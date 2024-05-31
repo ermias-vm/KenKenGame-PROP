@@ -184,7 +184,7 @@ public class CtrlKenkens {
                 //T.setValor(x, y, valor);
             }
         }
-
+        T.setTrobat(false);
         Solucionador.solucionarKenken(T);
         if (T.teSolucio()) {
             int[][] valorsSolucio = new int[valorsPartida.length][valorsPartida[0].length];

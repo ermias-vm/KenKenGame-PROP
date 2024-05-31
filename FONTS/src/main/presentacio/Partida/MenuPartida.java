@@ -185,9 +185,13 @@ public class MenuPartida extends JPanel {
      */
     public void mostrarMissatge(String missatge, boolean bo) {
         if (bo) {
-            missatge_.setForeground(Color.decode(COLOR_BE));
+            String color = COLOR_BE;
+            String[] parts = color.split(",");
+            missatge_.setForeground(new Color(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2])));
         } else {
-            missatge_.setForeground(Color.decode(COLOR_ERROR));
+            String color = COLOR_ERROR;
+            String[] parts = color.split(",");
+            missatge_.setForeground(new Color(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2])));
         }
         missatge_.setText(missatge);
         int delay = 1500;
@@ -196,6 +200,8 @@ public class MenuPartida extends JPanel {
                 missatge_.setText("");
             }
         };
-        new Timer(delay, taskPerformer).start();
+        Timer timer = new Timer(delay, taskPerformer);
+        timer.setRepeats(false);
+        timer.start();
     }
 };
