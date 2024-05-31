@@ -3,8 +3,6 @@ package main.presentacio.CrearKenkenManual;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
-
 
 /**
  * Classe TaulerConstrutor que estén JPanel.
@@ -27,6 +25,7 @@ public class TaulerConstrutor extends JPanel {
     private static final int MULT = 1;
     private static final int CREIXENTMENT = 0;
     private static final int DECREIXENTMENT = 1;
+    private static final int AMPLADA_TAULER = 700;
 
     /**
      * Instància única de TaulerConstrutor (Singleton).
@@ -242,12 +241,7 @@ public class TaulerConstrutor extends JPanel {
         }
 
         int[] primeraPos = posCasellesSeleccionades.get(0);
-        CasellaConstructora casella = caselles[primeraPos[0]][primeraPos[1]];
-        casella.revalidate();
-        casella.repaint();
-        casella.addInfoRegio(resultat ,traduirOperacioAsimbol(operacio), mida);
-        casella.revalidate();
-        casella.repaint();
+        caselles[primeraPos[0]][primeraPos[1]].addInfoRegio(resultat ,traduirOperacioAsimbol(operacio), mida, AMPLADA_TAULER);
         marcarBordesRegio();
         dadesRegions.add(infoRegio.toString().trim());
         numCasellesAssignades += posCasellesSeleccionades.size();
@@ -351,15 +345,6 @@ public class TaulerConstrutor extends JPanel {
         }
     }
 
-    private String[] eliminarValorsFixes(String [] contingutTauler) {
-        //System.out.println(Arrays.toString(contingutTauler));
-        for (int i = 1; i < contingutTauler.length; i++) {
-            contingutTauler[i] = contingutTauler[i].replaceAll(" \\[\\d+\\]", "").trim();
-        }
-        //System.out.println(Arrays.toString(contingutTauler));
-        return contingutTauler;
-    }
-
     
     /**
      * Retorna el contingut del tauler com a cadena String.
@@ -378,7 +363,6 @@ public class TaulerConstrutor extends JPanel {
     }
 
     private void carregarTaulerImportat(String[] contingutTauler) {
-        contingutTauler = eliminarValorsFixes(contingutTauler);
 
         // S'itera els strings de contingutTauler començant desdel segon , es a dir cada iteració es una regió.
         for (int i = 1; i < contingutTauler.length; i++) {
@@ -470,10 +454,10 @@ public class TaulerConstrutor extends JPanel {
                 return validarMultiplicacio(resultat);
             case "DIV":
                 return validarDivisio(resultat);
+             case "MOD":
+                 return validarModul(resultat);
             case "EXP":
                 return validarExponenciacio(resultat);
-            case "MOD":
-                return validarModul(resultat);
         }
         return null;
     }
@@ -767,9 +751,9 @@ public class TaulerConstrutor extends JPanel {
                 return "3";
             case "DIV":
                 return "4";
-            case "EXP":
-                return "5";
             case "MOD":
+                return "5";
+            case "EXP":
                 return "6";
             default:
                 return null;
@@ -794,10 +778,10 @@ public class TaulerConstrutor extends JPanel {
             return "x";
         } else if (operacio.equals("DIV") || operacio.equals("4")) {
             return "÷";
-        } else if (operacio.equals("EXP") || operacio.equals("5")) {
-            return "^";
-        } else if (operacio.equals("MOD") || operacio.equals("6")) {
+        } else if (operacio.equals("MOD") || operacio.equals("5")) {
             return "%";
+        } else if (operacio.equals("EXP") || operacio.equals("6")) {
+            return "^";
         } else {
             return null;
         }

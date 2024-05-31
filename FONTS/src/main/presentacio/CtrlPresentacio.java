@@ -15,6 +15,8 @@ import main.presentacio.Partida.ControladorPresentacioPartida;
 import main.presentacio.Ranking.ControladorPresentacioRanking;
 
 import javax.swing.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.io.IOException;
 
@@ -109,13 +111,30 @@ public class CtrlPresentacio {
             /// FUNCIONS DE LA INTERFICIE GRAFICA ///
 
     public void run() {
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         mainFrame.setSize(1200, 800);
         mainFrame.setResizable(false);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
-        showIniciarSessio();
-        //showCrearKenKen();
+
+        mainFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int confirm = JOptionPane.showOptionDialog(
+                        mainFrame,
+                        "Segur que vols sortir del joc KenKen?",
+                        "Confirmació",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null, null, null);
+                if (confirm == 0) {
+                    System.exit(0);
+                }
+            }
+        });
+
+        //showIniciarSessio();
+        showCrearKenKen();
     }
 
     public void showIniciarSessio() {
@@ -180,7 +199,6 @@ public class CtrlPresentacio {
 
     public void showRanking() {
         mainFrame.setTitle("Ranking");
-        controladorPresentacioRanking_.actualitzaRanking();
         mainFrame.setContentPane(controladorPresentacioRanking_.getDefaultPanel());
         mainFrame.setVisible(true);
     }

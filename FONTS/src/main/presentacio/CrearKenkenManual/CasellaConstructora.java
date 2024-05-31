@@ -27,6 +27,7 @@ public class CasellaConstructora extends JPanel {
      *
      * GRUIX_VORA_REGIO: Gruix de la vora de la casella quan pertany a una regió.
      * GRUIX_VORA_DEFAULT: Gruix per defecte de la vora de la casella.
+     * DEFAULT_FONT_SIZE: Mida de la font per defecte de la informació de la regió.
      */
     private static final Color COLOR_SELECCIONADA = new Color(150, 255, 238, 255);
     private static final Color COLOR_REGIO = new Color(255, 255, 255,255);
@@ -36,6 +37,7 @@ public class CasellaConstructora extends JPanel {
 
     private static final int GRUIX_VORA_REGIO = 3;
     private static final int GRUIX_VORA_DEFAULT = 1;
+    private static final int DEFAULT_FONT_SIZE = 75;
 
     /**
      * Etiqueta que mostra informació sobre la regió a la qual pertany la casella.
@@ -212,25 +214,23 @@ public class CasellaConstructora extends JPanel {
      * @param resultat el resultat de la regió
      * @param midaTauler la mida del tauler
      */
-    public void addInfoRegio(String operacio, String resultat, int midaTauler) {
-        System.out.println("Desde casella: (" + this.posX +" "+ this.posY + ") op,resul: " + operacio + " " + resultat);
+    public void addInfoRegio(String operacio, String resultat, int midaTauler,int AMPLADA_TAULER) {
         infoRegioLabel = new JLabel();
-        int posIniX = 0;
-        int posIniY = this.getWidth()/10;
-        int ampladaLabel = (int)(this.getWidth());
-        int alturaLabel = (int)(this.getHeight() * 0.3);
-        infoRegioLabel.setBounds(posIniX, posIniY, ampladaLabel, alturaLabel);
+
+        int ampladaCasella = AMPLADA_TAULER/midaTauler;
+        int ampladaLabel = ampladaCasella;
+        int alturaLabel = (int)(ampladaCasella * 0.3);
+
+        infoRegioLabel.setBounds(0, ampladaCasella/8, ampladaLabel, alturaLabel);
         infoRegioLabel.setHorizontalAlignment(SwingConstants.CENTER);
         infoRegioLabel.setVerticalAlignment(SwingConstants.CENTER);
         // Ajusta la mida de la font en funció de la mida del tauler
-        int fontSizeResultat = (int) (75 / midaTauler);
+        int fontSizeResultat = DEFAULT_FONT_SIZE / midaTauler;
         int fontSizeOperacio = (int)(fontSizeResultat * 1.5);
+        // Assigna el text de l'etiqueta amb l'operació i el resultat de la regió amb la mida de la font ajustada
         String textInfoRegio = "<html><span style='font-size:" + fontSizeResultat + "px'>" + operacio +
                 "</span><span style='font-size:" + fontSizeOperacio+ "px'>" + resultat + "</span></html>";
-
-        System.out.println("TextInfoRegio: " + textInfoRegio);
         infoRegioLabel.setText(textInfoRegio);
-        System.out.println("TextInfoRegio(getText()): " + infoRegioLabel.getText());
         this.add(infoRegioLabel);
         this.revalidate();
         this.repaint();
