@@ -3,6 +3,7 @@ package main.presentacio.CrearKenkenManual;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 /**
@@ -83,6 +84,14 @@ public class TaulerConstrutor extends JPanel {
 
     }
 
+    private TaulerConstrutor(int mida, String[] contingutTauler) {
+        super(new GridLayout(mida,mida));
+        this.mida = mida;
+        this.numCasellesAssignades = 0;
+        inicialitzarCaselles(mida);
+        carregarTaulerImportat(contingutTauler);
+    }
+
     /**
      * Retorna la instància única de TaulerConstrutor.
      *
@@ -99,6 +108,17 @@ public class TaulerConstrutor extends JPanel {
      */
     public static void newInstance(int mida) {
             taulerConstrutor = new TaulerConstrutor(mida);
+    }
+
+    /**
+     * Crea una nova instància de TaulerConstrutor amb un contingut específic.
+     *
+     * @param contingutTauler El contingut del nou tauler.
+     */
+    public static void newInstance(String contingutTauler) {
+        String[] infoTauler = contingutTauler.split("\n");
+        int mida = Integer.parseInt(infoTauler[0].split(" ")[0]);
+        taulerConstrutor = new TaulerConstrutor(mida, infoTauler);
     }
 
     /**
@@ -216,17 +236,18 @@ public class TaulerConstrutor extends JPanel {
         infoRegio.append(posCasellesSeleccionades.size());
 
         ordenarPosicionsCaselles();
-
-        int[] primeraPos = posCasellesSeleccionades.get(0);
-
         for (int[] pos : posCasellesSeleccionades) {
-            CasellaConstructora casella = caselles[pos[0]][pos[1]];
-            casella.marcaComRegio(dadesRegions.size());
+            caselles[pos[0]][pos[1]].marcaComRegio(dadesRegions.size());
             infoRegio.append(" ").append(pos[0]+1).append(" ").append(pos[1]+1);
         }
 
-        CasellaConstructora primeraCasella = caselles[primeraPos[0]][primeraPos[1]];
-        primeraCasella.addInfoRegio(resultat ,traduirOperacioAsimbol(operacio), mida);
+        int[] primeraPos = posCasellesSeleccionades.get(0);
+        CasellaConstructora casella = caselles[primeraPos[0]][primeraPos[1]];
+        casella.revalidate();
+        casella.repaint();
+        casella.addInfoRegio(resultat ,traduirOperacioAsimbol(operacio), mida);
+        casella.revalidate();
+        casella.repaint();
         marcarBordesRegio();
         dadesRegions.add(infoRegio.toString().trim());
         numCasellesAssignades += posCasellesSeleccionades.size();
@@ -329,6 +350,16 @@ public class TaulerConstrutor extends JPanel {
             casella.pintarVores(voresRegio);
         }
     }
+
+    private String[] eliminarValorsFixes(String [] contingutTauler) {
+        //System.out.println(Arrays.toString(contingutTauler));
+        for (int i = 1; i < contingutTauler.length; i++) {
+            contingutTauler[i] = contingutTauler[i].replaceAll(" \\[\\d+\\]", "").trim();
+        }
+        //System.out.println(Arrays.toString(contingutTauler));
+        return contingutTauler;
+    }
+
     
     /**
      * Retorna el contingut del tauler com a cadena String.
@@ -339,12 +370,37 @@ public class TaulerConstrutor extends JPanel {
     public String getContigutTauler() {
         StringBuilder contingutTauler = new StringBuilder();
         contingutTauler.append(caselles.length).append(" ").append(dadesRegions.size()).append("\n");
-        for (String s : dadesRegions) {
-            contingutTauler.append(s);
+        for (String infoRegio : dadesRegions) {
+            contingutTauler.append(infoRegio);
             contingutTauler.append("\n");
         }
         return contingutTauler.toString();
     }
+
+    private void carregarTaulerImportat(String[] contingutTauler) {
+        contingutTauler = eliminarValorsFixes(contingutTauler);
+
+        // S'itera els strings de contingutTauler començant desdel segon , es a dir cada iteració es una regió.
+        for (int i = 1; i < contingutTauler.length; i++) {
+            String[] infoRegio = contingutTauler[i].split(" ");
+            int numCaselles = Integer.parseInt(infoRegio[2]);
+
+            //afegir posicions de les caselles  al  arraylist de posicions de caselles seleccionades
+            //restant 1 perque les posicions de contingutTauler comencen per 1 i les posicions de la matriu comencen per 0
+            for (int j = 0; j < numCaselles; j++) {
+                int x = Integer.parseInt(infoRegio[3 + 2 * j]) - 1;
+                int y = Integer.parseInt(infoRegio[4 + 2 * j]) - 1;
+                afegirPosCasellaSelecionada(x, y);
+            }
+
+            String operacio = infoRegio[0].toString();
+            String resultat = infoRegio[1].toString();
+
+            assignarCasellesRegio(operacio, resultat);
+        }
+    }
+
+
 
     /**
      * Ordena creixentment les posicions de les caselles seleccionades.
@@ -725,26 +781,25 @@ public class TaulerConstrutor extends JPanel {
      * Cada operació es correspon a un símbol específic.
      * En el cas de ser una suma amb una sola casella seleccionada, l'operació es tradueix a una cadena buida.
      *
-     * @param operacio L'operació a traduir. Pot ser "SUMA", "RESTA", "MULT", "DIV", "EXP" o "MOD".
+     * @param operacio L'operació a traduir. Pot ser ("SUMA", "RESTA", "MULT", "DIV", "EXP" o "MOD". o un numero del "0" al "6")
      * @return Un string que representa el símbol corresponent a l'operació, o null si l'operació no és reconeguda.
      */
     private String traduirOperacioAsimbol(String operacio) {
-        switch (operacio) {
-            case "SUMA":
-                if(posCasellesSeleccionades.size() == 1) return "";
-                return "+";
-            case "RESTA":
-                return "-";
-            case "MULT":
-                return "x";
-            case "DIV":
-                return "÷";
-            case "EXP":
-                return "^";
-            case "MOD":
-                return "%";
-            default:
-                return null;
+        if (operacio.equals("SUMA") || operacio.equals("0") || operacio.equals("1")) {
+            if(posCasellesSeleccionades.size() == 1) return "";
+            return "+";
+        } else if (operacio.equals("RESTA") || operacio.equals("2")) {
+            return "-";
+        } else if (operacio.equals("MULT") || operacio.equals("3")) {
+            return "x";
+        } else if (operacio.equals("DIV") || operacio.equals("4")) {
+            return "÷";
+        } else if (operacio.equals("EXP") || operacio.equals("5")) {
+            return "^";
+        } else if (operacio.equals("MOD") || operacio.equals("6")) {
+            return "%";
+        } else {
+            return null;
         }
     }
 

@@ -213,6 +213,7 @@ public class CasellaConstructora extends JPanel {
      * @param midaTauler la mida del tauler
      */
     public void addInfoRegio(String operacio, String resultat, int midaTauler) {
+        System.out.println("Desde casella: (" + this.posX +" "+ this.posY + ") op,resul: " + operacio + " " + resultat);
         infoRegioLabel = new JLabel();
         int posIniX = 0;
         int posIniY = this.getWidth()/10;
@@ -227,8 +228,12 @@ public class CasellaConstructora extends JPanel {
         String textInfoRegio = "<html><span style='font-size:" + fontSizeResultat + "px'>" + operacio +
                 "</span><span style='font-size:" + fontSizeOperacio+ "px'>" + resultat + "</span></html>";
 
+        System.out.println("TextInfoRegio: " + textInfoRegio);
         infoRegioLabel.setText(textInfoRegio);
+        System.out.println("TextInfoRegio(getText()): " + infoRegioLabel.getText());
         this.add(infoRegioLabel);
+        this.revalidate();
+        this.repaint();
     }
 
     /**

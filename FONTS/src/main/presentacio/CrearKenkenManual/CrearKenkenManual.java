@@ -44,10 +44,12 @@ public class CrearKenkenManual {
     private JButton importarTaulerButton;
     private JPanel panelSortir;
     private JTextArea areaTextIntroduccioTauler;
+    private JDialog dialogImportar;
 
     private TaulerConstrutor TaulerKenken;
+    private String contingutTaulerKenken;
     private boolean enModeEditor;
-    private String contingutTauler;
+
 
     /**
      * Retorna una instància de CrearKenkenManual. Si no existeix, la crea.
@@ -83,6 +85,17 @@ public class CrearKenkenManual {
         setupImportarTaulerButtonListener();
     }
 
+
+    // Configuració dels listeners
+
+
+
+    /**
+     * Configura l'escoltador d'esdeveniments per al botó d'importar tauler.
+     * Quan l'usuari fa clic en aquest botó, es mostra un diàleg per a que l'usuari seleccioni un tauler del dispositiu.
+     * Si l'usuari selecciona un tauler, es llegeix el contingut del fitxer i es mostra en un JTextArea.
+
+     */
     private void setupImportarTaulerButtonListener() {
         importarTaulerButton.addActionListener(e -> {
             JPanel panelImportarTaulers = crearPanelImportarTaulers();
@@ -91,90 +104,11 @@ public class CrearKenkenManual {
             areaTextIntroduccioTauler = crearAreaTextIntroduccioTauler();
             JPanel panelBotons = crearPanelBotons();
 
+
             afegirComponentsAPanel(panelImportarTaulers, botoSeleccionaTauler, etiquetaIntroduccioTauler, areaTextIntroduccioTauler, panelBotons);
-            mostrarDialog(panelImportarTaulers);
+            mostrarDialogImportacio(panelImportarTaulers);
         });
     }
-
-    //////
-
-    private JPanel crearPanelImportarTaulers() {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        return panel;
-    }
-
-    private JButton crearBotoSeleccionaTauler() {
-        JButton botoSeleccionaTauler = new JButton("Selecciona tauler del dispositiu");
-        botoSeleccionaTauler.setAlignmentX(Component.CENTER_ALIGNMENT);
-        botoSeleccionaTauler.addActionListener(e -> seleccionarTauler());
-        return botoSeleccionaTauler;
-    }
-
-    private void seleccionarTauler() {
-        JFileChooser selectorArxius = new JFileChooser(new File("data/taulers"));
-        int valorRetornat = selectorArxius.showOpenDialog(null);
-        if (valorRetornat == JFileChooser.APPROVE_OPTION) {
-            File arxiuSeleccionat = selectorArxius.getSelectedFile();
-            try {
-                // Llegeix el contingut del fitxer
-                contingutTauler = new String(Files.readAllBytes(arxiuSeleccionat.toPath()));
-                // Mostra el contingut del fitxer en el JTextArea
-                areaTextIntroduccioTauler.setText(contingutTauler);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-
-
-    private JLabel crearEtiquetaIntroduccioTauler() {
-        JLabel etiquetaIntroduccioTauler = new JLabel("Introdueix tauler manualment:");
-        etiquetaIntroduccioTauler.setAlignmentX(Component.CENTER_ALIGNMENT);
-        return etiquetaIntroduccioTauler;
-    }
-
-    private JTextArea crearAreaTextIntroduccioTauler() {
-        return new JTextArea(10, 10);
-    }
-
-    private JPanel crearPanelBotons() {
-        JButton botoAcceptar = new JButton("Acceptar");
-        JButton botoSortir = new JButton("Sortir");
-        JPanel panelBotons = new JPanel();
-        panelBotons.setLayout(new BoxLayout(panelBotons, BoxLayout.X_AXIS));
-        panelBotons.add(botoAcceptar);
-        panelBotons.add(Box.createRigidArea(new Dimension(10, 0)));
-        panelBotons.add(botoSortir);
-        panelBotons.setAlignmentX(Component.CENTER_ALIGNMENT);
-        return panelBotons;
-    }
-
-    private void afegirComponentsAPanel(JPanel panel, JButton botoSeleccionaTauler, JLabel etiquetaIntroduccioTauler, JTextArea areaTextIntroduccioTauler, JPanel panelBotons) {
-        panel.add(botoSeleccionaTauler);
-        panel.add(Box.createRigidArea(new Dimension(0, 20)));
-        panel.add(etiquetaIntroduccioTauler);
-        panel.add(Box.createRigidArea(new Dimension(0, 10)));
-        panel.add(new JScrollPane(areaTextIntroduccioTauler));
-        panel.add(Box.createRigidArea(new Dimension(0, 20)));
-        panel.add(panelBotons);
-    }
-
-    private void mostrarDialog(JPanel panel) {
-        JOptionPane optionPane = new JOptionPane(panel, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, new Object[]{}, null);
-        JDialog dialog = optionPane.createDialog("Importar Tauler");
-        Dimension midaPanelPrincipal = panelComplet.getSize();
-        dialog.setSize(midaPanelPrincipal.width / 3, midaPanelPrincipal.height);
-        Point ubicacioPanelPrincipal = panelComplet.getLocationOnScreen();
-        int x = ubicacioPanelPrincipal.x + midaPanelPrincipal.width - dialog.getSize().width;
-        dialog.setLocation(x, ubicacioPanelPrincipal.y);
-        dialog.setVisible(true);
-    }
-
-
-//////////////////
-
 
 
     /**
@@ -226,20 +160,8 @@ public class CrearKenkenManual {
         aceptarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                enModeEditor = true;
-                aceptarButton.setVisible(false);
-                grauLabel.setVisible(false);
-                grauComboBox.setVisible(false);
-                guardarButton.setVisible(true);
-                resetButton.setVisible(true);
-                labelSeparador.setVisible(false);
-                importarTaulerButton.setVisible(false);
                 int mida = Integer.parseInt((String) grauComboBox.getSelectedItem());
-                TaulerConstrutor.newInstance(mida);
-                TaulerKenken = TaulerConstrutor.getInstance();
-                panelEsq.removeAll();
-                panelEsq.add(TaulerKenken, BorderLayout.CENTER);
-                System.out.println("Creant tauler de mida " + mida);
+                iniciarEditor(mida,false);
             }
         });
     }
@@ -313,6 +235,156 @@ public class CrearKenkenManual {
             }
         });
     }
+
+
+
+    private void iniciarEditor(int mida, boolean taulerEsImportat) {
+        enModeEditor = true;
+        aceptarButton.setVisible(false);
+        grauLabel.setVisible(false);
+        grauComboBox.setVisible(false);
+        guardarButton.setVisible(true);
+        resetButton.setVisible(true);
+        labelSeparador.setVisible(false);
+        importarTaulerButton.setVisible(false);
+
+        if (taulerEsImportat) {
+            System.out.println("Creant tauler de importat");
+            TaulerConstrutor.newInstance(contingutTaulerKenken);
+
+        } else {
+            System.out.println("Creant tauler de mida " + mida);
+            TaulerConstrutor.newInstance(mida);
+        }
+        TaulerKenken = TaulerConstrutor.getInstance();
+        panelEsq.removeAll();
+        panelEsq.add(TaulerKenken, BorderLayout.CENTER);
+
+    }
+
+
+
+
+    //Metodes importacio tauler
+
+    private JPanel crearPanelImportarTaulers() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        return panel;
+    }
+
+    private JButton crearBotoSeleccionaTauler() {
+        JButton botoSeleccionaTauler = new JButton("Selecciona tauler del dispositiu");
+        botoSeleccionaTauler.setAlignmentX(Component.CENTER_ALIGNMENT);
+        botoSeleccionaTauler.addActionListener(e -> seleccionarTauler());
+        return botoSeleccionaTauler;
+    }
+
+    private JLabel crearEtiquetaIntroduccioTauler() {
+        JLabel etiquetaIntroduccioTauler = new JLabel("Introdueix tauler manualment:");
+        etiquetaIntroduccioTauler.setAlignmentX(Component.CENTER_ALIGNMENT);
+        return etiquetaIntroduccioTauler;
+    }
+
+    private JTextArea crearAreaTextIntroduccioTauler() {
+        return new JTextArea(10, 10);
+    }
+
+    private String validarContingutTauler() {
+        // Comprova si el contingut de contingutTauler és vàlid
+        // Si no és vàlid, retorna un missatge d'error
+        // Si és vàlid, retorna null
+        // TODO: Implementa la lògica de validació
+
+        if(contingutTaulerKenken == null || contingutTaulerKenken.isEmpty()) {
+            return "<html><div style='text-align: center;'>El contingut del tauler es buit." +
+                    "<br>Si us plau, selecioni un tauler o introduexi les dades manualment .</div></html>";
+        }
+        return null;
+    }
+
+    private void afegirListenerBotoAcceptarImportacio(JButton botoAcceptarImportacio) {
+        botoAcceptarImportacio.addActionListener(e -> {
+            contingutTaulerKenken = areaTextIntroduccioTauler.getText();
+            String error = validarContingutTauler();
+            if (error != null) {
+                JOptionPane.showMessageDialog(null, error, "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                dialogImportar.dispose();
+                iniciarEditor(0, true);
+            }
+        });
+    }
+
+    private void afegurirListenerBotoSortirImportacio(JButton botoSortirImportacio) {
+        botoSortirImportacio.addActionListener(e -> {
+
+            if (areaTextIntroduccioTauler == null || areaTextIntroduccioTauler.getText().isEmpty()) {
+                dialogImportar.dispose();
+
+            } else {
+                int dialogResult = JOptionPane.showConfirmDialog(null, "<html><div style='text-align: center;'>Estàs segur que vols sortir?" +
+                        "<br>Si surts sense guardar es perdran els canvis</div></html>", "Avís", JOptionPane.YES_NO_OPTION);
+                if (dialogResult == JOptionPane.YES_OPTION) dialogImportar.dispose();
+            }
+        });
+    }
+
+    private JPanel crearPanelBotons() {
+        JButton botoAcceptarImportacio = new JButton("Acceptar");
+        JButton botoSortirImportacio = new JButton("Sortir");
+
+        afegirListenerBotoAcceptarImportacio(botoAcceptarImportacio);
+        afegurirListenerBotoSortirImportacio(botoSortirImportacio);
+
+
+        JPanel panelBotons = new JPanel();
+        panelBotons.setLayout(new BoxLayout(panelBotons, BoxLayout.X_AXIS));
+        panelBotons.add(botoAcceptarImportacio);
+        panelBotons.add(Box.createRigidArea(new Dimension(10, 0)));
+        panelBotons.add(botoSortirImportacio);
+        panelBotons.setAlignmentX(Component.CENTER_ALIGNMENT);
+        return panelBotons;
+    }
+    private void afegirComponentsAPanel(JPanel panel, JButton botoSeleccionaTauler, JLabel etiquetaIntroduccioTauler, JTextArea areaTextIntroduccioTauler, JPanel panelBotons) {
+        panel.add(botoSeleccionaTauler);
+        panel.add(Box.createRigidArea(new Dimension(0, 20)));
+        panel.add(etiquetaIntroduccioTauler);
+        panel.add(Box.createRigidArea(new Dimension(0, 10)));
+        panel.add(new JScrollPane(areaTextIntroduccioTauler));
+        panel.add(Box.createRigidArea(new Dimension(0, 20)));
+        panel.add(panelBotons);
+    }
+
+    private void seleccionarTauler() {
+        JFileChooser selectorArxius = new JFileChooser(new File("data/taulers"));
+        int valorRetornat = selectorArxius.showOpenDialog(null);
+        if (valorRetornat == JFileChooser.APPROVE_OPTION) {
+            File arxiuSeleccionat = selectorArxius.getSelectedFile();
+            try {
+                // Llegeix el contingut del fitxer seleccionat i el mostra en el JTextArea
+                areaTextIntroduccioTauler.setText(new String(Files.readAllBytes(arxiuSeleccionat.toPath())));
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void mostrarDialogImportacio(JPanel panel) {
+        JOptionPane optionPane = new JOptionPane(panel, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, new Object[]{}, null);
+        dialogImportar = optionPane.createDialog("Importar Tauler");
+        Dimension midaPanelPrincipal = panelComplet.getSize();
+        dialogImportar.setSize(midaPanelPrincipal.width / 3, midaPanelPrincipal.height);
+        Point ubicacioPanelPrincipal = panelComplet.getLocationOnScreen();
+        int x = ubicacioPanelPrincipal.x + midaPanelPrincipal.width - dialogImportar.getSize().width;
+        dialogImportar.setLocation(x, ubicacioPanelPrincipal.y);
+        dialogImportar.setVisible(true);
+    }
+    //Fi metodes importacio tauler
+
+
+
 
     /**
      * Processa l'entrada de l'usuari quan es prem una casella.
