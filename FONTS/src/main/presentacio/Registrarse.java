@@ -1,6 +1,5 @@
 package main.presentacio;
 
-
 import main.domini.excepcions.ExcepcioUsuariJaExisteix;
 import javax.swing.*;
 import java.awt.event.KeyAdapter;

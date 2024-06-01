@@ -62,9 +62,9 @@ public class CrearKenKenParametres extends JDialog {
                 }
 
                 String identificador = crearKenKen(grau, suma, resta, multiplicacio, divisio, modul, exponenciacio);
-                if (identificador != null) {
-                    if (jugarDespres) CtrlPresentacio.getInstance().jugarIdentificadorTauler(identificador);
-                }
+                JOptionPane.showMessageDialog(CreaButton,"Tauler creat amb exit","Correcte",JOptionPane.INFORMATION_MESSAGE);
+                if (jugarDespres) CtrlPresentacio.getInstance().jugarIdentificadorTauler(identificador);
+
             }
         });
 
@@ -82,14 +82,14 @@ public class CrearKenKenParametres extends JDialog {
     private String crearKenKen(int grau, boolean suma, boolean resta, boolean multiplicacio, boolean divisio, boolean modul, boolean exponenciacio) {
 
         int cont = 0;
-        if(suma) cont++;
-        if(resta) cont++;
-        if(multiplicacio) cont++;
-        if(divisio) cont++;
-        if(modul) cont++;
-        if(exponenciacio) cont++;
+        if (suma) cont++;
+        if (resta) cont++;
+        if (multiplicacio) cont++;
+        if (divisio) cont++;
+        if (modul) cont++;
+        if (exponenciacio) cont++;
 
-        if(!suma && !resta && !multiplicacio && !divisio && !modul && !exponenciacio){
+        if (!suma && !resta && !multiplicacio && !divisio && !modul && !exponenciacio) {
             JOptionPane.showMessageDialog(this,
                     "Has de seleccionar alguna operació",
                     "Torna-ho a provar",
@@ -98,7 +98,7 @@ public class CrearKenKenParametres extends JDialog {
         }
 
         //Aixo treu error si ha seleccionat massa operacions pel grau seleccionat
-        if(cont > grau){
+        if (cont > grau) {
             JOptionPane.showMessageDialog(this,
                     "Has seleccionat massa operacions per un grau tant petit",
                     "Torna-ho a provar",
@@ -115,6 +115,8 @@ public class CrearKenKenParametres extends JDialog {
         System.out.println("Módulo: " + modul);
         System.out.println("Exponenciación: " + exponenciacio);
         return CreadorKenkenParam.creadora(grau, suma, resta, multiplicacio, divisio, modul, exponenciacio);
+
+
     }
 
 
@@ -123,19 +125,6 @@ public class CrearKenKenParametres extends JDialog {
 
         labelLogo = new JLabel(Utils.carregarImatge("resources/imatges/fonsKenken.png", 800, 800));
 
-        //radioButton1.setIcon(new ImageIcon("resources/imatges/Suma.png"));
-        /*
-        radioButton1 = new JRadioButton(Utils.carregarImatge("resources/imatges/Suma.png",50,50));
-        radioButton2 = new JRadioButton(Utils.carregarImatge("resources/imatges/SumaResta.png",50,50));
-        radioButton3 = new JRadioButton(Utils.carregarImatge("resources/imatges/MultDiv.png",50,50));
-        radioButton4 = new JRadioButton(Utils.carregarImatge("resources/imatges/SumaMult.png",50,50));
-        radioButton5 = new JRadioButton(Utils.carregarImatge("resources/imatges/4Ops.png",50,50));
-        radioButton6 = new JRadioButton(Utils.carregarImatge("resources/imatges/TotesOps.png",50,50));
-
-        labelLogo = new JLabel(Utils.carregarImatge("resources/imatges/fonsKenken.png", 800, 800));
-        */
-
-        // Load icons for selected and unselected states
         ImageIcon sumaIcon = Utils.carregarImatge("resources/imatges/Suma.png", 50, 50);
         ImageIcon sumaSelectedIcon = Utils.carregarImatge("resources/imatges/SumaSel.png", 50, 50);
 
@@ -154,7 +143,6 @@ public class CrearKenKenParametres extends JDialog {
         ImageIcon todasOpsIcon = Utils.carregarImatge("resources/imatges/TotesOps.png", 50, 50);
         ImageIcon todasOpsSelectedIcon = Utils.carregarImatge("resources/imatges/TotesOpsSel.png", 50, 50);
 
-        // Initialize radio buttons with icons
         radioButton1 = new JRadioButton(sumaIcon);
         radioButton1.setSelectedIcon(sumaSelectedIcon);
 
@@ -179,3 +167,4 @@ public class CrearKenKenParametres extends JDialog {
         return panelComplet;
     }
 }
+

@@ -15,6 +15,8 @@ import main.presentacio.Partida.ControladorPresentacioPartida;
 import main.presentacio.Ranking.ControladorPresentacioRanking;
 
 import javax.swing.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.io.IOException;
 
@@ -93,6 +95,11 @@ public class CtrlPresentacio {
      */
     private ConfigUsuari configUsuari;
 
+    /**
+     * Constructor privat de la classe CtrlPresentacio.
+     * Inicialitza les instàncies de CtrlDomini, ControladorPresentacioRanking i ControladorPresentacioPartida.
+     * També estableix aquesta instància com a controlador de presentació per a ControladorPresentacioRanking i ControladorPresentacioPartida.
+     */
     private CtrlPresentacio() {
         CDomini= CtrlDomini.getInstance();
         controladorPresentacioRanking_ = ControladorPresentacioRanking.getInstance();
@@ -101,6 +108,11 @@ public class CtrlPresentacio {
         controladorPresentacioPartida_.setControladorPresentacio(this);
     }
 
+    /**
+     * Retorna la instància singleton de CtrlPresentacio.
+     * Si la instància no s'ha creat encara, la crea.
+     * @return Instància de CtrlPresentacio.
+     */
     public static CtrlPresentacio getInstance() {
         if (CPresentacio == null) CPresentacio= new CtrlPresentacio();
         return CPresentacio;
@@ -108,16 +120,40 @@ public class CtrlPresentacio {
 
             /// FUNCIONS DE LA INTERFICIE GRAFICA ///
 
+    /**
+     * Inicia l'aplicació configurant el marc principal i mostrant la vista d'inici de sessió.
+     * Configura el comportament del botó de tancament del marc principal per mostrar un missatge de confirmació abans de tancar l'aplicació.
+     */
     public void run() {
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         mainFrame.setSize(1200, 800);
         mainFrame.setResizable(false);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
+
+        mainFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int confirm = JOptionPane.showOptionDialog(
+                        mainFrame,
+                        "Segur que vols sortir del joc KenKen?",
+                        "Confirmació",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null, null, null);
+                if (confirm == 0) {
+                    System.exit(0);
+                }
+            }
+        });
+
         showIniciarSessio();
-        //showCrearKenKen();
     }
 
+    /**
+     * Mostra la vista d'iniciar sessió.
+     * Crea una nova instància de la vista IniciarSessio, la configura com a contingut del marc principal i la fa visible.
+     */
     public void showIniciarSessio() {
         iniSessio = new IniciarSessio();
         mainFrame.setTitle("Iniciar Sessio");
@@ -125,6 +161,10 @@ public class CtrlPresentacio {
         mainFrame.setVisible(true);
     }
 
+    /**
+     * Mostra la vista de registrar-se.
+     * Crea una nova instància de la vista Registrarse, la configura com a contingut del marc principal i la fa visible.
+     */
     public void showRegistrarse() {
         registrar = new Registrarse();
         mainFrame.setTitle("Registrar-se");
@@ -132,30 +172,53 @@ public class CtrlPresentacio {
         mainFrame.setVisible(true);
     }
 
+    /**
+     * Mostra el menú principal.
+     * Crea una nova instància de la vista MenuPrincipal, la configura com a contingut del marc principal i la fa visible.
+     */
     public void showMenuPrincipal() {
         menuPrincipal = new MenuPrincipal();
         mainFrame.setTitle("Menu Principal");
         mainFrame.setContentPane(menuPrincipal.getDefaultPanel());
         mainFrame.setVisible(true);
     }
+
+    /**
+     * Mostra la vista de configuració de l'usuari.
+     * Crea una nova instància de la vista ConfigUsuari, la configura com a contingut del marc principal i la fa visible.
+     */
     public void showConfigUsuari() {
         configUsuari = new ConfigUsuari();
         mainFrame.setTitle("Configuracio Usuari");
         mainFrame.setContentPane(configUsuari.getDefaultPanel());
         mainFrame.setVisible(true);
     }
+
+    /**
+     * Mostra la vista de generar un KenKen.
+     * Crea una nova instància de la vista CrearKenKenParametres, la configura com a contingut del marc principal i la fa visible.
+     */
     public void showGenerarKenKen() {
         generarKenken = new CrearKenKenParametres(false);
         mainFrame.setTitle("Generador Kenken");
         mainFrame.setContentPane(generarKenken.getDefaultPanel());
         mainFrame.setVisible(true);
     }
+    /**
+     * Mostra la vista de generar un KenKen i jugar després.
+     * Crea una nova instància de la vista CrearKenKenParametres, la configura com a contingut del marc principal i la fa visible.
+     */
     public void showGenerarKenKenJugarDespres() {
         generarKenken = new CrearKenKenParametres(true);
         mainFrame.setTitle("Generador Kenken");
         mainFrame.setContentPane(generarKenken.getDefaultPanel());
         mainFrame.setVisible(true);
     }
+
+    /**
+     * Mostra la vista de crear un KenKen.
+     * Crea una nova instància de la vista CrearKenkenManual, la configura com a contingut del marc principal i la fa visible.
+     */
     public void showCrearKenKen() {
         CrearKenkenManual.newInstance();
         crearKenken = CrearKenkenManual.getInstance();
@@ -163,6 +226,11 @@ public class CtrlPresentacio {
         mainFrame.setContentPane(crearKenken.getDefaultPanel());
         mainFrame.setVisible(true);
     }
+
+    /**
+     * Mostra la vista de generar un KenKen i jugar després.
+     * Crea una nova instància de la vista CrearKenKenParametres, la configura com a contingut del marc principal i la fa visible.
+     */
     public void showCrearKenKenJugarDespres() {
         CrearKenkenManual.newInstance(true);
         crearKenken = CrearKenkenManual.getInstance();
@@ -171,6 +239,10 @@ public class CtrlPresentacio {
         mainFrame.setVisible(true);
     }
 
+    /**
+     * Inicia la vista de jugar.
+     * Inicialitza el menú de jugar partida amb el nom d'usuari actual, configura la vista com a contingut del marc principal i la fa visible.
+     */
     public void initJugar() {
         controladorPresentacioPartida_.inicialitzaMenuJugarPartida(CDomini.getNomUsuariActual());
         mainFrame.setTitle("Jugar Partida");
@@ -178,12 +250,22 @@ public class CtrlPresentacio {
         mainFrame.setVisible(true);
     }
 
+    /**
+     * Mostra la vista de ranking.
+     * Configura la vista de ranking com a contingut del marc principal i la fa visible.
+     */
     public void showRanking() {
         mainFrame.setTitle("Ranking");
-        controladorPresentacioRanking_.actualitzaRanking();
         mainFrame.setContentPane(controladorPresentacioRanking_.getDefaultPanel());
         mainFrame.setVisible(true);
     }
+
+    /**
+     * Inicia una partida amb un tauler identificat per l'identificador proporcionat.
+     * Inicialitza el menú de jugar partida amb el nom d'usuari actual, inicia una partida amb el tauler identificat, configura la vista de partida com a contingut del marc principal i la fa visible.
+     *
+     * @param identificadorTauler Identificador del tauler amb el qual iniciar la partida.
+     */
     public void jugarIdentificadorTauler(String identificadorTauler) {
         controladorPresentacioPartida_.inicialitzaMenuJugarPartida(CDomini.getNomUsuariActual());
         controladorPresentacioPartida_.jugarIdentificadorTauler(identificadorTauler);

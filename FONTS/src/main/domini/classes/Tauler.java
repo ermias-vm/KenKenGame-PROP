@@ -410,6 +410,11 @@ public class Tauler {
         return adjacents;
     }
 
+    /**
+     * Retorna una llista de les operacions del tauler.
+     *
+     * @return Llista de les operacions del tauler.
+     */
     public ArrayList<String> getOperacions() {
         ArrayList<String> operacions = new ArrayList<>();
         for (Regio r: regions) {
@@ -438,7 +443,6 @@ public class Tauler {
      *
      * Restaura la modificabilitat de les caselles del tauler.
      * Totes les caselles del tauler es tornen a fer modificables.
-     *
      */
     public void restaurarModificabilitat() throws ExcepcioCasellaNoExisteix {
         for (int i = 1; i <= grau; ++i) {

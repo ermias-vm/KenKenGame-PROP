@@ -11,8 +11,6 @@ import com.google.gson.stream.JsonReader;
 /**
  * La classe CtrlUsuari és el controlador que gestiona les operacions relacionades amb els usuaris.
  * Aquesta classe és responsable de gestionar les tasques com iniciar sessió, registrar-se i canviar la contrasenya.
- *
- *
  * @autor Ermias Valls Mayor
  */
 public class CtrlUsuari {
@@ -93,7 +91,7 @@ public class CtrlUsuari {
      * @throws IOException  Si hi ha un error d'entrada/sortida.
      */
     public void canviarContrasenya(String ctrActual, String ctrNova) throws ExcepcioContrasenyaIncorrecta, IOException {
-        Usuari usuari = CtrlDomini.getInstance().getInstance().getUsuariActual();
+        Usuari usuari = CtrlDomini.getInstance().getUsuariActual();
         if (!usuari.esContrasenyaCorrecta(ctrActual)) {
             throw new ExcepcioContrasenyaIncorrecta();
         }
