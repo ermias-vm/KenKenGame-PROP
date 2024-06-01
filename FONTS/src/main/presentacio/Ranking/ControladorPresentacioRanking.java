@@ -79,7 +79,7 @@ public class ControladorPresentacioRanking implements ObservadorBuscador, Observ
         String[] parts = s.split(" ");
         String identificadorTauler = parts[2];
         String[] opcions = {"Sí", "No"};
-        int decisio = JOptionPane.showOptionDialog(null, "Vols carregar la partida amb identificador de tauler " + identificadorTauler + "?","Jugar Tauler", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcions, opcions[1]);
+        int decisio = JOptionPane.showOptionDialog(null, "Vols jugar una partida amb el tauler: " + identificadorTauler + "?","Jugar Tauler", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcions, opcions[1]);
         if (decisio == JOptionPane.YES_OPTION) {
             controladorPresentacio_.jugarIdentificadorTauler(identificadorTauler);
         }
