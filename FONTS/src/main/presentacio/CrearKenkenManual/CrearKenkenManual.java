@@ -1,6 +1,4 @@
 package main.presentacio.CrearKenkenManual;
-
-import main.domini.controladors.CtrlKenkens;
 import main.presentacio.CtrlPresentacio;
 import main.presentacio.Utils;
 
@@ -105,7 +103,7 @@ public class CrearKenkenManual {
         importarTaulerButton.setVisible(false);
 
         if (taulerEsImportat) {
-            System.out.println("Creant tauler de importat");
+            System.out.println("Creant tauler importat");
             TaulerConstrutor.newInstance(contingutTaulerKenken);
 
         } else {
@@ -205,15 +203,15 @@ public class CrearKenkenManual {
                     JOptionPane.showMessageDialog(panelComplet, "Hi ha caselles sense regio assignada", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
                     String contingutTauler = TaulerKenken.getContigutTauler();
-                    if (CtrlKenkens.getInstance().esTaulerValid(contingutTauler)) {
+                    if (CtrlPresentacio.getInstance().esTaulerValid(contingutTauler)) {
                         System.out.println("Tauler Kenken vàlid");
-                        String idTauler = CtrlKenkens.getInstance().guardarTaulerBD(contingutTauler);
+                        String idTauler = CtrlPresentacio.getInstance().guardarTaulerBD(contingutTauler);
                         String missatge = "Tauler guardat amb id: " + idTauler + " en la ubicacio data/taulers/mida" + mida + "/" + idTauler + ".txt";
                         JOptionPane.showMessageDialog(panelComplet, missatge, "Informació", JOptionPane.INFORMATION_MESSAGE);
                         System.out.println(missatge);
                         if (jugarDespres) {
                             CtrlPresentacio.getInstance().jugarIdentificadorTauler(idTauler);
-                        } else CtrlPresentacio.getInstance().showMenuPrincipal();
+                        } else CtrlPresentacio.getInstance().showCrearKenKen();
                     } else {
                         JOptionPane.showMessageDialog(panelComplet, "El Tauler Kenken no es vàlid", "Error", JOptionPane.ERROR_MESSAGE);
                     }
@@ -387,7 +385,7 @@ public class CrearKenkenManual {
      * @param panelBotons El panell amb els botons d'acceptar i sortir.
      */
     private void afegirComponentsAPanel(JPanel panelImportacio, JButton botoSeleccionaTauler, JLabel etiquetaIntroduccioTauler, JTextArea areaTextIntroduccioTauler, JPanel panelBotons) {
-        panelImportacio.add(Box.createRigidArea(new Dimension(0, 20)));
+        panelImportacio.add(Box.createRigidArea(new Dimension(0, 45)));
         panelImportacio.add(botoSeleccionaTauler);
         panelImportacio.add(Box.createRigidArea(new Dimension(0, 20)));
         panelImportacio.add(etiquetaIntroduccioTauler);

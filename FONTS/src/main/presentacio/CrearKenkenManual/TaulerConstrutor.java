@@ -230,6 +230,7 @@ public class TaulerConstrutor extends JPanel {
      */
     public void assignarCasellesRegio(String operacio, String resultat) {
         StringBuilder infoRegio = new StringBuilder();
+
         infoRegio.append(traduirOperacioAnum(operacio)).append(" ");
         infoRegio.append(resultat).append(" ");
         infoRegio.append(posCasellesSeleccionades.size());
@@ -376,12 +377,11 @@ public class TaulerConstrutor extends JPanel {
                 int y = Integer.parseInt(infoRegio[4 + 2 * j]) - 1;
                 afegirPosCasellaSelecionada(x, y);
             }
-
             String operacio = infoRegio[0].toString();
             String resultat = infoRegio[1].toString();
-
             assignarCasellesRegio(operacio, resultat);
         }
+
     }
 
 
@@ -514,7 +514,7 @@ public class TaulerConstrutor extends JPanel {
      * @return Un missatge d'error si el resultat no està dins l'interval, altrament retorna null.
      */
     private String validarExponenciacio(int resultat) {
-        int min = 2;
+        int min = 1; // equivalent, N^1 = 1;
         int max;
         if (mida == 3) max = 9;
         else max = (int) Math.pow(mida-1,mida);
@@ -737,8 +737,8 @@ public class TaulerConstrutor extends JPanel {
      * Cada operació es correspon a un número específic.
      * En el cas de la suma si només s'ha seleccionat una casella, l'operació es tradueix a 0.
      *
-     * @param operacio L'operació a traduir. Pot ser "SUMA", "RESTA", "MULT", "DIV", "EXP" o "MOD".
-     * @return Un string que representa el número corresponent a l'operació [1,6], o null si l'operació no és reconeguda.
+     * @param operacio La operació es traduira si es :  "SUMA", "RESTA", "MULT", "DIV", "EXP" o "MOD".
+     * @return Un string que representa el número corresponent a l'operació [1,6], o la mateixa operació si l'operació no és reconeguda.
      */
     private String traduirOperacioAnum(String operacio) {
         switch (operacio) {
@@ -756,7 +756,7 @@ public class TaulerConstrutor extends JPanel {
             case "EXP":
                 return "6";
             default:
-                return null;
+                return operacio;
         }
     }
 

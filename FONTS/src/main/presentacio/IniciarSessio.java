@@ -2,7 +2,6 @@ package main.presentacio;
 
 import main.domini.excepcions.ExcepcioContrasenyaIncorrecta;
 import main.domini.excepcions.ExcepcioUsuariNoExisteix;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

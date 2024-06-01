@@ -1,7 +1,7 @@
 package main.domini.controladors;
+
 import main.domini.classes.Tauler;
 import main.domini.classes.Usuari;
-
 import com.google.gson.stream.JsonReader;
 import main.domini.excepcions.*;
 import main.persistencia.ControladorPersistencia;
@@ -166,7 +166,7 @@ public class CtrlDomini {
     /**
      * {@link ControladorPartida#carregarUltimaPartidaGuardada(String)}
      */
-    public String carregarUltimaPartidaGuardada(String nomUsuari) throws ExcepcioCarregaPartida, ExcepcioInicialitzacioPersistenciaPartida, ExcepcioPartidaEnCurs, ExcepcioNoPermisUsuari, ExcepcioCreacioPartida, ExcepcioInicialitzacioPersistenciaPartida, ExcepcioCarregaPartida, ExcepcioNoPermisUsuari, ExcepcioCreacioPartida, ExcepcioPartidaEnCurs {
+    public String carregarUltimaPartidaGuardada(String nomUsuari) throws ExcepcioInicialitzacioPersistenciaPartida, ExcepcioCarregaPartida, ExcepcioNoPermisUsuari, ExcepcioCreacioPartida, ExcepcioPartidaEnCurs {
         return CPartida.carregarUltimaPartidaGuardada(nomUsuari);
     }
     /**
