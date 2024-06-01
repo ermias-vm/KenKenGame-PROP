@@ -47,8 +47,6 @@ public class ComponentCasella extends JPanel implements  KeyListener{
      * {@code observers_} és la llista d'observadors de la casella.
      */
     private List<ObservadorCasella> observers_;
-    private JPanel operacioPanell_;
-    private JPanel casella_;
     private Color backgroundColor_;
 
     /**
@@ -100,7 +98,6 @@ public class ComponentCasella extends JPanel implements  KeyListener{
         gbc.weightx = 1;
         gbc.weighty = 0.25;
         gbc.fill = GridBagConstraints.BOTH;
-        operacioPanell_ = operacio;
         casella.add(operacio, gbc);
         gbc.gridx = 0;
         gbc.gridy = 2;
@@ -110,12 +107,11 @@ public class ComponentCasella extends JPanel implements  KeyListener{
         gbc.fill = GridBagConstraints.BOTH;
         JLabel valor = new JLabel();
         valor.setHorizontalAlignment(JLabel.CENTER);
-        valor.setFont(new Font("Arial", Font.PLAIN, 20));
+        valor.setFont(new Font("Arial", Font.PLAIN, 300/mida));
         backgroundColor_ = casella.getBackground();
         valor.setForeground(backgroundColor_);
         valor_ = valor;
         casella.add(valor_, gbc);
-        casella_ = casella;
         this.add(casella, BorderLayout.CENTER);
         setValor(String.valueOf(valorCasella));
         this.addKeyListener(this);
