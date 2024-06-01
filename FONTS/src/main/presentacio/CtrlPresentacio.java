@@ -257,6 +257,7 @@ public class CtrlPresentacio {
      */
     public void showRanking() {
         mainFrame.setTitle("Ranking");
+        controladorPresentacioRanking_.actualitzaRanking();
         mainFrame.setContentPane(controladorPresentacioRanking_.getDefaultPanel());
         mainFrame.setVisible(true);
     }
@@ -468,8 +469,8 @@ public class CtrlPresentacio {
     /**
      * {@link ControladorRanking#getRankingUsuari(String)}
      */
-    public ArrayList<String> getRankingUsuari(String identificadorUsuari) {
-        return CDomini.getRankingUsuari(identificadorUsuari);
+    public ArrayList<String> getRankingUsuari(String identificadorUsuari, int ultimaMida_) {
+        return CDomini.getRankingUsuari(identificadorUsuari, ultimaMida_);
     }
 
 

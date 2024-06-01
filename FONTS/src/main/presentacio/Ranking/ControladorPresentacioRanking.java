@@ -17,6 +17,7 @@ public class ControladorPresentacioRanking implements ObservadorBuscador, Observ
      * Última mida de tauler seleccionada
      */
     private int ultimaMida_;
+    private String ultimUsuari_;
     /**
      * Vista de rankings
      */
@@ -57,6 +58,7 @@ public class ControladorPresentacioRanking implements ObservadorBuscador, Observ
      */
     public void inicialitzaVistaRankings(){
         ultimaMida_ = MIDAMIN;
+        ultimUsuari_ = "";
         mainPanel_.setLayout(new BorderLayout());
         String[] informacioPartides = controladorPresentacio_.getRankingMida(MIDAMIN).toArray(new String[0]);
         vistaRankings_ = new VistaRankings(informacioPartides);
@@ -99,6 +101,9 @@ public class ControladorPresentacioRanking implements ObservadorBuscador, Observ
     public void midaSeleccionada(String mida) {
         ultimaMida_ = Integer.parseInt(mida);
         String[] informacioPartides = controladorPresentacio_.getRankingMida(Integer.parseInt(mida)).toArray(new String[0]);
+        if (!ultimUsuari_.equals("")) {
+            informacioPartides = controladorPresentacio_.getRankingUsuari(ultimUsuari_, Integer.parseInt(mida)).toArray(new String[0]);
+        }
         vistaRankings_.actualitzaPartides(informacioPartides);
         mainPanel_.revalidate();
         mainPanel_.repaint();
@@ -116,11 +121,12 @@ public class ControladorPresentacioRanking implements ObservadorBuscador, Observ
      */
     @Override
     public void cercaUsuari(String nom) {
+        ultimUsuari_ = nom;
         if (nom.equals("")) {
             String[] informacioPartides = controladorPresentacio_.getRankingMida(ultimaMida_).toArray(new String[0]);
             vistaRankings_.actualitzaPartides(informacioPartides);
         } else {
-            String[] informacioPartides = controladorPresentacio_.getRankingUsuari(nom).toArray(new String[0]);
+            String[] informacioPartides = controladorPresentacio_.getRankingUsuari(nom, ultimaMida_).toArray(new String[0]);
             if (informacioPartides.length == 0) {
                 JOptionPane.showMessageDialog(null, "No s'ha trobat cap partida amb aquest usuari", "Error", JOptionPane.ERROR_MESSAGE);
             }

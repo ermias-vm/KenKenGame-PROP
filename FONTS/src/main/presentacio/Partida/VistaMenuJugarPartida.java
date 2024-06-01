@@ -94,16 +94,13 @@ public class VistaMenuJugarPartida extends JPanel {
         menu.add(new JPanel(), panelBuitEsquerra);
         menu.add(new JPanel(), panelBuitDreta);
 
-        menu.add(introduirTaulerManualment, botoConstraints);
+
         botoConstraints.insets = new Insets(10, 0, 10, 0);
-        menu.add(introduirIdentificadorTauler, botoConstraints);
-
         menu.add(partidaAleatoria, botoConstraints);
-
+        menu.add(introduirTaulerManualment, botoConstraints);
         menu.add(ultimaPartidaGuardada, botoConstraints);
-
-
         menu.add(partidaGuardada, botoConstraints);
+        menu.add(introduirIdentificadorTauler, botoConstraints);
         panellMenu.add(menu, BorderLayout.CENTER);
         JPanel tornarPanel = new JPanel();
         tornarPanel.setLayout(new BorderLayout());

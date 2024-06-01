@@ -282,6 +282,7 @@ public class ControladorPartida {
      */
     public ArrayList<int[]> donaPista() throws ExcepcioCarregaPartida, ExcepcioPartidaTancada, ExcepcioValorInvalid, ExcepcioPartidaAcabada, ExcepcioPosicioIncorrecta, ExcepcioCasellaNoExisteix, ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioCasellaNoModificable, ExcepcionPosicioIncorrecta {
         if (partida_ == null) throw new ExcepcioCarregaPartida("No hi ha cap partida carregada");
+        partida_.setGuardadaPartida();
         ArrayList<int[]> valorsRepetits = comprovaRepetits(partida_.getValorsPartida());
         if (!valorsRepetits.isEmpty()){
             return valorsRepetits;
@@ -336,7 +337,6 @@ public class ControladorPartida {
                 posat = true;
             }
         }
-        partida_.setGuardadaPartida();
         return new ArrayList<>();
     }
 

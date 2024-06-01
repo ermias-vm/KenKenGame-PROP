@@ -10,7 +10,7 @@ public class PartidesRanking extends ComponentLlistaPartides {
      * @param NOMBREPARTIDES  Nombre de partides a mostrar per pàgina.
      */
     public PartidesRanking(String[] informacioPartides, int NOMBREPARTIDES) {
-        super(informacioPartides, NOMBREPARTIDES, new String[]{"Usuari", "Data", "ID Tauler-Mida", "Temps"});
+        super(informacioPartides, NOMBREPARTIDES, new String[]{"Usuari", "Data", "ID: Tauler-Mida", "Temps"});
     }
 
     /**

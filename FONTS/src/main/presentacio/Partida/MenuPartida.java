@@ -70,7 +70,6 @@ public class MenuPartida extends JPanel {
         this.setLayout(new BorderLayout());
         JPanel panellGridBag = new JPanel();
         panellGridBag.setLayout(new GridBagLayout());
-        panellGridBag.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;

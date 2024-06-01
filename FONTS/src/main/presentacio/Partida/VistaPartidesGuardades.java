@@ -15,7 +15,7 @@ public class VistaPartidesGuardades  extends ComponentLlistaPartides {
      * @param partidesGuardades Array de partides guardades de l'usuari.
      */
     public VistaPartidesGuardades(String[] partidesGuardades, int NOMBREPARTIDES) {
-        super(partidesGuardades, NOMBREPARTIDES, new String[]{"ID tauler-mida", "Data", "Temps"});
+        super(partidesGuardades, NOMBREPARTIDES, new String[]{"ID: Tauler-Mida", "Data", "Temps"});
         this.setBorder(new EmptyBorder(15, 20, 15, 20));
 
     }

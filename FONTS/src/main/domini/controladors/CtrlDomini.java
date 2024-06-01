@@ -280,8 +280,8 @@ public class CtrlDomini {
     /**
      * {@link ControladorRanking#getRankingUsuari(String)}
      */
-    public ArrayList<String> getRankingUsuari(String identificadorUsuari) {
-        return CRanking.getRankingUsuari(identificadorUsuari);
+    public ArrayList<String> getRankingUsuari(String identificadorUsuari, int ultimaMida_) {
+        return CRanking.getRankingUsuari(identificadorUsuari, ultimaMida_);
     }
 
 

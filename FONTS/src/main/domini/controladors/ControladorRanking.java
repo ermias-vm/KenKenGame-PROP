@@ -77,11 +77,9 @@ public class ControladorRanking {
      * @param identificadorUsuari Identificador de l'usuari.
      * @return Llista de les partides de l'usuari donat.
      */
-    public ArrayList<String> getRankingUsuari(String identificadorUsuari){
+    public ArrayList<String> getRankingUsuari(String identificadorUsuari, int mida){
         ArrayList<String> rankingUsuari = new ArrayList<>();
-        for (int i = 0; i < rankingPerMida_.length; ++i) {
-            rankingUsuari.addAll(rankingPerMida_[i].getUsuari(identificadorUsuari));
-        }
+        rankingUsuari.addAll(rankingPerMida_[mida - MIDAMIN].getUsuari(identificadorUsuari));
         return rankingUsuari;
     }
 
