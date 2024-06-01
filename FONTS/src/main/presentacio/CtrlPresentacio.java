@@ -147,8 +147,8 @@ public class CtrlPresentacio {
             }
         });
 
-        //showIniciarSessio();
-        showCrearKenKen();
+        showIniciarSessio();
+       // showCrearKenKen();
     }
 
     /**

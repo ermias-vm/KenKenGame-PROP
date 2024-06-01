@@ -1,5 +1,7 @@
 package main.presentacio.Partida;
 
+import main.presentacio.Utils;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -31,6 +33,10 @@ public class VistaMenuJugarPartida extends JPanel {
      */
     VistaMenuJugarPartida() {
         this.setLayout((new BorderLayout()));
+        JPanel panellCentral = new JPanel();
+        panellCentral.setLayout(new GridBagLayout());
+        JPanel panellMenu = new JPanel();
+        panellMenu.setLayout(new BorderLayout());
         JPanel menu = new JPanel();
         menu.setLayout(new GridBagLayout());
 
@@ -38,7 +44,7 @@ public class VistaMenuJugarPartida extends JPanel {
         botoConstraints.insets = new Insets(20, 0, 10, 0);
         botoConstraints.gridx = 1;
         botoConstraints.gridy = GridBagConstraints.RELATIVE; // this will set the gridy value to the next available row
-        botoConstraints.weightx = 0.0;
+        botoConstraints.weightx = 1;
         botoConstraints.weighty = 1;
         botoConstraints.fill = GridBagConstraints.BOTH;
 
@@ -47,7 +53,7 @@ public class VistaMenuJugarPartida extends JPanel {
         panelBuitEsquerra.gridy = GridBagConstraints.RELATIVE;
         panelBuitEsquerra.weightx = 0.17;
         panelBuitEsquerra.weighty = 1;
-        panelBuitEsquerra.fill = GridBagConstraints.BOTH;
+        panelBuitEsquerra.fill = GridBagConstraints.NONE;
 
         GridBagConstraints panelBuitDreta = new GridBagConstraints();
         panelBuitDreta.gridx = 2;
@@ -55,28 +61,28 @@ public class VistaMenuJugarPartida extends JPanel {
         panelBuitDreta.weightx = 0.17;
         panelBuitDreta.weighty = 1;
         panelBuitDreta.fill = GridBagConstraints.NONE;
-        JButton introduirTaulerManualment = new JButton("INTRODUIR TAULER MANUALMENT");
-        introduirTaulerManualment.setFont(new Font("Arial", Font.PLAIN, 40));
+        JButton introduirTaulerManualment = new JButton("Introduir Tauler Manualment");
+        introduirTaulerManualment.setFont(new Font("Arial", Font.PLAIN, 20));
         introduirTaulerManualment.addActionListener(e -> {
             for (ObservadorBoto ob : observadorsBoto_) ob.jugarIntroduirTaulerManualment();
         });
-        JButton introduirIdentificadorTauler = new JButton("INTRODUIR IDENTIFICADOR TAULER");
-        introduirIdentificadorTauler.setFont(new Font("Arial", Font.PLAIN, 40));
+        JButton introduirIdentificadorTauler = new JButton("Introduir Identificador Tauler");
+        introduirIdentificadorTauler.setFont(new Font("Arial", Font.PLAIN, 20));
         introduirIdentificadorTauler.addActionListener(e -> {
             for (ObservadorBoto ob : observadorsBoto_) ob.jugarIntroduirIdentificadorTauler();
         });
-        JButton partidaAleatoria = new JButton("PARTIDA ALEATORIA");
-        partidaAleatoria.setFont(new Font("Arial", Font.PLAIN, 40));
+        JButton partidaAleatoria = new JButton("Partida Aleatoria");
+        partidaAleatoria.setFont(new Font("Arial", Font.PLAIN, 20));
         partidaAleatoria.addActionListener(e -> {
             for (ObservadorBoto ob : observadorsBoto_) ob.jugarPartidaAleatoria();
         });
-        JButton ultimaPartidaGuardada = new JButton("ULTIMA PARTIDA GUARDADA");
-        ultimaPartidaGuardada.setFont(new Font("Arial", Font.PLAIN, 40));
+        JButton ultimaPartidaGuardada = new JButton("Ultima Partida Guardada");
+        ultimaPartidaGuardada.setFont(new Font("Arial", Font.PLAIN, 20));
         ultimaPartidaGuardada.addActionListener(e -> {
             for (ObservadorBoto ob : observadorsBoto_) ob.jugarUltimaPartidaGuardada();
         });
-        JButton partidaGuardada = new JButton("PARTIDA GUARDADA");
-        partidaGuardada.setFont(new Font("Arial", Font.PLAIN, 40));
+        JButton partidaGuardada = new JButton("Partida Guardada");
+        partidaGuardada.setFont(new Font("Arial", Font.PLAIN, 20));
         partidaGuardada.addActionListener(e -> {
             for (ObservadorBoto ob : observadorsBoto_) ob.jugarPartidaGuardada();
         });
@@ -98,8 +104,7 @@ public class VistaMenuJugarPartida extends JPanel {
 
 
         menu.add(partidaGuardada, botoConstraints);
-
-        this.add(menu, BorderLayout.CENTER);
+        panellMenu.add(menu, BorderLayout.CENTER);
         JPanel tornarPanel = new JPanel();
         tornarPanel.setLayout(new BorderLayout());
         tornarPanel.add(Box.createHorizontalGlue(), BorderLayout.CENTER);
@@ -107,7 +112,25 @@ public class VistaMenuJugarPartida extends JPanel {
         tornarPanelMargins.add(tornar, BorderLayout.CENTER);
         tornarPanelMargins.setBorder(new EmptyBorder(10, 0, 10, 10));
         tornarPanel.add(tornarPanelMargins, BorderLayout.EAST);
-        this.add(tornarPanel, BorderLayout.SOUTH);
+        panellMenu.add(tornarPanel, BorderLayout.SOUTH);
+        ImageIcon imatgeFons = Utils.carregarImatge("resources/imatges/fonsKenken.png", 800, 800);
+        JLabel fons = new JLabel(imatgeFons);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 0.0;
+        gbc.weighty = 1;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        panellCentral.add(fons, gbc);
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.weightx = 0.34;
+        gbc.weighty = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+
+        panellCentral.add(panellMenu, gbc);
+        this.add(panellCentral, BorderLayout.CENTER);
+
     }
     /**
      * Afegeix un observador de botó.
