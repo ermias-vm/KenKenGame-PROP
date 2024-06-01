@@ -136,7 +136,8 @@ public class ComponentCasella extends JPanel implements  KeyListener{
      */
     private void pintaBoto() {
         if (!incorrecte_) {
-            valor_.setForeground(Color.BLACK);
+            if (valor_.getText() == "0") valor_.setForeground(backgroundColor_);
+            else valor_.setForeground(Color.BLACK);
         } else{
             String colorError = COLOR_ERROR;
             String[] parts = colorError.split(",");

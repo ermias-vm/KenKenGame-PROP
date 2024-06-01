@@ -105,6 +105,12 @@ public class ControladorPresentacioRanking implements ObservadorBuscador, Observ
         mainPanel_.repaint();
     }
 
+    public void actualitzaRanking() {
+        String[] informacioPartides = controladorPresentacio_.getRankingMida(ultimaMida_).toArray(new String[0]);
+        vistaRankings_.actualitzaPartides(informacioPartides);
+        mainPanel_.revalidate();
+        mainPanel_.repaint();
+    }
     /**
      * Mètode que s'executa quan es fa una cerca d'usuari a la vista.
      * @param nom Nom de l'usuari a cercar

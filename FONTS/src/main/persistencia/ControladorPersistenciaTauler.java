@@ -69,7 +69,7 @@ public class ControladorPersistenciaTauler {
     public String generaIdentificadorIGuardaTauler(String dadesTauler) {
         HashMap<String, String[]> taulersPerSufix = new HashMap<>();
         try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("data/taulers/.selecionaTaulerButton"));
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("data/taulers/.diccionariTaulers"));
             Object result = ois.readObject();
             if (result instanceof HashMap) {
                 taulersPerSufix = (HashMap<String, String[]>) result;
@@ -77,7 +77,7 @@ public class ControladorPersistenciaTauler {
         }
         catch (IOException|ClassNotFoundException e) {
             try {
-                ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data/taulers/.selecionaTaulerButton"));
+                ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data/taulers/.diccionariTaulers"));
                 oos.writeObject(taulersPerSufix);
                 oos.close();
             } catch (IOException i) {
@@ -109,7 +109,7 @@ public class ControladorPersistenciaTauler {
             PrintWriter escriptor = new PrintWriter("data/taulers/.ultimidentificador.txt");
             escriptor.print(identificadorNou);
             escriptor.close();
-            fitxer = identificador + "-" + mida;
+            fitxer = identificadorNou + "-" + mida;
             String actualFitxer = fitxer + ".txt";
             File directori = new File (carpeta);
             File actualFile = new File (directori, actualFitxer);
@@ -131,7 +131,7 @@ public class ControladorPersistenciaTauler {
         }
         taulersPerSufix.put(sufix, identificadors);
         try {
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data/taulers/.selecionaTaulerButton"));
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data/taulers/.diccionariTaulers"));
             oos.writeObject(taulersPerSufix);
             oos.close();
         } catch (IOException e) {
@@ -222,6 +222,7 @@ public class ControladorPersistenciaTauler {
                         identificadorsNou[identificadors.length] = fitxer.getName().replace(".txt", "");
                         identificadors = identificadorsNou;
                     }
+                    taulersPerSufix.put(sufix, identificadors);
                 } catch (ExcepcioTaulerNoExisteix e) {
                     throw new RuntimeException(e);
                 }
@@ -230,12 +231,13 @@ public class ControladorPersistenciaTauler {
         try {
             PrintWriter escriptor = new PrintWriter("data/taulers/.ultimidentificador.txt");
             escriptor.print(identificadorMax);
+            System.out.println(identificadorMax);
             escriptor.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         try {
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data/taulers/.selecionaTaulerButton"));
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data/taulers/.diccionariTaulers"));
             oos.writeObject(taulersPerSufix);
             oos.close();
         } catch (IOException e) {

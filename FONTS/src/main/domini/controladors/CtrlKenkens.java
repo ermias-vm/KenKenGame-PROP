@@ -184,7 +184,7 @@ public class CtrlKenkens {
                 //T.setValor(x, y, valor);
             }
         }
-
+        T.setTrobat(false);
         Solucionador.solucionarKenken(T);
         if (T.teSolucio()) {
             int[][] valorsSolucio = new int[valorsPartida.length][valorsPartida[0].length];
@@ -219,9 +219,13 @@ public class CtrlKenkens {
      */
     public boolean esTaulerValid(String contingutTauler) {
         try {
-            System.out.println(contingutTauler);
             Tauler T = stringToTauler(contingutTauler, "temporal");
+
+            long startTime = System.currentTimeMillis();
             Solucionador.solucionarKenken(T);
+            long endTime = System.currentTimeMillis();
+            long duration = endTime - startTime;
+            System.out.println("\nTemps de resoldre: " + duration + " ms.");
             if (T.teSolucio()) {
                 System.out.println("Tauler resolt:");
                 mostrarTauler(T);

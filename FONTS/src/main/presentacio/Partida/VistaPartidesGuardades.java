@@ -1,4 +1,8 @@
 package main.presentacio.Partida;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+
 /**
  * {@code VistaPartidesGuardades} és la vista de les partides guardades d'un usuari,
  * per a seleccionar-ne una i jugar-la.
@@ -11,7 +15,9 @@ public class VistaPartidesGuardades  extends ComponentLlistaPartides {
      * @param partidesGuardades Array de partides guardades de l'usuari.
      */
     public VistaPartidesGuardades(String[] partidesGuardades, int NOMBREPARTIDES) {
-        super(partidesGuardades, NOMBREPARTIDES, new String[]{"Mida", "Data", "Temps"});
+        super(partidesGuardades, NOMBREPARTIDES, new String[]{"ID tauler-mida", "Data", "Temps"});
+        this.setBorder(new EmptyBorder(15, 20, 15, 20));
+
     }
     /**
      * Genera la mida, data i temps d'una partida guardada.
@@ -29,9 +35,13 @@ public class VistaPartidesGuardades  extends ComponentLlistaPartides {
         }
         String dataString = data.toString();
         String[] dataDividida = dataString.split("T");
-        String dataFormat = String.valueOf(new StringBuilder(dataDividida[0] + " " + dataDividida[1]));
-        String temps = parts[2];
-        String mida = parts[3];
-        return new String[]{mida, dataFormat, temps};
+        String dia = dataDividida[0];
+        String[] diaDividit = dia.split("-");
+        String hora = dataDividida[1];
+        char[] horaDividida = hora.toCharArray();
+        String dataFormat = String.valueOf(new StringBuilder( diaDividit[2]+"-"+diaDividit[1]+"-"+diaDividit[0]+ " " + horaDividida[0] + horaDividida[1] + ":" + horaDividida[2] + horaDividida[3]));
+        String temps = parts[2] + " s";;
+        String identificadorTauler = parts[1];
+        return new String[]{identificadorTauler, dataFormat, temps};
     }
 }

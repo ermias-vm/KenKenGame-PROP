@@ -166,6 +166,7 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
      */
     @Override
     public void notificarPista() {
+        vistaPartida_.setAllCorrectes();
         try {
             ArrayList<int[]> posicionsIncorrectes  = controladorPresentacio_.donaPista();
             if (!posicionsIncorrectes.isEmpty()) vistaPartida_.actualitzaPosicionsIncorrectes(posicionsIncorrectes);
@@ -183,9 +184,9 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
             mainPanel_.repaint();
         } catch (ExcepcioCasellaNoExisteix | ExcepcioNoDivisor | ExcepcioCarregaPartida | ExcepcioMoltsValors |
                  ExcepcioDivisio_0 | ExcepcioPosicioIncorrecta | ExcepcioPartidaTancada | ExcepcioValorInvalid |
-                 ExcepcioPartidaAcabada|ExcepcioCasellaNoModificable e) {
+                 ExcepcioPartidaAcabada e) {
             JOptionPane.showMessageDialog(mainPanel_, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ExcepcionPosicioIncorrecta e) {
+        } catch (ExcepcionPosicioIncorrecta|ExcepcioCasellaNoModificable e) {
             throw new RuntimeException(e);
         }
     }
@@ -205,9 +206,9 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
             }
             StringBuilder missatge = new StringBuilder("Partida acabada amb temps: " + partidaAcabada[2] + "\n");
             if (partidaAcabada[1].equals("true")) {
-                missatge.append("La partida no podrà participar als rankings");
+                missatge.append("La partida NO podrà participar als rankings");
             } else {
-                missatge.append("La partida no podrà participar als rankings!");
+                missatge.append("La partida SÍ podrà participar als rankings!");
             }
             JOptionPane.showOptionDialog(mainPanel_, missatge, null, JOptionPane.YES_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{"Perfecte!"}, null);
             int delay = 1500;
@@ -216,7 +217,9 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
                     CtrlPresentacio.getInstance().showMenuPrincipal();
                 }
             };
-            new Timer(delay, taskPerformer).start();
+            Timer timer = new Timer(delay, taskPerformer);
+            timer.setRepeats(false);
+            timer.start();
         } catch (ExcepcioPartidaTancada | ExcepcioPartidaAcabada | ExcepcioCarregaPartida |
                  ExcepcioNoPermisUsuari|ExcepcioCasellaNoExisteix e) {
             JOptionPane.showMessageDialog(mainPanel_, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -249,14 +252,10 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
     public void notificarTancaIguarda() {
         try {
             boolean guardada = controladorPresentacio_.tancarIguardarPartida(vistaPartida_.getIdentificadorUsuari());
-            if (guardada) vistaPartida_.mostrarMissatgeMenu("Partida guardada correctament", true);
-            else vistaPartida_.mostrarMissatgeMenu("La partida no ha estat guardada correctament", false);
-            int delay = 1500;
-            ActionListener taskPerformer = new ActionListener() {
-                public void actionPerformed(ActionEvent evt) {
-                    CtrlPresentacio.getInstance().showMenuPrincipal();
-                }
-            };
+            mainPanel_.removeAll();
+            mainPanel_.add(vistaMenuJugarPartida_);
+            mainPanel_.revalidate();
+            mainPanel_.repaint();
         } catch (ExcepcioPartidaTancada | ExcepcioPartidaAcabada | ExcepcioCarregaPartida |
                  ExcepcioNoPermisUsuari e) {
             JOptionPane.showMessageDialog(mainPanel_, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -337,7 +336,8 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
     public void jugarPartidaGuardada() {
         try {
             ArrayList<String> partidesGuardades = controladorPresentacio_.carregarPartidesGuardadesUsuari(vistaMenuJugarPartida_.getUsuari());
-            vistaPartidesGuardades_ = new VistaPartidesGuardades(partidesGuardades.toArray(new String[0]),NOMBREPARTIDESLLISTA);
+            String[] partidesGuardadesArray = partidesGuardades.toArray(new String[0]);
+            vistaPartidesGuardades_ = new VistaPartidesGuardades(partidesGuardadesArray,NOMBREPARTIDESLLISTA);
             vistaPartidesGuardades_.addObservadorLlista(this);
             mainPanel_.removeAll();
             mainPanel_.add(vistaPartidesGuardades_);

@@ -1,4 +1,5 @@
-package domini.classes;
+package test.domini.classes;
 
 public class TaulerTest {
+
 }

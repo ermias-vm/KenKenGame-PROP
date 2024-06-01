@@ -167,3 +167,4 @@ public class CrearKenKenParametres extends JDialog {
         return panelComplet;
     }
 }
+
