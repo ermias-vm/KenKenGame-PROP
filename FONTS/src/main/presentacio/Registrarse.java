@@ -2,6 +2,7 @@ package main.presentacio;
 
 import main.domini.excepcions.ExcepcioUsuariJaExisteix;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -65,6 +66,8 @@ public class Registrarse {
      * Etiqueta per a errors.
      */
     private JLabel errorLabel;
+    private JPanel panelniciarSessio;
+    private JPanel panelConfigRegistrar;
 
     /**
      * Constructor de la classe Registrarse.
@@ -161,6 +164,9 @@ public class Registrarse {
     private void createUIComponents() {
         labelLogo = new JLabel(Utils.carregarImatge("resources/imatges/fonsKenken.png", 800, 800));
         labelSeparador = new JLabel(Utils.carregarImatge("resources/imatges/separador_amb_or.png", 300, 30));
+
+        buttonRegistrar = Utils.crearBotoMitja("Crear compte", Color.WHITE, Utils.COLOR_BOTO_BLAU,true);
+        buttonIniciarSessio = Utils.crearBotoMitja("Iniciar Sessió", Color.WHITE, Utils.COLOR_BOTO_VERD, true);
     }
 
 }

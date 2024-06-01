@@ -86,135 +86,6 @@ public class CrearKenkenManual {
         setupConfiguracioButtonListener();
     }
 
-///////////////////////////////////////
-    public void setupConfiguracioButtonListener() {
-        configuracioButton.addActionListener(e -> {
-            JPanel panelConfiguracio = crearPanelConfiguracio();
-            mostrarDialogConfiguracio(panelConfiguracio);
-        });
-    }
-
-
-    public JPanel crearPanelConfiguracio() {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
-        JLabel labelValidar = new JLabel("Validar Resultats: ");
-        JButton botoValidar = getValidarButton();
-
-        JPanel panelValidar = new JPanel();
-        panelValidar.setLayout(new BoxLayout(panelValidar, BoxLayout.X_AXIS));
-        panelValidar.add(labelValidar);
-        panelValidar.add(botoValidar);
-
-        JLabel labelColorejar = new JLabel("Colorejar regions: ");
-        JButton botoColorejar = getColorejarButton();
-
-        JPanel panelColorejar = new JPanel();
-        panelColorejar.setLayout(new BoxLayout(panelColorejar, BoxLayout.X_AXIS));
-        panelColorejar.add(labelColorejar);
-        panelColorejar.add(botoColorejar);
-
-        // Crear botó de sortida
-        JButton botoSortir = new JButton("Sortir");
-        botoSortir.addActionListener(e -> dialogConfiguracio.dispose());
-
-        JPanel panelSortir = new JPanel();
-        panelSortir.setLayout(new BoxLayout(panelSortir, BoxLayout.X_AXIS));
-        panelSortir.add(Box.createHorizontalGlue());
-        panelSortir.add(botoSortir);
-        panelSortir.add(Box.createHorizontalGlue());
-
-        panel.add(Box.createRigidArea(new Dimension(0, 300)));
-        panel.add(panelValidar);
-        panel.add(Box.createRigidArea(new Dimension(0, 20)));
-        panel.add(panelColorejar);
-        panel.add(Box.createRigidArea(new Dimension(0, 60)));
-        panel.add(panelSortir);
-
-        return panel;
-    }
-
-    private JButton getColorejarButton() {
-        JButton botoColorejar = new JButton();
-        botoColorejar.setPreferredSize(new Dimension(100, 20));
-        botoColorejar.setMinimumSize(new Dimension(100, 20));
-        botoColorejar.setMaximumSize(new Dimension(100, 20));
-        botoColorejar.setMargin(new Insets(0, 0, 0, 0));
-        botoColorejar.setForeground(Color.BLACK);
-
-        actualitzarEstatBoto(botoColorejar, CtrlPresentacio.getInstance().getConfigColorejarRegions());
-        botoColorejar.addActionListener(e -> botoColorejarAction(botoColorejar));
-        return botoColorejar;
-    }
-
-    private JButton getValidarButton() {
-        JButton botoValidar = new JButton();
-        botoValidar.setPreferredSize(new Dimension(100, 20));
-        botoValidar.setMinimumSize(new Dimension(100, 20));
-        botoValidar.setMaximumSize(new Dimension(100, 20));
-        botoValidar.setMargin(new Insets(0, 0, 0, 0));
-        botoValidar.setForeground(Color.BLACK);
-
-        actualitzarEstatBoto(botoValidar, CtrlPresentacio.getInstance().getConfigValidarResultats());
-        botoValidar.addActionListener(e -> botoValidarAction(botoValidar));
-        return botoValidar;
-    }
-
-    private void botoColorejarAction(JButton botoColorejar) {
-        boolean estatActual =  CtrlPresentacio.getInstance().getConfigColorejarRegions();
-        CtrlPresentacio.getInstance().setConfigColorejarRegions(!estatActual);
-        actualitzarEstatBoto(botoColorejar, !estatActual);
-
-        if (enModeEditor) TaulerKenken.repintarTaulerActual();
-    }
-
-    private void botoValidarAction(JButton botoValidar) {
-        boolean estatActual = CtrlPresentacio.getInstance().getConfigValidarResultats();
-        CtrlPresentacio.getInstance().setConfigValidarResultats(!estatActual);
-        actualitzarEstatBoto(botoValidar, !estatActual);
-    }
-
-    private void actualitzarEstatBoto(JButton boto, boolean estat) {
-        if (estat) {
-            boto.setText("Activat");
-            boto.setBackground(new Color(152, 251, 152, 255)); // Color verd suau
-        } else {
-            boto.setText("Desactivat");
-            boto.setBackground(new Color(255, 192, 203,255)); // Color rosa suau
-        }
-    }
-
-
-    private void mostrarDialogConfiguracio(JPanel panelConfig) {
-        JLayeredPane layeredPane = new JLayeredPane();
-        layeredPane.setPreferredSize(panelComplet.getSize());
-
-        panelConfig.setBounds(0, 0, panelComplet.getWidth() / 3, panelComplet.getHeight());
-        layeredPane.add(panelConfig, JLayeredPane.POPUP_LAYER);
-
-        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(panelComplet);
-        dialogConfiguracio = new JDialog(frame, "Configuració", JDialog.ModalityType.MODELESS);
-        dialogConfiguracio.setUndecorated(true);
-        dialogConfiguracio.setContentPane(layeredPane);
-        dialogConfiguracio.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-
-        Dimension midaPanelPrincipal = panelComplet.getSize();
-        dialogConfiguracio.setSize(midaPanelPrincipal.width / 3, midaPanelPrincipal.height);
-        Point ubicacioPanelPrincipal = panelComplet.getLocationOnScreen();
-        int x = ubicacioPanelPrincipal.x + midaPanelPrincipal.width - dialogConfiguracio.getSize().width;
-        dialogConfiguracio.setLocation(x, ubicacioPanelPrincipal.y);
-
-        dialogConfiguracio.setVisible(true);
-        dialogConfiguracio.toFront();
-        dialogConfiguracio.requestFocus();
-    }
-
-            ////////
-
-
-
-
     /**
      * Inicia el mode editor amb un tauler de la mida especificada.
      * Si el tauler és importat, es crea una nova instància de TaulerConstrutor amb el contingut del tauler.
@@ -227,14 +98,12 @@ public class CrearKenkenManual {
     private void iniciarEditor(int mida, boolean taulerEsImportat) {
         enModeEditor = true;
 
-
         importarTaulerButton.setVisible(false);
         aceptarButton.setVisible(false);
         grauLabel.setVisible(false);
         grauComboBox.setVisible(false);
         guardarButton.setVisible(true);
         resetButton.setVisible(true);
-
 
         if (taulerEsImportat) {
             System.out.println("Creant tauler importat");
@@ -267,7 +136,7 @@ public class CrearKenkenManual {
     }
 
 
-                //// Configuració dels listeners ///
+                //// Configuració dels listeners generals///
 
     /**
      * Configura l'escoltador d'esdeveniments per al botó de sortir.
@@ -664,6 +533,182 @@ public class CrearKenkenManual {
 
         return null;
     }
+
+
+                //// Metodes Dialog de configuracó ////
+
+    /**
+     * Configura l'escoltador d'esdeveniments per al botó de configuració.
+     * Quan l'usuari fa clic en aquest botó, es crea un panell de configuració i es mostra en un diàleg.
+     */
+    public void setupConfiguracioButtonListener() {
+        configuracioButton.addActionListener(e -> {
+            JPanel panelConfiguracio = crearPanelConfiguracio();
+            mostrarDialogConfiguracio(panelConfiguracio);
+        });
+    }
+
+    /**
+     * Crea un panell de configuració amb botons per validar resultats i colorejar regions.
+     * També inclou un botó de sortida per tancar el diàleg de configuració.
+     *
+     * @return Un panell de configuració.
+     */
+    public JPanel crearPanelConfiguracio() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        JLabel labelValidar = new JLabel("Validar Resultats: ");
+        JButton botoValidar = getValidarButton();
+
+        JPanel panelValidar = new JPanel();
+        panelValidar.setLayout(new BoxLayout(panelValidar, BoxLayout.X_AXIS));
+        panelValidar.add(labelValidar);
+        panelValidar.add(botoValidar);
+
+        JLabel labelColorejar = new JLabel("Colorejar regions: ");
+        JButton botoColorejar = getColorejarButton();
+
+        JPanel panelColorejar = new JPanel();
+        panelColorejar.setLayout(new BoxLayout(panelColorejar, BoxLayout.X_AXIS));
+        panelColorejar.add(labelColorejar);
+        panelColorejar.add(botoColorejar);
+
+        // Crear botó de sortida
+        JButton botoSortir = new JButton("Sortir");
+        botoSortir.addActionListener(e -> dialogConfiguracio.dispose());
+
+        JPanel panelSortir = new JPanel();
+        panelSortir.setLayout(new BoxLayout(panelSortir, BoxLayout.X_AXIS));
+        panelSortir.add(Box.createHorizontalGlue());
+        panelSortir.add(botoSortir);
+        panelSortir.add(Box.createHorizontalGlue());
+
+        panel.add(Box.createRigidArea(new Dimension(0, 300)));
+        panel.add(panelValidar);
+        panel.add(Box.createRigidArea(new Dimension(0, 20)));
+        panel.add(panelColorejar);
+        panel.add(Box.createRigidArea(new Dimension(0, 60)));
+        panel.add(panelSortir);
+
+        return panel;
+    }
+
+    /**
+     * Crea un botó per a la configuració de colorejar regions.
+     * El botó mostra l'estat actual de la configuració i permet canviar-lo.
+     *
+     * @return Un botó per a la configuració de colorejar regions.
+     */
+    private JButton getColorejarButton() {
+        JButton botoColorejar = new JButton();
+        botoColorejar.setPreferredSize(new Dimension(100, 20));
+        botoColorejar.setMinimumSize(new Dimension(100, 20));
+        botoColorejar.setMaximumSize(new Dimension(100, 20));
+        botoColorejar.setMargin(new Insets(0, 0, 0, 0));
+        botoColorejar.setForeground(Color.BLACK);
+
+        actualitzarEstatBoto(botoColorejar, CtrlPresentacio.getInstance().getConfigColorejarRegions());
+        botoColorejar.addActionListener(e -> botoColorejarAction(botoColorejar));
+        return botoColorejar;
+    }
+
+    /**
+     * Crea un botó per a la configuració de validar resultats.
+     * El botó mostra l'estat actual de la configuració i permet canviar-lo.
+     *
+     * @return Un botó per a la configuració de validar resultats.
+     */
+    private JButton getValidarButton() {
+        JButton botoValidar = new JButton();
+        botoValidar.setPreferredSize(new Dimension(100, 20));
+        botoValidar.setMinimumSize(new Dimension(100, 20));
+        botoValidar.setMaximumSize(new Dimension(100, 20));
+        botoValidar.setMargin(new Insets(0, 0, 0, 0));
+        botoValidar.setForeground(Color.BLACK);
+
+        actualitzarEstatBoto(botoValidar, CtrlPresentacio.getInstance().getConfigValidarResultats());
+        botoValidar.addActionListener(e -> botoValidarAction(botoValidar));
+        return botoValidar;
+    }
+
+
+    /**
+     * Canvia l'estat de la configuració de colorejar regions quan l'usuari fa clic en el botó corresponent.
+     * També actualitza l'aparença del botó per reflectir el nou estat.
+     *
+     * @param botoColorejar El botó de la configuració de colorejar regions.
+     */
+    private void botoColorejarAction(JButton botoColorejar) {
+        boolean estatActual =  CtrlPresentacio.getInstance().getConfigColorejarRegions();
+        CtrlPresentacio.getInstance().setConfigColorejarRegions(!estatActual);
+        actualitzarEstatBoto(botoColorejar, !estatActual);
+
+        if (enModeEditor) TaulerKenken.repintarTaulerActual();
+    }
+
+    /**
+     * Canvia l'estat de la configuració de validar resultats quan l'usuari fa clic en el botó corresponent.
+     * També actualitza l'aparença del botó per reflectir el nou estat.
+     *
+     * @param botoValidar El botó de la configuració de validar resultats.
+     */
+    private void botoValidarAction(JButton botoValidar) {
+        boolean estatActual = CtrlPresentacio.getInstance().getConfigValidarResultats();
+        CtrlPresentacio.getInstance().setConfigValidarResultats(!estatActual);
+        actualitzarEstatBoto(botoValidar, !estatActual);
+    }
+
+    /**
+     * Actualitza l'aparença d'un botó de configuració per reflectir l'estat actual de la configuració.
+     * Si la configuració està activada, el botó es mostra en verd i amb el text "Activat".
+     * Si la configuració està desactivada, el botó es mostra en rosa i amb el text "Desactivat".
+     *
+     * @param boto El botó de configuració a actualitzar.
+     * @param estat L'estat actual de la configuració.
+     */
+    private void actualitzarEstatBoto(JButton boto, boolean estat) {
+        if (estat) {
+            boto.setText("Activat");
+            boto.setBackground(new Color(152, 251, 152, 255)); // Color verd suau
+        } else {
+            boto.setText("Desactivat");
+            boto.setBackground(new Color(255, 192, 203,255)); // Color rosa suau
+        }
+    }
+
+
+    /**
+     * Mostra un diàleg de configuració amb un panell de configuració.
+     * El diàleg es mostra en una nova finestra que es col·loca a la dreta de la finestra principal.
+     *
+     * @param panelConfig El panell de configuració a mostrar en el diàleg.
+     */
+    private void mostrarDialogConfiguracio(JPanel panelConfig) {
+        JLayeredPane layeredPane = new JLayeredPane();
+        layeredPane.setPreferredSize(panelComplet.getSize());
+
+        panelConfig.setBounds(0, 0, panelComplet.getWidth() / 3, panelComplet.getHeight());
+        layeredPane.add(panelConfig, JLayeredPane.POPUP_LAYER);
+
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(panelComplet);
+        dialogConfiguracio = new JDialog(frame, "Configuració", JDialog.ModalityType.MODELESS);
+        dialogConfiguracio.setUndecorated(true);
+        dialogConfiguracio.setContentPane(layeredPane);
+        dialogConfiguracio.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+
+        Dimension midaPanelPrincipal = panelComplet.getSize();
+        dialogConfiguracio.setSize(midaPanelPrincipal.width / 3, midaPanelPrincipal.height);
+        Point ubicacioPanelPrincipal = panelComplet.getLocationOnScreen();
+        int x = ubicacioPanelPrincipal.x + midaPanelPrincipal.width - dialogConfiguracio.getSize().width;
+        dialogConfiguracio.setLocation(x, ubicacioPanelPrincipal.y);
+
+        dialogConfiguracio.setVisible(true);
+        dialogConfiguracio.toFront();
+        dialogConfiguracio.requestFocus();
+    }
+
+
 
 
                 //// Metodes creació regió ////

@@ -1,6 +1,7 @@
 package main.presentacio;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 
 /**
@@ -73,7 +74,6 @@ public class ConfigUsuari {
      */
     public ConfigUsuari() {
         System.out.println("Entrant a la pantalla de configuracio d'usuari");
-        createUIComponents();
         passwordFieldActual.setEchoChar((char) 0);
         passwordFieldContr.setEchoChar((char) 0);
         passwordFieldConfContr.setEchoChar((char) 0);
@@ -231,5 +231,8 @@ public class ConfigUsuari {
      */
     private void createUIComponents() {
         labelLogo = new JLabel(Utils.carregarImatge("resources/imatges/fonsKenken.png", 800, 800));
+        guardarButton = Utils.crearBotoMitja("Guardar", Color.WHITE, Utils.COLOR_BOTO_VERD,true);
+        sortirButton = Utils.crearBotoMitja("Sortir", Color.WHITE, Utils.COLOR_BOTO_VERMELL,true);
+        tancarSessioButton = Utils.crearBotoMitja("Tancar Sessió", Color.WHITE, Utils.COLOR_BOTO_BLAU,true);
     }
 }

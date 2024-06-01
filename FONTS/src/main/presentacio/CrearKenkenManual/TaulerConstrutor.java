@@ -390,23 +390,20 @@ public class TaulerConstrutor extends JPanel {
             assignarCasellesRegio(operacio, resultat);
         }
 
-        System.out.println("Tauler abans de guardar");
-        System.out.println(dadesRegions);
-
     }
 
     /*+
     * Torna a pintar el tauler actual
     */
     public void repintarTaulerActual() {
-        System.out.println(dadesRegions);
         ArrayList<String> contingutTaulerList = new ArrayList<>();
         contingutTaulerList.add("");
         contingutTaulerList.addAll(dadesRegions);
         String[] contingutTauler = contingutTaulerList.toArray(new String[0]); // Convertir la lista a un array
 
-        dadesRegions.clear();
-        numCasellesAssignades = 0;
+        //reiniciar el tauler
+        resetTauler();
+        //pinta es torna a pintar el tauler
         carregarTaulerImportat(contingutTauler);
     }
 
@@ -819,27 +816,26 @@ public class TaulerConstrutor extends JPanel {
      * @return El color de la regió.
      */
     private Color getColorRegio(String operacio) {
-        Color colorRegioDefault = new Color(255, 255, 255,255); // Color blanc
 
-        if (!CtrlPresentacio.getInstance().getConfigColorejarRegions()) return colorRegioDefault;
+        if (!CtrlPresentacio.getInstance().getConfigColorejarRegions()) return Color.WHITE ;
 
         switch (operacio) {
             case "0":
-                return colorRegioDefault;
+                return new Color(190, 190, 190,255);
             case "1":
-                return new Color(252, 82, 82,140);
+                return new Color(255, 117, 117,255);
             case "2":
-                return new Color(152, 251, 152,140);
+                return new Color(152, 251, 152,255);
             case "3":
-                return new Color(135, 206, 235,140);
+                return new Color(142, 208, 236,255);
             case "4":
-                return new Color(255, 165, 0,140);
+                return new Color(255, 179, 75,255);
             case "5":
-                return new Color(208, 153, 255,140);
+                return new Color(202, 150, 252,255);
             case "6":
-                return new Color(96, 101, 205,140);
+                return new Color(121, 129, 246,255);
             default:
-                return colorRegioDefault;
+                return Color.WHITE;
         }
     }
 

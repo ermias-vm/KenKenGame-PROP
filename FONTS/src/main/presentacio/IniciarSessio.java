@@ -3,6 +3,7 @@ package main.presentacio;
 import main.domini.excepcions.ExcepcioContrasenyaIncorrecta;
 import main.domini.excepcions.ExcepcioUsuariNoExisteix;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -70,6 +71,8 @@ public class IniciarSessio {
      * Etiqueta per a mostrar missatges d'error.
      */
     private JLabel errorLabel;
+    private JPanel panelCrearCompte;
+    private JPanel panelDret;
 
     /**
      * Constructor de la classe IniciarSessio.
@@ -165,6 +168,8 @@ public class IniciarSessio {
         labelLogo = new JLabel(Utils.carregarImatge("resources/imatges/fonsKenken.png", 800, 800));
         labelSeparador = new JLabel(Utils.carregarImatge("resources/imatges/separador_amb_or.png", 300, 30));
 
+        buttonCrearCompte = Utils.crearBotoMitja("Crear compte", Color.WHITE, Utils.COLOR_BOTO_BLAU,true);
+        buttonIniSessio = Utils.crearBotoMitja("Iniciar Sessió", Color.WHITE, Utils.COLOR_BOTO_VERD, true);
     }
 
 }

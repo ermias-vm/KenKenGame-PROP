@@ -109,7 +109,7 @@
               <text value="Contrasenya actual"/>
             </properties>
           </component>
-          <component id="884a5" class="javax.swing.JButton" binding="sortirButton" default-binding="true">
+          <component id="884a5" class="javax.swing.JButton" binding="sortirButton" custom-create="true" default-binding="true">
             <constraints>
               <grid row="8" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
                 <minimum-size width="140" height="-1"/>
@@ -122,7 +122,7 @@
               <text value="Sortir"/>
             </properties>
           </component>
-          <component id="e9c00" class="javax.swing.JButton" binding="guardarButton">
+          <component id="e9c00" class="javax.swing.JButton" binding="guardarButton" custom-create="true">
             <constraints>
               <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
                 <minimum-size width="140" height="-1"/>
@@ -135,7 +135,7 @@
               <text value="Guardar"/>
             </properties>
           </component>
-          <component id="bba8" class="javax.swing.JButton" binding="tancarSessioButton">
+          <component id="bba8" class="javax.swing.JButton" binding="tancarSessioButton" custom-create="true">
             <constraints>
               <grid row="12" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
                 <minimum-size width="140" height="-1"/>
