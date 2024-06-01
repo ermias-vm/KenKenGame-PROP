@@ -41,8 +41,10 @@ public class CrearKenkenManual {
     private JLabel labelSeparador;
     private JButton importarTaulerButton;
     private JPanel panelSortir;
+    private JButton configuracioButton;
     private JTextArea areaTextIntroduccioTauler;
     private JDialog dialogImportar;
+    private JDialog dialogConfiguracio;
 
     private TaulerConstrutor TaulerKenken;
     private String contingutTaulerKenken;
@@ -81,7 +83,145 @@ public class CrearKenkenManual {
         setupResetButtonListener();
         setupGrauComboBoxListener();
         setupImportarTaulerButtonListener();
+        setupConfiguracioButtonListener();
     }
+
+///////////////////////////////////////
+    public void setupConfiguracioButtonListener() {
+        configuracioButton.addActionListener(e -> {
+            JPanel panelConfiguracio = crearPanelConfiguracio();
+            mostrarDialogConfiguracio(panelConfiguracio);
+        });
+    }
+
+
+    public JPanel crearPanelConfiguracio() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        JLabel labelValidar = new JLabel("Validar Resultats: ");
+        JButton botoValidar = getValidarButton();
+
+        JPanel panelValidar = new JPanel();
+        panelValidar.setLayout(new BoxLayout(panelValidar, BoxLayout.X_AXIS));
+        panelValidar.add(labelValidar);
+        panelValidar.add(botoValidar);
+
+        JLabel labelColorejar = new JLabel("Colorejar regions: ");
+        JButton botoColorejar = getColorejarButton();
+
+        JPanel panelColorejar = new JPanel();
+        panelColorejar.setLayout(new BoxLayout(panelColorejar, BoxLayout.X_AXIS));
+        panelColorejar.add(labelColorejar);
+        panelColorejar.add(botoColorejar);
+
+        // Crear botó de sortida
+        JButton botoSortir = new JButton("Sortir");
+        botoSortir.addActionListener(e -> dialogConfiguracio.dispose());
+
+        JPanel panelSortir = new JPanel();
+        panelSortir.setLayout(new BoxLayout(panelSortir, BoxLayout.X_AXIS));
+        panelSortir.add(Box.createHorizontalGlue());
+        panelSortir.add(botoSortir);
+        panelSortir.add(Box.createHorizontalGlue());
+
+        panel.add(Box.createRigidArea(new Dimension(0, 300)));
+        panel.add(panelValidar);
+        panel.add(Box.createRigidArea(new Dimension(0, 20)));
+        panel.add(panelColorejar);
+        panel.add(Box.createRigidArea(new Dimension(0, 60)));
+        panel.add(panelSortir);
+
+        return panel;
+    }
+
+    private JButton getColorejarButton() {
+        JButton botoColorejar = new JButton();
+        botoColorejar.setPreferredSize(new Dimension(100, 20));
+        botoColorejar.setMinimumSize(new Dimension(100, 20));
+        botoColorejar.setMaximumSize(new Dimension(100, 20));
+        botoColorejar.setMargin(new Insets(0, 0, 0, 0));
+        botoColorejar.setForeground(Color.BLACK);
+
+        actualitzarEstatBoto(botoColorejar, TaulerKenken.getColorejarRegions());
+        botoColorejar.addActionListener(e -> botoColorejarAction(botoColorejar));
+        return botoColorejar;
+    }
+
+    private JButton getValidarButton() {
+        JButton botoValidar = new JButton();
+        botoValidar.setPreferredSize(new Dimension(100, 20));
+        botoValidar.setMinimumSize(new Dimension(100, 20));
+        botoValidar.setMaximumSize(new Dimension(100, 20));
+        botoValidar.setMargin(new Insets(0, 0, 0, 0));
+        botoValidar.setForeground(Color.BLACK);
+
+        actualitzarEstatBoto(botoValidar, TaulerKenken.getValidarResultats());
+        botoValidar.addActionListener(e -> botoValidarAction(botoValidar));
+        return botoValidar;
+    }
+
+    private void botoColorejarAction(JButton botoColorejar) {
+        boolean estatActual = TaulerKenken.getColorejarRegions();
+        TaulerKenken.setColorejarRegions(!estatActual);
+        actualitzarEstatBoto(botoColorejar, !estatActual);
+    }
+
+    private void botoValidarAction(JButton botoValidar) {
+        boolean estatActual = TaulerKenken.getValidarResultats();
+        TaulerKenken.setValidarResultats(!estatActual);
+        actualitzarEstatBoto(botoValidar, !estatActual);
+    }
+
+    private void actualitzarEstatBoto(JButton boto, boolean estat) {
+        if (estat) {
+            boto.setText("Activat");
+            boto.setBackground(new Color(152, 251, 152, 255)); // Color verd suau
+        } else {
+            boto.setText("Desactivat");
+            boto.setBackground(new Color(255, 192, 203,255)); // Color rosa suau
+        }
+    }
+
+
+    private void botonColorejarAction(JButton botoColorejar) {
+        if (botoColorejar.getText().equals("Desactivat")) {
+            botoColorejar.setText("Activat");
+            botoColorejar.setBackground(new Color(152, 251, 152, 255));
+        } else {
+            botoColorejar.setText("Desactivat");
+            botoColorejar.setBackground(new Color(255, 192, 203,255));
+        }
+    }
+
+    private void mostrarDialogConfiguracio(JPanel panelConfig) {
+        JLayeredPane layeredPane = new JLayeredPane();
+        layeredPane.setPreferredSize(panelComplet.getSize());
+
+        panelConfig.setBounds(0, 0, panelComplet.getWidth() / 3, panelComplet.getHeight());
+        layeredPane.add(panelConfig, JLayeredPane.POPUP_LAYER);
+
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(panelComplet);
+        dialogConfiguracio = new JDialog(frame, "Configuració", JDialog.ModalityType.MODELESS);
+        dialogConfiguracio.setUndecorated(true);
+        dialogConfiguracio.setContentPane(layeredPane);
+        dialogConfiguracio.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+
+        Dimension midaPanelPrincipal = panelComplet.getSize();
+        dialogConfiguracio.setSize(midaPanelPrincipal.width / 3, midaPanelPrincipal.height);
+        Point ubicacioPanelPrincipal = panelComplet.getLocationOnScreen();
+        int x = ubicacioPanelPrincipal.x + midaPanelPrincipal.width - dialogConfiguracio.getSize().width;
+        dialogConfiguracio.setLocation(x, ubicacioPanelPrincipal.y);
+
+        dialogConfiguracio.setVisible(true);
+        dialogConfiguracio.toFront();
+        dialogConfiguracio.requestFocus();
+    }
+
+
+
+
+
 
     /**
      * Inicia el mode editor amb un tauler de la mida especificada.
@@ -94,13 +234,16 @@ public class CrearKenkenManual {
      */
     private void iniciarEditor(int mida, boolean taulerEsImportat) {
         enModeEditor = true;
+
+        labelSeparador.setVisible(false);
+        importarTaulerButton.setVisible(false);
         aceptarButton.setVisible(false);
         grauLabel.setVisible(false);
         grauComboBox.setVisible(false);
         guardarButton.setVisible(true);
         resetButton.setVisible(true);
-        labelSeparador.setVisible(false);
-        importarTaulerButton.setVisible(false);
+        configuracioButton.setVisible(true);
+
 
         if (taulerEsImportat) {
             System.out.println("Creant tauler importat");
@@ -127,6 +270,7 @@ public class CrearKenkenManual {
         enModeEditor = false;
         guardarButton.setVisible(false);
         resetButton.setVisible(false);
+        configuracioButton.setVisible(false);
         labelSeparador.setVisible(true);
         importarTaulerButton.setVisible(true);
         previewTauler(3);
@@ -253,6 +397,8 @@ public class CrearKenkenManual {
     }
 
 
+
+
                 //// Listeners importacio tauler ////
 
     /**
@@ -313,6 +459,7 @@ public class CrearKenkenManual {
             mostrarDialogImportacio(panelImportarTaulers);
         });
     }
+
 
 
                 //// Metodes importacio tauler ////

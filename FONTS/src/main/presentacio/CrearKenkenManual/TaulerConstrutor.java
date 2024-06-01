@@ -70,6 +70,17 @@ public class TaulerConstrutor extends JPanel {
     private boolean[][] valorsUsatsFila;
 
     /**
+     * Variable que indica si s'ha d'activar la validació del resultat.
+     * Aquesta variable es fa servir per a activar o desactivar la validació del resultat quan es selecciona una operació.
+     */
+    private boolean validarResultatEsActivat = true;
+
+    /**
+     * Variable que indica si s'ha de colorejar les regions del tauler segons la seva operació.
+     */
+    private boolean colorejarRegions = false;
+
+    /**
      * Constructor privat de TaulerConstrutor.
      * Inicialitza el tauler amb una mida específica.
      *
@@ -190,6 +201,40 @@ public class TaulerConstrutor extends JPanel {
     public boolean esModificat() {
         return (numCasellesAssignades > 0 || getNumCasellesSelecionades() > 0);
     }
+
+    /**
+     * Comfigura la validació del resultat.
+     * Activa o desactiva la validació del resultat.
+     * @param estat
+     */
+    public void setValidarResultats (boolean estat) {
+        validarResultatEsActivat = estat;
+    }
+
+    /**
+     * Indica si la validació del resultat està activada.
+     * @return True si la validació del resultat està activada, false en cas contrari.
+     */
+    public boolean getValidarResultats() {
+        return validarResultatEsActivat;
+    }
+
+    /**
+     * Configura si s'ha de colorejar les regions del tauler segons la seva operació.
+     * @param estat Si es true, les regions es colorejaran segons la seva operació. altrament totes tindran el color per defecte.
+     */
+    public void setColorejarRegions (boolean estat) {
+        this.colorejarRegions = estat;
+    }
+
+    /**
+     * Indica si s'ha de colorejar les regions del tauler segons la seva operació.
+     * @return True si s'ha de colorejar les regions del tauler segons la seva operació, false en cas contrari.
+     */
+    public boolean getColorejarRegions() {
+        return colorejarRegions;
+    }
+
 
     /**
      * Afegeix la posició d'una casella seleccionada a la llista de posicions de caselles selecionades.
@@ -433,7 +478,8 @@ public class TaulerConstrutor extends JPanel {
             return "<html><div style='text-align: center;'>Les caselles selecionades no formen una regió connectada." +
                     "<br>Si us plau, connecteu les caselles aïllades.</div></html>";
         }
-        return validarValorMinMaxOperacio(operacio, Integer.parseInt(resultat));
+        if (validarResultatEsActivat) return validarValorMinMaxOperacio(operacio, Integer.parseInt(resultat));
+        return null;
     }
     
     /**

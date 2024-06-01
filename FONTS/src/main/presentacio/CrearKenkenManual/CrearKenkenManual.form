@@ -216,6 +216,18 @@
                   <verticalAlignment value="0"/>
                 </properties>
               </component>
+              <component id="49c30" class="javax.swing.JButton" binding="configuracioButton">
+                <constraints>
+                  <grid row="5" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                    <minimum-size width="130" height="-1"/>
+                    <preferred-size width="130" height="-1"/>
+                    <maximum-size width="130" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <text value="Configuració"/>
+                </properties>
+              </component>
             </children>
           </grid>
           <vspacer id="38df7">
@@ -295,7 +307,7 @@
       </grid>
       <grid id="a2d34" binding="panelEsq" layout-manager="BorderLayout" hgap="0" vgap="0">
         <constraints>
-          <grid row="0" column="0" row-span="11" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="2" indent="1" use-parent-layout="false">
+          <grid row="0" column="0" row-span="11" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="1" use-parent-layout="false">
             <minimum-size width="700" height="700"/>
             <preferred-size width="700" height="700"/>
             <maximum-size width="700" height="700"/>

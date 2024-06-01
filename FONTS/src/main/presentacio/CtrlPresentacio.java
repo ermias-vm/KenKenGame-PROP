@@ -147,7 +147,8 @@ public class CtrlPresentacio {
             }
         });
 
-        showIniciarSessio();
+        //showIniciarSessio();
+        showCrearKenKen();
     }
 
     /**
@@ -343,7 +344,7 @@ public class CtrlPresentacio {
     /**
      * {@link ControladorPartida#carregarUltimaPartidaGuardada(String)}
      */
-    public String carregarUltimaPartidaGuardada(String nomUsuari) throws ExcepcioCarregaPartida, ExcepcioInicialitzacioPersistenciaPartida, ExcepcioPartidaEnCurs, ExcepcioNoPermisUsuari, ExcepcioCreacioPartida, ExcepcioInicialitzacioPersistenciaPartida, ExcepcioCarregaPartida, ExcepcioNoPermisUsuari, ExcepcioCreacioPartida, ExcepcioPartidaEnCurs {
+    public String carregarUltimaPartidaGuardada(String nomUsuari) throws ExcepcioCarregaPartida, ExcepcioNoPermisUsuari, ExcepcioCreacioPartida, ExcepcioPartidaEnCurs, ExcepcioInicialitzacioPersistenciaPartida {
         return CDomini.carregarUltimaPartidaGuardada(nomUsuari);
     }
 

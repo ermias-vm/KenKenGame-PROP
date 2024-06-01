@@ -1,6 +1,5 @@
 package main.presentacio.Ranking;
 
-import main.domini.controladors.ControladorRanking;
 import main.presentacio.CtrlPresentacio;
 import main.presentacio.Partida.ObservadorLlista;
 
