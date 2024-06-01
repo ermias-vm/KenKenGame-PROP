@@ -436,7 +436,7 @@ public class CreadorKenkenParam {
      */
     public static String creadora(int grau, boolean suma, boolean resta, boolean multiplicacio, boolean divisio, boolean modul, boolean exponenciacio){
         int size = grau;
-        int maxSize = Math.max(grau-3,3);
+        int maxSize = Math.max(grau-4,3);
         CreadorKenkenParam generator = new CreadorKenkenParam(size, maxSize);
         generator.generateSolutionAndBoard();
         generator.printSolution();
