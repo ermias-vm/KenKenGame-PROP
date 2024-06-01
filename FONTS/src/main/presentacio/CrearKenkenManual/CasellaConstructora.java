@@ -20,7 +20,6 @@ public class CasellaConstructora extends JPanel {
      * Colors i gruixos utilitzats en la representació de la casella.
      *
      * COLOR_SELECCIONADA: Color utilitzat per a la casella quan està seleccionada.
-     * COLOR_REGIO: Color utilitzat per a la casella quan pertany a una regió.
      * COLOR_DEFAULT: Color per defecte de la casella.
      * COLOR_VORA_REGIO: Color de la vora de la casella quan pertany a una regió.
      * COLOR_VORA_DEFAULT: Color per defecte de la vora de la casella.
@@ -30,7 +29,6 @@ public class CasellaConstructora extends JPanel {
      * DEFAULT_FONT_SIZE: Mida de la font per defecte de la informació de la regió.
      */
     private static final Color COLOR_SELECCIONADA = new Color(150, 255, 238, 255);
-    private static final Color COLOR_REGIO = new Color(255, 255, 255,255);
     private static final Color COLOR_DEFAULT = new Color(255, 255, 255,255);
     private static final Color COLOR_VORA_REGIO = new Color(0, 0, 0, 255);
     private static final Color COLOR_VORA_DEFAULT = new Color(220, 220, 220, 255);
@@ -192,10 +190,10 @@ public class CasellaConstructora extends JPanel {
      *
      * @param index l'índex de la regió a la que pertany la casella
      */
-    public void marcaComRegio(int index) {
+    public void marcaComRegio(int index, Color colorRegio) {
         this.pertanyRegio = true;
         this.indexRegio = index;
-        this.setBackground(COLOR_REGIO);
+        this.setBackground(colorRegio);
     }
 
     /**

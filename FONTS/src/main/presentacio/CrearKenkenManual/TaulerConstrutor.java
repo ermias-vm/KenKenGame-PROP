@@ -1,5 +1,7 @@
 package main.presentacio.CrearKenkenManual;
 
+import main.presentacio.CtrlPresentacio;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -69,16 +71,6 @@ public class TaulerConstrutor extends JPanel {
      */
     private boolean[][] valorsUsatsFila;
 
-    /**
-     * Variable que indica si s'ha d'activar la validació del resultat.
-     * Aquesta variable es fa servir per a activar o desactivar la validació del resultat quan es selecciona una operació.
-     */
-    private boolean validarResultatEsActivat = true;
-
-    /**
-     * Variable que indica si s'ha de colorejar les regions del tauler segons la seva operació.
-     */
-    private boolean colorejarRegions = false;
 
     /**
      * Constructor privat de TaulerConstrutor.
@@ -203,40 +195,6 @@ public class TaulerConstrutor extends JPanel {
     }
 
     /**
-     * Comfigura la validació del resultat.
-     * Activa o desactiva la validació del resultat.
-     * @param estat
-     */
-    public void setValidarResultats (boolean estat) {
-        validarResultatEsActivat = estat;
-    }
-
-    /**
-     * Indica si la validació del resultat està activada.
-     * @return True si la validació del resultat està activada, false en cas contrari.
-     */
-    public boolean getValidarResultats() {
-        return validarResultatEsActivat;
-    }
-
-    /**
-     * Configura si s'ha de colorejar les regions del tauler segons la seva operació.
-     * @param estat Si es true, les regions es colorejaran segons la seva operació. altrament totes tindran el color per defecte.
-     */
-    public void setColorejarRegions (boolean estat) {
-        this.colorejarRegions = estat;
-    }
-
-    /**
-     * Indica si s'ha de colorejar les regions del tauler segons la seva operació.
-     * @return True si s'ha de colorejar les regions del tauler segons la seva operació, false en cas contrari.
-     */
-    public boolean getColorejarRegions() {
-        return colorejarRegions;
-    }
-
-
-    /**
      * Afegeix la posició d'una casella seleccionada a la llista de posicions de caselles selecionades.
      *
      * @param x La coordenada x de la casella.
@@ -275,14 +233,14 @@ public class TaulerConstrutor extends JPanel {
      */
     public void assignarCasellesRegio(String operacio, String resultat) {
         StringBuilder infoRegio = new StringBuilder();
-
-        infoRegio.append(traduirOperacioAnum(operacio)).append(" ");
+        String operacioTraduida = traduirOperacioAnum(operacio);
+        infoRegio.append(operacioTraduida).append(" ");
         infoRegio.append(resultat).append(" ");
         infoRegio.append(posCasellesSeleccionades.size());
 
         ordenarPosicionsCaselles();
         for (int[] pos : posCasellesSeleccionades) {
-            caselles[pos[0]][pos[1]].marcaComRegio(dadesRegions.size());
+            caselles[pos[0]][pos[1]].marcaComRegio(dadesRegions.size(), getColorRegio(operacioTraduida));
             infoRegio.append(" ").append(pos[0]+1).append(" ").append(pos[1]+1);
         }
 
@@ -408,6 +366,11 @@ public class TaulerConstrutor extends JPanel {
         return contingutTauler.toString();
     }
 
+    /**
+     * Es carrega un tauler apartir del seu contingut.
+     * S'itera el contingut del tauler i es crida a la funció assignarCasellesRegio per a cada regió
+     * @param contingutTauler El contingut del tauler.
+     */
     private void carregarTaulerImportat(String[] contingutTauler) {
 
         // S'itera els strings de contingutTauler començant desdel segon , es a dir cada iteració es una regió.
@@ -427,9 +390,25 @@ public class TaulerConstrutor extends JPanel {
             assignarCasellesRegio(operacio, resultat);
         }
 
+        System.out.println("Tauler abans de guardar");
+        System.out.println(dadesRegions);
+
     }
 
+    /*+
+    * Torna a pintar el tauler actual
+    */
+    public void repintarTaulerActual() {
+        System.out.println(dadesRegions);
+        ArrayList<String> contingutTaulerList = new ArrayList<>();
+        contingutTaulerList.add("");
+        contingutTaulerList.addAll(dadesRegions);
+        String[] contingutTauler = contingutTaulerList.toArray(new String[0]); // Convertir la lista a un array
 
+        dadesRegions.clear();
+        numCasellesAssignades = 0;
+        carregarTaulerImportat(contingutTauler);
+    }
 
     /**
      * Ordena creixentment les posicions de les caselles seleccionades.
@@ -478,7 +457,7 @@ public class TaulerConstrutor extends JPanel {
             return "<html><div style='text-align: center;'>Les caselles selecionades no formen una regió connectada." +
                     "<br>Si us plau, connecteu les caselles aïllades.</div></html>";
         }
-        if (validarResultatEsActivat) return validarValorMinMaxOperacio(operacio, Integer.parseInt(resultat));
+        if (CtrlPresentacio.getInstance().getConfigValidarResultats()) return validarValorMinMaxOperacio(operacio, Integer.parseInt(resultat));
         return null;
     }
     
@@ -830,6 +809,37 @@ public class TaulerConstrutor extends JPanel {
             return "^";
         } else {
             return null;
+        }
+    }
+
+    /**
+     * Obte el color de la regio segons l'operacio.
+     *
+     * @param operacio L'operació de la regió.
+     * @return El color de la regió.
+     */
+    private Color getColorRegio(String operacio) {
+        Color colorRegioDefault = new Color(255, 255, 255,255); // Color blanc
+
+        if (!CtrlPresentacio.getInstance().getConfigColorejarRegions()) return colorRegioDefault;
+
+        switch (operacio) {
+            case "0":
+                return colorRegioDefault;
+            case "1":
+                return new Color(252, 82, 82,140);
+            case "2":
+                return new Color(152, 251, 152,140);
+            case "3":
+                return new Color(135, 206, 235,140);
+            case "4":
+                return new Color(255, 165, 0,140);
+            case "5":
+                return new Color(208, 153, 255,140);
+            case "6":
+                return new Color(96, 101, 205,140);
+            default:
+                return colorRegioDefault;
         }
     }
 

@@ -38,10 +38,10 @@ public class CrearKenkenManual {
     private JComboBox grauComboBox;
     private JButton resetButton;
     private JPanel panelDret;
-    private JLabel labelSeparador;
     private JButton importarTaulerButton;
     private JPanel panelSortir;
     private JButton configuracioButton;
+    private JPanel panelConfigSortir;
     private JTextArea areaTextIntroduccioTauler;
     private JDialog dialogImportar;
     private JDialog dialogConfiguracio;
@@ -143,7 +143,7 @@ public class CrearKenkenManual {
         botoColorejar.setMargin(new Insets(0, 0, 0, 0));
         botoColorejar.setForeground(Color.BLACK);
 
-        actualitzarEstatBoto(botoColorejar, TaulerKenken.getColorejarRegions());
+        actualitzarEstatBoto(botoColorejar, CtrlPresentacio.getInstance().getConfigColorejarRegions());
         botoColorejar.addActionListener(e -> botoColorejarAction(botoColorejar));
         return botoColorejar;
     }
@@ -156,20 +156,22 @@ public class CrearKenkenManual {
         botoValidar.setMargin(new Insets(0, 0, 0, 0));
         botoValidar.setForeground(Color.BLACK);
 
-        actualitzarEstatBoto(botoValidar, TaulerKenken.getValidarResultats());
+        actualitzarEstatBoto(botoValidar, CtrlPresentacio.getInstance().getConfigValidarResultats());
         botoValidar.addActionListener(e -> botoValidarAction(botoValidar));
         return botoValidar;
     }
 
     private void botoColorejarAction(JButton botoColorejar) {
-        boolean estatActual = TaulerKenken.getColorejarRegions();
-        TaulerKenken.setColorejarRegions(!estatActual);
+        boolean estatActual =  CtrlPresentacio.getInstance().getConfigColorejarRegions();
+        CtrlPresentacio.getInstance().setConfigColorejarRegions(!estatActual);
         actualitzarEstatBoto(botoColorejar, !estatActual);
+
+        if (enModeEditor) TaulerKenken.repintarTaulerActual();
     }
 
     private void botoValidarAction(JButton botoValidar) {
-        boolean estatActual = TaulerKenken.getValidarResultats();
-        TaulerKenken.setValidarResultats(!estatActual);
+        boolean estatActual = CtrlPresentacio.getInstance().getConfigValidarResultats();
+        CtrlPresentacio.getInstance().setConfigValidarResultats(!estatActual);
         actualitzarEstatBoto(botoValidar, !estatActual);
     }
 
@@ -183,16 +185,6 @@ public class CrearKenkenManual {
         }
     }
 
-
-    private void botonColorejarAction(JButton botoColorejar) {
-        if (botoColorejar.getText().equals("Desactivat")) {
-            botoColorejar.setText("Activat");
-            botoColorejar.setBackground(new Color(152, 251, 152, 255));
-        } else {
-            botoColorejar.setText("Desactivat");
-            botoColorejar.setBackground(new Color(255, 192, 203,255));
-        }
-    }
 
     private void mostrarDialogConfiguracio(JPanel panelConfig) {
         JLayeredPane layeredPane = new JLayeredPane();
@@ -218,7 +210,7 @@ public class CrearKenkenManual {
         dialogConfiguracio.requestFocus();
     }
 
-
+            ////////
 
 
 
@@ -235,14 +227,13 @@ public class CrearKenkenManual {
     private void iniciarEditor(int mida, boolean taulerEsImportat) {
         enModeEditor = true;
 
-        labelSeparador.setVisible(false);
+
         importarTaulerButton.setVisible(false);
         aceptarButton.setVisible(false);
         grauLabel.setVisible(false);
         grauComboBox.setVisible(false);
         guardarButton.setVisible(true);
         resetButton.setVisible(true);
-        configuracioButton.setVisible(true);
 
 
         if (taulerEsImportat) {
@@ -270,8 +261,7 @@ public class CrearKenkenManual {
         enModeEditor = false;
         guardarButton.setVisible(false);
         resetButton.setVisible(false);
-        configuracioButton.setVisible(false);
-        labelSeparador.setVisible(true);
+        configuracioButton.setVisible(true);
         importarTaulerButton.setVisible(true);
         previewTauler(3);
     }
@@ -758,6 +748,7 @@ public class CrearKenkenManual {
         }
         return operacioPanel;
     }
+
     /**
      * Crea un panel amb el camp de text per al resultat.
      * Limita la longitud del text a 9 caràcters i només permet introduir dígits.
@@ -826,7 +817,6 @@ public class CrearKenkenManual {
         panelEsq.validate();
     }
 
-
     /**
      * Elimina els valors fixos del contingut del tauler.
      *
@@ -840,7 +830,6 @@ public class CrearKenkenManual {
         }
         return String.join("\n", dadesTauler);
     }
-
 
     /**
      * Retorna el panel principal de la pantalla de creació de Kenken.
@@ -859,7 +848,6 @@ public class CrearKenkenManual {
     private void createUIComponents() {
 
         logoCreateLabel = new JLabel(Utils.carregarImatge("resources/imatges/logoKenkenCreador.png", 320, 320));
-        labelSeparador = new JLabel(Utils.carregarImatge("resources/imatges/separador_amb_or.png", 300, 30));
     }
 
 }

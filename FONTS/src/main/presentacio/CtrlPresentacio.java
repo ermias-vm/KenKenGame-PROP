@@ -39,6 +39,16 @@ public class CtrlPresentacio {
      * Mida màxima del tauler de les partides.
      */
     public static final int MIDAMAX = 9;
+    
+    /**
+     * Indica si es validaran els resultats de les regions al crearles.
+     */
+    private boolean configValidarRegions = true;
+    
+    /**
+     * Indica si es pintaran o no les regions creades.
+     */
+    private boolean configColorejarRegions = false;
 
     /**
      * Instància única de la classe CtrlPresentacio, utilitzada per implementar el patró Singleton.
@@ -274,6 +284,39 @@ public class CtrlPresentacio {
         mainFrame.setTitle("Jugar Partida");
         mainFrame.setContentPane(controladorPresentacioPartida_.getDefaultPanel());
         mainFrame.setVisible(true);
+    }
+
+    /**
+     * Comfigura la validació del resultat.
+     * Activa o desactiva la validació del resultat.
+     * @param estat
+     */
+    public void setConfigValidarResultats (boolean estat) {
+        configValidarRegions = estat;
+    }
+
+    /**
+     * Indica si la validació del resultat està activada.
+     * @return True si la validació del resultat està activada, false en cas contrari.
+     */
+    public boolean getConfigValidarResultats() {
+        return configValidarRegions;
+    }
+
+    /**
+     * Configura si s'ha de colorejar les regions del tauler segons la seva operació.
+     * @param estat Si es true, les regions es colorejaran segons la seva operació. altrament totes tindran el color per defecte.
+     */
+    public void setConfigColorejarRegions (boolean estat) {
+        this.configColorejarRegions = estat;
+    }
+
+    /**
+     * Indica si s'ha de colorejar les regions del tauler segons la seva operació.
+     * @return True si s'ha de colorejar les regions del tauler segons la seva operació, false en cas contrari.
+     */
+    public boolean getConfigColorejarRegions() {
+        return configColorejarRegions;
     }
 
             /// FUNCINOS USUARI ///
