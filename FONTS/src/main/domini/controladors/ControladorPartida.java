@@ -341,8 +341,8 @@ public class ControladorPartida {
                         int columna = posicions[i][1] - 1;
                         valorsIncorrectesRegio.add(new int[]{fila, columna});
                     }
-                    return valorsIncorrectesRegio;
                 }
+                return valorsIncorrectesRegio;
             }
         }
         boolean acabada = true;
