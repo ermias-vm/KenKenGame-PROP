@@ -290,18 +290,14 @@ public class ControladorPartida {
         ArrayList<Regio> valorsIncorrectes = partida_.getTaulerPartida().getRegionsIncorrectes(partida_.getValorsPartida());
         Regio[] regionsIncorrectes = valorsIncorrectes.toArray(new Regio[0]);
         for (Regio r : regionsIncorrectes){
-            boolean buida = true;
             int[][] posicions = r.getPosicionsCaselles();
             for ( int[] posicio : posicions){
                 int fila = posicio[0]-1;
                 int columna = posicio[1]-1;
-                if (partida_.getValorsPartida()[fila][columna] != 0){
-                    buida = false;
+                if (partida_.getValorsPartida()[fila][columna] == 0){
+                    valorsIncorrectes.remove(r);
                     break;
                 }
-            }
-            if (buida){
-                valorsIncorrectes.remove(r);
             }
         }
         if (!valorsIncorrectes.isEmpty()){
@@ -318,6 +314,37 @@ public class ControladorPartida {
             return valorsIncorrectesRegio;
         }
         int[][] solucioTotal = controladorDomini_.resoldreKenken(partida_.getTaulerPartida(), partida_.getValorsPartida());
+        if (solucioTotal == null){
+            ArrayList<Regio> valorsIncorrectesBuits = partida_.getTaulerPartida().getRegionsIncorrectes(partida_.getValorsPartida());
+            Regio[] regionsIncorrectesBiuts = valorsIncorrectesBuits.toArray(new Regio[0]);
+            for (Regio r : regionsIncorrectesBiuts){
+                boolean buit = true;
+                int[][] posicions = r.getPosicionsCaselles();
+                for ( int[] posicio : posicions){
+                    int fila = posicio[0]-1;
+                    int columna = posicio[1]-1;
+                    if (partida_.getValorsPartida()[fila][columna] != 0){
+                        buit = false;
+                        break;
+                    }
+                }
+                if (buit){
+                    valorsIncorrectesBuits.remove(r);
+                }
+            }
+            if (!valorsIncorrectesBuits.isEmpty()){
+                ArrayList<int[]> valorsIncorrectesRegio = new ArrayList<>();
+                for (Regio r : valorsIncorrectesBuits) {
+                    int[][] posicions = r.getPosicionsCaselles();
+                    for (int i = 0; i < posicions.length; ++i) {
+                        int fila = posicions[i][0] - 1;
+                        int columna = posicions[i][1] - 1;
+                        valorsIncorrectesRegio.add(new int[]{fila, columna});
+                    }
+                    return valorsIncorrectesRegio;
+                }
+            }
+        }
         boolean acabada = true;
         for (int i = 0; i < partida_.getTaulerPartida().getGrau(); ++i){
             for (int j = 0; j < partida_.getTaulerPartida().getGrau(); ++j){
@@ -331,7 +358,6 @@ public class ControladorPartida {
             partida_.setGuardadaPartida();
             return new ArrayList<>();
         }
-        if (solucioTotal == null) throw new ExcepcioPartidaAcabada("La partida no té solució");
         boolean posat = false;
         while (!posat){
             int fila = (int) (Math.random() * partida_.getTaulerPartida().getGrau());
