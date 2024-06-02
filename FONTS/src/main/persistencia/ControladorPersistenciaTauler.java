@@ -91,7 +91,7 @@ public class ControladorPersistenciaTauler {
             for (String identificador : identificadors) {
                 try {
                     String dadesTaulerGuardat = llegirTauler(identificador);
-                    if (dadesTaulerGuardat.equals(dadesTauler)) {
+                    if (comparaDadesTaulers(dadesTauler, dadesTaulerGuardat)) {
                         return identificador;
                     }
                 } catch (ExcepcioTaulerNoExisteix e) {
@@ -139,6 +139,25 @@ public class ControladorPersistenciaTauler {
         }
         return fitxer;
     }
+
+    private boolean comparaDadesTaulers(String dadesTauler, String dadesTaulerGuardat) {
+        String[] dades = dadesTauler.split("\n");
+        String[] dadesGuardat = dadesTaulerGuardat.split("\n");
+        for (int i = 0; i < dades.length; i++) {
+            boolean trobat = false;
+            for (int j = 0; j < dadesGuardat.length; j++) {
+                if (dades[i].equals(dadesGuardat[j])) {
+                    trobat = true;
+                    break;
+                }
+            }
+            if (!trobat) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * Selecciona un tauler aleatori de la mida especificada.
      * @param mida Mida del tauler.
