@@ -65,7 +65,6 @@ public class CrearKenKenParametres extends JDialog {
                 }
 
                 String identificador = crearKenKen(grau, suma, resta, multiplicacio, divisio, modul, exponenciacio);
-                JOptionPane.showMessageDialog(CreaButton,"Tauler creat amb exit","Correcte",JOptionPane.INFORMATION_MESSAGE);
                 if (jugarDespres) CtrlPresentacio.getInstance().jugarIdentificadorTauler(identificador);
 
             }
@@ -117,6 +116,7 @@ public class CrearKenKenParametres extends JDialog {
         System.out.println("División: " + divisio);
         System.out.println("Módulo: " + modul);
         System.out.println("Exponenciación: " + exponenciacio);
+        JOptionPane.showMessageDialog(CreaButton,"Tauler creat amb exit","Correcte",JOptionPane.INFORMATION_MESSAGE);
         return CreadorKenkenParam.creadora(grau, suma, resta, multiplicacio, divisio, modul, exponenciacio);
 
 
