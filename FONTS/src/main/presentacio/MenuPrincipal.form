@@ -28,9 +28,9 @@
               </grid>
             </constraints>
           </vspacer>
-          <component id="f734" class="javax.swing.JButton" binding="configuracioUsuariButton" default-binding="true">
+          <component id="f734" class="javax.swing.JButton" binding="configuracioUsuariButton" custom-create="true" default-binding="true">
             <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <font size="20" style="1"/>
@@ -38,9 +38,9 @@
               <text value="Configuracio Usuari"/>
             </properties>
           </component>
-          <component id="e1dce" class="javax.swing.JButton" binding="rankingButton">
+          <component id="e1dce" class="javax.swing.JButton" binding="rankingButton" custom-create="true">
             <constraints>
-              <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <font size="20" style="1"/>
@@ -75,9 +75,9 @@
               </grid>
             </constraints>
           </vspacer>
-          <component id="2ef1f" class="javax.swing.JButton" binding="crearKenkenAleatoriButton">
+          <component id="2ef1f" class="javax.swing.JButton" binding="crearKenkenAleatoriButton" custom-create="true">
             <constraints>
-              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <font size="20" style="1"/>
@@ -85,9 +85,9 @@
               <text value="Generar Kenken"/>
             </properties>
           </component>
-          <component id="b0f60" class="javax.swing.JButton" binding="crearKenkenManualButton">
+          <component id="b0f60" class="javax.swing.JButton" binding="crearKenkenManualButton" custom-create="true">
             <constraints>
-              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <font size="20" style="1"/>
@@ -95,9 +95,9 @@
               <text value="Crear Kenken "/>
             </properties>
           </component>
-          <component id="8081f" class="javax.swing.JButton" binding="jugarButton">
+          <component id="8081f" class="javax.swing.JButton" binding="jugarButton" custom-create="true">
             <constraints>
-              <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <font size="20" style="1"/>

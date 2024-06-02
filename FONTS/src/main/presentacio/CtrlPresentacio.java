@@ -158,7 +158,6 @@ public class CtrlPresentacio {
         });
 
         showIniciarSessio();
-        //showCrearKenKen();
     }
 
     /**

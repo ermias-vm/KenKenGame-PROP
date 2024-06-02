@@ -338,7 +338,7 @@ public class CrearKenkenManual {
      * @return Un botó per a seleccionar un tauler del dispositiu.
      */
     private JButton crearBotoSeleccionaTauler() {
-        JButton botoSeleccionaTauler = new JButton("Selecciona tauler del dispositiu");
+        JButton botoSeleccionaTauler =  Utils.crearBotoPersonalitzat(250, 30,"Selecciona tauler del dispositiu", Color.WHITE, Utils.COLOR_BOTO_BLAU,true);
         botoSeleccionaTauler.setAlignmentX(Component.CENTER_ALIGNMENT);
         botoSeleccionaTauler.addActionListener(e -> seleccionarTauler());
         return botoSeleccionaTauler;
@@ -367,8 +367,8 @@ public class CrearKenkenManual {
      * @return Un panell amb els botons d'acceptar i sortir.
      */
     private JPanel crearPanelBotons() {
-        JButton botoAcceptarImportacio = new JButton("Acceptar");
-        JButton botoSortirImportacio = new JButton("Sortir");
+        JButton botoAcceptarImportacio = Utils.crearBotoMitja("Acceptar", Color.WHITE, Utils.COLOR_BOTO_VERD,true);
+        JButton botoSortirImportacio = Utils.crearBotoMitja("Sortir", Color.WHITE, Utils.COLOR_BOTO_VERMELL,true);
 
         afegirListenerBotoAcceptarImportacio(botoAcceptarImportacio);
         afegurirListenerBotoSortirImportacio(botoSortirImportacio);
@@ -575,7 +575,7 @@ public class CrearKenkenManual {
         panelColorejar.add(botoColorejar);
 
         // Crear botó de sortida
-        JButton botoSortir = new JButton("Sortir");
+        JButton botoSortir = Utils.crearBotoMitja("Sortir", Color.WHITE, Utils.COLOR_BOTO_VERMELL,true);
         botoSortir.addActionListener(e -> dialogConfiguracio.dispose());
 
         JPanel panelSortir = new JPanel();
@@ -601,12 +601,7 @@ public class CrearKenkenManual {
      * @return Un botó per a la configuració de colorejar regions.
      */
     private JButton getColorejarButton() {
-        JButton botoColorejar = new JButton();
-        botoColorejar.setPreferredSize(new Dimension(100, 20));
-        botoColorejar.setMinimumSize(new Dimension(100, 20));
-        botoColorejar.setMaximumSize(new Dimension(100, 20));
-        botoColorejar.setMargin(new Insets(0, 0, 0, 0));
-        botoColorejar.setForeground(Color.BLACK);
+        JButton botoColorejar = Utils.crearBotoPetit(null, Color.BLACK, null,false);
 
         actualitzarEstatBoto(botoColorejar, CtrlPresentacio.getInstance().getConfigColorejarRegions());
         botoColorejar.addActionListener(e -> botoColorejarAction(botoColorejar));
@@ -620,18 +615,12 @@ public class CrearKenkenManual {
      * @return Un botó per a la configuració de validar resultats.
      */
     private JButton getValidarButton() {
-        JButton botoValidar = new JButton();
-        botoValidar.setPreferredSize(new Dimension(100, 20));
-        botoValidar.setMinimumSize(new Dimension(100, 20));
-        botoValidar.setMaximumSize(new Dimension(100, 20));
-        botoValidar.setMargin(new Insets(0, 0, 0, 0));
-        botoValidar.setForeground(Color.BLACK);
+        JButton botoValidar = Utils.crearBotoPetit(null, Color.BLACK, null,false);
 
         actualitzarEstatBoto(botoValidar, CtrlPresentacio.getInstance().getConfigValidarResultats());
         botoValidar.addActionListener(e -> botoValidarAction(botoValidar));
         return botoValidar;
     }
-
 
     /**
      * Canvia l'estat de la configuració de colorejar regions quan l'usuari fa clic en el botó corresponent.
@@ -670,10 +659,10 @@ public class CrearKenkenManual {
     private void actualitzarEstatBoto(JButton boto, boolean estat) {
         if (estat) {
             boto.setText("Activat");
-            boto.setBackground(new Color(152, 251, 152, 255)); // Color verd suau
+            boto.setBackground(Utils.COLOR_BOTO_VERD);
         } else {
             boto.setText("Desactivat");
-            boto.setBackground(new Color(255, 192, 203,255)); // Color rosa suau
+            boto.setBackground(Utils.COLOR_BOTO_VERMELL);
         }
     }
 
@@ -893,6 +882,13 @@ public class CrearKenkenManual {
     private void createUIComponents() {
 
         logoCreateLabel = new JLabel(Utils.carregarImatge("resources/imatges/logoKenkenCreador.png", 320, 320));
+
+        configuracioButton  =  Utils.crearBotoMitja("Configuració", Color.WHITE, Utils.COLOR_BOTO_BLAU,true);
+        importarTaulerButton = Utils.crearBotoMitja("ImportarTauler", Color.WHITE, Utils.COLOR_BOTO_BLAU,true);
+        resetButton = Utils.crearBotoMitja("Reiniciar", Color.WHITE, Utils.COLOR_BOTO_BLAU,true);
+        aceptarButton = Utils.crearBotoMitja("Acceptar", Color.WHITE, Utils.COLOR_BOTO_VERD,true);
+        guardarButton = Utils.crearBotoMitja("Guardar", Color.WHITE, Utils.COLOR_BOTO_VERD,true);
+        sortirButton = Utils.crearBotoMitja("Sortir", Color.WHITE, Utils.COLOR_BOTO_VERMELL,true);
     }
 
 }

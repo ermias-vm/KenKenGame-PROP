@@ -168,8 +168,8 @@ public class IniciarSessio {
         labelLogo = new JLabel(Utils.carregarImatge("resources/imatges/fonsKenken.png", 800, 800));
         labelSeparador = new JLabel(Utils.carregarImatge("resources/imatges/separador_amb_or.png", 300, 30));
 
-        buttonCrearCompte = Utils.crearBotoMitja("Crear compte", Color.WHITE, Utils.COLOR_BOTO_BLAU,true);
-        buttonIniSessio = Utils.crearBotoMitja("Iniciar Sessió", Color.WHITE, Utils.COLOR_BOTO_VERD, true);
+        buttonCrearCompte = Utils.crearBotoPersonalitzat(150, 30,"Crear compte", Color.WHITE, Utils.COLOR_BOTO_BLAU,true);
+        buttonIniSessio = Utils.crearBotoPersonalitzat(150, 30,"Iniciar Sessió", Color.WHITE, Utils.COLOR_BOTO_VERD, true);
     }
 
 }

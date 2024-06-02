@@ -4,6 +4,7 @@ import main.domini.classes.CreeadoraKenkenParametres.CreadorKenkenParam;
 
 import javax.imageio.stream.ImageInputStream;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -21,6 +22,8 @@ public class CrearKenKenParametres extends JDialog {
     private JRadioButton radioButton4;
     private JRadioButton radioButton5;
     private JRadioButton radioButton6;
+    private JPanel panelDret;
+    private JPanel panelCrearCancelar;
     //private JComboBox comboBoxOperacions;
 
     public CrearKenKenParametres(boolean jugarDespres) {
@@ -160,6 +163,9 @@ public class CrearKenKenParametres extends JDialog {
 
         radioButton6 = new JRadioButton(todasOpsIcon);
         radioButton6.setSelectedIcon(todasOpsSelectedIcon);
+
+        CancelaButton = Utils.crearBotoMitja("Cancelar", Color.WHITE, Utils.COLOR_BOTO_VERMELL,true);
+        CreaButton = Utils.crearBotoMitja("Crear", Color.WHITE, Utils.COLOR_BOTO_VERD,true);
 
     }
 

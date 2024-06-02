@@ -15,16 +15,20 @@ public class Utils {
     private static final Color COLOR_DE_FONS= new Color(11, 3, 138, 255);
 
     // COLORS BOTONS
-    public static final Color COLOR_BOTO_VERMELL = new Color(250, 74, 74, 204);
-    public static final Color COLOR_BOTO_VERD = new Color(80, 232, 46, 217);
-    public static final Color COLOR_BOTO_BLAU = new Color(48, 193, 248, 217);
+    public static final Color COLOR_BOTO_VERMELL = new Color(211, 88, 88, 204);
+    public static final Color COLOR_BOTO_VERD = new Color(97, 186, 77, 217);
+    public static final Color COLOR_BOTO_BLAU = new Color(78, 152, 193, 217);
 
     // MIDES BOTONS
-    private static final int AMPLADA_BOTO_MITJA = 150;
-    private static final int ALTURA_BOTO_MITJA = 30;
+    private static final int AMPLADA_BOTO_PETIT = 95;
+    private static final int ALTURA_BOTO_PETIT = 20;
+
+    private static final int AMPLADA_BOTO_MITJA = 125;
+    private static final int ALTURA_BOTO_MITJA = 27;
 
     private static final int AMPLADA_BOTO_GRAN = 250;
-    private static final int ALTURA_BOTO_GRAN = 40;
+    private static final int ALTURA_BOTO_GRAN = 50;
+
 
 
 
@@ -150,6 +154,26 @@ public class Utils {
         else boto = new JButton();
 
         return configurarBoto(boto, amplada, altura, text, colorText, colorBoto);
+    }
+
+    /**
+     * Crea un botó de mida petita amb les especificacions donades.
+     *
+     * @param text El text del botó.
+     * @param colorText El color del text del botó.
+     * @param colorBoto El color de fons del botó.
+     * @param esArrodonit Si el botó ha de tenir vores arrodonides.
+     * @return Un JButton de mida gran personalitzat segons les especificacions donades.
+     */
+    public static JButton crearBotoPetit(String text, Color colorText, Color colorBoto, boolean esArrodonit) {
+        JButton boto;
+        if (esArrodonit) {
+            boto = crearBotoArrodonit();
+            boto.setOpaque(false);
+        }
+        else boto = new JButton();
+
+        return configurarBoto(boto, AMPLADA_BOTO_PETIT, ALTURA_BOTO_PETIT, text, colorText, colorBoto);
     }
 
     /**

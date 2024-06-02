@@ -2,6 +2,7 @@ package main.presentacio;
 
 import javax.swing.*;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -123,6 +124,12 @@ public class MenuPrincipal {
      */
     private void createUIComponents() {
         labelLogo = new JLabel(Utils.carregarImatge("resources/imatges/fonsKenken.png", 800, 800));
+
+         configuracioUsuariButton = Utils.crearBotoGran("Configuracio Usuari", Color.WHITE, Utils.COLOR_BOTO_BLAU,true);
+         crearKenkenManualButton = Utils.crearBotoGran("Crear Kenken", Color.WHITE, Utils.COLOR_BOTO_BLAU,true);
+         crearKenkenAleatoriButton = Utils.crearBotoGran("Generar Kenken", Color.WHITE, Utils.COLOR_BOTO_BLAU,true);
+         jugarButton = Utils.crearBotoGran("Jugar", Color.WHITE, Utils.COLOR_BOTO_BLAU,true);
+         rankingButton = Utils.crearBotoGran("Ranking", Color.WHITE, Utils.COLOR_BOTO_BLAU,true);
     }
 
 }
