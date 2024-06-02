@@ -199,8 +199,9 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
     public void notificarAcabar() {
         try {
             String[] partidaAcabada  = controladorPresentacio_.acabarPartida(vistaPartida_.getIdentificadorUsuari());
+            vistaPartida_.setAllCorrectes();
             if (partidaAcabada[0].equals("true")) {
-                vistaPartida_.mostrarMissatgeMenu("Partida guardada correctament", true);
+                vistaPartida_.mostrarMissatgeMenu("Partida guardada", true);
             } else {
                 vistaPartida_.mostrarMissatgeMenu("La partida no ha estat guardada correctament", false);
             }
@@ -211,15 +212,7 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
                 missatge.append("La partida SÍ podrà participar als rankings!");
             }
             JOptionPane.showOptionDialog(mainPanel_, missatge, null, JOptionPane.YES_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{"Perfecte!"}, null);
-            int delay = 1500;
-            ActionListener taskPerformer = new ActionListener() {
-                public void actionPerformed(ActionEvent evt) {
-                    CtrlPresentacio.getInstance().showMenuPrincipal();
-                }
-            };
-            Timer timer = new Timer(delay, taskPerformer);
-            timer.setRepeats(false);
-            timer.start();
+            CtrlPresentacio.getInstance().showMenuPrincipal();
         } catch (ExcepcioPartidaTancada | ExcepcioPartidaAcabada | ExcepcioCarregaPartida |
                  ExcepcioNoPermisUsuari|ExcepcioCasellaNoExisteix e) {
             JOptionPane.showMessageDialog(mainPanel_, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
