@@ -32,7 +32,7 @@ public interface ObservadorBoto {
     /**
      * Notifica als observadors que s'ha premut el botó de sortir.
      */
-    void notificarSortir();
+    void notificarSortir(boolean b);
 
     /**
      * Notifica als observadors que l'usuari vol jugar introduint el tauler manualment.

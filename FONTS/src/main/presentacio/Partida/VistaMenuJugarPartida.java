@@ -90,7 +90,7 @@ public class VistaMenuJugarPartida extends JPanel {
         });
         JButton tornar = crearBotoPersonalitzat(100, 40, "Tornar", Color.WHITE, Utils.COLOR_BOTO_BLAU, true);
         tornar.addActionListener(e -> {
-            for (ObservadorBoto ob : observadorsBoto_) ob.notificarSortir();
+            for (ObservadorBoto ob : observadorsBoto_) ob.notificarSortir(false);
         });
 
         menu.add(new JPanel(), panelBuitEsquerra);

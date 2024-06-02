@@ -260,12 +260,14 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
      * Tanca la partida i retorna al menú principal.
      */
     @Override
-    public void notificarSortir() {
-        try {
-            controladorPresentacio_.tancarIguardarPartida(vistaPartida_.getIdentificadorUsuari());
-        } catch (ExcepcioPartidaTancada | ExcepcioPartidaAcabada | ExcepcioCarregaPartida |
-                 ExcepcioNoPermisUsuari e) {
-            JOptionPane.showMessageDialog(mainPanel_, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    public void notificarSortir(boolean vePartida) {
+        if (vePartida) {
+            try {
+                controladorPresentacio_.tancarIguardarPartida(vistaPartida_.getIdentificadorUsuari());
+            } catch (ExcepcioPartidaTancada | ExcepcioPartidaAcabada | ExcepcioCarregaPartida |
+                     ExcepcioNoPermisUsuari e) {
+                JOptionPane.showMessageDialog(mainPanel_, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
         CtrlPresentacio.getInstance().showMenuPrincipal();
     }
