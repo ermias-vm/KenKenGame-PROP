@@ -7,6 +7,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.ArrayList;
 
+import static main.presentacio.Utils.crearBotoPersonalitzat;
+
 /**
  * {@code VistaMenuJugarPartida} és la vista del menú de jugar partida.
  * És el menú que es mostra quan es vol jugar una partida, previ a la vista de {@link VistaPartida}.
@@ -61,32 +63,32 @@ public class VistaMenuJugarPartida extends JPanel {
         panelBuitDreta.weightx = 0.17;
         panelBuitDreta.weighty = 1;
         panelBuitDreta.fill = GridBagConstraints.NONE;
-        JButton introduirTaulerManualment = new JButton("Introduir Tauler Manualment");
-        introduirTaulerManualment.setFont(new Font("Arial", Font.PLAIN, 20));
+        JButton introduirTaulerManualment = crearBotoPersonalitzat(100, 80, "Introduir Tauler Manualment", Color.WHITE, Utils.COLOR_BOTO_BLAU, true);        introduirTaulerManualment.setFont(new Font("Arial", Font.PLAIN, 20));
+        introduirTaulerManualment.setFont(new Font("Dialog", Font.PLAIN, 22));
         introduirTaulerManualment.addActionListener(e -> {
             for (ObservadorBoto ob : observadorsBoto_) ob.jugarIntroduirTaulerManualment();
         });
-        JButton introduirIdentificadorTauler = new JButton("Introduir Identificador Tauler");
-        introduirIdentificadorTauler.setFont(new Font("Arial", Font.PLAIN, 20));
+        JButton introduirIdentificadorTauler = crearBotoPersonalitzat(100, 80, "Introduir Identificador Tauler", Color.WHITE, Utils.COLOR_BOTO_BLAU, true);
+        introduirIdentificadorTauler.setFont(new Font("Dialog", Font.PLAIN, 22));
         introduirIdentificadorTauler.addActionListener(e -> {
             for (ObservadorBoto ob : observadorsBoto_) ob.jugarIntroduirIdentificadorTauler();
         });
-        JButton partidaAleatoria = new JButton("Partida Aleatoria");
-        partidaAleatoria.setFont(new Font("Arial", Font.PLAIN, 20));
+        JButton partidaAleatoria = crearBotoPersonalitzat(100, 80, "Partida Aleatoria", Color.WHITE, Utils.COLOR_BOTO_BLAU, true);
+        partidaAleatoria.setFont(new Font("Dialog", Font.PLAIN, 22));
         partidaAleatoria.addActionListener(e -> {
             for (ObservadorBoto ob : observadorsBoto_) ob.jugarPartidaAleatoria();
         });
-        JButton ultimaPartidaGuardada = new JButton("Ultima Partida Guardada");
-        ultimaPartidaGuardada.setFont(new Font("Arial", Font.PLAIN, 20));
+        JButton ultimaPartidaGuardada = crearBotoPersonalitzat(100, 80, "Última Partida Guardada", Color.WHITE, Utils.COLOR_BOTO_BLAU, true);
+        ultimaPartidaGuardada.setFont(new Font("Dialog", Font.PLAIN, 22));
         ultimaPartidaGuardada.addActionListener(e -> {
             for (ObservadorBoto ob : observadorsBoto_) ob.jugarUltimaPartidaGuardada();
         });
-        JButton partidaGuardada = new JButton("Partida Guardada");
-        partidaGuardada.setFont(new Font("Arial", Font.PLAIN, 20));
+        JButton partidaGuardada = crearBotoPersonalitzat(100, 80, "Partida Guardada", Color.WHITE, Utils.COLOR_BOTO_BLAU, true);
+        partidaGuardada.setFont(new Font("Dialog", Font.PLAIN, 22));
         partidaGuardada.addActionListener(e -> {
             for (ObservadorBoto ob : observadorsBoto_) ob.jugarPartidaGuardada();
         });
-        JButton tornar = new JButton("Tornar");
+        JButton tornar = crearBotoPersonalitzat(100, 40, "Tornar", Color.WHITE, Utils.COLOR_BOTO_BLAU, true);
         tornar.addActionListener(e -> {
             for (ObservadorBoto ob : observadorsBoto_) ob.notificarSortir();
         });
@@ -95,12 +97,16 @@ public class VistaMenuJugarPartida extends JPanel {
         menu.add(new JPanel(), panelBuitDreta);
 
 
-        botoConstraints.insets = new Insets(10, 0, 10, 0);
+        botoConstraints.insets = new Insets(20, 0, 10, 0);
+        menu.add(new JPanel(), botoConstraints);
+        menu.add(new JPanel(), botoConstraints);
         menu.add(partidaAleatoria, botoConstraints);
+        botoConstraints.insets = new Insets(10, 0, 10, 0);
         menu.add(introduirTaulerManualment, botoConstraints);
         menu.add(ultimaPartidaGuardada, botoConstraints);
         menu.add(partidaGuardada, botoConstraints);
         menu.add(introduirIdentificadorTauler, botoConstraints);
+        menu.add(new JPanel(), botoConstraints);
         panellMenu.add(menu, BorderLayout.CENTER);
         JPanel tornarPanel = new JPanel();
         tornarPanel.setLayout(new BorderLayout());
