@@ -290,14 +290,18 @@ public class ControladorPartida {
         ArrayList<Regio> valorsIncorrectes = partida_.getTaulerPartida().getRegionsIncorrectes(partida_.getValorsPartida());
         Regio[] regionsIncorrectes = valorsIncorrectes.toArray(new Regio[0]);
         for (Regio r : regionsIncorrectes){
+            boolean buida = true;
             int[][] posicions = r.getPosicionsCaselles();
             for ( int[] posicio : posicions){
                 int fila = posicio[0]-1;
                 int columna = posicio[1]-1;
-                if (partida_.getValorsPartida()[fila][columna] == 0){
-                    valorsIncorrectes.remove(r);
+                if (partida_.getValorsPartida()[fila][columna] != 0){
+                    buida = false;
                     break;
                 }
+            }
+            if (buida){
+                valorsIncorrectes.remove(r);
             }
         }
         if (!valorsIncorrectes.isEmpty()){

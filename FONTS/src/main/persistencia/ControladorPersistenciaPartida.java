@@ -297,6 +297,7 @@ public class ControladorPersistenciaPartida {
             }
             copiar.close();
             llegir.close();
+            Files.move(Paths.get(tempPartidesGuardades), Paths.get(this.fitxerPartidesGuardades_), StandardCopyOption.REPLACE_EXISTING);
             return true;
         } catch (IOException e) {
             System.out.println("Error al arxivar la partida: " + e.getMessage());

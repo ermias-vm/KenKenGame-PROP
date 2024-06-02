@@ -259,6 +259,7 @@ public class Partida {
             throw new ExcepcioPartidaMalament();
         }
         this.acabadaPartida_ = true;
+        this.tancadaPartida_ = true;
         String textPartidaAcabada = this.identificadorPartida_ + '\n' + this.identificadorUsuariPartida_ + '\n' + this.getIdentificadorTaulerPartida() + '\n' + this.calculaTemps() + '\n' + this.midaPartida_ + '\n' + this.guardadaPartida_;
         return textPartidaAcabada;
     }

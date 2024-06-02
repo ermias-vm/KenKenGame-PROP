@@ -8,6 +8,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import static main.presentacio.Utils.COLOR_DE_FONS;
+
 /**
  * {@code ComponentTauler} és un JPanel que conté un tauler de caselles {@link ComponentCasella}.
  */
@@ -72,9 +74,9 @@ public class ComponentTauler extends JPanel {
                 int right = 0;
                 if (!rightRegio) right = 3;
                 if (borderRight) right = 6;
-                Color colorRegio = new Color(96, 96, 96, 255);
+                Color colorRegio = new Color(11, 3, 138, 175);
                 Border regions = new MatteBorder(top, left, bottom, right, colorRegio);
-                Color colorCasella = new Color(177, 177, 177, 189);
+                Color colorCasella = new Color(78, 152, 193, 175);
                 Border caselles = new MatteBorder(1, 1, 1, 1, colorCasella);
                 Border border = BorderFactory.createCompoundBorder(regions,caselles);
                 tauler[i][j].setBorder(border);

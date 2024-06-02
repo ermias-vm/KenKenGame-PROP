@@ -236,8 +236,8 @@ public class ControladorPresentacioPartida implements ObservadorCasella, Observa
     public void notificarGuardar() {
         try {
             boolean guardada = controladorPresentacio_.guardarPartida(vistaPartida_.getIdentificadorUsuari());
-            if (guardada) vistaPartida_.mostrarMissatgeMenu("Partida guardada correctament", true);
-            else vistaPartida_.mostrarMissatgeMenu("La partida no ha estat guardada correctament", false);
+            if (guardada) vistaPartida_.mostrarMissatgeMenu("Partida guardada", true);
+            else vistaPartida_.mostrarMissatgeMenu("Error al guardar", false);
         } catch (ExcepcioPartidaTancada | ExcepcioPartidaAcabada | ExcepcioCarregaPartida |
                  ExcepcioNoPermisUsuari e) {
             JOptionPane.showMessageDialog(mainPanel_, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

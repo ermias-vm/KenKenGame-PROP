@@ -12,7 +12,7 @@ import java.awt.event.MouseEvent;
  */
 public class Utils {
 
-    private static final Color COLOR_DE_FONS= new Color(11, 3, 138, 255);
+    public static final Color COLOR_DE_FONS= new Color(11, 3, 138, 255);
 
     // COLORS BOTONS
     public static final Color COLOR_BOTO_VERMELL = new Color(211, 88, 88, 255);

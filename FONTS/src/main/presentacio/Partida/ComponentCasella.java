@@ -123,8 +123,10 @@ public class ComponentCasella extends JPanel implements  KeyListener{
      * @param incorrecte true si la casella és incorrecte, false si és correcte.
      */
     public void setIncorrecte(boolean incorrecte) {
-        incorrecte_ = incorrecte;
-        pintaBoto();
+        if (valor_.getText() != "0"){
+            incorrecte_ = incorrecte;
+            pintaBoto();
+        }
     }
 
     /**

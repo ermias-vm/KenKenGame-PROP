@@ -65,7 +65,7 @@ public class CrearKenKenParametres extends JDialog {
                 }
 
                 String identificador = crearKenKen(grau, suma, resta, multiplicacio, divisio, modul, exponenciacio);
-                if (jugarDespres) CtrlPresentacio.getInstance().jugarIdentificadorTauler(identificador);
+                if (jugarDespres && identificador != null) CtrlPresentacio.getInstance().jugarIdentificadorTauler(identificador);
 
             }
         });

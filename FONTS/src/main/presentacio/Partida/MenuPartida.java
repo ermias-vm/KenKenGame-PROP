@@ -1,6 +1,8 @@
 package main.presentacio.Partida;
 
 
+import main.presentacio.Utils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,6 +11,7 @@ import java.util.ArrayList;
 import static main.presentacio.Partida.ControladorPresentacioPartida.COLOR_BE;
 import static main.presentacio.Partida.ControladorPresentacioPartida.COLOR_ERROR;
 import static main.presentacio.Utils.carregarImatge;
+import static main.presentacio.Utils.crearBotoPersonalitzat;
 
 /**
  * {code MenuPartida} és un panell que conté els botons i el rellotge de la partida.
@@ -81,7 +84,8 @@ public class MenuPartida extends JPanel {
         panellGridBag.add(timer_, gbc);
 
         ImageIcon undo = carregarImatge("resources/imatges/undo.png", 50, 50);
-        undoBoto_ = new JButton(undo);
+        undoBoto_ =crearBotoPersonalitzat(80, 80, "", Color.WHITE, Utils.COLOR_BOTO_BLAU, true);
+        undoBoto_.setIcon(undo);
         undoBoto_.addActionListener(e -> {
             for (ObservadorBoto ob : observadorsBoto_) ob.notificarUndo();
         });
@@ -90,7 +94,8 @@ public class MenuPartida extends JPanel {
         panellGridBag.add(undoBoto_, gbc);
 
         ImageIcon redo = carregarImatge("resources/imatges/redo.png", 50, 50);
-        redoBoto_ = new JButton(redo);
+        redoBoto_ =crearBotoPersonalitzat(80, 80, "", Color.WHITE, Utils.COLOR_BOTO_BLAU, true);
+        redoBoto_.setIcon(redo);
         redoBoto_.addActionListener(e -> {
             for (ObservadorBoto ob : observadorsBoto_) ob.notificarRedo();
         });
@@ -98,7 +103,8 @@ public class MenuPartida extends JPanel {
         gbc.insets = new Insets(20, 10, 0, 20);
         panellGridBag.add(redoBoto_, gbc);
 
-        pistaBoto_ = new JButton("Pista");
+        pistaBoto_ = crearBotoPersonalitzat(100, 80, "Pista", Color.WHITE, Utils.COLOR_BOTO_BLAU, true);
+        pistaBoto_.setFont(new Font("Dialog", Font.PLAIN, 25));
         pistaBoto_.addActionListener(e -> {
             if (!pistaAvisat_) {
                 int decisio = JOptionPane.showOptionDialog(null, "Si se't dona una pista no podràs participar als rankings", null, JOptionPane.YES_NO_OPTION , JOptionPane.WARNING_MESSAGE, null, new Object[]{"Acceptar", "Cancel·lar"}, null);
@@ -107,22 +113,24 @@ public class MenuPartida extends JPanel {
             }
             else for (ObservadorBoto ob : observadorsBoto_) ob.notificarPista();
         });
-        gbc.insets = new Insets(100, 20, 20, 20);
+        gbc.insets = new Insets(100, 40, 20, 40);
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 3;
         gbc.fill = GridBagConstraints.BOTH;
         panellGridBag.add(pistaBoto_, gbc);
 
-        acabaBoto_ = new JButton("Acabar");
+        acabaBoto_ = crearBotoPersonalitzat(100, 80, "Acabar", Color.WHITE, Utils.COLOR_BOTO_BLAU, true);
+        acabaBoto_.setFont(new Font("Dialog", Font.PLAIN, 25));
         acabaBoto_.addActionListener(e -> {
             for (ObservadorBoto ob : observadorsBoto_) ob.notificarAcabar();
         });
         gbc.gridy = 2;
-        gbc.insets = new Insets(20, 20, 20, 20);
+        gbc.insets = new Insets(20, 40, 20, 40);
         panellGridBag.add(acabaBoto_, gbc);
 
-        guardaBoto_ = new JButton("Guardar");
+        guardaBoto_ = crearBotoPersonalitzat(100, 80, "Guardar", Color.WHITE, Utils.COLOR_BOTO_BLAU, true);
+        guardaBoto_.setFont(new Font("Dialog", Font.PLAIN, 25));
         guardaBoto_.addActionListener(e -> {
             if (!guardatAvisat_) {
                 int decisio = JOptionPane.showOptionDialog(null, "Si guardes la partida no podràs participar als rankings", null, JOptionPane.YES_NO_OPTION , JOptionPane.WARNING_MESSAGE, null, new Object[]{"Acceptar", "Cancel·lar"}, null);
@@ -134,7 +142,8 @@ public class MenuPartida extends JPanel {
         gbc.gridy = 3;
         panellGridBag.add(guardaBoto_, gbc);
 
-        tancaIguardaBoto_ = new JButton("Tancar i Guardar");
+        tancaIguardaBoto_ = crearBotoPersonalitzat(100, 80, "Tancar i Guardar", Color.WHITE, Utils.COLOR_BOTO_BLAU, true);
+        tancaIguardaBoto_.setFont(new Font("Dialog", Font.PLAIN, 25));
         tancaIguardaBoto_.addActionListener(e -> {
             if (!guardatAvisat_) {
                 int decisio = JOptionPane.showOptionDialog(null, "Si guardes la partida no podràs participar als rankings", null, JOptionPane.YES_NO_OPTION , JOptionPane.WARNING_MESSAGE, null, new Object[]{"Acceptar", "Cancel·lar"}, null);
@@ -144,7 +153,7 @@ public class MenuPartida extends JPanel {
             else for (ObservadorBoto ob : observadorsBoto_) ob.notificarTancaIguarda();
         });
         gbc.gridy = 4;
-        gbc.insets = new Insets(20, 20, 40, 20);
+        gbc.insets = new Insets(20, 40, 40, 40);
         panellGridBag.add(tancaIguardaBoto_, gbc);
         gbc.insets = new Insets(0, 0, 20, 0);
         gbc.gridwidth = 2;
@@ -159,7 +168,7 @@ public class MenuPartida extends JPanel {
         gbc.gridx = 2;
         gbc.weightx = 0.0;
         gbc.fill = GridBagConstraints.NONE;
-        sortirBoto_ = new JButton("Sortir");
+        sortirBoto_ = crearBotoPersonalitzat(100, 40, "Sortir", Color.WHITE, Utils.COLOR_BOTO_BLAU, true);
         sortirBoto_.addActionListener(e -> {
             int decisio = JOptionPane.showOptionDialog(null, "Si surts sense guardar es perdrà tot el progrès no guardat", null, JOptionPane.YES_NO_OPTION , JOptionPane.WARNING_MESSAGE, null, new Object[]{"Acceptar", "Cancel·lar"}, null);
             if (decisio == 0) for (ObservadorBoto ob : observadorsBoto_) ob.notificarSortir();
