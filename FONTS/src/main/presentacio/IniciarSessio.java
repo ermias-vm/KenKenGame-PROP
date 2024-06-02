@@ -93,33 +93,30 @@ public class IniciarSessio {
      * Si l'usuari no existeix o la contrasenya és incorrecta, es mostra un missatge d'error.
      */
     public void setupButtonIniciarSessioListener() {
-        buttonIniSessio.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String usuari = textFieldUsuari.getText();
-                String contrasenya = new String(passwordFieldContr.getPassword());
+        buttonIniSessio.addActionListener(e -> {
+            String usuari = textFieldUsuari.getText();
+            String contrasenya = new String(passwordFieldContr.getPassword());
 
-                if (usuari.isEmpty() || contrasenya.isEmpty()) {
-                    System.out.println("Usuari i/o contrasenya no valida");
-                    errorLabel.setText("<html><div style='text-align: center;'>Usuari i/o contrasenya no valida." +
-                            "<br>Si us plau comproveu les dades.</div></html>");
-                } else {
-                    try {
-                        CtrlPresentacio.getInstance().iniciarSessio(usuari, contrasenya);
-                        System.out.println("Sessio iniciada correctament");
-                        System.out.println("Sortint de iniciar sessio");
-                        CtrlPresentacio.getInstance().showMenuPrincipal();
-                    } catch (ExcepcioUsuariNoExisteix ex) {
-                        System.out.println("Usuari no existeix");
-                        errorLabel.setText("<html><div style='text-align: center;'>Usuari no existeix." +
-                                "<br>Si us plau comproveu el vostre usuari.</div></html>");
-                    } catch (ExcepcioContrasenyaIncorrecta ex) {
-                        System.out.println("Contrasenya  incorrecta");
-                        errorLabel.setText("<html><div style='text-align: center;'>Contrasenya incorrecta." +
-                                "<br>Si us plau comproveu la vostra contrasenya.</div></html>");
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
+            if (usuari.isEmpty() || contrasenya.isEmpty()) {
+                System.out.println("Usuari i/o contrasenya no valida");
+                errorLabel.setText("<html><div style='text-align: center;'>Usuari i/o contrasenya no valida." +
+                        "<br>Si us plau comproveu les dades.</div></html>");
+            } else {
+                try {
+                    CtrlPresentacio.getInstance().iniciarSessio(usuari, contrasenya);
+                    System.out.println("Sessio iniciada correctament");
+                    System.out.println("Sortint de iniciar sessio");
+                    CtrlPresentacio.getInstance().showMenuPrincipal();
+                } catch (ExcepcioUsuariNoExisteix ex) {
+                    System.out.println("Usuari no existeix");
+                    errorLabel.setText("<html><div style='text-align: center;'>Usuari no existeix." +
+                            "<br>Si us plau comproveu el vostre usuari.</div></html>");
+                } catch (ExcepcioContrasenyaIncorrecta ex) {
+                    System.out.println("Contrasenya  incorrecta");
+                    errorLabel.setText("<html><div style='text-align: center;'>Contrasenya incorrecta." +
+                            "<br>Si us plau comproveu la vostra contrasenya.</div></html>");
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
             }
         });

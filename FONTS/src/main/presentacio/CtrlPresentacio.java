@@ -486,7 +486,9 @@ public class CtrlPresentacio {
     }
     public float getTempsPartida(){ return CDomini.getTempsPartida(); }
 
+
             /// FUNCIONS RANKING ///
+
     /**
      * {@link ControladorRanking#afegirPartida(String)}
      */
@@ -509,14 +511,14 @@ public class CtrlPresentacio {
     }
 
     /**
-     * {@link ControladorRanking#getRankingUsuari(String)}
+     * {@link ControladorRanking#getRankingUsuari(String, int)}
      */
     public ArrayList<String> getRankingUsuari(String identificadorUsuari, int mida){
         return CDomini.getRankingUsuari(identificadorUsuari, mida);
     }
 
 
-
+            /// FUNCIONS KENKENS ///
 
     /**
      * {@link CtrlKenkens#llegirTauler(String)}
