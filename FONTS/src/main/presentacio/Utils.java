@@ -15,9 +15,9 @@ public class Utils {
     private static final Color COLOR_DE_FONS= new Color(11, 3, 138, 255);
 
     // COLORS BOTONS
-    public static final Color COLOR_BOTO_VERMELL = new Color(211, 88, 88, 204);
-    public static final Color COLOR_BOTO_VERD = new Color(97, 186, 77, 217);
-    public static final Color COLOR_BOTO_BLAU = new Color(78, 152, 193, 217);
+    public static final Color COLOR_BOTO_VERMELL = new Color(211, 88, 88, 255);
+    public static final Color COLOR_BOTO_VERD = new Color(97, 186, 77, 255);
+    public static final Color COLOR_BOTO_BLAU = new Color(78, 152, 193, 255);
 
     // MIDES BOTONS
     private static final int AMPLADA_BOTO_PETIT = 95;
@@ -28,8 +28,6 @@ public class Utils {
 
     private static final int AMPLADA_BOTO_GRAN = 250;
     private static final int ALTURA_BOTO_GRAN = 50;
-
-
 
 
     /**
