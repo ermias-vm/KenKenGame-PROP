@@ -147,7 +147,7 @@ public class MenuPartida extends JPanel {
         tancaIguardaBoto_.addActionListener(e -> {
             if (!guardatAvisat_) {
                 int decisio = JOptionPane.showOptionDialog(null, "Si guardes la partida no podràs participar als rankings", null, JOptionPane.YES_NO_OPTION , JOptionPane.WARNING_MESSAGE, null, new Object[]{"Acceptar", "Cancel·lar"}, null);
-                if (decisio == 0) for (ObservadorBoto ob : observadorsBoto_) ob.notificarGuardar();
+                if (decisio == 0) for (ObservadorBoto ob : observadorsBoto_) ob.notificarTancaIguarda();
                 guardatAvisat_ = true;
             }
             else for (ObservadorBoto ob : observadorsBoto_) ob.notificarTancaIguarda();
