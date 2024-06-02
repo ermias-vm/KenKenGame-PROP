@@ -77,7 +77,7 @@ public class CrearKenkenManual {
      */
     private CrearKenkenManual(Boolean jugarDespres) {
         configInicial();
-        setupSortirButtonListener();
+        setupSortirButtonListener(jugarDespres);
         setupAcceptarButtonListener();
         setupGuardarButtonListener(jugarDespres);
         setupResetButtonListener();
@@ -146,7 +146,7 @@ public class CrearKenkenManual {
      * Si l'usuari cancel·la, no es realitza cap acció.
      * Si l'usuari no es troba en mode editor, es mostra el menú principal.
      */
-    public void setupSortirButtonListener(){
+    public void setupSortirButtonListener(Boolean jugarDespres){
         sortirButton.addActionListener(e -> {
             if (enModeEditor) {
                 if (TaulerKenken.esModificat()) {
@@ -154,7 +154,10 @@ public class CrearKenkenManual {
                             "<br>Si surts sense guardar es perdran els canvis</div></html>", "Avís", JOptionPane.YES_NO_OPTION);
                     if(dialogResult == JOptionPane.YES_OPTION) {
                         System.out.println("Sortint de crear kenken");
-                        CtrlPresentacio.getInstance().showCrearKenKen();
+                        if (jugarDespres){
+                            CtrlPresentacio.getInstance().initJugar();
+                        }
+                        else CtrlPresentacio.getInstance().showCrearKenKen();
                     }
                     else {
                         System.out.println("Sortida mode editor cancelada");
@@ -167,7 +170,10 @@ public class CrearKenkenManual {
             }
             else {
                 System.out.println("Sortint de crear kenken");
-                CtrlPresentacio.getInstance().showMenuPrincipal();
+                if (jugarDespres){
+                    CtrlPresentacio.getInstance().initJugar();
+                }
+                else CtrlPresentacio.getInstance().showMenuPrincipal();
             }
         });
 
