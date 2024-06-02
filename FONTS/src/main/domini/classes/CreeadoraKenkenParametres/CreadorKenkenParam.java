@@ -288,7 +288,7 @@ public class CreadorKenkenParam {
     private void assignaDivisio() {
         System.out.println("Operacions de Divisió:");
         
-        outerLoop:
+        int a = 3; //contador per fer que no apareguin tantes divisions
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 char currentBlock = blockSolution[i][j];
@@ -298,12 +298,14 @@ public class CreadorKenkenParam {
                     int bigNumber = Math.max(blockNumbers[0], blockNumbers[1]);
                     int smallNumber = Math.min(blockNumbers[0], blockNumbers[1]);
                     if(bigNumber%smallNumber==0){
-                        if(!processedBlocks.contains(currentBlock)){    
-                            System.out.println(currentBlock);
-                            System.out.println(bigNumber + " / " + smallNumber + " = " + (bigNumber / smallNumber));
-                            processedBlocks.add(currentBlock);
-                            taulerSencer.append(4).append(" ").append(bigNumber / smallNumber).append(" ").append(2).append(coordenadesRegio).append("\n");
-                            break outerLoop;
+                        if(!processedBlocks.contains(currentBlock)){
+                            if(a%3==0){        
+                                System.out.println(currentBlock);
+                                System.out.println(bigNumber + " / " + smallNumber + " = " + (bigNumber / smallNumber));
+                                processedBlocks.add(currentBlock);
+                                taulerSencer.append(4).append(" ").append(bigNumber / smallNumber).append(" ").append(2).append(coordenadesRegio).append("\n");
+                            }
+                            a++;
                         }
 
                     }
