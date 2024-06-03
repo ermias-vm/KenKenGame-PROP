@@ -1,5 +1,9 @@
 package main.domini.classes.CreeadoraKenkenParametres;
 
+/**
+ * La classe Board representa el tauler que s'utilitza provisionalment durant la creacio de Kenken per parametres.
+ * @autor David Giribet Casado
+ */
 public class Board {
     public Cell[][] grid;
 

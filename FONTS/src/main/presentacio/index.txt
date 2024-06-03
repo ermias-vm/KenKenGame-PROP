@@ -1,0 +1,40 @@
+Descripcio del directori: Es el directori amb tots els arxius de la capa presentacio.
+
+CasellaConstructora.java: Aquesta classe representa una casella en el joc de Kenken.
+CrearKenkenManual.form: Es el .form que correspon a la classe CrearKenkenManual.java.
+CrearKenkenManual.java: Classe CrearKenkenManual que permet a l'usuari crear un tauler Kenken de forma manual.
+TaulerConstrutor.java: Classe TaulerConstrutor que esten JPanel.
+
+ComponentCasella.java: ComponentCasella es la classe que representa una casella del taulell del kenken en la interficie grafica.
+ComponentLlistaPartides.java: {@code ComponentLlistaPartides} es la classe abstracta que representa una llista de NOMBREPARTIDES_ d'elements
+ComponentTauler.java: {@code ComponentTauler} es un JPanel que conte un tauler de caselles {@link ComponentCasella}.
+ComponentTimer.java: ComponentTimer es la classe que representa un temporitzador en la interficie grafica.
+ControladorPresentacioPartida.java: Controlador de la presentacio de la partida
+MenuPartida.java: {code MenuPartida} es un panell que conte els botons i el rellotge de la partida.
+ObservadorBoto.java: Interficie que defineix els metodes que hauran d'implementar els observadors dels botons de la vista de jugar partida.
+ObservadorCasella.java: Interficie que defineix els metodes que hauran d'implementar els observadors dels botons de les caselles.
+ObservadorLlista.java: Interficie que defineix els metodes que hauran d'implementar els observadors de la llista.
+VistaMenuJugarPartida.java: {@code VistaMenuJugarPartida} es la vista del menu de jugar partida.
+VistaPartida.java: {@code VistaPartida} es la vista de la partida. Esta formada per un {@code ComponentTauler} i un {@code MenuPartida}.
+VistaPartidesGuardades.java: {@code VistaPartidesGuardades} es la vista de les partides guardades d'un usuari per a seleccionar-ne una i jugar-la.
+
+BuscadorUsuari.java: Aquesta classe es un panell que conte un camp de text per a introduir un nom d'usuari i un boto per a buscar-lo.
+ComponentSelectorMida.java: ComponentSelectorMida es un JPanel que conte un selector de mida de tauler.
+ControladorPresentacioRanking.java: Controlador de la vista de rankings. S'encarrega de gestionar les interaccions de l'usuari amb la vista de rankings aixi com de gestionar les crides a la capa de domini per obtenir la informacio necessaria.
+ObservadorBuscador.java: Interficie d'un observador del buscador d'usuari, es podria estendre a qualsevol altre tipus de cerca.
+ObservadorSelectorMida.java: Interficie d'un observador del selector de mida.
+PartidesRanking.java: Crea una llista de partides amb la informacio donada i el nombre de partides a mostrar per pagina.
+VistaRankings.java: {@code VistaRanking} es la vista dels rankings de les partides.
+
+ConfigUsuari.form: Es el .form que correspon a la classe ConfigUsuari.java.
+ConfigUsuari.java: La classe ConfigUsuari es una part de la interficie d'usuari que permet a l'usuari canviar la seva contrasenya.
+CrearKenKenParametres.form: Es el .form que correspon a la classe CrearKenKenParametres.java.
+CrearKenKenParametres.java: La classe CrearKenKenParametres es la part de la interficie que permet a l'usuari crear un tauler aleatori a partir de pocs parametres.
+CtrlPresentacio.java: La classe CtrlPresentacio es el controlador de presentacio principal de l'aplicacio.
+IniciarSessio.form: Es el .form que correspon a la classe IniciarSessio.java.
+IniciarSessio.java: La classe IniciarSessio de la capa presentacio, gestiona l'inici de sessio dels usuaris.
+MenuPrincipal.form: Es el .form que correspon a la classe MenuPrincipal.java.
+MenuPrincipal.java: La classe MenuPrincipal representa la pantalla principal de l'aplicacio.
+Registrarse.form: Es el .form que correspon a la classe Registrarse.java.
+Registrarse.java: Classe Registrarse de la capa presentacio, gestiona el registre d'usuaris.
+Utils.java: La classe Utils proporciona funcions d'utilitat per a la personalitzacio de la interficie d'usuari.

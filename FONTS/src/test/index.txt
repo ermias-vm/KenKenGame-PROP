@@ -1,0 +1,15 @@
+Descripcio del directori: Es el directori amb tots els tests del projecte.
+
+CasellaTest.java: Classe de prova per a la classe Casella.
+DivisioTest.java: La classe {@code DivisioTest} es una classe de proves per a la classe {@code Divisio}.
+ExponenciacioTest.java: Test de la classe {@code Exponenciacio} per a comprovar que els seus metodes funcionen correctament.
+ModulTest.java: Test de la classe {@code Exponenciacio} per a comprovar que els seus metodes funcionen correctament.
+MultiplicacioTest.java: Test de la classe {@code Multiplicacio} per a comprovar que els seus metodes funcionen correctament.
+Partida_per_a_test.java: La classe {@code Partida} representa una partida de Kenken d'un usuari amb un cert tauler.
+PartidaTest.java: La classe {@code PartidaTest} es una classe de proves per a la classe {@code Partida}.
+RegioTest.java: Classe de prova per a la classe Regio.
+RestaTest.java: Test de la classe {@code Resta}.
+SolucionadorKenkenTest.java: 
+SumaTest.java: La classe {@code SumaTest} es una classe de test unitari per a la classe {@code Suma}.
+TaulerTest.java:Test de la classe {@code Tauler} per a comprovar que els seus metodes funcionen correctament.
+UsuariTest.java: Test de la classe {@code Usuari} per a comprovar que els seus metodes funcionen correctament.

@@ -1,0 +1,1 @@
+Descripcio del directori: Es el directori amb les 3 capes del projecte: domini, persistencia i presentacio.

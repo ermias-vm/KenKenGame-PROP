@@ -1,5 +1,9 @@
 package main.domini.classes.CreeadoraKenkenParametres;
 
+/**
+ * La classe Candidate es la que s'encarrega, dins de CreadorKenkenParam, de buscar, d'un casella en especific, quienes son les caselles candidates a fusionar-se amb ella en una regio.
+ * @autor David Giribet Casado
+ */
 public class Candidate {
     public int x1;
     public int y1;

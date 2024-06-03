@@ -1,0 +1,10 @@
+Descripcio directori: Es el directori amb tots els drivers del projecte.
+
+DriverAfegirTauler.java: Driver de AfegirTauler.
+DriverJugarPartida.java: Driver de JugarPartida.
+DriverJugarPartida.mf
+DriverKenken.java: Driver de kenken.
+DriverKenken.mf
+DriverUsuari.java: Driver de la classe usuari.
+DriverUsuari.mf
+inout.java: Classe per a fer entrada/sortida de texte amb Java.
