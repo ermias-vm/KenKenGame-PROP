@@ -144,7 +144,7 @@
               </grid>
             </constraints>
             <properties>
-              <text value="Tancar Sessio"/>
+              <text value="Tancar Sessió"/>
             </properties>
           </component>
           <vspacer id="5ca1b">

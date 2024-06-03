@@ -164,7 +164,7 @@ public class CrearKenKenParametres extends JDialog {
         radioButton6 = new JRadioButton(todasOpsIcon);
         radioButton6.setSelectedIcon(todasOpsSelectedIcon);
 
-        CancelaButton = Utils.crearBotoMitja("Cancelar", Color.WHITE, Utils.COLOR_BOTO_VERMELL,true);
+        CancelaButton = Utils.crearBotoMitja("Sortir", Color.WHITE, Utils.COLOR_BOTO_VERMELL,true);
         CreaButton = Utils.crearBotoMitja("Crear", Color.WHITE, Utils.COLOR_BOTO_VERD,true);
 
     }
