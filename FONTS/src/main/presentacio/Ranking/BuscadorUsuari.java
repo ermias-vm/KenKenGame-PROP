@@ -1,5 +1,7 @@
 package main.presentacio.Ranking;
 
+import main.presentacio.Utils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.FocusAdapter;
@@ -23,15 +25,37 @@ public class BuscadorUsuari extends JPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         JLabel labelUsuari = new JLabel("Usuari: ");
         JTextField textBuscar = new JTextField("en blanc -> tots els usuaris");
-        JButton botoBuscar = new JButton("Buscar");
+        textBuscar.setMinimumSize(new Dimension(180, 25));
+        textBuscar.setMaximumSize(new Dimension(180, 25));
+        textBuscar.setPreferredSize(new Dimension(180, 25));
+
+        textBuscar.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (textBuscar.getText().equals("en blanc -> tots els usuaris")) {
+                    textBuscar.setText("");
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (textBuscar.getText().isEmpty()) {
+                    textBuscar.setText("en blanc -> tots els usuaris");
+                }
+            }
+        });
+
+        JButton botoBuscar = Utils.crearBotoPersonalitzat(100,25,"Buscar", Color.WHITE, Utils.COLOR_BOTO_BLAU, false);
         botoBuscar.addActionListener(e -> {
             String nom = textBuscar.getText();
             for (ObservadorBuscador o : observadors_) {
                 o.cercaUsuari(nom);
             }
         });
+
         this.add(labelUsuari);
         this.add(textBuscar);
+        this.add(Box.createRigidArea(new Dimension(10, 0)));
         this.add(botoBuscar);
     }
 

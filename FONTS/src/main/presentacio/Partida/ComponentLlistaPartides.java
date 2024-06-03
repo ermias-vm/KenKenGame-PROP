@@ -1,5 +1,7 @@
 package main.presentacio.Partida;
 
+import main.presentacio.Utils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -138,7 +140,7 @@ public abstract class ComponentLlistaPartides extends JPanel {
         });
         if (maxIndex_ == 0) nextN.setEnabled(false);
         nextN_ = nextN;
-        JButton tornar = new JButton("Tornar");
+        JButton tornar = Utils.crearBotoPersonalitzat(100,25,"Tornar", Color.WHITE, Utils.COLOR_BOTO_BLAU, false);
         tornar.addActionListener(e -> {
             for (ObservadorLlista ob : observadorsLLista_) ob.tornarMenu();
         });
