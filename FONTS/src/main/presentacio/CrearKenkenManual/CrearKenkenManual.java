@@ -526,7 +526,7 @@ public class CrearKenkenManual {
             for (int j = 3; j < parts.length; j++) {
                 int pos = Integer.parseInt(parts[j]);
                 if (pos < 1 || pos > mida) {
-                    return "<html><div style='text-align: center;'>Error en la linea: " + i +
+                    return "<html><div style='text-align: center;'>Error en la linea: " + (i+1) +
                             "<br>Cada posició ha de ser un número natural en l'interval: [1,"+ mida +"].</div></html>";
                 }
             }

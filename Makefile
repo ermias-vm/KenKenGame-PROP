@@ -16,7 +16,7 @@ class:
 	javac -d EXE -encoding UTF-8 -cp $(CLPTH) -sourcepath FONTS FONTS/src/Main.java $(DOMINI) $(PERSISTENCIA) $(PRESENTACIO) $(DRIVERS) $(TESTS)
 
 run:
-	java -jar subgrup-prop41.5.jar
+	java -jar Kenken.jar
 
 runDriverKenken:
 	java -cp $(CLPTH) drivers.DriverKenken
