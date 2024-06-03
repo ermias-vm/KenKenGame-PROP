@@ -17,7 +17,7 @@ class:
 	javac -d $(EXE) -encoding UTF-8 -cp $(CLPTH) -sourcepath FONTS FONTS/src/Main.java $(DOMINI) $(PERSISTENCIA) $(PRESENTACIO) $(DRIVERS) $(TESTS)
 
 run:
-	java -cp $(CLPTH) Main
+	java -jar subgrup-prop41.5.jar
 
 
 
@@ -44,7 +44,7 @@ resetData:
 		for num in 3 4 5 6 7 8 9; do \
 			find data/taulers/mida$$num -type f \( -name '[7-9][0-9]-*' -o -name '1[0-9][0-9]-*' \) -delete; \
 		done; \
-		find data/partides/ -type f -name '*.txt' -exec sh -c 'echo "" > "{}"' \; ; \
+		find data/partides/ -type f -name '*.txt' -exec sh -c 'echo -n "" > "{}"' \; ; \
 		echo "Fitxers eliminats correctament."; \
 	else \
 		echo "Operació cancel·lada."; \
