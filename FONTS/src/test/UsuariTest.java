@@ -1,4 +1,5 @@
-package domini.classes;
+package test;
+
 
 public class UsuariTest {
 }

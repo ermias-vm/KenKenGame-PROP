@@ -1,4 +1,4 @@
-package domini.classes.operacions;
+package test;
 
 import main.domini.classes.operacions.Multiplicacio;
 import main.domini.excepcions.*;

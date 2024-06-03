@@ -1,4 +1,4 @@
-package domini.classes.operacions;
+package test;
 
 import main.domini.classes.operacions.Divisio;
 import main.domini.excepcions.ExcepcioDivisio_0;

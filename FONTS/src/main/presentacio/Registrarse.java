@@ -165,8 +165,8 @@ public class Registrarse {
         labelLogo = new JLabel(Utils.carregarImatge("resources/imatges/fonsKenken.png", 800, 800));
         labelSeparador = new JLabel(Utils.carregarImatge("resources/imatges/separador_amb_or.png", 300, 30));
 
-        buttonRegistrar = Utils.crearBotoPersonalitzat(150, 30,"Crear compte", Color.WHITE, Utils.COLOR_BOTO_VERD,true);
-        buttonIniciarSessio = Utils.crearBotoPersonalitzat(150,30,"Iniciar Sessió", Color.WHITE, Utils.COLOR_BOTO_BLAU, true);
+        buttonRegistrar = Utils.crearBotoPersonalitzat(310, 35,"Crear compte", Color.WHITE, Utils.COLOR_BOTO_VERD,true);
+        buttonIniciarSessio = Utils.crearBotoPersonalitzat(310, 35,"Iniciar Sessió", Color.WHITE, Utils.COLOR_BOTO_BLAU, true);
     }
 
 }

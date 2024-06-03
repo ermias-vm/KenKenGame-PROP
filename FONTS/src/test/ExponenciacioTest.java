@@ -1,4 +1,5 @@
-package domini.classes.operacions;
+package test;
+
 
 import main.domini.classes.operacions.Exponenciacio;
 import org.junit.After;

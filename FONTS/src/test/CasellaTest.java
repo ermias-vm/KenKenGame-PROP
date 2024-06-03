@@ -1,4 +1,4 @@
-package domini.classes;
+package test;
 
 import org.junit.Before;
 import org.junit.After;

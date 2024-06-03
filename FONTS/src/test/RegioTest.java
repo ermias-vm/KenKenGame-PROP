@@ -1,4 +1,4 @@
-package domini.classes;
+package test;
 
 import main.domini.classes.Casella;
 import main.domini.classes.Regio;
@@ -221,7 +221,7 @@ public class RegioTest {
      * Crea una regió amb una sola casella sense valor i verifica que esValida() retorna false.
      */
     @Test
-    public void testEsValida_RegioNoCompleta() throws ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioValorInvalid, ExcepcioCasellaNoModificable, ExcepcionPosicioIncorrecta, ExcepcioMidaIncorrecte {
+    public void testEsValida_RegioNoCompleta() throws ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioValorInvalid, ExcepcioMidaIncorrecte {
         Regio regioNoCompleta  = new Regio(1, null,1);
         Casella c =  new Casella(); // casella sense valor
         regioNoCompleta.afegirCasella(c);
@@ -234,7 +234,7 @@ public class RegioTest {
      * Crea una regió amb una sola casella amb valor i verifica que esValida() retorna true.
      */
     @Test
-    public void testEsValida_MidaRegio1() throws ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioValorInvalid, ExcepcioCasellaNoModificable, ExcepcionPosicioIncorrecta, ExcepcioMidaIncorrecte {
+    public void testEsValida_MidaRegio1() throws ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioValorInvalid, ExcepcioMidaIncorrecte {
         Regio regioMida1 = new Regio(1, null, 1);
         Casella c = new Casella(1, 1, 1); // casella amb valor 1
         regioMida1.afegirCasella(c);
@@ -246,7 +246,7 @@ public class RegioTest {
      * Crea una regió amb dues caselles amb valors i verifica que esValida() retorna true.
      */
     @Test
-    public void testEsValida_Suma2Valors() throws ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioValorInvalid, ExcepcioCasellaNoModificable, ExcepcionPosicioIncorrecta, ExcepcioMidaIncorrecte {
+    public void testEsValida_Suma2Valors() throws ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioValorInvalid, ExcepcioMidaIncorrecte {
         Regio regioSuma = new Regio(2, new Suma(), 3);
         Casella c1 = new Casella(1, 1, 1); // casella amb valor 1
         Casella c2 = new Casella(1, 2, 2); // casella amb valor 2
@@ -260,7 +260,7 @@ public class RegioTest {
      * Crea una regió amb quatre caselles amb valors i verifica que esValida() retorna true.
      */
     @Test
-    public void testEsValida_Suma4Valors() throws ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioValorInvalid, ExcepcioCasellaNoModificable, ExcepcionPosicioIncorrecta, ExcepcioMidaIncorrecte {
+    public void testEsValida_Suma4Valors() throws ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioValorInvalid, ExcepcioMidaIncorrecte {
         Regio regioSuma = new Regio(4, new Suma(), 10);
         Casella c1 = new Casella(1, 1, 1); // casella amb valor 1
         Casella c2 = new Casella(1, 2, 2); // casella amb valor 2
@@ -278,7 +278,7 @@ public class RegioTest {
      * Crea una regió amb dues caselles amb valors i verifica que esValida() retorna true.
      */
     @Test
-    public void testEsValida_Multiplicacio2Valors() throws ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioValorInvalid, ExcepcioCasellaNoModificable, ExcepcionPosicioIncorrecta, ExcepcioMidaIncorrecte {
+    public void testEsValida_Multiplicacio2Valors() throws ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioValorInvalid,  ExcepcioMidaIncorrecte {
         Regio regioMultiplicacio = new Regio(2, new Multiplicacio(), 2);
         Casella c1 = new Casella(1, 1, 1); // casella amb valor 1
         Casella c2 = new Casella(1, 2, 2); // casella amb valor 2
@@ -292,7 +292,7 @@ public class RegioTest {
      * Crea una regió amb quatre caselles amb valors i verifica que esValida() retorna true.
      */
     @Test
-    public void testEsValida_Multiplicacio4Valors() throws ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioValorInvalid, ExcepcioCasellaNoModificable, ExcepcionPosicioIncorrecta, ExcepcioMidaIncorrecte {
+    public void testEsValida_Multiplicacio4Valors() throws ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioValorInvalid,  ExcepcioMidaIncorrecte {
         Regio regioMultiplicacio = new Regio(4, new Multiplicacio(), 24);
         Casella c1 = new Casella(1, 1, 1); // casella amb valor 1
         Casella c2 = new Casella(1, 2, 2); // casella amb valor 2
@@ -310,7 +310,7 @@ public class RegioTest {
      * Crea una regió amb dues caselles amb valors i verifica que esValida() retorna true.
      */
     @Test
-    public void testEsValida_OperacioNoCommutativa() throws ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioValorInvalid, ExcepcioCasellaNoModificable, ExcepcionPosicioIncorrecta, ExcepcioMidaIncorrecte {
+    public void testEsValida_OperacioNoCommutativa() throws ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioValorInvalid,  ExcepcioMidaIncorrecte {
         Regio regioNoCommutativa = new Regio(2, new Resta(), 1);
         Casella c1 = new Casella(1, 1, 2); // casella amb valor 2
         Casella c2 = new Casella(1, 2, 1); // casella amb valor 1
@@ -324,7 +324,7 @@ public class RegioTest {
      * Crea una regió amb dues caselles amb valors i verifica que esValida() retorna true.
      */
     @Test
-    public void testEsValida_Divisio() throws ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioValorInvalid, ExcepcioCasellaNoModificable, ExcepcionPosicioIncorrecta, ExcepcioMidaIncorrecte {
+    public void testEsValida_Divisio() throws ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioValorInvalid,  ExcepcioMidaIncorrecte {
         Regio regioDivisio = new Regio(2, new Divisio(), 2);
         Casella c1 = new Casella(1, 1, 4); // casella amb valor 4
         Casella c2 = new Casella(1, 2, 2); // casella amb valor 2
@@ -338,7 +338,7 @@ public class RegioTest {
      * Crea una regió amb dues caselles amb valors i verifica que esValida() retorna true.
      */
     @Test
-    public void testEsValida_Modul() throws ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioValorInvalid, ExcepcioCasellaNoModificable, ExcepcionPosicioIncorrecta, ExcepcioMidaIncorrecte {
+    public void testEsValida_Modul() throws ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioValorInvalid,  ExcepcioMidaIncorrecte {
         Regio regioModul = new Regio(2, new Modul(), 1);
         Casella c1 = new Casella(1, 1, 3); // casella amb valor 3
         Casella c2 = new Casella(1, 2, 2); // casella amb valor 2
@@ -352,7 +352,7 @@ public class RegioTest {
      * Crea una regió amb dues caselles amb valors i verifica que esValida() retorna true.
      */
     @Test
-    public void testEsValida_Exponenciacio() throws ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioValorInvalid, ExcepcioCasellaNoModificable, ExcepcionPosicioIncorrecta, ExcepcioMidaIncorrecte {
+    public void testEsValida_Exponenciacio() throws ExcepcioNoDivisor, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioValorInvalid,  ExcepcioMidaIncorrecte {
         Regio regioExponenciacio = new Regio(2, new Exponenciacio(), 8);
         Casella c1 = new Casella(1, 1, 2); // casella amb valor 2
         Casella c2 = new Casella(1, 2, 3); // casella amb valor 3
