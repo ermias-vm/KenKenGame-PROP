@@ -64,27 +64,27 @@ public class VistaMenuJugarPartida extends JPanel {
         panelBuitDreta.weighty = 1;
         panelBuitDreta.fill = GridBagConstraints.NONE;
         JButton introduirTaulerManualment = crearBotoPersonalitzat(100, 80, "Introduir Tauler Manualment", Color.WHITE, Utils.COLOR_BOTO_BLAU, true);        introduirTaulerManualment.setFont(new Font("Arial", Font.PLAIN, 20));
-        introduirTaulerManualment.setFont(new Font("Dialog", Font.PLAIN, 22));
+        introduirTaulerManualment.setFont(new Font("Dialog", Font.PLAIN, 20));
         introduirTaulerManualment.addActionListener(e -> {
             for (ObservadorBoto ob : observadorsBoto_) ob.jugarIntroduirTaulerManualment();
         });
         JButton introduirIdentificadorTauler = crearBotoPersonalitzat(100, 80, "Introduir Identificador Tauler", Color.WHITE, Utils.COLOR_BOTO_BLAU, true);
-        introduirIdentificadorTauler.setFont(new Font("Dialog", Font.PLAIN, 22));
+        introduirIdentificadorTauler.setFont(new Font("Dialog", Font.PLAIN, 20));
         introduirIdentificadorTauler.addActionListener(e -> {
             for (ObservadorBoto ob : observadorsBoto_) ob.jugarIntroduirIdentificadorTauler();
         });
         JButton partidaAleatoria = crearBotoPersonalitzat(100, 80, "Partida Aleatoria", Color.WHITE, Utils.COLOR_BOTO_BLAU, true);
-        partidaAleatoria.setFont(new Font("Dialog", Font.PLAIN, 22));
+        partidaAleatoria.setFont(new Font("Dialog", Font.PLAIN, 20));
         partidaAleatoria.addActionListener(e -> {
             for (ObservadorBoto ob : observadorsBoto_) ob.jugarPartidaAleatoria();
         });
         JButton ultimaPartidaGuardada = crearBotoPersonalitzat(100, 80, "Última Partida Guardada", Color.WHITE, Utils.COLOR_BOTO_BLAU, true);
-        ultimaPartidaGuardada.setFont(new Font("Dialog", Font.PLAIN, 22));
+        ultimaPartidaGuardada.setFont(new Font("Dialog", Font.PLAIN, 20));
         ultimaPartidaGuardada.addActionListener(e -> {
             for (ObservadorBoto ob : observadorsBoto_) ob.jugarUltimaPartidaGuardada();
         });
         JButton partidaGuardada = crearBotoPersonalitzat(100, 80, "Partida Guardada", Color.WHITE, Utils.COLOR_BOTO_BLAU, true);
-        partidaGuardada.setFont(new Font("Dialog", Font.PLAIN, 22));
+        partidaGuardada.setFont(new Font("Dialog", Font.PLAIN, 20));
         partidaGuardada.addActionListener(e -> {
             for (ObservadorBoto ob : observadorsBoto_) ob.jugarPartidaGuardada();
         });
