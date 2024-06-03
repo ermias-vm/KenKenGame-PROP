@@ -80,7 +80,7 @@
               </grid>
             </constraints>
             <properties>
-              <text value="Comfirmar nova contrasenya"/>
+              <text value="Confirmar nova contrasenya"/>
             </properties>
           </component>
           <component id="aefbd" class="javax.swing.JLabel" binding="errorLabel">

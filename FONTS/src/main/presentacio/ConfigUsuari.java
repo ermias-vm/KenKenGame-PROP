@@ -137,7 +137,7 @@ public class ConfigUsuari {
             @Override
             public void focusGained(FocusEvent e) {
                 passwordFieldConfContr.setEchoChar('•');
-                if (new String(passwordFieldConfContr.getPassword()).equals("Comfirmar nova contrasenya")) {
+                if (new String(passwordFieldConfContr.getPassword()).equals("Confirmar nova contrasenya")) {
                     passwordFieldConfContr.setText("");
                 }
             }
@@ -147,8 +147,8 @@ public class ConfigUsuari {
             @Override
             public void focusLost(FocusEvent e) {
                 String pswd = new String(passwordFieldConfContr.getPassword());
-                if (pswd.isEmpty() || pswd.equals("Comfirmar nova contrasenya")) {
-                    passwordFieldConfContr.setText("Comfirmar nova contrasenya");
+                if (pswd.isEmpty() || pswd.equals("Confirmar nova contrasenya")) {
+                    passwordFieldConfContr.setText("Confirmar nova contrasenya");
                     passwordFieldConfContr.setEchoChar((char) 0);
                 }
             }
@@ -185,7 +185,7 @@ public class ConfigUsuari {
             String contraNovaConf = new String(passwordFieldConfContr.getPassword());
             if (!errorLabel.getText().isEmpty()) errorLabel.setText("");
 
-            if (contraActual.isEmpty() || contraActual.equals("Contrasenya actual") || contraNova.isEmpty() || contraNova.equals("Nova contrasenya") || contraNovaConf.isEmpty() || contraNovaConf.equals("Comfirmar nova contrasenya")) {
+            if (contraActual.isEmpty() || contraActual.equals("Contrasenya actual") || contraNova.isEmpty() || contraNova.equals("Nova contrasenya") || contraNovaConf.isEmpty() || contraNovaConf.equals("Confirmar nova contrasenya")) {
                 System.out.println("Contrasenya actual i/o nova contrasenya no valida");
                 errorLabel.setText("<html><div style='text-align: center;'>Contrasenya actual i/o <br>nova contrasenya no valida.<br>Si us plau comproveu les dades.</div></html>");
             } else if (!contraNova.equals(contraNovaConf)) {

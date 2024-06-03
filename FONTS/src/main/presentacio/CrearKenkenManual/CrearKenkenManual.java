@@ -572,7 +572,7 @@ public class CrearKenkenManual {
         panelValidar.add(labelValidar);
         panelValidar.add(botoValidar);
 
-        JLabel labelColorejar = new JLabel("Colorejar regions: ");
+        JLabel labelColorejar = new JLabel("Colorejar Regions: ");
         JButton botoColorejar = getColorejarButton();
 
         JPanel panelColorejar = new JPanel();
