@@ -1,0 +1,29 @@
+Descripcio del directori: Es el directori amb totes les excepcions de la capa domini.
+
+ExcepcioCarregaPartida.java: Excepcio que es llanca quan s'intenta carregar una partida que no existeix.
+ExcepcioCarregaTauler.java: Excepcio que es llanca quan s'intenta carregar un tauler que no existeix.
+ExcepcioCasellaJaTePosicioAssignada.java: Excepcio que es llanca quan s'intenta assignar una posicio a una casella que ja te una posicio assignada.
+ExcepcioCasellaNoExisteix.java: Excepcio que es llanca quan s'intenta assignar una posicio a una casella que no existeix.
+ExcepcioCasellaNoModificable.java: Excepcio que es llanca quan es tracta de modificar una casella que no es pot modificar.
+ExcepcioContrasenyaIncorrecta.java: Excepcio que es llanca quan s'introdueix una contrassenya incorrecte.
+ExcepcioCreacioPartida.java: Excepcio que es llanca quan hi ha qualsevol error durant la creacio d'una partida, el missatge canvia segons l'error especific. 
+ExcepcioDivisio_0.java: Excepcio llencada quan s'intenta efectuar una divisio amb un 0.
+ExcepcioDoUndo.java: Excepcio llencada quan s'intenta efectuar undo en una partida i no hi ha cap moviment a desfer.
+ExcepcioInicialitzacioControladorTauler.java: Excepcio llencada quan s'intenta efectuar una operacio de carrega/guardat i el controlador de tauler no s'ha inicialitzat correctament.
+ExcepcioInicialitzacioPersistenciaPartida.java: Excepcio llencada quan s'intenta efectuar una operacio de carrega/guardat i el controlador de persistencia no s'ha inicialitzat correctament.
+ExcepcioMidaIncorrecte.java: Excepcio llencada quan s'introdueix una mida incorrecte per una regio.
+ExcepcioMoltsValors.java: Excepcio que es llenca quan el nombre de valors introduits en algun context no es el correcte.
+ExcepcioNoDivisor.java: Excepcio que es llenca quan un nombre no es divisible per un altre.
+ExcepcioNoPartidaAleatoria.java: Excepcio que es llenca quan no hi ha cap partida aleatoria disponible.
+ExcepcioNoPermisUsuari.java: Excepcio que es llenca quan un usuari no te permis per fer una operacio, per exemple en intentar modificar una partida que no es seva.
+ExcepcionPosicioIncorrecta.java: Excepcio que es llenca quan la posicio de la regio no es correcte.
+ExcepcioPartidaAcabada.java: Excepcio que es llenca quan es vol fer una operacio sobre una partida que ja ha acabat.
+ExcepcioPartidaEnCurs.java: Excepcio que es llenca quan es vol carregar una partida i ja hi ha una partida en curs que no s'ha acabat o tancat.
+ExcepcioPartidaMalament.java: Excepcio llancada quan una partida no es correcta.
+ExcepcioPartidaTancada.java: Excepcio que es llenca quan s'intenta accedir a una partida que ha estat tancada.
+ExcepcioPosicioIncorrecta.java: Excepcio que es llenca quan la posicio d'una casella no es correcte.
+ExcepcioTaulerJaExisteix.java: Excepcio que es llenca quan s'intenta crear un tauler igual a un altre que ja existeix. 
+ExcepcioTaulerNoExisteix.java: Excepcio que es llenca quan s'intenta obrir un tauler que no existeix.
+ExcepcioUsuariJaExisteix.java: Excepcio que es llenca quan s'intenta crear un usuari que ja existeix. 
+ExcepcioUsuariNoExisteix.java: Excepcio que es llenca quan s'intenta trobar un usuari que no existeix.
+ExcepcioValorInvalid.java: Excepcio que es llenca quan el valor introduit en una casella no es valid ja que no es troba dins del rang de valors possibles per aquell tauler.

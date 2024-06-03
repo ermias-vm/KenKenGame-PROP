@@ -1,0 +1,7 @@
+Descripcio del directori: Es el directori que realitza la funcio de base de dades.
+
+partides: Conte totes les partides jugades acabades i/o guardades.
+taulers: Conte tots els taulers creats distribuits en carpetes segons el seu grau.
+usuaris: Conte tots els usuaris registrats a l'aplicacio.
+.diccionariTaulers:
+.ultimidentificador.txt: Guarda el numero de l'utim identificador de tauler que s'ha usat, d'aquesta forma es pot saber quin identificador ha de tenir el seguent tauler que es crei.

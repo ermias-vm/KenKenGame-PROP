@@ -1,0 +1,20 @@
+Descripcio del directori: Es el directori amb totes les classes de la capa domini.
+
+Board.java: La classe Board representa el tauler que s'utilitza provisionalment durant la creacio de Kenken per parametres.
+Candidate.java: La classe Candidate es la que s'encarrega, dins de CreadorKenkenParam, de buscar, d'un casella en especific, quienes son les caselles candidates a fusionar-se amb ella en una regio.
+Cell.java: La classe Cell representa una casella durant la creacio de Kenken per parametres.
+CreadorKenkenParam.java: La classe CreadorKenkenParam es la que s'encarrega de la generacio aleatoria de tauler a partir de parametres entrats per l'usuari.
+Divisio.java: La classe {@code Divisio} es una implementacio de la interficie {@code Operacio} que realitza els calculs mitjancant l'operacio de divisio d'enters.
+Exponenciacio.java: La classe Exponenciacio implementa la interficie Operacio i defineix l'operacio d'exponenciacio.
+Modul.java: La classe Modul implementa la interficie Operacio i defineix l'operacio de modul.
+Multiplicacio.java: La classe {@code Multiplicacio} es una implementacio de la interficie {@code Operacio} que realitza els calculs mitjancant l'operacio de multiplicacio d'enters.
+Resta.java: La classe {@code Resta} es una implementacio de la interficie {@code Operacio} que realitza els calculs mitjancant l'operacio de resta d'enters.
+Suma.java: La classe {@code Suma} es una implementacio de la interficie {@code Operacio} que realitza els calculs mitjancant l'operacio de suma d'enters.
+Casella.java: La classe Casella representa una cela en un joc de KenKen.
+Partida.java: La classe {@code Partida} representa una partida de Kenken d'un usuari amb un cert tauler.
+PartidaAcabada.java: Classe que representa una partida acabada i avaluable.
+Ranking.java: Classe que representa el ranking de les partides acabades i avaluables.
+Regio.java: Classe Regio que representa una regio d'un tauler Kenken.
+SolucionadorKenken.java: Classe que representa un solucionador de Kenken.
+Tauler.java: Classe Tauler que representa un tauler de joc.
+Usuari.java: Classe que representa un usuari.

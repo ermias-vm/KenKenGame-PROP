@@ -1,0 +1,20 @@
+Desecripcio directori: Directori amb totes les imatges que es veuen en l'aplicacio
+
+4Ops.png: Imatge per a la creacio de kenken per parametres. Conte les 4 operacions basiques (+, -, x, ÷). Es la versio de la imatge de quan no esta seleccionat el boto. 
+4OpsSel.png: Imatge per a la creacio de kenken per parametres. Conte les 4 operacions basiques (+, -, x, ÷). Es la versio de la imatge de quan si esta seleccionat el boto. 
+fonsKenken.png: Imatge de fons a quasi totes les pantalles de l'aplicacio. 
+logoKenkenCreador.png: Imatge amb logo que apareix a la creacio manual de kenkens.
+MultDiv.png: Imatge per a la creacio de kenken per parametres. Conte les operacions (x, ÷). Es la versio de la imatge de quan no esta seleccionat el boto. 
+MultDivSel.png: Imatge per a la creacio de kenken per parametres. Conte les operacions (x, ÷). Es la versio de la imatge de quan si esta seleccionat el boto. 
+redo.png: Imatge pel boto de refer moviment durant una partida.
+separador_amb_or.png: Imatge de la linea que separa la opcio de iniciar sessio de la de registrar-se (o viceversa)
+Suma.png: Imatge per a la creacio de kenken per parametres. Conte les operacions (+). Es la versio de la imatge de quan no esta seleccionat el boto. 
+SumaMult.png: Imatge per a la creacio de kenken per parametres. Conte les operacions (+, x). Es la versio de la imatge de quan no esta seleccionat el boto. 
+SumaMultSel.png: Imatge per a la creacio de kenken per parametres. Conte les operacions (+, x). Es la versio de la imatge de quan si esta seleccionat el boto. 
+SumaResta.png: Imatge per a la creacio de kenken per parametres. Conte les operacions (+, -). Es la versio de la imatge de quan no esta seleccionat el boto. 
+SumaRestaSel.png: Imatge per a la creacio de kenken per parametres. Conte les operacions (+, -). Es la versio de la imatge de quan si esta seleccionat el boto. 
+SumaSel.png: Imatge per a la creacio de kenken per parametres. Conte les operacions (+). Es la versio de la imatge de quan si esta seleccionat el boto. 
+TotesOps.png: Imatge per a la creacio de kenken per parametres. Conte les operacions (+, -, x, ÷, x^, %). Es la versio de la imatge de quan no esta seleccionat el boto. 
+TotesOpsSel.png: Imatge per a la creacio de kenken per parametres. Conte les operacions (+, -, x, ÷, x^, %). Es la versio de la imatge de quan si esta seleccionat el boto. 
+undo.png: Imatge pel boto de refer moviment durant una partida.
+VistaLoginKenken.png

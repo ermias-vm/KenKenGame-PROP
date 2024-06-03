@@ -1,0 +1,6 @@
+Descripcio del directori: Es el directori amb tots els arxius de la capa persistencia.
+
+ControladorPersistencia.java: Controlador principal de persistencia.
+ControladorPersistenciaPartida.java: Controlador de persistencia per a {@code Partida} que s'encarrega de gestionar la carrega i el guardat de partides.
+ControladorPersistenciaTauler.java: Controlador de persistencia de taulers.
+CtrlUsuariData.java: Controlador de dades d'usuari que gestiona les operacions de persistencia relacionades amb els usuaris.

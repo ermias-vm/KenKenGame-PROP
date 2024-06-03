@@ -1,5 +1,9 @@
 package main.domini.classes.CreeadoraKenkenParametres;
 
+/**
+ * La classe Cell representa una casella durant la creacio de Kenken per parametres.
+ * @autor David Giribet Casado
+ */
 public class Cell {
     public int x;
     public int y;

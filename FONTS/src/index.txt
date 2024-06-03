@@ -1,0 +1,3 @@
+Descripcio directori: Es el directori que conte totes i cada una de les carpetes amb tot el codi de l'aplicacio.
+
+Main.java: Classe Main que inicialitza el programa.

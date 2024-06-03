@@ -1,0 +1,7 @@
+Descripcio del directori: Es el directori que realitza la funcio de base de dades.
+
+DiagramaDomini.png: Imatge del diagrama de la part de domini.
+DiagramaPersistencia.png: Imatge del diagrama de la part de persistencia.
+DiagramaPresentacio.png: Imatge del diagrama de la part de presentacio.
+Documentacio.pdf: Documentacio completa del projecte.
+ImatgeTotDiagrama.png: Imatge del diagrama sencer.

@@ -10,12 +10,15 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Random;
 
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.nio.file.Path;
-import java.nio.file.Files;
+//import java.io.IOException;
+//import java.nio.file.Paths;
+//import java.nio.file.Path;
+//import java.nio.file.Files;
 
-
+/**
+ * La classe CreadorKenkenParam es la que s'encarrega de la generacio aleatoria de tauler a partir de parametres entrats per l'usuari.
+ * @autor David Giribet Casado
+ */
 public class CreadorKenkenParam {
     private int[][] solution; // Matriu que representa la solució del Kenken
     private char[][] blockSolution; // Matriu que representa la solució dels blocs

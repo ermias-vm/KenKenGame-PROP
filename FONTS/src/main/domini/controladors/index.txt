@@ -1,0 +1,7 @@
+Descripcio del directori: Es el directori amb tots els controladors de la capa domini.
+
+ControladorPartida.java: Controlador de la capa de domini que representa una partida i per tant, efectua les operacions convenients per a mantenir un correcte flux del joc.
+ControladorRanking.java: {@code ControladorRanking} es el controlador de domini encarregat de gestionar el ranking de les partides acabades.
+CtrlDomini.java: La classe CtrlDomini es el controlador principal del domini de l'aplicacio Kenken.
+CtrlKenkens.java: Controlador de Kenkens que gestiona les operacions relacionades amb els jocs de Kenken.
+CtrlUsuari.java: La classe CtrlUsuari es el controlador que gestiona les operacions relacionades amb els usuaris.

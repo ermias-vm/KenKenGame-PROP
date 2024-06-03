@@ -8,6 +8,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * La classe CrearKenKenParametres es la part de la interficie que permet a l'usuari crear un tauler aleatori a partir de pocs parametres.
+ *
+ * @autor David Giribet Casado
+ */
 public class CrearKenKenParametres extends JDialog {
     //private JTextField textGrau;
     private JButton CreaButton;
