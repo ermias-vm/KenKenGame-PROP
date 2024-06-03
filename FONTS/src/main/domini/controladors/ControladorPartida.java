@@ -513,10 +513,18 @@ public class ControladorPartida {
     public ArrayList<Boolean>[][] getAdjacentsPartida() {
         return partida_.getTaulerPartida().getAdjacents();
     }
-
+    /**
+     * Genera el mapa de regions del tauler de la partida, amb les operacions a la casella de més a dalt a l'esquerra d'una regió.
+     * @return Retorna el mapa de regions del tauler de la partida.
+     */
     public ArrayList<String> getOperacionsPartida() {
         return partida_.getTaulerPartida().getOperacions();
     }
+
+    /**
+     * Retorna el temps de la partida en curs.
+     * @return Retorna el temps de la partida en curs.
+     */
     public float getTempsPartida(){
         return partida_.getTempsPartida();
     }

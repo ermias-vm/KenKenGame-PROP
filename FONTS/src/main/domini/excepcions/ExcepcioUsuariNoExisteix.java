@@ -1,5 +1,8 @@
 package main.domini.excepcions;
 
+/**
+ * Excepciò que es llença quan un usuari no existeix en la base de dades.
+ */
 public class ExcepcioUsuariNoExisteix extends Exception {
     private String missatge;
 
