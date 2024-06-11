@@ -168,7 +168,7 @@ public class MenuPartida extends JPanel {
         gbc.gridx = 2;
         gbc.weightx = 0.0;
         gbc.fill = GridBagConstraints.NONE;
-        sortirBoto_ = crearBotoPersonalitzat(100, 40, "Sortir", Color.WHITE, Utils.COLOR_BOTO_BLAU, true);
+        sortirBoto_ = crearBotoPersonalitzat(100, 40, "Sortir", Color.WHITE, Utils.COLOR_BOTO_VERMELL, true);
         sortirBoto_.addActionListener(e -> {
             int decisio = JOptionPane.showOptionDialog(null, "Segur? Es guardarà tot el progrés i la partida no podrà participar als rankings.", null, JOptionPane.YES_NO_OPTION , JOptionPane.WARNING_MESSAGE, null, new Object[]{"Acceptar", "Cancel·lar"}, null);
             if (decisio == 0) for (ObservadorBoto ob : observadorsBoto_) ob.notificarSortir(true);

@@ -8,7 +8,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import static main.presentacio.Utils.COLOR_DE_FONS;
 
 /**
  * {@code ComponentTauler} és un JPanel que conté un tauler de caselles {@link ComponentCasella}.
@@ -96,9 +95,11 @@ public class ComponentTauler extends JPanel {
         }
     }
 
-    /**
-     * Actualitza els valors de les caselles del tauler.
-     * @param tauler Matriu de valors del tauler
+/**
+     * Actualitza el valor d'una casella del tauler.
+     * @param valor Valor a posar a la casella
+     * @param fila Fila de la casella
+     * @param columna Columna de la casella
      */
     public void actualitzaValor(String valor, int fila, int columna) {
         this.tauler[fila][columna].setValor(valor);

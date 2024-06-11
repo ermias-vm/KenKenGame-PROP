@@ -64,13 +64,24 @@ public class Casella {
         this.modificable = true;
     }
 
-    public Casella(int valor, int i, int j, boolean b) {
+    /**
+     * Constructor amb posició, valor i modificabilitat. Inicialitza la cel·la amb la posició, valor i modificable proporcionats.
+     * @param x La posició x de la cel·la.
+     * @param y La posició y de la cel·la.
+     * @param modifiable Indica si la cel·la és modificable o no.
+     */
+    public Casella(int valor, int x, int y, boolean modifiable) {
         this.valor = valor;
-        this.posX = i;
-        this.posY = j;
-        this.modificable = b;
+        this.posX = x;
+        this.posY = y;
+        this.modificable = modifiable;
     }
 
+    /**
+     * Constructor de còpia.
+     * Crea una nova cel·la amb els mateixos valors que la cel·la donada.
+     * @param c La cel·la a copiar.
+     */
     public Casella(Casella c) {
         this.valor = c.getValor();
         this.posX = c.getPosX();

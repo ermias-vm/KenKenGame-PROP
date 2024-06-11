@@ -63,8 +63,10 @@ public class VistaPartida extends JPanel{
     }
 
     /**
-     * Actualitza els valors del tauler.
-     * @param tauler Tauler amb els valors a actualitzar.
+     * Actualitza el valor d'una casella del tauler.
+     * @param valor Nou valor de la casella.
+     * @param fila Fila de la casella.
+     * @param columna Columna de la casella.
      */
     public void actualitzaValor(String valor, int fila, int columna){
         componentTauler_.actualitzaValor(valor, fila, columna);

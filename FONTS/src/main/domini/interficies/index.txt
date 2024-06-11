@@ -1,3 +1,0 @@
-Descripcio del directori: Es el directori d'interifies de la capa domini.
-
-Operacio.java: La interficie {@code Operacio} defineix els diferents calculs que es poden fer amb una operacio determinada.

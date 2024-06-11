@@ -1,7 +1,7 @@
 package main.domini.classes;
 
 import main.domini.excepcions.*;
-import main.domini.interficies.Operacio;
+import main.domini.classes.operacions.Operacio;
 import java.util.ArrayList;
 
 
@@ -22,7 +22,7 @@ public class Regio {
 	/**
 	 * Operació que s'ha de realitzar amb els valors de les caselles de la regió per obtenir el resultat.
 	 * La operacio pot der de : Suma, Resta, Multiplicacio, Divisio, Modul, Exponenciacio.
-	 * @see main.domini.interficies.Operacio
+	 * @see Operacio
 	 */
 	private Operacio operacio;
 

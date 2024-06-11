@@ -3,7 +3,7 @@ package main.domini.controladors;
 import main.domini.classes.SolucionadorKenken;
 import main.domini.classes.Tauler;
 import main.domini.excepcions.*;
-import main.domini.interficies.Operacio;
+import main.domini.classes.operacions.Operacio;
 import main.domini.classes.operacions.*;
 import main.domini.classes.Casella;
 import main.domini.classes.Regio;
@@ -122,7 +122,7 @@ public class CtrlKenkens {
 
                 Operacio operacio = getOperacio(oper);
                 Regio rj = new Regio(caselles, operacio, result);
-                T.afegirRegioJoc(rj);
+                T.afegirRegio(rj);
             }
             return T;
         } catch (ExcepcioCasellaNoExisteix e) {

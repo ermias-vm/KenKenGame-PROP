@@ -18,3 +18,4 @@ Regio.java: Classe Regio que representa una regio d'un tauler Kenken.
 SolucionadorKenken.java: Classe que representa un solucionador de Kenken.
 Tauler.java: Classe Tauler que representa un tauler de joc.
 Usuari.java: Classe que representa un usuari.
+Operacio.java: La interficie {@code Operacio} defineix els diferents calculs que es poden fer amb una operacio determinada.

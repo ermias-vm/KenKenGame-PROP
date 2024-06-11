@@ -30,7 +30,13 @@ runTestCasella:
 runTestRegio:
 	java -cp $(CLPTH) org.junit.runner.JUnitCore test.RegioTest
 
-runAllTests: runTestCasella runTestRegio
+runTestUsuari:
+	java -cp $(CLPTH) org.junit.runner.JUnitCore test.UsuariTest
+
+runTestTauler:
+	java -cp $(CLPTH) org.junit.runner.JUnitCore test.TaulerTest
+
+runAllTests: runTestCasella runTestRegio runTestTauler runTestUsuari
 
 resetData:
 	@RESP=$$(read -p "Estàs segur que vols eliminar els fitxers? (S/n) " RESP; echo $$RESP); \

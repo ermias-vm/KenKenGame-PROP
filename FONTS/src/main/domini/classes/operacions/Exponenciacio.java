@@ -1,7 +1,7 @@
 package main.domini.classes.operacions;
 
 import main.domini.excepcions.ExcepcioMoltsValors;
-import main.domini.interficies.Operacio;
+
 import java.util.HashSet;
 import java.util.Set;
 

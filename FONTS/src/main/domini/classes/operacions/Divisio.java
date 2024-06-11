@@ -4,7 +4,6 @@ import main.domini.excepcions.ExcepcioDivisio_0;
 import main.domini.excepcions.ExcepcioMoltsValors;
 import main.domini.excepcions.ExcepcioNoDivisor;
 import main.domini.excepcions.ExcepcioValorInvalid;
-import main.domini.interficies.Operacio;
 
 import java.util.HashSet;
 import java.util.Set;

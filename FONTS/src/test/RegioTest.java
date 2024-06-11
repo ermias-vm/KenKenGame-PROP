@@ -4,7 +4,7 @@ import main.domini.classes.Casella;
 import main.domini.classes.Regio;
 import main.domini.classes.operacions.*;
 import main.domini.excepcions.*;
-import main.domini.interficies.Operacio;
+import main.domini.classes.operacions.Operacio;
 import org.junit.Before;
 import org.junit.Test;
 

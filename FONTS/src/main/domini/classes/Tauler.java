@@ -1,13 +1,13 @@
 package main.domini.classes;
 
 import main.domini.excepcions.*;
-import main.domini.interficies.Operacio;
+import main.domini.classes.operacions.Operacio;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
- * Classe Tauler que representa un tauler de joc.
+ * Classe Tauler que representa un tauler kenken.
  * Un tauler està format per un conjunt de caselles i regions.
  *
  * @author Ermias Valls Mayor
@@ -212,45 +212,27 @@ public class Tauler {
     }
 
     /**
-     * Verifica si la casella a la posició (x, y) del tauler està buida.
-     *
-     * @param x Coordenada x de la casella.
-     * @param y Coordenada y de la casella.
-     * @return true si la casella està buida, false en cas contrari.
+     * Afegeix una regió a la llista de regions.
+     * @param regio La regió a afegir
      */
-    public boolean esBuida(int x, int y) throws ExcepcioCasellaNoExisteix {
-        return getCasella(x, y).esBuida();
+    public void afegirRegio(Regio regio) {
+        this.regions.add(regio);
     }
 
-    /**
-     * Afegeix una regió de joc a la llista de regions.
-     * @param regioJoc La regió de joc a afegir
-     */
-    public void afegirRegioJoc(Regio regioJoc) {
-        this.regions.add(regioJoc);
-    }
 
     /**
-     * Esborra una regió de joc de la llista de regions.
-     * @param regioJoc La regió de joc a esborrar
-     */
-    public void borrarRegioJoc(Regio regioJoc) {
-        this.regions.remove(regioJoc);
-    }
-
-    /**
-     * Retorna la llista de regions de joc.
-     * @return Llista de regions de joc
+     * Retorna la llista de regions.
+     * @return Llista de regions
      */
     public ArrayList<Regio> getRegions() {
         return this.regions;
     }
 
     /**
-     * Retorna la regió de joc que conté la casella amb les coordenades x, y.
+     * Retorna la regió que conté la casella amb les coordenades x, y.
      * @param x Coordenada x de la casella
      * @param y Coordenada y de la casella
-     * @return Regió de joc que conté la casella, null si no es troba
+     * @return Regió que conté la casella, null si no es troba
      */
     public Regio getRegio(int x, int y) throws ExcepcionPosicioIncorrecta {
         for (Regio r : regions) {
@@ -300,7 +282,7 @@ public class Tauler {
      *
      * Si un valor és 0, es considera que no té valor i per tant es considera vàlid.
      */
-    public boolean corretgeix(int[][] valors) throws ExcepcioCasellaNoExisteix {
+    public boolean corretgeix(int[][] valors)  {
         int mida_ = valors.length;
         boolean[][] valorsUtilitzatsFila = new boolean[mida_][mida_];
         boolean[][] valorsUtilitzatsColumna = new boolean[mida_][mida_];
