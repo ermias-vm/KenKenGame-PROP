@@ -17,8 +17,10 @@ Des del directori  arrel:
 
 ## Execució
 
-Per a executar aquest projecte, segueix aquests passos:
+Per a executar el projecte, pots seguir un dels següents mètodes
 
-1. Des de l'IDE, executa la classe `Main`.
-2. Des del directori del arrel del projecte usa la comanda: `make run`.
+- Des de l'IDE, executa la classe `Main`.
+- Des del directori arrel del projecte usa la comanda: `make run`.  
+  
+
 - Per a més informació de l'execució del programa, consulta  al:  [`ManualUsuari`](DOCS/ManualUsuari.pdf).
