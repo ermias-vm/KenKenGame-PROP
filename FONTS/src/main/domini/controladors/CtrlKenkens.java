@@ -244,23 +244,20 @@ public class CtrlKenkens {
     ///////////////////////////////  FUNCIONS DIRVERS  ///////////////////////////////////
 
     public void resoldreKenken(String idTauler, boolean guardarBD) throws Exception {
-        int grau = Integer.parseInt(idTauler.split("-")[1]);
         Tauler T = llegirTauler(idTauler);
-        System.out.println("Contingut del Tauler " + idTauler + " de grau " + grau + ":");
-        mostrarTauler(T);
+
 
         long startTime = System.currentTimeMillis();
         Solucionador.solucionarKenken(T);
         long endTime = System.currentTimeMillis();
         long duration = endTime - startTime;
-        System.out.println("Temps de resoldre: " + duration + " ms." + "\n");
 
         if (T.teSolucio()) {
-            System.out.println("Tauler resolt:");
+            System.out.println("Tauler " +idTauler + " resolt en " + duration + " ms:");
             mostrarTauler(T);
         }
         else {
-            System.out.println("El tauler no té solució."+ "\n");
+            System.out.println("El tauler " +idTauler + " no té solució en "+ duration+ "\n");
             mostrarTauler(T);
         }
         if (guardarBD) {

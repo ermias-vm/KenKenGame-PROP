@@ -24,7 +24,7 @@ public class Utils {
     private static final int ALTURA_BOTO_PETIT = 20;
 
     private static final int AMPLADA_BOTO_MITJA = 125;
-    private static final int ALTURA_BOTO_MITJA = 27;
+    private static final int ALTURA_BOTO_MITJA = 30;
 
     private static final int AMPLADA_BOTO_GRAN = 250;
     private static final int ALTURA_BOTO_GRAN = 50;

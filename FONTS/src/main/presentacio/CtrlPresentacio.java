@@ -158,6 +158,7 @@ public class CtrlPresentacio {
         });
 
         showIniciarSessio();
+        showCrearKenKen();
     }
 
     /**
@@ -340,12 +341,6 @@ public class CtrlPresentacio {
         CDomini.canviarContrasenya(contrasenyaActual, contrasenyaNova);
     }
 
-    /**
-     * {@link CtrlDomini#getUsuariActual()}
-     */
-    public Usuari getUsuariActual() {
-        return CDomini.getUsuariActual();
-    }
 
     /**
      * {@link CtrlDomini#tancarSessio()}
@@ -518,42 +513,6 @@ public class CtrlPresentacio {
     }
 
 
-            /// FUNCIONS KENKENS ///
-
-    /**
-     * {@link CtrlKenkens#llegirTauler(String)}
-     */
-    public Tauler llegirTauler(String id) throws ExcepcioTaulerNoExisteix {
-        return CDomini.llegirTauler(id);
-    }
-
-    /**
-     * {@link CtrlKenkens#stringToTauler(String, String)}
-     */
-    public Tauler stringToTauler(String contingutTauler, String id) {
-        return CDomini.stringToTauler(contingutTauler, id);
-    }
-
-    /**
-     * {@link CtrlKenkens#taulerToString(Tauler)}
-     */
-    public String taulerToString(Tauler T) {
-        return CDomini.taulerToString(T);
-    }
-
-    /**
-     * {@link CtrlKenkens#seleccionaTaulerAleatori(int)}
-     */
-    public String seleccionaTaulerAleatori(int mida) {
-        return CDomini.seleccionaTaulerAleatori(mida);
-    }
-
-    /**
-     * {@link CtrlKenkens#resoldreKenken(Tauler, int[][])}
-     */
-    public int[][] resoldreKenken(Tauler T, int[][] valorsPartida) throws ExcepcioCasellaNoExisteix, ExcepcioNoDivisor, ExcepcioValorInvalid, ExcepcioMoltsValors, ExcepcioDivisio_0, ExcepcioCasellaNoModificable, ExcepcionPosicioIncorrecta {
-        return CDomini.resoldreKenken(T, valorsPartida);
-    }
 
     /**
      * {@link CtrlKenkens#guardarTaulerBD(String)}
@@ -569,26 +528,7 @@ public class CtrlPresentacio {
         return CDomini.esTaulerValid(contingutTauler);
     }
 
-    /**
-     * {@link CtrlKenkens#resoldreKenken(String, boolean)}
-     */
-    public void resoldreKenken(String idTauler, boolean guardarBD) throws Exception {
-        CDomini.resoldreKenken(idTauler, guardarBD);
-    }
 
-    /**
-     * {@link CtrlKenkens#pintarTauler(String)}
-     */
-    public void pintarTauler(String idTauler) throws Exception {
-        CDomini.pintarTauler(idTauler);
-    }
-
-    /**
-     * {@link CtrlKenkens#mostrarTauler(Tauler)}
-     */
-    public void mostrarTauler(Tauler T) throws Exception {
-        CDomini.mostrarTauler(T);
-    }
 }
 
 

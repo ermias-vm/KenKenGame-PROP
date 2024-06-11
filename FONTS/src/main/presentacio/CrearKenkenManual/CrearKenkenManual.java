@@ -203,7 +203,7 @@ public class CrearKenkenManual {
      * i es mostra el menú principal.
      * Si el tauler no és vàlid, es mostra un missatge d'error.
      */
-    public void setupGuardarButtonListener(boolean jugarDespres) {
+    private void setupGuardarButtonListener(boolean jugarDespres) {
         guardarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -235,7 +235,7 @@ public class CrearKenkenManual {
      * Si el tauler ha estat modificat, es mostra un diàleg de confirmació per a que l'usuari confirmi que vol reiniciar la creació del Kenken.
      * Si l'usuari confirma, es reinicia el tauler.
      */
-    public void setupResetButtonListener() {
+    private void setupResetButtonListener() {
         resetButton.addActionListener(e -> {
             if (TaulerKenken.esModificat()) {
                 int dialogResult = JOptionPane.showConfirmDialog(panelComplet, "Estas segur que vols reiniciar la creacio del Kenken?", "Comfirmacio", JOptionPane.YES_NO_OPTION);
@@ -250,7 +250,7 @@ public class CrearKenkenManual {
      * Configura l'escoltador d'esdeveniments per al combobox de grau.
      * Quan l'usuari selecciona un element en aquest combobox, es buida el panell esquerre i es mostra una previsualització del tauler amb la mida seleccionada.
      */
-    public void setupGrauComboBoxListener() {
+    private void setupGrauComboBoxListener() {
         grauComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -547,7 +547,7 @@ public class CrearKenkenManual {
      * Configura l'escoltador d'esdeveniments per al botó de configuració.
      * Quan l'usuari fa clic en aquest botó, es crea un panell de configuració i es mostra en un diàleg.
      */
-    public void setupConfiguracioButtonListener() {
+    private void setupConfiguracioButtonListener() {
         configuracioButton.addActionListener(e -> {
             JPanel panelConfiguracio = crearPanelConfiguracio();
             mostrarDialogConfiguracio(panelConfiguracio);
@@ -560,7 +560,7 @@ public class CrearKenkenManual {
      *
      * @return Un panell de configuració.
      */
-    public JPanel crearPanelConfiguracio() {
+    private JPanel crearPanelConfiguracio() {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
@@ -745,7 +745,7 @@ public class CrearKenkenManual {
      * @param casellaPremuda La casella que l'usuari ha premut.
      * @return El valor de l'opció seleccionada en el diàleg.
      */
-    public int mostrarDialogCreacioRegio(JPanel operacioPanel, JPanel resultatPanel, String errorMessage, CasellaConstructora casellaPremuda) {
+    private int mostrarDialogCreacioRegio(JPanel operacioPanel, JPanel resultatPanel, String errorMessage, CasellaConstructora casellaPremuda) {
         Box.Filler separacio = new Box.Filler(new Dimension(0, 10), new Dimension(0, 10), new Dimension(0, 10));
         Object[] message = {
                 "Operació:", operacioPanel,
@@ -771,7 +771,7 @@ public class CrearKenkenManual {
      *
      * @return Un panel amb els botons de les operacions.
      */
-    public JPanel crearOperacioPanel() {
+    private JPanel crearOperacioPanel() {
         JPanel operacioPanel = new JPanel();
         operacioPanel.setLayout(new GridLayout(3, 2));
         String[] operacions = {"SUMA", "RESTA", "MULT", "DIV", "EXP", "MOD"};
@@ -794,7 +794,7 @@ public class CrearKenkenManual {
      * Limita la longitud del text a 9 caràcters i només permet introduir dígits.
      * @return Un panel amb el camp de text per al resultat.
      */
-    public JPanel crearResultatPanel() {
+    private JPanel crearResultatPanel() {
         JTextField resultatField = new JTextField();
         JPanel resultatPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         resultatPanel.add(new JLabel("Resultat:"));
@@ -821,7 +821,7 @@ public class CrearKenkenManual {
      * @param operacioPanel El panel que conté els botons de les operacions.
      * @return L'operació seleccionada.
      */
-    public String obtenerOperacioSeleccionada(JPanel operacioPanel) {
+    private String obtenerOperacioSeleccionada(JPanel operacioPanel) {
         String operacio = "SUMA";
         for (Component comp : operacioPanel.getComponents()) {
             if (comp instanceof JRadioButton) {
@@ -843,7 +843,7 @@ public class CrearKenkenManual {
      *
      * @param size La mida del tauler a previsualitzar.
      */
-    public void previewTauler (int size) {
+    private void previewTauler (int size) {
         JPanel taulerPreview = new JPanel(new GridLayout(size, size));
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {

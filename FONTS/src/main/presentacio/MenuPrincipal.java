@@ -128,7 +128,7 @@ public class MenuPrincipal {
          configuracioUsuariButton = Utils.crearBotoGran("Configuració Usuari", Color.WHITE, Utils.COLOR_BOTO_BLAU,true);
          crearKenkenManualButton = Utils.crearBotoGran("Crear Kenken", Color.WHITE, Utils.COLOR_BOTO_BLAU,true);
          crearKenkenAleatoriButton = Utils.crearBotoGran("Generar Kenken", Color.WHITE, Utils.COLOR_BOTO_BLAU,true);
-         jugarButton = Utils.crearBotoGran("Jugar", Color.WHITE, Utils.COLOR_BOTO_BLAU,true);
+         jugarButton = Utils.crearBotoGran("Jugar", Color.WHITE, Utils.COLOR_BOTO_VERD,true);
          rankingButton = Utils.crearBotoGran("Ranking", Color.WHITE, Utils.COLOR_BOTO_BLAU,true);
     }
 

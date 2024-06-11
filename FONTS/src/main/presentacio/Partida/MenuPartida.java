@@ -203,11 +203,7 @@ public class MenuPartida extends JPanel {
         }
         missatge_.setText(missatge);
         int delay = 1500;
-        ActionListener taskPerformer = new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                missatge_.setText("");
-            }
-        };
+        ActionListener taskPerformer = evt -> missatge_.setText("");
         Timer timer = new Timer(delay, taskPerformer);
         timer.setRepeats(false);
         timer.start();

@@ -1,5 +1,4 @@
-package domini.classes.operacions;
-
+package test;
 import main.domini.classes.operacions.Resta;
 import main.domini.excepcions.*;
 import org.junit.Test;

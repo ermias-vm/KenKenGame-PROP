@@ -18,12 +18,10 @@ public class CasellaConstructora extends JPanel {
 
     /**
      * Colors i gruixos utilitzats en la representació de la casella.
-     *
      * COLOR_SELECCIONADA: Color utilitzat per a la casella quan està seleccionada.
      * COLOR_DEFAULT: Color per defecte de la casella.
      * COLOR_VORA_REGIO: Color de la vora de la casella quan pertany a una regió.
      * COLOR_VORA_DEFAULT: Color per defecte de la vora de la casella.
-     *
      * GRUIX_VORA_REGIO: Gruix de la vora de la casella quan pertany a una regió.
      * GRUIX_VORA_DEFAULT: Gruix per defecte de la vora de la casella.
      * DEFAULT_FONT_SIZE: Mida de la font per defecte de la informació de la regió.
@@ -129,6 +127,16 @@ public class CasellaConstructora extends JPanel {
                 }
             }
         });
+
+        this.addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                CasellaConstructora casellaPremuda = (CasellaConstructora) e.getSource();
+                if ((e.getModifiersEx() & MouseEvent.BUTTON1_DOWN_MASK) == MouseEvent.BUTTON1_DOWN_MASK && !casellaPremuda.teRegioAssignada() && !casellaPremuda.esSeleccionada()) {
+                    casellaPremuda.setSeleccionada();
+                }
+            }
+        });
     }
 
     /**
@@ -136,7 +144,7 @@ public class CasellaConstructora extends JPanel {
      *
      * @return true si la casella està seleccionada, false en cas contrari
      */
-    public boolean esSeleccionada() {
+    private boolean esSeleccionada() {
         return seleccionada;
     }
 
@@ -170,7 +178,7 @@ public class CasellaConstructora extends JPanel {
      * Si la casella està seleccionada, es desselecciona.
      * Si la casella no està seleccionada i és adjacent a alguna de les caselles selecionades, es selecciona.
      */
-    public void setSeleccionada() {
+    private void setSeleccionada() {
         if (this.seleccionada) {
             this.seleccionada = false;
             this.setBackground(COLOR_DEFAULT);
@@ -216,22 +224,33 @@ public class CasellaConstructora extends JPanel {
         infoRegioLabel = new JLabel();
 
         int ampladaCasella = AMPLADA_TAULER/midaTauler;
-        int ampladaLabel = ampladaCasella;
         int alturaLabel = (int)(ampladaCasella * 0.3);
 
-        infoRegioLabel.setBounds(0, ampladaCasella/8, ampladaLabel, alturaLabel);
+        infoRegioLabel.setBounds(0, ampladaCasella/8, ampladaCasella, alturaLabel);
         infoRegioLabel.setHorizontalAlignment(SwingConstants.CENTER);
         infoRegioLabel.setVerticalAlignment(SwingConstants.CENTER);
         // Ajusta la mida de la font en funció de la mida del tauler
-        int fontSizeResultat = DEFAULT_FONT_SIZE / midaTauler;
-        int fontSizeOperacio = (int)(fontSizeResultat * 1.5);
-        // Assigna el text de l'etiqueta amb l'operació i el resultat de la regió amb la mida de la font ajustada
-        String textInfoRegio = "<html><span style='font-size:" + fontSizeResultat + "px'>" + operacio +
-                "</span><span style='font-size:" + fontSizeOperacio+ "px'>" + resultat + "</span></html>";
+        String textInfoRegio = getTextInfoRegio(operacio, resultat, midaTauler);
         infoRegioLabel.setText(textInfoRegio);
         this.add(infoRegioLabel);
         this.revalidate();
         this.repaint();
+    }
+
+    /**
+     * Retorna el text de l'etiqueta amb l'operació i el resultat de la regió amb la mida de la font ajustada.
+     *
+     * @param operacio l'operació de la regió
+     * @param resultat el resultat de la regió
+     * @param midaTauler la mida del tauler
+     * @return el text de l'etiqueta amb l'operació i el resultat de la regió amb la mida de la font ajustada
+     */
+    private static String getTextInfoRegio(String operacio, String resultat, int midaTauler) {
+        int fontSizeResultat = DEFAULT_FONT_SIZE / midaTauler;
+        int fontSizeOperacio = (int)(fontSizeResultat * 1.5);
+        // Assigna el text de l'etiqueta amb l'operació i el resultat de la regió amb la mida de la font ajustada
+        return "<html><span style='font-size:" + fontSizeResultat + "px'>" + operacio +
+                "</span><span style='font-size:" + fontSizeOperacio+ "px'>" + resultat + "</span></html>";
     }
 
     /**

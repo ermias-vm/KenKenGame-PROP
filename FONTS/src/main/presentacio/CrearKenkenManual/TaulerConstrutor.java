@@ -4,6 +4,8 @@ import main.presentacio.CtrlPresentacio;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 /**
@@ -83,9 +85,15 @@ public class TaulerConstrutor extends JPanel {
         this.mida = mida;
         this.numCasellesAssignades = 0;
         inicialitzarCaselles(mida);
-
     }
 
+    /**
+     * Constructor privat de TaulerConstrutor.
+     * Inicialitza el tauler amb una mida específica i carrega el contingut del tauler.
+     *
+     * @param mida La mida del tauler.
+     * @param contingutTauler El contingut del tauler.
+     */
     private TaulerConstrutor(int mida, String[] contingutTauler) {
         super(new GridLayout(mida,mida));
         this.mida = mida;
@@ -139,6 +147,7 @@ public class TaulerConstrutor extends JPanel {
         }
     }
 
+
     /**
      * Retorna la mida del tauler.
      *
@@ -162,7 +171,7 @@ public class TaulerConstrutor extends JPanel {
      *
      * @return El número de caselles seleccionades.
      */
-    public int getNumCasellesSelecionades() {
+    private int getNumCasellesSelecionades() {
         return posCasellesSeleccionades.size();
     }
 
@@ -171,7 +180,7 @@ public class TaulerConstrutor extends JPanel {
      *
      * @return El nombre de files que contenen caselles seleccionades.
      */
-    public int getNumFilesSelecionades() {
+    private int getNumFilesSelecionades() {
         ordenarPosicionsCaselles();
         int numFilesSelecionades = 0;
         int comparador = -1;
@@ -337,7 +346,7 @@ public class TaulerConstrutor extends JPanel {
      * Marca les vores de la regió.
      * Per a cada casella seleccionada, calcula si cadadascuna de les seves 4 vores es de la regió i la pinta.
      */
-    public void marcarBordesRegio() {
+    private void marcarBordesRegio() {
         for (int[] pos : posCasellesSeleccionades) {
             CasellaConstructora casella = caselles[pos[0]][pos[1]];
             boolean[] voresRegio = new boolean[4];
@@ -411,7 +420,7 @@ public class TaulerConstrutor extends JPanel {
      * Ordena creixentment les posicions de les caselles seleccionades.
      * Ordena la llista de caselles seleccionades primer per la coordenada x i després per la coordenada y.
      */
-    public void ordenarPosicionsCaselles() {
+    private void ordenarPosicionsCaselles() {
         posCasellesSeleccionades.sort((o1, o2) -> {
             if (o1[0] == o2[0]) return o1[1] - o2[1];
             return o1[0] - o2[0];
@@ -421,7 +430,7 @@ public class TaulerConstrutor extends JPanel {
     /**
      * Si la llista de caselles seleccionades no està buida, intercanvia la primera i l'última posició.
      */
-    void intercambiarPrimeraUltimaPosicion() {
+    private void intercambiarPrimeraUltimaPosicion() {
         if (!posCasellesSeleccionades.isEmpty()) {
             int[] primeraPosicion = posCasellesSeleccionades.get(0);
             int[] ultimaPosicion = posCasellesSeleccionades.get(posCasellesSeleccionades.size() - 1);
@@ -465,7 +474,7 @@ public class TaulerConstrutor extends JPanel {
      * @param resultat El resultat a validar.
      * @return Un missatge d'error si el resultat no està dins l'interval, altrament retorna null.
      */
-     private String validarValorMinMaxOperacio(String operacio, int resultat) {
+    private String validarValorMinMaxOperacio(String operacio, int resultat) {
          ordenarPosicionsCaselles();
          switch (operacio) {
             case "SUMA":
@@ -512,6 +521,7 @@ public class TaulerConstrutor extends JPanel {
         }
         return null;    //Cas on el resultat es vàlid
     }
+
     /**
      * Valida el resultat de l'operació de divisió.
      *

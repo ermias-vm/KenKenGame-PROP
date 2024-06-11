@@ -37,12 +37,6 @@ public class BuscadorUsuari extends JPanel {
                 }
             }
 
-            @Override
-            public void focusLost(FocusEvent e) {
-                if (textBuscar.getText().isEmpty()) {
-                    textBuscar.setText("en blanc -> tots els usuaris");
-                }
-            }
         });
 
         JButton botoBuscar = Utils.crearBotoPersonalitzat(100,25,"Buscar", Color.WHITE, Utils.COLOR_BOTO_BLAU, false);

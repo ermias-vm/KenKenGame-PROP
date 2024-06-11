@@ -80,7 +80,7 @@ public class SumaTest {
         Set<Integer> expected = new HashSet<>(Arrays.asList(1, 2));
         assertEquals(expected, suma.calculaPossiblesValors(12, 3, 8, new int[]{}));
         assertEquals(expected, suma.calculaPossiblesValors(12, 3, 8, new int[]{1}));
-        assertEquals(new HashSet<>(Arrays.asList(2)), suma.calculaPossiblesValors(12, 3, 8, new int[]{1,1,1,1}));
+        assertEquals(new HashSet<>(List.of(2)), suma.calculaPossiblesValors(12, 3, 8, new int[]{1,1,1,1}));
     }
 
     /**
@@ -91,7 +91,7 @@ public class SumaTest {
     @Test
     public void calculaPossiblesValorsValorInicial() throws ExcepcioMoltsValors, ExcepcioValorInvalid {
         Suma suma = new Suma();
-        Set<Integer> expected = new HashSet<>(Arrays.asList(2));
+        Set<Integer> expected = new HashSet<>(List.of(2));
         assertEquals(expected, suma.calculaPossiblesValors(3, 3, 2, new int[]{1}));
     }
 
@@ -127,7 +127,7 @@ public class SumaTest {
     @Test
     public void calculaPossiblesValorsMidaRegio1() throws ExcepcioMoltsValors, ExcepcioValorInvalid {
         Suma suma = new Suma();
-        assertEquals(new HashSet<>(Arrays.asList(3)), suma.calculaPossiblesValors(3, 3, 1, new int[]{}));
+        assertEquals(new HashSet<>(List.of(3)), suma.calculaPossiblesValors(3, 3, 1, new int[]{}));
         assertEquals(new HashSet<>(), suma.calculaPossiblesValors(4, 3, 1, new int[]{}));
     }
 

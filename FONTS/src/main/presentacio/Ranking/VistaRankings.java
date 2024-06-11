@@ -42,9 +42,9 @@ public class VistaRankings extends JPanel {
         panellCentral.setMaximumSize(new Dimension(1080, 800));
         panellCentral.setMinimumSize(new Dimension(1080, 800));
         ComponentSelectorMida componentSelectorMida = new ComponentSelectorMida();
-        componentSelectorMida.setPreferredSize(new Dimension(210, 40));
-        componentSelectorMida.setMaximumSize(new Dimension(210, 40));
-        componentSelectorMida.setMinimumSize(new Dimension(210, 40));
+        componentSelectorMida.setPreferredSize(new Dimension(250, 35));
+        componentSelectorMida.setMaximumSize(new Dimension(250, 35));
+        componentSelectorMida.setMinimumSize(new Dimension(255, 35));
         componentSelectorMida_ = componentSelectorMida;
 
         BuscadorUsuari buscadorUsuari = new BuscadorUsuari();
